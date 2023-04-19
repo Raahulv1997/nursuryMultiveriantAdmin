@@ -1,50 +1,52 @@
 import React from "react";
-import Logo from "../css-js/images/logo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { login_api } from '../api/api'
+import Logo from "../css-js/images/logo.png";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { otp_verify_api } from '../api/api'
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 
-const Login = () => {
-    let [sign_up_mail, setSign_up_mail] = useState("")
-    let [sign_up_password, setSign_up_passwordl] = useState("")
+function Otp_verify() {
+    const navigate = useNavigate();
+    const [otp, setOtp] = useState("")
     let [res_result, setRes_result] = useState("")
-    const [ShowAlert, setShowAlert] = useState(false);
-
+    let [ShowAlert, setShowAlert] = useState(false);
     async function sign_up_btn(event) {
+        let email_ = localStorage.getItem("sign_up_email");
+        console.log("_________________________________test1____________________")
+        console.log(email_)
+        console.log(otp)
+        console.log("_________________________________test2____________________")
         event.preventDefault();
-        console.log("_____________________________log-in_________________________")
-        console.log(sign_up_mail)
-        console.log(sign_up_password)
-
-        let result = await login_api({ email: sign_up_mail, password: sign_up_password })
-
-        if (result.res_code === "001" || result.res_code === "002") {
+        let result = await otp_verify_api({ email: email_, otp: otp })
+        if (result.status === true) {
             console.log("ok")
-
-            localStorage.setItem("user_token", result.token);
-            setSign_up_mail("")
-            setSign_up_passwordl("")
+            setOtp("")
             setRes_result(result.response)
             setShowAlert(true)
-            // alert(result.response)
 
         } else {
             setRes_result(result.response)
             setShowAlert(true)
         }
-    }
 
+        //    const redirect = ()=>{
+        //     navigate("/login");
+        //     }
+
+    }
     return (
         <div>
             {" "}
-            <SweetAlert
+            {res_result === "successfully created your account" ? navigate("/login") : <SweetAlert
                 show={ShowAlert}
                 title="LogIn message"
                 text={res_result}
                 onConfirm={() => { setShowAlert(false) }}
-            />
+            // onCancel={() => { setShowAlert(false) }}
+            />}
+
             <section className="user-form-part">
                 <div className="container">
                     <div className="row justify-content-center">
@@ -56,29 +58,29 @@ const Login = () => {
                             </div>
                             <div className="user-form-card">
                                 <div className="user-form-title">
-                                    <h2>welcome!</h2>
-                                    <p>Use your credentials to access</p>
+                                    <h2>Join Now!</h2>
+                                    <p>Setup A New Account In A Minute</p>
                                 </div>
                                 <div className="user-form-group">
                                     <ul className="user-form-social">
                                         <li>
                                             <a href="#" className="facebook">
-                                                <i className="fab fa-facebook-f"></i>login with facebook
+                                                <i className="fab fa-facebook-f"></i>Join with facebook
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#" className="twitter">
-                                                <i className="fab fa-twitter"></i>login with twitter
+                                                <i className="fab fa-twitter"></i>Join with twitter
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#" className="google">
-                                                <i className="fab fa-google"></i>login with google
+                                                <i className="fab fa-google"></i>Join with google
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#" className="instagram">
-                                                <i className="fab fa-instagram"></i>login with instagram
+                                                <i className="fab fa-instagram"></i>Join with instagram
                                             </a>
                                         </li>
                                     </ul>
@@ -88,21 +90,39 @@ const Login = () => {
                                     <form className="user-form">
                                         <div className="form-group">
                                             <input
-                                                type="email"
-                                                className="form-control user_input_class"
-                                                value={sign_up_mail}
-                                                placeholder="Enter your email" onChange={(e) => { setSign_up_mail(e.target.value) }}
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Enter your name"
+                                                style={{ "display": "none" }}
                                             />
                                         </div>
+                                        {/* <div className="form-group">
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                placeholder="Enter your email"
+                                                onChange={(e) => { setSignupmail(e.target.value) }}
+                                                value={signupmail}
+                                            />
+                                        </div> */}
                                         <div className="form-group">
                                             <input
                                                 type="password"
-                                                className="form-control user_input_class"
-                                                placeholder="Enter your password" value={sign_up_password}
-                                                onChange={(e) => { setSign_up_passwordl(e.target.value) }}
+                                                className="form-control"
+                                                placeholder="Enter your password"
+                                                onChange={(e) => { setOtp(e.target.value) }}
+                                                value={otp}
                                             />
                                         </div>
-                                        <div className="form-check mb-3">
+                                        {/* <div className="form-group">
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                placeholder="Enter repeat password"
+                                                style={{ "display": "none" }}
+                                            />
+                                        </div> */}
+                                        {/* <div className="form-check mb-3">
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
@@ -110,23 +130,18 @@ const Login = () => {
                                                 id="check"
                                             />
                                             <label className="form-check-label" for="check">
-                                                Remember Me
+                                                Accept all the <a href="#">Terms & Conditions</a>
                                             </label>
-                                        </div>
+                                        </div> */}
                                         <div className="form-button">
-                                            <button onClick={(event) => { sign_up_btn(event) }} >login</button>
-                                            <p>
-                                                Forgot your password?
-                                                <Link to={"/user_forgate_password"}>reset here</Link>
-                                            </p>
+                                            <button type="submit" onClick={(event) => { sign_up_btn(event) }}>otp verify</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                             <div className="user-form-remind">
                                 <p>
-                                    Don't have any account?
-                                    <Link to={"/user_register"}>register here</Link>
+                                    Already Have An Account?<Link to={"/login"}>login here</Link>
                                 </p>
                             </div>
                             <div className="user-form-footer">
@@ -139,7 +154,6 @@ const Login = () => {
                 </div>
             </section>
         </div>
-    );
-};
-
-export default Login;
+    )
+}
+export default Otp_verify;

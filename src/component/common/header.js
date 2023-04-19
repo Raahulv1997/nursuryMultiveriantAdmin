@@ -24,7 +24,7 @@ const header = () => {
             <Link to="" >
               <img src={Logo} alt="logo" />
             </Link>
-            <Link to="" >
+            <Link to={"/login"} >
               <img src={Profile} alt="user" />
               <span>join</span>
             </Link>
@@ -35,16 +35,16 @@ const header = () => {
               </button>
             </form>
             <div className="header-widget-group">
-              <Link 
-                to="" 
+              <Link
+                to=""
                 className="header-widget"
                 title="Compare List"
               >
                 <i className="fas fa-random"></i>
                 <sup>0</sup>
               </Link>
-              <Link 
-                to="" 
+              <Link
+                to=""
                 className="header-widget"
                 title="Wishlist"
               >

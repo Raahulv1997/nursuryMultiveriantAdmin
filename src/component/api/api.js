@@ -251,3 +251,25 @@ export const AddProductImage = async (imgobj) => {
   );
   return response.data;
 };
+
+
+export const sigup_api = async (signup_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_signup`, signup_obj);
+  return response.data;
+};
+
+
+export const otp_verify_api = async (signup_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_otp_verify`, signup_obj);
+  return response.data;
+};
+
+export const login_api = async (signup_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_login`, signup_obj);
+  return response.data;
+};
+
+export const forget_api = async (signup_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_forgate_password`, signup_obj);
+  return response.data;
+};

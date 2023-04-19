@@ -15,12 +15,16 @@ import Profile from "./component/user/profile";
 import Wishlist from "./component/user/wishlist";
 import Shop from "./component/user/shop";
 import Footer from "./component/common/footer";
-import Login from "./component/user/login";
-import Register from "./component/user/register";
-import Reset_password from "./component/user/reset_password";
-import Change_password from "./component/user/change_password";
+// import Login from "./component/user/login";
+// import Register from "./component/user/register";
+// import Reset_password from "./component/user/reset_password";
+// import Change_password from "./component/user/change_password";
 import Order_list from "./component/user/order_list";
 import Wallet from "./component/user/wallet";
+import Login from "./component/user/login";
+import Register from "./component/user/Register.js";
+import Otp_verify from "./component/user/otpVerify.js";
+import Rest_password from "./component/user/restPassword.js";
 
 function App() {
   let path = window.location.pathname;
@@ -29,10 +33,14 @@ function App() {
     <div className="container-fluid p-0">
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          {/* <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset_password" element={<Reset_password />} />
-          <Route path="/change_password" element={<Change_password />} />
+          <Route path="/change_password" element={<Change_password />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/user_register" element={<Register />} />
+          <Route path="/otp_verify" element={<Otp_verify />} />
+          <Route path="/user_forgate_password" element={<Rest_password />} />
         </Routes>
 
         <Header />
