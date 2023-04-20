@@ -23,6 +23,7 @@ const ProductBox = ({
   // is_featured,
   // is_special_offer,
   rating,
+
 }) => {
   let [count, setCount] = useState(1);
   let ratingbox = [1, 2, 3, 4, 5];
