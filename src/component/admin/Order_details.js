@@ -6,6 +6,7 @@ import axios from "axios";
 import { AiOutlineFileText } from "react-icons/ai";
 import Form from "react-bootstrap/Form";
 import statusJson from "./json/statusJson";
+import { allOrder, fetchUserData } from "../api/api";
 
 const OrderDetail = () => {
   let orderid = localStorage.getItem("orderid");
@@ -15,36 +16,34 @@ const OrderDetail = () => {
 
   const [order, setOrder] = useState([]);
   const [allorderDetails, setAllorderDetails] = useState([]);
-  const UserData = () => {
-    axios
-      .get(`${process.env.REACT_APP_BASEURL_0}/all_user/${userid}`)
-      .then((response) => {
-        // console.log(JSON.stringify(response.data));
-        // let data = response.data;
-        setGetuserData(response.data[0]);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+  const searchdata = "";
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BASEURL}/order_list/${orderid}`)
-      .then((response) => {
-        console.log("order_details----" + JSON.stringify(response.data));
-        setAllorderDetails(response.data[0]);
-        setOrder(response.data);
-
-        setApicall(false);
-        UserData();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-    // UserData();
+    getOrderData();
+    UserData();
   }, [apicall]);
+
+  const UserData = async () => {
+    const response = await fetchUserData(searchdata, userid);
+    console.log("user------" + JSON.stringify(response));
+
+    setGetuserData(response[0]);
+  };
+
+  const getOrderData = async () => {
+    const response = await allOrder(orderid);
+    console.log("order------" + JSON.stringify(response));
+    setAllorderDetails(response.results[0]);
+    setOrder(response.results);
+  };
+
+  var total = 0;
+  var sub_total = 0;
+  var total_tax = 0;
+  let qty = 0;
+
+  let total_tax_with_qty = 0;
+  let total_priceWithout_tax = 0;
   return (
     <>
       <div className="order_detail">
@@ -101,56 +100,93 @@ const OrderDetail = () => {
 
               {/* //  order items details div end here  */}
               {order.map((orderdata, key) => {
-                console.log("---" + orderdata.name);
+                orderdata.gst == "null" ||
+                orderdata.gst == "undefined" ||
+                orderdata.gst == ""
+                  ? (orderdata.gst = "0")
+                  : Number(orderdata.gst);
+                orderdata.sgst == "null" ||
+                orderdata.sgst == "undefined" ||
+                orderdata.sgst == ""
+                  ? (orderdata.sgst = "0")
+                  : Number(orderdata.sgst);
+                orderdata.cgst == "null" ||
+                orderdata.cgst == "undefined" ||
+                orderdata.cgst == ""
+                  ? (orderdata.cgst = "0")
+                  : Number(orderdata.cgst);
+                orderdata.mrp == "undefined" ||
+                orderdata.mrp == "null" ||
+                orderdata.mrp == ""
+                  ? (orderdata.mrp = "0")
+                  : Number(orderdata.mrp);
+                let discont = (orderdata.mrp * orderdata.discount) / 100;
+                let tax =
+                  (Number(orderdata.price) * Number(orderdata.gst)) / 100;
+                console.log(" tax--" + tax);
+
+                qty = orderdata.total_order_product_quantity;
+
+                let total_price = orderdata.price * qty;
+
+                let Total_taxMultiply_qty = tax * qty;
+                // console.log("textt--" + Total_taxMultiply_qty);
+                total_tax_with_qty += Number(Total_taxMultiply_qty);
+                let price_without_tax =
+                  Number(orderdata.price).toFixed(2) - tax;
+                console.log("price without tax--" + price_without_tax);
+                let pricewithout_tax_with_qty = price_without_tax * qty;
+
+                total_priceWithout_tax += Number(pricewithout_tax_with_qty);
+
+                total += Number(total_price);
+                sub_total += Number(orderdata.price);
+                total_tax += Number(tax);
+
                 return (
                   <div className="d-flex justify-content-between mb-3 align-items-center">
                     <div className="product_img d-flex">
                       <img
                         src={
-                          orderdata.image !== "no image"
-                            ? orderdata.image
+                          orderdata.cover_image
+                            ? orderdata.cover_image
                             : "https://t3.ftcdn.net/jpg/05/37/73/58/360_F_537735846_kufBp10E8L4iV7OLw1Kn3LpeNnOIWbvf.jpg"
                         }
                         alt="apnaorganic"
                       />
                       <div className="product_name_detial ps-3">
                         <h6> Name: </h6>
-                        {/* {console.log("orderdata.color--" + orderdata.unit)}  */}
-                        {/* {orderdata.unit === "gms" ? (
-                            <p>weight:{orderdata.unit_quantity} grm</p>
-                          ) : orderdata.unit === "ml" ? (
-                            <p>Volume:{orderdata.unit_quantity} ml</p>
-                          ) : orderdata.unit === "pcs" ? (
-                            <>
-                              <p>color:{orderdata.colors}</p>
-                              <p>size:{orderdata.size}</p>
-                            </>
-                          ) : null} */}
+                        {orderdata.name}
+                        <br />
+                        <p>
+                          {" "}
+                          {orderdata.unit}:{orderdata.quantity}
+                        </p>
                       </div>
                     </div>
 
                     <div className="product_price">
                       {" "}
-                      MRP-₹7
-                      <br /> Discount- ₹
+                      MRP-₹{orderdata.mrp} ({Number(orderdata.discount)}% )
+                      <br /> Discount- ₹ {discont}
                       <br />
-                      Product Price- ₹
+                      Product Price- ₹{Number(orderdata.price).toFixed(2)}
                     </div>
 
                     <div className="product_quantity">
-                      Price without tax- <br />₹
-                      <br /> Tax -₹
+                      Price without tax- <br />₹ {price_without_tax.toFixed(2)}
+                      <br /> Tax -₹ {tax.toFixed(2)}
                     </div>
 
                     <div className="product_quantity">
-                      Sale Price-
-                      <br />₹
+                      Price-
+                      <br />₹{Number(orderdata.price).toFixed(2)}
+                      <br />
                     </div>
 
-                    <div className="product_quantity">QTY-</div>
+                    <div className="product_quantity">QTY- {qty}</div>
                     <div className="total_amount">
-                      {" "}
-                      Total Price- <br />₹
+                      Total Price- <br />₹{Number(total_price).toFixed(2)}
                     </div>
                   </div>
                 );
@@ -173,65 +209,73 @@ const OrderDetail = () => {
                 </div>
                 <div className="delivery_payment">00</div>
               </div>
-            </div>
-            <div className="payment_summary">
-              <h5 className="pb-3">Payment Summary</h5>
-              <div className="payment_summary_total d-flex justify-content-between align-items-center">
-                <div className="Subtotal">
-                  <p>Total Price(Excluding Tax)</p>
-                </div>
-                <div className="">
-                  ₹
-                  {/* <span className=""> = {total_tax.toFixed(2) * qty}</span> */}
-                </div>
-              </div>
-
-              <div className="payment_summary_total d-flex justify-content-between align-items-center">
-                <div className="Subtotal">
-                  <p> Total Tax (Tax x Qty) </p>
-                </div>
-                <div className="">
-                  {/* {total_tax.toFixed(2)} x {total_qty} Qty */}
-                  <span className=""> ₹ </span>
-                </div>
-              </div>
-              <div className="payment_summary_total d-flex justify-content-between align-items-center">
-                <div className="Subtotal">
-                  <p>
-                    Subtotal
-                    <span>( items)(Include all Taxes)</span>
-                  </p>
-                </div>
-                <div className="">₹</div>
-              </div>
-              <div className="payment_summary_total d-flex justify-content-between align-items-center">
-                <div className="Subtotal">
-                  <p>Delivery Charges</p>
-                </div>
-                <div className="">
-                  ₹
-                  <div className="payment_summary_total d-flex justify-content-between align-items-center">
-                    <div className="Subtotal">
-                      <p> Discont Coupon Ammount </p>
-                    </div>
-                    <div className="">₹</div>
+              <div className="payment_summary">
+                <h5 className="pb-3">Payment Summary</h5>
+                <div className="payment_summary_total d-flex justify-content-between align-items-center">
+                  <div className="Subtotal">
+                    <p>Total Price(Excluding Tax)</p>
                   </div>
-                  <div className="payment_summary_total d-flex justify-content-between align-items-center">
-                    <div className="Subtotal">
-                      <p>
-                        <strong>
-                          Total paid by customer ( SubTotal - Coupon Discount)
-                        </strong>
-                      </p>
-                    </div>
-                    <div className="">
-                      <strong>₹</strong>
-                    </div>
+                  <div className="">
+                    ₹
+                    {(
+                      Number(allorderDetails.total_amount) -
+                      Number(allorderDetails.total_gst)
+                    ).toFixed(2)}
+                    {/* <span className=""> = {total_tax.toFixed(2) * qty}</span> */}
+                  </div>
+                </div>
+
+                <div className="payment_summary_total d-flex justify-content-between align-items-center">
+                  <div className="Subtotal">
+                    <p> Total Tax (Tax x Qty) </p>
+                  </div>
+                  <div className="">
+                    {/* {total_tax.toFixed(2)} x {total_qty} Qty */}₹
+                    {Number(allorderDetails.total_gst).toFixed(2)}
+                  </div>
+                </div>
+                <div className="payment_summary_total d-flex justify-content-between align-items-center">
+                  <div className="Subtotal">
+                    <p>
+                      Subtotal
+                      <span>( {qty} items )(Include all Taxes)</span>
+                    </p>
+                  </div>
+                  <div className="">₹ {sub_total.toFixed(2)}</div>
+                </div>
+                <div className="payment_summary_total d-flex justify-content-between align-items-center">
+                  <div className="Subtotal">
+                    <p>Delivery Charges</p>
+                  </div>
+                  <div className="">₹{allorderDetails.shipping_charges}</div>
+                </div>
+                <div className="payment_summary_total d-flex justify-content-between align-items-center">
+                  <div className="Subtotal">
+                    <p> Discont Coupon Ammount </p>
+                  </div>
+                  <div className="">
+                    {" "}
+                    ₹{Number(allorderDetails.discount_coupon_value).toFixed(2)}
+                  </div>
+                </div>
+                <div className="payment_summary_total d-flex justify-content-between align-items-center">
+                  <div className="Subtotal">
+                    <p>
+                      <strong>
+                        Total paid by customer ( SubTotal - Coupon Discount)
+                      </strong>
+                    </p>
+                  </div>
+                  <div className="">
+                    <strong>
+                      ₹{Number(allorderDetails.total_amount).toFixed(2)}
+                    </strong>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <div className="col-lg-4">
             <div className="right_side">
               <div className="customer_name_address">

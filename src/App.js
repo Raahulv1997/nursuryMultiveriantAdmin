@@ -1,12 +1,12 @@
 import "./App.css";
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { Router } from "react-router-dom";
-import Product_list from "./component/admin/product_list";
+
 import Header from "./component/common/header";
 import Sidebar from "./component/common/sidebar";
-import Product_add from "./component/admin/product_add";
+
 import Index from "./component/user";
 import Checkout from "./component/user/chackout";
 import Nav from "./component/common/nav";
@@ -21,6 +21,11 @@ import Reset_password from "./component/user/reset_password";
 import Change_password from "./component/user/change_password";
 import Order_list from "./component/user/order_list";
 import Wallet from "./component/user/wallet";
+import AddProduct from "./component/admin/Addproduct";
+import OrderList from "./component/admin/orderList";
+import OrderDetail from "./component/admin/Order_details";
+import UserAdd from "./component/admin/UserAdd";
+import ProductDetails from "./component/admin/ProductDetails";
 
 function App() {
   let path = window.location.pathname;
@@ -36,7 +41,7 @@ function App() {
         </Routes>
 
         <Header />
-        {path === "/user" ? (
+        {path === "/admin" ? (
           <div className="row">
             <div className="col-lg-3">
               <Sidebar />
@@ -44,8 +49,11 @@ function App() {
             <div className="col-lg-9">
               <div className="main_content_div">
                 <Routes>
-                  <Route path="/" element={<Product_list />} />
-                  <Route path="/Product_add" element={<Product_add />} />
+                  <Route path="/admin" element={<AddProduct />} />
+                  <Route path="/admin/orderList" element={<OrderList />} />
+                  <Route path="/admin/orderDetails" element={<OrderDetail />} />
+                  <Route path="/admin/userList" element={<UserAdd />} />
+                  <Route path="/productDetails" element={<ProductDetails />} />
                 </Routes>
               </div>
             </div>
@@ -63,10 +71,7 @@ function App() {
                   <Route path="/shop" element={<Shop />} />
                   <Route path="/order_list" element={<Order_list />} />
                   <Route path="/wallet" element={<Wallet />} />
-                  <Route
-                    path="/product_detail"
-                    element={<Product_detail />}
-                  />
+                  <Route path="/product_detail" element={<Product_detail />} />
                 </Routes>
               </div>
             </div>

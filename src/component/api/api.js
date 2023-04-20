@@ -48,7 +48,7 @@ export const deleteCart = async (id, user_id) => {
 
 export const userdetails = async () => {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL}/user_details`,
+    `${process.env.REACT_APP_BASEURL_0}/user_details`,
 
     {
       headers: { user_token },
@@ -185,11 +185,12 @@ export const OrderStatusChange = async (stautsValue, orderID, userId) => {
   return response.data;
 };
 
-export const fetchUserData = async (searchData) => {
+export const fetchUserData = async (searchData, id) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/user_search`,
     {
       search: searchData,
+      id: id,
     },
     {
       headers: {
@@ -245,6 +246,40 @@ export const AddProductImage = async (imgobj) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_product_image`,
     imgobj,
+    {
+      headers: { admin_token: "admin_master_token=we2code_123456 " },
+    }
+  );
+  return response.data;
+};
+
+export const DeleteProductImage = async (
+  id,
+  product_img_id,
+  product_image_name
+) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/product_image_delete`,
+    {
+      product_image_id: product_img_id,
+      product_id: id,
+      product_image_name: product_image_name,
+    },
+    {
+      headers: { admin_token: "admin_master_token=we2code_123456 " },
+    }
+  );
+  return response.data;
+};
+
+export const ProductCoverImageChange = async (id, product_img_id) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/add_remove_cover_image`,
+    {
+      product_image_id: product_img_id,
+      product_id: id,
+      image_position: "cover",
+    },
     {
       headers: { admin_token: "admin_master_token=we2code_123456 " },
     }
