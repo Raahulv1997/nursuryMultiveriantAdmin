@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import Logo from "../css-js/images/logo.png";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { otp_verify_api } from '../api/api'
 import SweetAlert from "sweetalert-react";

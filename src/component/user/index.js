@@ -4,7 +4,26 @@ import img1 from "../css-js/images/home/index/01.png";
 import img2 from "../css-js/images/home/index/02.png";
 import product from "../css-js/images/product/01.jpg";
 import blog from "../css-js/images/blog/01.jpg";
-const index = () => {
+import ProductBox from './productBox'
+import { useEffect, useState } from "react";
+import { user_home_api } from '../api/api'
+
+
+const Index = () => {
+  const [productData, setProductData] = useState()
+  async function call_api() {
+    let result_all = await user_home_api({ price_from: "", price_to: "", search: "", category: [], rating: [], brand: [], seo_tag: [], vendor_id: [], id: [] })
+    let result = result_all["results"]
+    console.log("__________________________________user___home___api")
+    console.log(result)
+    setProductData(result)
+  }
+
+  useEffect(() => {
+    call_api()
+  }, [])
+
+
   return (
     <div>
       <section className="home-index-slider slider-arrow slider-dots">
@@ -153,7 +172,26 @@ const index = () => {
             </div>
           </div>
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            <div className="col">
+
+            {(productData || []).map((product) => {
+              return (
+                <>
+                  <ProductBox
+                    name={product.name}
+                    image={product.cover_image !== null ? product.cover_image : "https://picsum.photos/300"}
+                    discount={product.discount}
+                    price={product.price}
+                    unit={product.unit}
+                    rating={product.rating}
+                    product_stock_quantity={product.product_stock_quantity}
+                  />
+                </>
+              );
+            })}
+
+            {/* ProductBox add by map_______________<ProductBox/>__________________________________________________________________158 */}
+
+            {/* <div className="col">
               <div className="product-card">
                 <div className="product-media">
                   <div className="product-label">
@@ -893,7 +931,7 @@ const index = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row">
             <div className="col-lg-12">
@@ -943,21 +981,21 @@ const index = () => {
                     <img src={product} alrt="" alt="product" />
                   </Link>
                   <div className="feature-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1021,21 +1059,21 @@ const index = () => {
                     <img src={product} alrt="" alt="product" />
                   </Link>
                   <div className="feature-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1099,21 +1137,21 @@ const index = () => {
                     <img src={product} alrt="" alt="product" />
                   </Link>
                   <div className="feature-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1177,21 +1215,21 @@ const index = () => {
                     <img src={product} alrt="" alt="product" />
                   </Link>
                   <div className="feature-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1255,21 +1293,21 @@ const index = () => {
                     <img src={product} alrt="" alt="product" />
                   </Link>
                   <div className="feature-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1333,21 +1371,21 @@ const index = () => {
                     <img src={product} alrt="" alt="product" />
                   </Link>
                   <div className="feature-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1487,21 +1525,21 @@ const index = () => {
                         <img src={product} alrt="" alt="product" />
                       </Link>
                       <div className="product-widget">
-                        <Link 
+                        <Link
                           title="Product Compare"
-                          to="" 
+                          to=""
                           className="fas fa-random"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product Video"
-                          to="" 
+                          to=""
                           className="venobox fas fa-play"
                           data-autoplay="true"
                           data-vbtype="video"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product View"
-                          to="" 
+                          to=""
                           className="fas fa-eye"
                           data-bs-toggle="modal"
                           data-bs-target="#product-view"
@@ -1561,21 +1599,21 @@ const index = () => {
                         <img src={product} alrt="" alt="product" />
                       </Link>
                       <div className="product-widget">
-                        <Link 
+                        <Link
                           title="Product Compare"
-                          to="" 
+                          to=""
                           className="fas fa-random"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product Video"
-                          to="" 
+                          to=""
                           className="venobox fas fa-play"
                           data-autoplay="true"
                           data-vbtype="video"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product View"
-                          to="" 
+                          to=""
                           className="fas fa-eye"
                           data-bs-toggle="modal"
                           data-bs-target="#product-view"
@@ -1635,21 +1673,21 @@ const index = () => {
                         <img src={product} alrt="" alt="product" />
                       </Link>
                       <div className="product-widget">
-                        <Link 
+                        <Link
                           title="Product Compare"
-                          to="" 
+                          to=""
                           className="fas fa-random"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product Video"
-                          to="" 
+                          to=""
                           className="venobox fas fa-play"
                           data-autoplay="true"
                           data-vbtype="video"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product View"
-                          to="" 
+                          to=""
                           className="fas fa-eye"
                           data-bs-toggle="modal"
                           data-bs-target="#product-view"
@@ -1709,21 +1747,21 @@ const index = () => {
                         <img src={product} alrt="" alt="product" />
                       </Link>
                       <div className="product-widget">
-                        <Link 
+                        <Link
                           title="Product Compare"
-                          to="" 
+                          to=""
                           className="fas fa-random"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product Video"
-                          to="" 
+                          to=""
                           className="venobox fas fa-play"
                           data-autoplay="true"
                           data-vbtype="video"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product View"
-                          to="" 
+                          to=""
                           className="fas fa-eye"
                           data-bs-toggle="modal"
                           data-bs-target="#product-view"
@@ -1783,21 +1821,21 @@ const index = () => {
                         <img src={product} alrt="" alt="product" />
                       </Link>
                       <div className="product-widget">
-                        <Link 
+                        <Link
                           title="Product Compare"
-                          to="" 
+                          to=""
                           className="fas fa-random"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product Video"
-                          to="" 
+                          to=""
                           className="venobox fas fa-play"
                           data-autoplay="true"
                           data-vbtype="video"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product View"
-                          to="" 
+                          to=""
                           className="fas fa-eye"
                           data-bs-toggle="modal"
                           data-bs-target="#product-view"
@@ -1857,21 +1895,21 @@ const index = () => {
                         <img src={product} alrt="" alt="product" />
                       </Link>
                       <div className="product-widget">
-                        <Link 
+                        <Link
                           title="Product Compare"
-                          to="" 
+                          to=""
                           className="fas fa-random"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product Video"
-                          to="" 
+                          to=""
                           className="venobox fas fa-play"
                           data-autoplay="true"
                           data-vbtype="video"
                         ></Link>
-                        <Link 
+                        <Link
                           title="Product View"
-                          to="" 
+                          to=""
                           className="fas fa-eye"
                           data-bs-toggle="modal"
                           data-bs-target="#product-view"
@@ -1966,8 +2004,8 @@ const index = () => {
             <div className="col-lg-12">
               <ul className="nav nav-tabs">
                 <li>
-                  <Link 
-                    to="" 
+                  <Link
+                    to=""
                     className="tab-link active"
                     data-bs-toggle="tab"
                   >
@@ -2005,21 +2043,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2079,21 +2117,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2153,21 +2191,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2227,21 +2265,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2301,21 +2339,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2375,21 +2413,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2449,21 +2487,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2523,21 +2561,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2597,21 +2635,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2671,21 +2709,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2749,21 +2787,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2823,21 +2861,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2897,21 +2935,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -2971,21 +3009,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3045,21 +3083,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3119,21 +3157,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3193,21 +3231,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3267,21 +3305,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3341,21 +3379,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3415,21 +3453,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3493,21 +3531,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3567,21 +3605,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3641,21 +3679,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3715,21 +3753,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3789,21 +3827,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3863,21 +3901,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -3937,21 +3975,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -4011,21 +4049,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -4085,21 +4123,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -4159,21 +4197,21 @@ const index = () => {
                       <img src={product} alrt="" alt="product" />
                     </Link>
                     <div className="product-widget">
-                      <Link 
+                      <Link
                         title="Product Compare"
-                        to="" 
+                        to=""
                         className="fas fa-random"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product Video"
-                        to="" 
+                        to=""
                         className="venobox fas fa-play"
                         data-autoplay="true"
                         data-vbtype="video"
                       ></Link>
-                      <Link 
+                      <Link
                         title="Product View"
-                        to="" 
+                        to=""
                         className="fas fa-eye"
                         data-bs-toggle="modal"
                         data-bs-target="#product-view"
@@ -4589,4 +4627,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

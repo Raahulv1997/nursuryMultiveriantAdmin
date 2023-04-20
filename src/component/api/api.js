@@ -253,23 +253,42 @@ export const AddProductImage = async (imgobj) => {
 };
 
 
-export const sigup_api = async (signup_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_signup`, signup_obj);
+export const sigup_api = async (req_body_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_signup`, req_body_obj);
   return response.data;
 };
 
 
-export const otp_verify_api = async (signup_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_otp_verify`, signup_obj);
+export const otp_verify_api = async (req_body_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_otp_verify`, req_body_obj);
   return response.data;
 };
 
-export const login_api = async (signup_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_login`, signup_obj);
+export const login_api = async (req_body_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_login`, req_body_obj);
   return response.data;
 };
 
-export const forget_api = async (signup_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_forgate_password`, signup_obj);
+export const forget_api = async (req_body_obj) => {
+  let response = await axios.post(`http://localhost:8888/user_forgate_password`, req_body_obj);
+  return response.data;
+};
+
+export const change_password_api = async (req_body_obj) => {
+  let response = await axios.post(`http://localhost:8888/change_user_password`, req_body_obj);
+  return response.data;
+};
+
+export const user_home_api = async (req_body_obj) => {
+  let token = localStorage.getItem("user_token");
+  let token_obj;
+  console.log("user_token--------------------------")
+  console.log(token)
+  if (token !== "" && token !== null && token !== undefined) {
+    token_obj = { headers: { user_token: `${token}` } }
+  } else {
+    token_obj = { headers: { user_blank: "true" } }
+  }
+  let response = await axios.post(`http://localhost:8888/search?page=0&per_page=1000`, req_body_obj, token_obj);
   return response.data;
 };

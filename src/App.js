@@ -18,7 +18,7 @@ import Footer from "./component/common/footer";
 // import Login from "./component/user/login";
 // import Register from "./component/user/register";
 // import Reset_password from "./component/user/reset_password";
-// import Change_password from "./component/user/change_password";
+import Change_password from "./component/user/change_password";
 import Order_list from "./component/user/order_list";
 import Wallet from "./component/user/wallet";
 import Login from "./component/user/login";
@@ -35,8 +35,8 @@ function App() {
         <Routes>
           {/* <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/reset_password" element={<Reset_password />} />
-          <Route path="/change_password" element={<Change_password />} /> */}
+          <Route path="/reset_password" element={<Reset_password />} />*/}
+          <Route path="/change_password" element={<Change_password />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user_register" element={<Register />} />
           <Route path="/otp_verify" element={<Otp_verify />} />
