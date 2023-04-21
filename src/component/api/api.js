@@ -306,3 +306,7 @@ export const cart_delete_api = async (req_body_obj) => {
   let response = await axios.put(`http://localhost:8888/cart_delete`, req_body_obj[0], req_body_obj[1]);
   return response.data;
 };
+export const user_cart_api = async (req_body_obj) => {
+  let response = await axios.get(`http://localhost:8888/cart_list`, req_body_obj);
+  return response.data;
+};

@@ -3,8 +3,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link } from "react-router-dom";
+import Cart from "./cart";
+import { useState } from "react";
+const Header = () => {
+  const [showcart, setShowcart] = useState(false)
+  // function cart_hide_show() {
+  //   console.log("__________________________showCart")
+  // }
 
-const header = () => {
+  function cart_list_hide_fun() {
+    console.log("______________________________cart_list_hide")
+    setShowcart(false)
+  }
   return (
     <Fragment>
       <header className="header-part">
@@ -51,7 +61,7 @@ const header = () => {
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
               </Link>
-              <button className="header-widget header-cart" title="Cartlist">
+              <button onClick={() => { setShowcart(true) }} className="header-widget header-cart" title="Cartlist">
                 <i className="fas fa-shopping-basket"></i>
                 <sup>9+</sup>
                 <span>
@@ -87,8 +97,10 @@ const header = () => {
           <sup>0</sup>
         </Link>
       </div>
+
+      <Cart showCartProp={showcart} cart_list_hide={cart_list_hide_fun} />
     </Fragment>
   );
 };
 
-export default header;
+export default Header;

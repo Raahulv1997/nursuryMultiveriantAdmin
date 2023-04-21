@@ -2,43 +2,49 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchcartdata } from "../api/api";
-// import CartItem from "./cart_item";
+import CartItem from "./cart_item";
+import { user_cart_api } from '../api/api'
 
-const Cart = () => {
+
+const Cart = ({ showCartProp, cart_list_hide }) => {
+
     const user_token = localStorage.getItem("user_token");
-    const [cartData, setCartData] = useState([]);
+    const [cartdata, setCartdata] = useState();
 
-    //   const [allCartdata, setAllcartData] = useState([]);
-    const [apicall, setapicall] = useState(false);
+    async function call_cart_list() {
+        let token_obj;
+        if (user_token !== "" && user_token !== null && user_token !== undefined) {
+            token_obj = { headers: { user_token: `${user_token}` } }
+            let result = await user_cart_api(token_obj)
+            console.log(result)
+            setCartdata(result)
+        } else {
+            alert("please login your account")
+        }
+    }
 
     useEffect(() => {
-        cartdatafucntion();
-    }, [apicall]);
-    //   console.log("qty--" + cartQty);
-    const cartdatafucntion = async () => {
-        const userData = await fetchcartdata();
-        setCartData(userData);
-        // setAllcartData(userData[0]);
-    };
+        call_cart_list()
+    }, [])
 
     return (
         <div>
-            <aside className="col-md-9 cart-sidebar active ">
+            <aside className={showCartProp ? "col-md-9 cart-sidebar active" : "col-md-9 cart-sidebar "} >
                 <div className="cart-header ">
                     <div className="cart-total">
                         <i className="fas fa-shopping-basket"></i>
                         <span>cart</span>
                     </div>
-                    <button className="cart-close">
-                        <Link to={"/"}>
-                            <i className="icofont-close"></i>
-                        </Link>
+                    <button onClick={cart_list_hide} className="cart-close">
+                        {/* <Link to={"/"}> */}
+                        <i className="icofont-close"></i>
+                        {/* </Link> */}
                     </button>
                 </div>
                 <ul className="cart-list">
-                    {/* {cartData.map((cdata, id) => {
-                        return <CartItem cdata={cdata} />;
-                    })} */}
+                    {(cartdata || []).map((cart_item) => {
+                        return <CartItem cover_image={cart_item.cover_image} name={cart_item.name} product_id={cart_item.product_id} cart_product_quantity={cart_item.cart_product_quantity} price={cart_item.price} />;
+                    })}
                 </ul>
                 <div className="cart-footer">
                     <button className="coupon-btn">Do you have a coupon code?</button>

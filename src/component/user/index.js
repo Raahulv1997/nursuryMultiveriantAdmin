@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { user_home_api, add_to_cart_api, update_to_cart_api, cart_delete_api } from '../api/api'
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Index = () => {
   const [productData, setProductData] = useState()
   const [reload, setReload] = useState("")
@@ -229,6 +228,7 @@ const Index = () => {
               </div>
             </div>
           </div>
+
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
             {(productData || []).map((product) => {

@@ -25,11 +25,15 @@ import Login from "./component/user/login";
 import Register from "./component/user/Register.js";
 import Otp_verify from "./component/user/otpVerify.js";
 import Rest_password from "./component/user/restPassword.js";
-import Cart from "./component/user/cart";
 
 function App() {
   let path = window.location.pathname;
   console.log("path  " + path);
+
+  function cart_hide_show_fun() {
+    console.log("cart_hide_show_fun------------------------------------35")
+  }
+
   return (
     <div className="container-fluid p-0">
       <Router>
@@ -44,7 +48,7 @@ function App() {
           <Route path="/user_forgate_password" element={<Rest_password />} />
         </Routes>
 
-        <Header />
+        <Header cart_hide_show={cart_hide_show_fun} />
         {path === "/user" ? (
           <div className="row">
             <div className="col-lg-3">
@@ -73,7 +77,6 @@ function App() {
                   <Route path="/order_list" element={<Order_list />} />
                   <Route path="/wallet" element={<Wallet />} />
                   <Route path="/product_detail" element={<Product_detail />} />
-                  <Route path="/user_cart" element={<Cart />} />
                 </Routes>
               </div>
             </div>
