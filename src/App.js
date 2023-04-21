@@ -25,6 +25,7 @@ import Login from "./component/user/login";
 import Register from "./component/user/Register.js";
 import Otp_verify from "./component/user/otpVerify.js";
 import Rest_password from "./component/user/restPassword.js";
+import Cart from "./component/user/cart";
 
 function App() {
   let path = window.location.pathname;
@@ -71,10 +72,8 @@ function App() {
                   <Route path="/shop" element={<Shop />} />
                   <Route path="/order_list" element={<Order_list />} />
                   <Route path="/wallet" element={<Wallet />} />
-                  <Route
-                    path="/product_detail"
-                    element={<Product_detail />}
-                  />
+                  <Route path="/product_detail" element={<Product_detail />} />
+                  <Route path="/user_cart" element={<Cart />} />
                 </Routes>
               </div>
             </div>

@@ -1,16 +1,18 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { Children } from "react";
 import img1 from "../css-js/images/home/index/01.png";
 import img2 from "../css-js/images/home/index/02.png";
 import product from "../css-js/images/product/01.jpg";
 import blog from "../css-js/images/blog/01.jpg";
 import ProductBox from './productBox'
 import { useEffect, useState } from "react";
-import { user_home_api } from '../api/api'
+import { user_home_api, add_to_cart_api, update_to_cart_api, cart_delete_api } from '../api/api'
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Index = () => {
   const [productData, setProductData] = useState()
+  const [reload, setReload] = useState("")
+  const navigate = useNavigate();
   async function call_api() {
     let result_all = await user_home_api({ price_from: "", price_to: "", search: "", category: [], rating: [], brand: [], seo_tag: [], vendor_id: [], id: [] })
     let result = result_all["results"]
@@ -21,8 +23,64 @@ const Index = () => {
 
   useEffect(() => {
     call_api()
-  }, [])
+  }, [reload])
 
+  async function cart_update_function(cart_count, product_id) {
+    console.log("child_data____________________________27")
+    console.log(product_id)
+    let token = localStorage.getItem("user_token");
+
+    if (token !== "" && token !== null && token !== undefined) {
+      alert("token available___" + cart_count)
+      let cart_product_quantity = 1
+      let result = await add_to_cart_api([{ product_id, cart_product_quantity }, { headers: { user_token: `${token}` } }])
+      console.log(result.success)
+      if (result.success === true) {
+        setReload(Math.floor((Math.random() * 500) + 1))
+      } else {
+
+      }
+    } else {
+      alert("please login your account___" + cart_count)
+      navigate("/login")
+    }
+  }
+
+  async function incrementDecrementCount_function(chk_p_m, cart_count, product_id) {
+    let cart_product_quantity;
+    let token = localStorage.getItem("user_token");
+    if (chk_p_m === '1') { cart_product_quantity = parseInt(cart_count) + 1 }
+    if (chk_p_m === '0') { cart_product_quantity = parseInt(cart_count) - 1 }
+
+
+    if (token !== "" && token !== null && token !== undefined) {
+
+      if (cart_product_quantity < 1) {
+        let result = await cart_delete_api([{ product_id, cart_product_quantity }, { headers: { user_token: `${token}` } }])
+        console.log(result)
+        if (result.success === true) {
+          setReload(Math.floor((Math.random() * 500) + 1))
+        } else {
+          alert(result.success)
+        }
+      } else {
+        let result = await update_to_cart_api([{ product_id, cart_product_quantity }, { headers: { user_token: `${token}` } }])
+        console.log(result)
+        if (result.success === true) {
+          setReload(Math.floor((Math.random() * 500) + 1))
+        } else {
+          alert(result.success)
+        }
+      }
+
+
+
+
+    } else {
+      alert("please login your account___" + cart_count)
+      navigate("/login")
+    }
+  }
 
   return (
     <div>
@@ -184,6 +242,10 @@ const Index = () => {
                     unit={product.unit}
                     rating={product.rating}
                     product_stock_quantity={product.product_stock_quantity}
+                    cart_count={product.cart_count}
+                    product_id={product.id}
+                    cart_update_fun={cart_update_function}
+                    incrementDecrementCount={incrementDecrementCount_function}
                   />
                 </>
               );

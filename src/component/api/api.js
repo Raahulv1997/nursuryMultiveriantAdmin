@@ -279,6 +279,7 @@ export const change_password_api = async (req_body_obj) => {
   return response.data;
 };
 
+
 export const user_home_api = async (req_body_obj) => {
   let token = localStorage.getItem("user_token");
   let token_obj;
@@ -287,8 +288,21 @@ export const user_home_api = async (req_body_obj) => {
   if (token !== "" && token !== null && token !== undefined) {
     token_obj = { headers: { user_token: `${token}` } }
   } else {
-    token_obj = { headers: { user_blank: "true" } }
+    token_obj = { headers: { user_blank: true } }
   }
   let response = await axios.post(`http://localhost:8888/search?page=0&per_page=1000`, req_body_obj, token_obj);
+  return response.data;
+};
+
+export const add_to_cart_api = async (req_body_obj) => {
+  let response = await axios.post(`http://localhost:8888/add_to_cart`, req_body_obj[0], req_body_obj[1]);
+  return response.data;
+};
+export const update_to_cart_api = async (req_body_obj) => {
+  let response = await axios.put(`http://localhost:8888/cart_update`, req_body_obj[0], req_body_obj[1]);
+  return response.data;
+};
+export const cart_delete_api = async (req_body_obj) => {
+  let response = await axios.put(`http://localhost:8888/cart_delete`, req_body_obj[0], req_body_obj[1]);
   return response.data;
 };
