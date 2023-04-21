@@ -7,7 +7,7 @@ const Sidebar = () => {
       <div className="banner-category">
         <ul className="banner-category-list vh-100 pt-4">
           <li className="banner-category-item">
-            <Link to="/admin">
+            <Link to="/admin/Home">
               <i className="flaticon-vegetable"></i>
               <span>Product</span>
             </Link>

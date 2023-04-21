@@ -289,7 +289,7 @@ const AddProduct = () => {
   const onProductClick = (id) => {
     localStorage.setItem("productID", id);
 
-    navigate("/productDetails");
+    navigate("/admin/productDetails");
   };
   // validation fucntion------
   const validators = {

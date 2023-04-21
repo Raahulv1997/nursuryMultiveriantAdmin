@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-function useValidation(initialState, validators) {
+function useValidation(initialState, validators, setErrMsg) {
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({});
 
   const onInputChange = (event) => {
     const { name, value } = event.target;
     setState({ ...state, [name]: value });
+    setErrors({});
+    setErrMsg("");
   };
 
   const DescriptionChange = (event, editor) => {

@@ -2,9 +2,24 @@ import React, { Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const header = () => {
+const Header = () => {
+  const navigate = useNavigate();
+  const admin_token = localStorage.getItem("admin_token");
+  const user_token = localStorage.getItem("user_token");
+
+  const OnLogoutClick = () => {
+    if (admin_token !== null) {
+      localStorage.removeItem("admin_token");
+      navigate("/admin");
+    }
+
+    if (user_token) {
+      localStorage.removeItem("user_token");
+      navigate("/");
+    }
+  };
   return (
     <Fragment>
       <header className="header-part">
@@ -14,20 +29,18 @@ const header = () => {
               <button className="header-user">
                 <img src={Profile} alt="user" />
               </button>
-              <Link to="" >
+              <Link to="">
                 <img src={Logo} alt="logo" />
               </Link>
               <button className="header-src">
                 <i className="fas fa-search"></i>
               </button>
             </div>
-            <Link to="" >
+            <Link to="">
               <img src={Logo} alt="logo" />
             </Link>
-            <Link to="" >
-              <img src={Profile} alt="user" />
-              <span>join</span>
-            </Link>
+            <img src={Profile} alt="user" />
+
             <form className="header-form">
               <input type="text" placeholder="Search anything..." />
               <button>
@@ -35,22 +48,15 @@ const header = () => {
               </button>
             </form>
             <div className="header-widget-group">
-              <Link 
-                to="" 
-                className="header-widget"
-                title="Compare List"
-              >
+              <Link to="" className="header-widget" title="Compare List">
                 <i className="fas fa-random"></i>
                 <sup>0</sup>
               </Link>
-              <Link 
-                to="" 
-                className="header-widget"
-                title="Wishlist"
-              >
+              <Link to="" className="header-widget" title="Wishlist">
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
               </Link>
+
               <button className="header-widget header-cart" title="Cartlist">
                 <i className="fas fa-shopping-basket"></i>
                 <sup>9+</sup>
@@ -58,12 +64,20 @@ const header = () => {
                   total price<small>$345.00</small>
                 </span>
               </button>
+              <Link to="/login" className="header-widget" title="Wishlist">
+                <i className="fas fa-login"></i>
+                <span>Login</span>
+              </Link>
+              <Link className="header-widget" title="Wishlist">
+                <i className="fas fa-login"></i>
+                <span onClick={OnLogoutClick}>Logout</span>
+              </Link>
             </div>
           </div>
         </div>
       </header>
       <div className="mobile-menu">
-        <Link to="" >
+        <Link to="">
           <i className="fas fa-home"></i>
           <span>Home</span>
         </Link>
@@ -76,12 +90,12 @@ const header = () => {
           <span>cartlist</span>
           <sup>9+</sup>
         </button>
-        <Link to="" >
+        <Link to="">
           <i className="fas fa-heart"></i>
           <span>wishlist</span>
           <sup>0</sup>
         </Link>
-        <Link to="" >
+        <Link to="">
           <i className="fas fa-random"></i>
           <span>compare</span>
           <sup>0</sup>
@@ -91,4 +105,4 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;
