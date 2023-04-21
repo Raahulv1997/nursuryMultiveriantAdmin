@@ -352,3 +352,27 @@ export const AdminLoginData = async (email, password) => {
   );
   return response.data;
 };
+export const add_to_cart_api = async (req_body_obj) => {
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/add_to_cart`,
+    req_body_obj[0],
+    req_body_obj[1]
+  );
+  return response.data;
+};
+export const update_to_cart_api = async (req_body_obj) => {
+  let response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/cart_update`,
+    req_body_obj[0],
+    req_body_obj[1]
+  );
+  return response.data;
+};
+export const cart_delete_api = async (req_body_obj) => {
+  let response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/cart_delete`,
+    req_body_obj[0],
+    req_body_obj[1]
+  );
+  return response.data;
+};

@@ -32,7 +32,7 @@ const AdminLogin = () => {
     ],
   };
   const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators, setErrMsg);
+    useValidation(initialFormState, validators);
 
   const OnLoginClick = async (e) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ const AdminLogin = () => {
               </div>
               <div className="user-form-card">
                 <div className="user-form-title">
-                  <h2>welcome!</h2>
+                  <h2>welcome Admin !</h2>
                   <p>Use your credentials to access</p>
                 </div>
                 <div className="user-form-group">

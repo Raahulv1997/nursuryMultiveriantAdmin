@@ -55,6 +55,7 @@ const AddProduct = () => {
     category: "",
     description: "",
   };
+
   const [productID, setProductID] = useState("");
   const [vendorID, setVendorID] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -318,12 +319,7 @@ const AddProduct = () => {
           : null,
     ],
     price: [
-      (value) =>
-        value === null || value === ""
-          ? "Price is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+      (value) => (value === null || value === "" ? "Price is required" : null),
     ],
     mrp: [
       (value) =>

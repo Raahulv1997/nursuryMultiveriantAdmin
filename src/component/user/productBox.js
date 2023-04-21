@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const ProductBox = ({
   id,
@@ -15,42 +17,58 @@ const ProductBox = ({
   // wishlistt,
   // wishlistid,
   clickProduct,
-
+  cart_update_fun,
+  incrementDecrementCount,
   //    AddToWishList,
-  AddToCart,
+  product_id,
   image,
   // cart,
   // is_featured,
   // is_special_offer,
   rating,
-
+  cart_count
 }) => {
   let [count, setCount] = useState(1);
   let ratingbox = [1, 2, 3, 4, 5];
   const [totalqty, settotalqty] = useState(false);
+  const navigate = useNavigate();
   let ratingg = Number(rating);
 
-  const incrementCount = (value) => {
-    if (value === 1) {
-      if (count < product_stock_quantity) {
-        setCount(count + 1);
-        // console.log("qtyttttttt-" + Qty);
-        settotalqty(false);
-        // setItemprice(cartData.price * Qty);
-      } else {
-        settotalqty(true);
-      }
-    } else if (value === 0) {
-      if (count > 1) {
-        setCount(count - 1);
-        settotalqty(false);
-        // setItemprice(cartData.price * Qty);
-      } else {
-        settotalqty("qty is less");
-      }
-    }
-    // setItemprice(cartData.price * Qty);
-  };
+
+  // function addToCart(cart_count) {
+  //   let token = localStorage.getItem("user_token");
+  //   console.log("user_token--------------------------")
+  //   console.log(token)
+
+  //   if (token !== "" && token !== null && token !== undefined) {
+  //     alert("token available___" + cart_count)
+  //   } else {
+  //     alert("please login your account___" + cart_count)
+  //     navigate("/login")
+  //   }
+  // }
+
+  // const incrementCount = (value) => {
+  //   if (value === 1) {
+  //     if (count < product_stock_quantity) {
+  //       setCount(count + 1);
+  //       // console.log("qtyttttttt-" + Qty);
+  //       settotalqty(false);
+  //       // setItemprice(cartData.price * Qty);
+  //     } else {
+  //       settotalqty(true);
+  //     }
+  //   } else if (value === 0) {
+  //     if (count > 1) {
+  //       setCount(count - 1);
+  //       settotalqty(false);
+  //       // setItemprice(cartData.price * Qty);
+  //     } else {
+  //       settotalqty("qty is less");
+  //     }
+  //   }
+  //   // setItemprice(cartData.price * Qty);
+  // };
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
@@ -65,7 +83,7 @@ const ProductBox = ({
               <i className="fas fa-heart"></i>
             </button>
             <a className="product-image" href="#">
-              <img src={image} alt="product" width={250} height={300} />
+              <img src={image} alt="product" width={250} height={250} />
             </a>
             {/* <div className="product-widget">
                 <a
@@ -118,19 +136,12 @@ const ProductBox = ({
                 <small>/{unit}</small>
               </span>
             </h6>
-            <button
-              className="product-add"
-              title="Add to Cart"
-              onClick={() => AddToCart()}
-            >
-              <i className="fas fa-shopping-basket"></i>
-              <span>add </span>
-            </button>
-            <div className="product-action">
+            {console.log(cart_count)}
+            {cart_count !== null && cart_count !== "" && cart_count !== undefined ? <div className="product-action">
               <button
                 className="action-minus"
                 title="Quantity Minus"
-                onClick={() => incrementCount(0)}
+                onClick={() => incrementDecrementCount("0", cart_count, product_id)}
               >
                 <i className="icofont-minus"></i>
               </button>
@@ -139,16 +150,25 @@ const ProductBox = ({
                 title="Quantity Number"
                 type="text"
                 name="quantity"
-                value={count}
+                value={cart_count}
               />
               <button
                 className="action-plus"
                 title="Quantity Plus"
-                onClick={() => incrementCount(1)}
+                onClick={() => incrementDecrementCount("1", cart_count, product_id)}
               >
                 <i className="icofont-plus"></i>
               </button>
-            </div>
+            </div> : <button
+              className="product-add"
+              title="Add to Cart"
+              onClick={() => cart_update_fun(cart_count, product_id)}
+            >
+              <i className="fas fa-shopping-basket"></i>
+              <span>add </span>
+            </button>}
+
+
           </div>
           {totalqty === true ? (
             <p className="mt-1 ms-2 text-danger" type="invalid">
