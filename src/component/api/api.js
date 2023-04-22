@@ -377,3 +377,10 @@ export const cart_delete_api = async (req_body_obj) => {
   );
   return response.data;
 };
+export const user_cart_api = async (req_body_obj) => {
+  let response = await axios.get(
+    `${process.env.REACT_APP_BASEURL_0}/cart_list`,
+    req_body_obj
+  );
+  return response.data;
+};

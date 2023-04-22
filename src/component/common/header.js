@@ -3,11 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
+import Cart from "./cart";
 
 const Header = () => {
   const [searchbox, setSearchBox] = useState("");
 
   let [searcherror, setsearcherror] = useState(false);
+  const [showcart, setShowcart] = useState(false);
+
   const navigate = useNavigate();
   const admin_token = localStorage.getItem("admin_token");
   const user_token = localStorage.getItem("user_token");
@@ -41,6 +44,10 @@ const Header = () => {
     }
   };
 
+  function cart_list_hide_fun() {
+    console.log("______________________________cart_list_hide");
+    setShowcart(false);
+  }
   return (
     <Fragment>
       <header className="header-part">
@@ -85,8 +92,13 @@ const Header = () => {
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
               </Link>
-
-              <button className="header-widget header-cart" title="Cartlist">
+              <button
+                onClick={() => {
+                  setShowcart(true);
+                }}
+                className="header-widget header-cart"
+                title="Cartlist"
+              >
                 <i className="fas fa-shopping-basket"></i>
                 <sup>9+</sup>
                 <span>
@@ -130,6 +142,8 @@ const Header = () => {
           <sup>0</sup>
         </Link>
       </div>
+
+      <Cart showCartProp={showcart} cart_list_hide={cart_list_hide_fun} />
     </Fragment>
   );
 };

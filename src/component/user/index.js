@@ -253,6 +253,7 @@ const Index = () => {
               </div>
             </div>
           </div>
+
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
             {(productData || []).map((product) => {
               return (
