@@ -18,18 +18,23 @@ import {
   AddProductData,
   AddProductImage,
   AllproductData,
+  DeleteProductImage,
   DeleteProductStatus,
   fetchfilter,
   GetProductImages,
+  ProductCoverImageChange,
   UpdateProductData,
   UpdateProductStatus,
 } from "../api/api";
 import Select from "react-select";
 import useValidation from "../common/useValidation";
-import axios from "axios";
+
+import { useNavigate } from "react-router-dom";
 let encoded;
 let ImgObj = [];
+
 const AddProduct = () => {
+  const navigate = useNavigate();
   //product data json
   const initialFormState = {
     name: "",
@@ -42,7 +47,7 @@ const AddProduct = () => {
     price: "",
     mrp: "",
     review: "",
-    discount: "",
+    discount: "0",
     gst: "",
     cgst: "",
     sgst: "",
@@ -50,6 +55,7 @@ const AddProduct = () => {
     category: "",
     description: "",
   };
+
   const [productID, setProductID] = useState("");
   const [vendorID, setVendorID] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -87,25 +93,30 @@ const AddProduct = () => {
       width: "100px",
       center: true,
       cell: (row) => (
-        <img
-          alt={"apna_organic"}
-          src={
-            row.cover_image
-              ? row.cover_image
-              : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-          }
-          style={{
-            padding: 10,
-            textAlign: "right",
-            maxHeight: "100px",
-            maxWidth: "100px",
-          }}
-        />
+        <>
+          <p onClick={onProductClick.bind(this, [row.id])}>
+            <img
+              alt={"apna_organic"}
+              src={
+                row.cover_image
+                  ? row.cover_image
+                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              }
+              style={{
+                padding: 10,
+                textAlign: "right",
+                maxHeight: "100px",
+                maxWidth: "100px",
+              }}
+            />
+          </p>
+        </>
       ),
     },
 
     {
       name: "Product Name",
+
       selector: (row) => row.name,
       sortable: true,
       width: "150px",
@@ -276,6 +287,11 @@ const AddProduct = () => {
     },
   ];
 
+  const onProductClick = (id) => {
+    localStorage.setItem("productID", id);
+
+    navigate("/admin/productDetails");
+  };
   // validation fucntion------
   const validators = {
     name: [
@@ -303,12 +319,7 @@ const AddProduct = () => {
           : null,
     ],
     price: [
-      (value) =>
-        value === null || value === ""
-          ? "Price is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+      (value) => (value === null || value === "" ? "Price is required" : null),
     ],
     mrp: [
       (value) =>
@@ -346,6 +357,22 @@ const AddProduct = () => {
     fetchfilterdata();
   }, [apicall]);
 
+  let discountt = (state.mrp * state.discount) / 100;
+
+  let sgst = state.gst / 2;
+  let cgst = state.gst / 2;
+  let price = state.mrp - discountt;
+
+  let totalGst = (price * state.gst) / 100;
+  useEffect(() => {
+    setState({
+      ...state,
+      price: `${price}`,
+      sgst: `${sgst}`,
+      cgst: `${cgst}`,
+    });
+  }, [state.mrp, state.discount, state.gst]);
+
   //  all product data search function
 
   const fetchProductData = async () => {
@@ -362,7 +389,7 @@ const AddProduct = () => {
     setApicall(false);
     setProductTable(data.results);
 
-    console.log("all-product-" + JSON.stringify(data.results));
+    // console.log("all-product-" + JSON.stringify(data.results));
   };
 
   //fetch brand list and category list data---
@@ -622,21 +649,15 @@ const AddProduct = () => {
     }
   };
 
-  // const onImgRemove = (id, name, vendor_id, product_id, product_verient_id) => {
-  //   axios
-  //     .put(`${process.env.REACT_APP_BASEURL}/product_image_delete`, {
-  //       product_image_id: `${id}`,
-  //       product_image_name: `${name}`,
-  //       vendor_id: `${vendor_id}`,
-  //     })
-  //     .then((response) => {
-  //       onImgView(product_verient_id, product_id);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
-  // const [imageboxid, setimageboxid] = useState(0);
+  const onImgRemove = async (id, product_img_id, product_img_name) => {
+    const response = await DeleteProductImage(
+      id,
+      product_img_id,
+      product_img_name
+    );
+    console.log("delete responce--" + JSON.stringify(response));
+    onImgView(id);
+  };
 
   const onImgView = async (id) => {
     // setEditButton(false);
@@ -647,20 +668,11 @@ const AddProduct = () => {
     setnewImageUrls(response);
   };
 
-  // const onImgCoverEditClick = (imgid, productid, productvariantid) => {
-  //   axios
-  //     .put(`${process.env.REACT_APP_BASEURL}/change_porduct_cover_image`, {
-  //       product_image_id: `${imgid}`,
-  //       product_id: `${productid}`,
-  //       product_verient_id: `${productvariantid}`,
-  //     })
-  //     .then((response) => {
-  //       onImgView(productvariantid, productid);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
+  const onImgCoverEditClick = async (id, product_img_id) => {
+    const response = await ProductCoverImageChange(id, product_img_id);
+    console.log("cover responce--" + JSON.stringify(response));
+    onImgView(id);
+  };
   // // END IMAGE UPLOAD SECTION
 
   return (
@@ -883,30 +895,6 @@ const AddProduct = () => {
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="" column sm="12">
-                    Price <small className="text-danger">*</small>
-                  </Form.Label>
-                  <Form.Control
-                    className={
-                      errors.price
-                        ? "form-control border border-danger"
-                        : "form-control"
-                    }
-                    type="text"
-                    value={state.price}
-                    name="price"
-                    onChange={onInputChange}
-                    id="price"
-                  />
-                  {errors.price
-                    ? (errors.price || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
-                    : null}
-                </Form.Group>
-              </div>
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
                     MRP <small className="text-danger">*</small>
                   </Form.Label>
                   <Form.Control
@@ -928,10 +916,25 @@ const AddProduct = () => {
                     : null}
                 </Form.Group>
               </div>
+
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="" column sm="12">
-                    GST <small className="text-danger">*</small>
+                    Discount (%)
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={state.discount}
+                    name="discount"
+                    onChange={onInputChange}
+                    id="discount"
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-md-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="" column sm="12">
+                    GST (%) <small className="text-danger">*</small>
                   </Form.Label>
                   <Form.Control
                     className={
@@ -956,7 +959,7 @@ const AddProduct = () => {
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="" column sm="12">
-                    CGST
+                    CGST (%)
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -971,7 +974,7 @@ const AddProduct = () => {
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="" column sm="12">
-                    SGST
+                    SGST (%)
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -986,15 +989,28 @@ const AddProduct = () => {
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="" column sm="12">
-                    Discount
+                    Price <small className="text-danger">*</small>
                   </Form.Label>
                   <Form.Control
+                    className={
+                      errors.price
+                        ? "form-control border border-danger"
+                        : "form-control"
+                    }
                     type="text"
-                    value={state.discount}
-                    name="discount"
+                    value={state.price}
+                    name="price"
                     onChange={onInputChange}
-                    id="discount"
+                    id="price"
                   />
+                  {state.gst > 0 ? (
+                    <small className="text-success">{`${state.gst}% tax ₹ ${totalGst} are include in price `}</small>
+                  ) : null}
+                  {errors.price
+                    ? (errors.price || []).map((error) => {
+                        return <small className="text-danger">{error}</small>;
+                      })
+                    : null}
                 </Form.Group>
               </div>
               <div className="col-md-6">
@@ -1305,27 +1321,25 @@ const AddProduct = () => {
                                 />
                                 <span
                                   className="cover_icon"
-                                  // onClick={(id) =>
-                                  //   onImgCoverEditClick(
-                                  //     imgg.product_image_id,
-                                  //     imgg.product_id,
-                                  //     imgg.product_verient_id
-                                  //   )
-                                  // }
+                                  onClick={() =>
+                                    onImgCoverEditClick(
+                                      imgg.product_id,
+                                      imgg.product_image_id,
+                                      imgg.product_image_name
+                                    )
+                                  }
                                 >
                                   Set Cover
                                 </span>
                                 <span
                                   className="cross_icon"
-                                  // onClick={() =>
-                                  //   onImgRemove(
-                                  //     imgg.product_image_id,
-                                  //     imgg.product_image_name,
-                                  //     imgg.vendor_id,
-                                  //     imgg.product_id,
-                                  //     imgg.product_verient_id
-                                  //   )
-                                  // }
+                                  onClick={() =>
+                                    onImgRemove(
+                                      imgg.product_id,
+                                      imgg.product_image_id,
+                                      imgg.product_image_name
+                                    )
+                                  }
                                 >
                                   &times;
                                 </span>

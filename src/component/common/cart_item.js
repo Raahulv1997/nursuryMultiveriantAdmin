@@ -4,7 +4,7 @@ import { updateCart } from "../api/api";
 // import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
 // src/component/css-js/fonts/icofont/icofont.min.css
 
-const CartItem = ({ cover_image, name, product_id, cart_product_quantity, price }) => {
+const CartItem = ({ cover_image, name, product_id, cart_product_quantity, price, incrementDecrementCount }) => {
 
 
     //   const incrementCount = (value) => {
@@ -60,7 +60,7 @@ const CartItem = ({ cover_image, name, product_id, cart_product_quantity, price 
                             <button
                                 className="action-minus"
                                 title="Quantity Minus"
-                            // onClick={}
+                                onClick={() => incrementDecrementCount("0", cart_product_quantity, product_id)}
                             >
                                 <i className="icofont-minus"></i>
                             </button>
@@ -75,7 +75,7 @@ const CartItem = ({ cover_image, name, product_id, cart_product_quantity, price 
                             <button
                                 className="action-plus"
                                 title="Quantity Plus"
-                            // onClick={() => incrementCount(1)}
+                                onClick={() => incrementDecrementCount("1", cart_product_quantity, product_id)}
                             >
                                 <i className="icofont-plus"></i>
                             </button>

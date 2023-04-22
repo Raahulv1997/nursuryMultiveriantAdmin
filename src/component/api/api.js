@@ -4,7 +4,7 @@ let user_token = localStorage.getItem("user_token");
 
 export const updateCart = async (props, qty) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL}/cart_update/${props.id}`,
+    `${process.env.REACT_APP_BASEURL_0}/cart_update/${props.id}`,
     {
       user_id: props.user_id,
       product_id: props.product_id,
@@ -21,7 +21,7 @@ export const updateCart = async (props, qty) => {
 
 export const fetchcartdata = async () => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL}/cart_list`,
+    `${process.env.REACT_APP_BASEURL_0}/cart_list`,
     {
       user_id: "",
     },
@@ -34,7 +34,7 @@ export const fetchcartdata = async () => {
 
 export const deleteCart = async (id, user_id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL}/cart_delete`,
+    `${process.env.REACT_APP_BASEURL_0}/cart_delete`,
     {
       user_id: user_id,
       id: id,
@@ -48,7 +48,7 @@ export const deleteCart = async (id, user_id) => {
 
 export const userdetails = async () => {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL}/user_details`,
+    `${process.env.REACT_APP_BASEURL_0}/user_details`,
 
     {
       headers: { user_token },
@@ -185,11 +185,12 @@ export const OrderStatusChange = async (stautsValue, orderID, userId) => {
   return response.data;
 };
 
-export const fetchUserData = async (searchData) => {
+export const fetchUserData = async (searchData, id) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/user_search`,
     {
       search: searchData,
+      id: id,
     },
     {
       headers: {
@@ -252,58 +253,127 @@ export const AddProductImage = async (imgobj) => {
   return response.data;
 };
 
-
-export const sigup_api = async (req_body_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_signup`, req_body_obj);
+export const DeleteProductImage = async (
+  id,
+  product_img_id,
+  product_image_name
+) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/product_image_delete`,
+    {
+      product_image_id: product_img_id,
+      product_id: id,
+      product_image_name: product_image_name,
+    },
+    {
+      headers: { admin_token: "admin_master_token=we2code_123456 " },
+    }
+  );
   return response.data;
 };
 
+export const ProductCoverImageChange = async (id, product_img_id) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/add_remove_cover_image`,
+    {
+      product_image_id: product_img_id,
+      product_id: id,
+      image_position: "cover",
+    },
+    {
+      headers: { admin_token: "admin_master_token=we2code_123456 " },
+    }
+  );
+  return response.data;
+};
+
+export const sigup_api = async (req_body_obj) => {
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/user_signup`,
+    req_body_obj
+  );
+  return response.data;
+};
 
 export const otp_verify_api = async (req_body_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_otp_verify`, req_body_obj);
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/user_otp_verify`,
+    req_body_obj
+  );
   return response.data;
 };
 
 export const login_api = async (req_body_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_login`, req_body_obj);
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/user_login`,
+    req_body_obj
+  );
   return response.data;
 };
 
 export const forget_api = async (req_body_obj) => {
-  let response = await axios.post(`http://localhost:8888/user_forgate_password`, req_body_obj);
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/user_forgate_password`,
+    req_body_obj
+  );
   return response.data;
 };
 
 export const change_password_api = async (req_body_obj) => {
-  let response = await axios.post(`http://localhost:8888/change_user_password`, req_body_obj);
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/change_user_password`,
+    req_body_obj
+  );
   return response.data;
 };
-
 
 export const user_home_api = async (req_body_obj) => {
   let token = localStorage.getItem("user_token");
   let token_obj;
-  console.log("user_token--------------------------")
-  console.log(token)
+  console.log("user_token--------------------------");
+  console.log(token);
   if (token !== "" && token !== null && token !== undefined) {
-    token_obj = { headers: { user_token: `${token}` } }
+    token_obj = { headers: { user_token: `${token}` } };
   } else {
-    token_obj = { headers: { user_blank: true } }
+    token_obj = { headers: { user_blank: "true" } };
   }
-  let response = await axios.post(`http://localhost:8888/search?page=0&per_page=1000`, req_body_obj, token_obj);
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
+    req_body_obj,
+    token_obj
+  );
   return response.data;
 };
 
+export const AdminLoginData = async (email, password) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/admin_login`,
+    { email: email, password: password }
+  );
+  return response.data;
+};
 export const add_to_cart_api = async (req_body_obj) => {
-  let response = await axios.post(`http://localhost:8888/add_to_cart`, req_body_obj[0], req_body_obj[1]);
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/add_to_cart`,
+    req_body_obj[0],
+    req_body_obj[1]
+  );
   return response.data;
 };
 export const update_to_cart_api = async (req_body_obj) => {
-  let response = await axios.put(`http://localhost:8888/cart_update`, req_body_obj[0], req_body_obj[1]);
+  let response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/cart_update`,
+    req_body_obj[0],
+    req_body_obj[1]
+  );
   return response.data;
 };
 export const cart_delete_api = async (req_body_obj) => {
-  let response = await axios.put(`http://localhost:8888/cart_delete`, req_body_obj[0], req_body_obj[1]);
+  let response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/cart_delete`,
+    req_body_obj[0],
+    req_body_obj[1]
+  );
   return response.data;
 };
 export const user_cart_api = async (req_body_obj) => {

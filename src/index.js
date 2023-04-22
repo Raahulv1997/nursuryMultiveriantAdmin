@@ -17,6 +17,8 @@ import "../src/component/css-js/vendor/venobox/venobox.min.css";
 import "../src/component/css-js/css/user-auth.css";
 import "../src/component/css-js/css/orderlist.css";
 import "../src/component/css-js/css/wallet.css";
+import "../src/component/css-js/css/invoice.css";
+import "../src/component/css-js/css/checkout.css";
 // <link rel="stylesheet" to=""  />
 
 //  js

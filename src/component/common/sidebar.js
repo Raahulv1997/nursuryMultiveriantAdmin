@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -7,7 +7,7 @@ const Sidebar = () => {
       <div className="banner-category">
         <ul className="banner-category-list vh-100 pt-4">
           <li className="banner-category-item">
-            <Link to="/">
+            <Link to="/admin/Home">
               <i className="flaticon-vegetable"></i>
               <span>Product</span>
             </Link>
@@ -16,401 +16,401 @@ const Sidebar = () => {
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >carrot</Link>
+                    <a href="#">carrot</a>
                   </li>
                   <li>
-                    <Link to="" >broccoli</Link>
+                    <a href="#">broccoli</a>
                   </li>
                   <li>
-                    <Link to="" >asparagus</Link>
+                    <a href="#">asparagus</a>
                   </li>
                   <li>
-                    <Link to="" >cauliflower</Link>
+                    <a href="#">cauliflower</a>
                   </li>
                   <li>
-                    <Link to="" >cucumber</Link>
-                  </li>
-                </ul>
-                <ul>
-                  <li>
-                    <Link to="" >eggplant</Link>
-                  </li>
-                  <li>
-                    <Link to="" >green pepper</Link>
-                  </li>
-                  <li>
-                    <Link to="" >lettuce</Link>
-                  </li>
-                  <li>
-                    <Link to="" >mushrooms</Link>
-                  </li>
-                  <li>
-                    <Link to="" >onion</Link>
+                    <a href="#">cucumber</a>
                   </li>
                 </ul>
                 <ul>
                   <li>
-                    <Link to="" >potato</Link>
+                    <a href="#">eggplant</a>
                   </li>
                   <li>
-                    <Link to="" >pumpkin</Link>
+                    <a href="#">green pepper</a>
                   </li>
                   <li>
-                    <Link to="" >tomato</Link>
+                    <a href="#">lettuce</a>
                   </li>
                   <li>
-                    <Link to="" >beetroot</Link>
+                    <a href="#">mushrooms</a>
                   </li>
                   <li>
-                    <Link to="" >zucchini</Link>
+                    <a href="#">onion</a>
                   </li>
                 </ul>
                 <ul>
                   <li>
-                    <Link to="" >radish</Link>
+                    <a href="#">potato</a>
                   </li>
                   <li>
-                    <Link to="" >artichoke</Link>
+                    <a href="#">pumpkin</a>
                   </li>
                   <li>
-                    <Link to="" >cabbage</Link>
+                    <a href="#">tomato</a>
                   </li>
                   <li>
-                    <Link to="" >celery</Link>
+                    <a href="#">beetroot</a>
                   </li>
                   <li>
-                    <Link to="" >parsley</Link>
+                    <a href="#">zucchini</a>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <a href="#">radish</a>
+                  </li>
+                  <li>
+                    <a href="#">artichoke</a>
+                  </li>
+                  <li>
+                    <a href="#">cabbage</a>
+                  </li>
+                  <li>
+                    <a href="#">celery</a>
+                  </li>
+                  <li>
+                    <a href="#">parsley</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="Product_add">
+            <Link to="/admin/orderList">
               <i className="flaticon-groceries"></i>
-              <span>Product add</span>
+              <span>Orders</span>
             </Link>
             <div className="banner-category-dropdown">
               <h5>groceries item</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Butter</Link>
+                    <a href="#">Butter</a>
                   </li>
                   <li>
-                    <Link to="" >Rice</Link>
+                    <a href="#">Rice</a>
                   </li>
                   <li>
-                    <Link to="" >Bread</Link>
+                    <a href="#">Bread</a>
                   </li>
                   <li>
-                    <Link to="" >Pasta</Link>
+                    <a href="#">Pasta</a>
                   </li>
                   <li>
-                    <Link to="" >Cooking oil</Link>
-                  </li>
-                </ul>
-                <ul>
-                  <li>
-                    <Link to="" >Cheese</Link>
-                  </li>
-                  <li>
-                    <Link to="" >Yogurt</Link>
-                  </li>
-                  <li>
-                    <Link to="" >Onions</Link>
-                  </li>
-                  <li>
-                    <Link to="" >Garlic</Link>
-                  </li>
-                  <li>
-                    <Link to="" >Pulses</Link>
+                    <a href="#">Cooking oil</a>
                   </li>
                 </ul>
                 <ul>
                   <li>
-                    <Link to="" >Soup</Link>
+                    <a href="#">Cheese</a>
                   </li>
                   <li>
-                    <Link to="" >Salt</Link>
+                    <a href="#">Yogurt</a>
                   </li>
                   <li>
-                    <Link to="" >Pepper</Link>
+                    <a href="#">Onions</a>
                   </li>
                   <li>
-                    <Link to="" >Herbs</Link>
+                    <a href="#">Garlic</a>
                   </li>
                   <li>
-                    <Link to="" >Sugar</Link>
+                    <a href="#">Pulses</a>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <a href="#">Soup</a>
+                  </li>
+                  <li>
+                    <a href="#">Salt</a>
+                  </li>
+                  <li>
+                    <a href="#">Pepper</a>
+                  </li>
+                  <li>
+                    <a href="#">Herbs</a>
+                  </li>
+                  <li>
+                    <a href="#">Sugar</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <Link to={"/admin/userList"}>
               <i className="flaticon-fruit"></i>
-              <span>fruits</span>
+              <span>Users</span>
             </Link>
             <div className="banner-category-dropdown">
               <h5>fruits item</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Apple</Link>
+                    <a href="#">Apple</a>
                   </li>
                   <li>
-                    <Link to="" >Orange</Link>
+                    <a href="#">Orange</a>
                   </li>
                   <li>
-                    <Link to="" >Watermelon</Link>
+                    <a href="#">Watermelon</a>
                   </li>
                   <li>
-                    <Link to="" >Pear</Link>
+                    <a href="#">Pear</a>
                   </li>
                   <li>
-                    <Link to="" >Cherry</Link>
+                    <a href="#">Cherry</a>
                   </li>
                 </ul>
                 <ul>
                   <li>
-                    <Link to="" >Strawberry</Link>
+                    <a href="#">Strawberry</a>
                   </li>
                   <li>
-                    <Link to="" >Nectarine</Link>
+                    <a href="#">Nectarine</a>
                   </li>
                   <li>
-                    <Link to="" >Grape</Link>
+                    <a href="#">Grape</a>
                   </li>
                   <li>
-                    <Link to="" >Mango</Link>
+                    <a href="#">Mango</a>
                   </li>
                   <li>
-                    <Link to="" >Blueberry</Link>
+                    <a href="#">Blueberry</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <Link to="#">
               <i className="flaticon-dairy-products"></i>
-              <span>dairy farms</span>
+              <span>productDetails</span>
             </Link>
             <div className="banner-category-dropdown">
               <h5>dairy items</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Eggs</Link>
+                    <a href="#">Eggs</a>
                   </li>
                   <li>
-                    <Link to="" >milk</Link>
+                    <a href="#">milk</a>
                   </li>
                   <li>
-                    <Link to="" >Cheese</Link>
+                    <a href="#">Cheese</a>
                   </li>
                   <li>
-                    <Link to="" >Butter</Link>
+                    <a href="#">Butter</a>
                   </li>
                   <li>
-                    <Link to="" >Shore</Link>
+                    <a href="#">Shore</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-crab"></i>
               <span>sea foods</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>sea food items</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Lobster</Link>
+                    <a href="#">Lobster</a>
                   </li>
                   <li>
-                    <Link to="" >Octopus</Link>
+                    <a href="#">Octopus</a>
                   </li>
                   <li>
-                    <Link to="" >Shrimp</Link>
+                    <a href="#">Shrimp</a>
                   </li>
                   <li>
-                    <Link to="" >Oyster</Link>
+                    <a href="#">Oyster</a>
                   </li>
                   <li>
-                    <Link to="" >Squid</Link>
+                    <a href="#">Squid</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-salad"></i>
               <span>diet foods</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>diet food items</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Peanuts</Link>
+                    <a href="#">Peanuts</a>
                   </li>
                   <li>
-                    <Link to="" >Yogurt</Link>
+                    <a href="#">Yogurt</a>
                   </li>
                   <li>
-                    <Link to="" >vinegar</Link>
+                    <a href="#">vinegar</a>
                   </li>
                   <li>
-                    <Link to="" >seeds</Link>
+                    <a href="#">seeds</a>
                   </li>
                   <li>
-                    <Link to="" >Coconuts</Link>
+                    <a href="#">Coconuts</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-dried-fruit"></i>
               <span>dry foods</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>dry food items</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Almond</Link>
+                    <a href="#">Almond</a>
                   </li>
                   <li>
-                    <Link to="" >Peanut</Link>
+                    <a href="#">Peanut</a>
                   </li>
                   <li>
-                    <Link to="" >Raisin</Link>
+                    <a href="#">Raisin</a>
                   </li>
                   <li>
-                    <Link to="" >Walnut</Link>
+                    <a href="#">Walnut</a>
                   </li>
                   <li>
-                    <Link to="" >Pistachio</Link>
+                    <a href="#">Pistachio</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-fast-food"></i>
               <span>fast foods</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>fast food items</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >burgar</Link>
+                    <a href="#">burgar</a>
                   </li>
                   <li>
-                    <Link to="" >pizza</Link>
+                    <a href="#">pizza</a>
                   </li>
                   <li>
-                    <Link to="" >Fries</Link>
+                    <a href="#">Fries</a>
                   </li>
                   <li>
-                    <Link to="" >chiken</Link>
+                    <a href="#">chiken</a>
                   </li>
                   <li>
-                    <Link to="" >dessert</Link>
+                    <a href="#">dessert</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-cheers"></i>
               <span>drinks</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>drinks item</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Wine</Link>
+                    <a href="#">Wine</a>
                   </li>
                   <li>
-                    <Link to="" >Coffee</Link>
+                    <a href="#">Coffee</a>
                   </li>
                   <li>
-                    <Link to="" >Lemonade</Link>
+                    <a href="#">Lemonade</a>
                   </li>
                   <li>
-                    <Link to="" >chocolate</Link>
+                    <a href="#">chocolate</a>
                   </li>
                   <li>
-                    <Link to="" >Milkshake</Link>
+                    <a href="#">Milkshake</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-barbecue"></i>
               <span>meats</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>meats item</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Pork</Link>
+                    <a href="#">Pork</a>
                   </li>
                   <li>
-                    <Link to="" >Beef</Link>
+                    <a href="#">Beef</a>
                   </li>
                   <li>
-                    <Link to="" >Mutton</Link>
+                    <a href="#">Mutton</a>
                   </li>
                   <li>
-                    <Link to="" >Chicken</Link>
+                    <a href="#">Chicken</a>
                   </li>
                   <li>
-                    <Link to="" >Turkey</Link>
+                    <a href="#">Turkey</a>
                   </li>
                 </ul>
               </div>
             </div>
           </li>
           <li className="banner-category-item">
-            <Link to="" >
+            <a href="#">
               <i className="flaticon-fish"></i>
               <span>fishes</span>
-            </Link>
+            </a>
             <div className="banner-category-dropdown">
               <h5>fishes item</h5>
               <div className="banner-sub-category">
                 <ul>
                   <li>
-                    <Link to="" >Blue Marlin</Link>
+                    <a href="#">Blue Marlin</a>
                   </li>
                   <li>
-                    <Link to="" >Flounder</Link>
+                    <a href="#">Flounder</a>
                   </li>
                   <li>
-                    <Link to="" >Hogfish</Link>
+                    <a href="#">Hogfish</a>
                   </li>
                   <li>
-                    <Link to="" >Mako Shark</Link>
+                    <a href="#">Mako Shark</a>
                   </li>
                   <li>
-                    <Link to="" >pompano</Link>
+                    <a href="#">pompano</a>
                   </li>
                 </ul>
               </div>

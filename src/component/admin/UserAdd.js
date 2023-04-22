@@ -111,9 +111,9 @@ const UserAdd = () => {
   useEffect(() => {
     getuser();
   }, [apicall]);
-
+  const userID = "";
   const getuser = async () => {
-    const response = await fetchUserData(state.search);
+    const response = await fetchUserData(state.search, userID);
     // console.log("user data--" + JSON.stringify(response));
     setApicall(false);
     setuserTable(response);

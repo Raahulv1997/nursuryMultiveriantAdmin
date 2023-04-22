@@ -1,56 +1,57 @@
-import React from "react";
-import Logo from "../css-js/images/logo.png";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login_api } from "../api/api";
-import SweetAlert from "sweetalert-react";
-import "sweetalert/dist/sweetalert.css";
-
-const Login = () => {
+import { AdminLoginData } from "../api/api";
+import useValidation from "../common/useValidation";
+import Logo from "../css-js/images/logo.png";
+const AdminLogin = () => {
+  let path = window.location.pathname;
   const navigate = useNavigate();
-  let [sign_up_mail, setSign_up_mail] = useState("");
-  let [sign_up_password, setSign_up_passwordl] = useState("");
-  let [res_result, setRes_result] = useState("");
-  const [ShowAlert, setShowAlert] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const initialFormState = {
+    email: "",
+    password: "",
+  };
 
-  async function sign_up_btn(event) {
-    event.preventDefault();
-    console.log("_____________________________log-in_________________________");
-    console.log(sign_up_mail);
-    console.log(sign_up_password);
+  // validation fucntion------
+  const validators = {
+    email: [
+      (value) =>
+        value === "" || value.trim() === ""
+          ? "Email address is required"
+          : !/^\S+@\S+\.\S+$/.test(value)
+          ? "Invalid email address"
+          : null,
+    ],
+    password: [
+      (value) =>
+        value === "" || value.trim() === ""
+          ? "Password is required"
+          : /[^A-Za-z 0-9]/g.test(value)
+          ? "Cannot use special character "
+          : null,
+    ],
+  };
+  const { state, setState, onInputChange, setErrors, errors, validate } =
+    useValidation(initialFormState, validators);
 
-    let result = await login_api({
-      email: sign_up_mail,
-      password: sign_up_password,
-    });
+  const OnLoginClick = async (e) => {
+    e.preventDefault();
 
-    if (result.res_code === "001" || result.res_code === "002") {
-      console.log("responxe---" + JSON.stringify(result));
-
-      localStorage.setItem("user_token", result.token);
-      setSign_up_mail("");
-      setSign_up_passwordl("");
-      setRes_result(result.response);
-      setShowAlert(true);
-      alert(result.response);
-      navigate("/");
-    } else {
-      setRes_result(result.response);
-      setShowAlert(true);
+    if (validate()) {
+      const response = await AdminLoginData(state.email, state.password);
+      console.log("resultt--" + JSON.stringify(response.admin_token));
+      localStorage.setItem("admin_token", response.admin_token);
+      if (response.status === false) {
+        setErrMsg("staus is false");
+      } else {
+        path = "/admin";
+        navigate("/admin/Home");
+      }
     }
-  }
+  };
 
   return (
     <div>
-      {" "}
-      <SweetAlert
-        show={ShowAlert}
-        title="LogIn message"
-        text={res_result}
-        onConfirm={() => {
-          setShowAlert(false);
-        }}
-      />
       <section className="user-form-part">
         <div className="container">
           <div className="row justify-content-center">
@@ -62,7 +63,7 @@ const Login = () => {
               </div>
               <div className="user-form-card">
                 <div className="user-form-title">
-                  <h2>welcome!</h2>
+                  <h2>welcome Admin !</h2>
                   <p>Use your credentials to access</p>
                 </div>
                 <div className="user-form-group">
@@ -96,23 +97,35 @@ const Login = () => {
                       <input
                         type="email"
                         className="form-control user_input_class"
-                        value={sign_up_mail}
+                        value={state.email}
+                        name="email"
                         placeholder="Enter your email"
-                        onChange={(e) => {
-                          setSign_up_mail(e.target.value);
-                        }}
+                        onChange={onInputChange}
                       />
+                      {errors.email
+                        ? (errors.email || []).map((error) => {
+                            return (
+                              <small className="text-danger">{error}</small>
+                            );
+                          })
+                        : null}
                     </div>
                     <div className="form-group">
                       <input
                         type="password"
                         className="form-control user_input_class"
                         placeholder="Enter your password"
-                        value={sign_up_password}
-                        onChange={(e) => {
-                          setSign_up_passwordl(e.target.value);
-                        }}
+                        name="password"
+                        value={state.password}
+                        onChange={onInputChange}
                       />
+                      {errors.password
+                        ? (errors.password || []).map((error) => {
+                            return (
+                              <small className="text-danger">{error}</small>
+                            );
+                          })
+                        : null}
                     </div>
                     <div className="form-check mb-3">
                       <input
@@ -126,16 +139,15 @@ const Login = () => {
                       </label>
                     </div>
                     <div className="form-button">
-                      <button
-                        onClick={(event) => {
-                          sign_up_btn(event);
-                        }}
-                      >
-                        login
-                      </button>
+                      <button onClick={OnLoginClick}>login</button>
+                      {errMsg === "staus is false" ? (
+                        <small className="text-danger">
+                          credentials Not Matches
+                        </small>
+                      ) : null}
                       <p>
                         Forgot your password?
-                        <Link to={"/user_forgate_password"}>reset here</Link>
+                        <Link to={"/"}>reset here</Link>
                       </p>
                     </div>
                   </form>
@@ -144,7 +156,7 @@ const Login = () => {
               <div className="user-form-remind">
                 <p>
                   Don't have any account?
-                  <Link to={"/user_register"}>register here</Link>
+                  <Link to={"/"}>register here</Link>
                 </p>
               </div>
               <div className="user-form-footer">
@@ -160,4 +172,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
