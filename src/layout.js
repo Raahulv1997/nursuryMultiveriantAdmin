@@ -27,11 +27,13 @@ import Otpverify from "./component/user/otpVerify.js";
 import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 import AuthWrapper from "./AuthWrapper";
+import Shop1 from "./component/user/Shop1";
 
 function Layout() {
   let path = window.location.pathname;
   console.log("path  " + path);
   const aa = path.includes("/admin");
+  const bb = path.includes("/");
   console.log("---" + aa);
   const adminLogged = localStorage.getItem("admin_token");
   console.log(" login------" + adminLogged);
@@ -82,7 +84,7 @@ function Layout() {
           console.log("check -- --else---___" + aa + "_&&_ " + adminLogged + "")
         )}
 
-        {path === "/" ? (
+        {bb === true ? (
           <div className="container-fluid p-0">
             <Header />
 
@@ -95,7 +97,7 @@ function Layout() {
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/wishlist" element={<Wishlist />} />
-                    <Route path="/shop" element={<Shop />} />
+                    <Route path="/shop1" element={<Shop1 />} />
                     <Route path="/order_list" element={<UserOrderlist />} />
                     <Route path="/wallet" element={<Wallet />} />
                     <Route

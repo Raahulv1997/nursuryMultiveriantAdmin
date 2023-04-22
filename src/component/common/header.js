@@ -1,10 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const [searchbox, setSearchBox] = useState("");
+
+  let [searcherror, setsearcherror] = useState(false);
   const navigate = useNavigate();
   const admin_token = localStorage.getItem("admin_token");
   const user_token = localStorage.getItem("user_token");
@@ -20,6 +23,24 @@ const Header = () => {
       navigate("/");
     }
   };
+
+  const SeacrhValueHandler = (e) => {
+    setSearchBox(e.target.value);
+    setsearcherror(false);
+    if (searchbox.length == 0) {
+      navigate("/shop1");
+    }
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (searchbox.length === 0) {
+      setsearcherror(true);
+    } else {
+      navigate(`/shop1?search=${searchbox}`);
+    }
+  };
+
   return (
     <Fragment>
       <header className="header-part">
@@ -42,11 +63,19 @@ const Header = () => {
             <img src={Profile} alt="user" />
 
             <form className="header-form">
-              <input type="text" placeholder="Search anything..." />
-              <button>
+              <input
+                type="text"
+                placeholder="Search anything..."
+                onChange={SeacrhValueHandler}
+              />
+              <button onClick={submitHandler}>
                 <i className="fas fa-search"></i>
               </button>
+              {searcherror === true ? (
+                <small className="text-danger">please fill the feild</small>
+              ) : null}
             </form>
+
             <div className="header-widget-group">
               <Link to="" className="header-widget" title="Compare List">
                 <i className="fas fa-random"></i>

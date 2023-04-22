@@ -265,6 +265,7 @@ const Index = () => {
                         : "https://picsum.photos/300"
                     }
                     discount={product.discount}
+                    mrp={product.mrp}
                     price={product.price}
                     unit={product.unit}
                     rating={product.rating}

@@ -62,18 +62,19 @@ export const allproduct = async (
   price_from,
   price_to,
   showcategorydata,
+  brand,
   currentPage,
   recordsPerPage
 ) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
     {
       price_from: price_from,
       price_to: price_to,
       search: searchbox,
       category: [],
       rating: showcategorydata,
-      brand: [],
+      brand: brand,
       seo_tag: [],
       vendor_id: [],
       name: [],
