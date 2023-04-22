@@ -1,7 +1,107 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import product from "../css-js/images/product/01.jpg";
-const product_detail = () => {
+import { call_product_detaile_api, add_to_cart_api, update_to_cart_api, cart_delete_api } from '../api/api'
+import { useState, useEffect } from 'react'
+
+const Product_detail = () => {
+  const [product_detaile, setProduct_detaile] = useState("")
+  const [reload, setReload] = useState("")
+  const [img_array, setImg_array] = useState("")
+
+  console.log("______________product_detaile_____________5")
+  let token = localStorage.getItem("user_token");
+
+  async function call_product_detaile() {
+    let pass_obj;
+    let productID = localStorage.getItem("productID");
+    if (token !== "" && token !== null && token !== undefined) {
+      pass_obj = { headers: { user_token: `${token}` } }
+    } else {
+      pass_obj = { headers: { user_blank: true } }
+    }
+    let result = await call_product_detaile_api([productID, pass_obj])
+    console.log("______________call_product_detaile_api____________10")
+    setProduct_detaile(result.results[0])
+    console.log(result.results[0]["all_images_url"])
+    console.log("product_detaile.all_images_url++++++++++++++++++++++++++++++++++++")
+    console.log(product_detaile["all_images_url"])
+    let image_array = result.results[0]["all_images_url"].split(",")
+    console.log(image_array)
+    setImg_array(image_array)
+  }
+
+  useEffect(() => {
+    call_product_detaile()
+  }, [reload])
+
+  async function cart_update_function(cart_count, product_id) {
+    console.log("child_data____________________________27");
+    console.log(product_id);
+    if (token !== "" && token !== null && token !== undefined) {
+      let cart_product_quantity = 1;
+      let result = await add_to_cart_api([
+        { product_id, cart_product_quantity },
+        { headers: { user_token: `${token}` } },
+      ]);
+      console.log(result.success);
+      if (result.success === true) {
+        setReload(Math.floor(Math.random() * 500 + 1));
+      } else {
+      }
+    } else {
+      alert("please login your account___" + cart_count);
+      // navigate("/login");
+    }
+  }
+
+
+
+  async function incrementDecrementCount_function(
+    chk_p_m,
+    cart_count,
+    product_id
+  ) {
+    let cart_product_quantity;
+
+    if (chk_p_m === "1") {
+      cart_product_quantity = parseInt(cart_count) + 1;
+    }
+    if (chk_p_m === "0") {
+      cart_product_quantity = parseInt(cart_count) - 1;
+    }
+
+    if (token !== "" && token !== null && token !== undefined) {
+      if (cart_product_quantity < 1) {
+        let result = await cart_delete_api([
+          { product_id, cart_product_quantity },
+          { headers: { user_token: `${token}` } },
+        ]);
+        console.log(result);
+        if (result.success === true) {
+          setReload(Math.floor(Math.random() * 500 + 1));
+        } else {
+          alert(result.success);
+        }
+      } else {
+        let result = await update_to_cart_api([
+          { product_id, cart_product_quantity },
+          { headers: { user_token: `${token}` } },
+        ]);
+        console.log(result);
+        if (result.success === true) {
+          setReload(Math.floor(Math.random() * 500 + 1));
+        } else {
+          alert(result.success);
+        }
+      }
+    } else {
+      alert("please login your account___" + cart_count);
+    }
+  }
+
+
+
   return (
     <div>
       {" "}
@@ -31,23 +131,12 @@ const product_detail = () => {
                   <label className="details-label off">-10%</label>
                 </div>
                 <ul className="details-preview">
-                  <li>
-                    <img src={product} alt="product" />
-                  </li>
-                  <li>
-                    <img src={product} alt="product" />
-                  </li>
-                  <li>
-                    <img src={product} alt="product" />
-                  </li>
-                  <li>
-                    <img src={product} alt="product" />
-                  </li>
-                  <li>
-                    <img src={product} alt="product" />
-                  </li>
+
+                  {(img_array || []).map((url) => {
+                    return (<li><img src={url} alt="product" /></li>)
+                  })}
                 </ul>
-                <ul className="details-thumb">
+                {/* <ul className="details-thumb">
                   <li>
                     <img src={product} alt="product" />
                   </li>
@@ -63,7 +152,7 @@ const product_detail = () => {
                   <li>
                     <img src={product} alt="product" />
                   </li>
-                </ul>
+                </ul> */}
               </div>
             </div>
             <div className="col-lg-6">
@@ -89,76 +178,78 @@ const product_detail = () => {
               </ul>
               <div className="details-content">
                 <h3 className="details-name">
-                  <Link to="" >existing product name</Link>
+                  <Link to="" >{product_detaile.name}</Link>
                 </h3>
                 <div className="details-meta">
                   <p>
                     SKU:<span>1234567</span>
                   </p>
                   <p>
-                    BRAND:<Link to="" >radhuni</Link>
+                    BRAND:<Link to="" >{product_detaile.brand}</Link>
                   </p>
                 </div>
+
+
                 <div className="details-rating">
-                  <i className="active icofont-star"></i>
-                  <i className="active icofont-star"></i>
-                  <i className="active icofont-star"></i>
-                  <i className="active icofont-star"></i>
-                  <i className="icofont-star"></i>
-                  <Link to="" >(3 reviews)</Link>
+                  {[1, 2, 3, 4, 5].map((item) => {
+                    return (item <= product_detaile.rating ? <i className="active icofont-star"></i> : <i className="icofont-star"></i>)
+                  })}
+
+
+                  <Link to=""> {product_detaile.rating}</Link>
                 </div>
                 <h3 className="details-price">
-                  <del>$38.00</del>
+                  <del>{product_detaile.mrp}</del>
                   <span>
-                    $24.00<small>/per kilo</small>
+                    ${product_detaile.price}<small>/{product_detaile.unit}</small>
                   </span>
                 </h3>
                 <p className="details-desc">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit facere
-                  harum natus amet soluta fuga consectetur alias veritatis
-                  quisquam ab eligendi itaque eos maiores quibusdam.
+                  {product_detaile.description}
                 </p>
                 <div className="details-list-group">
                   <label className="details-list-title">tags:</label>
                   <ul className="details-tag-list">
+
+                    {/* {product_detaile.seo_tag.split(" ").map((item) => {
+                      <li>
+                        <Link to="" >{item}</Link>
+                      </li>
+                    })} */}
+
                     <li>
-                      <Link to="" >organic</Link>
+                      <Link to="" >{product_detaile.seo_tag}</Link>
                     </li>
-                    <li>
-                      <Link to="" >fruits</Link>
-                    </li>
-                    <li>
-                      <Link to="" >chilis</Link>
-                    </li>
+
                   </ul>
                 </div>
                 <div className="details-list-group">
                   <label className="details-list-title">Share:</label>
                   <ul className="details-share-list">
                     <li>
-                      <Link 
-                        to="" 
+                      <Link
+                        to=""
                         className="icofont-facebook"
                         title="Facebook"
                       ></Link>
                     </li>
                     <li>
-                      <Link 
-                        to="" 
+                      <Link
+                        to=""
                         className="icofont-twitter"
                         title="Twitter"
                       ></Link>
                     </li>
                     <li>
-                      <Link 
-                        to="" 
+                      <Link
+                        to=""
                         className="icofont-linkedin"
                         title="Linkedin"
                       ></Link>
                     </li>
                     <li>
-                      <Link 
-                        to="" 
+                      <Link
+                        to=""
                         className="icofont-instagram"
                         title="Instagram"
                       ></Link>
@@ -166,12 +257,9 @@ const product_detail = () => {
                   </ul>
                 </div>
                 <div className="details-add-group">
-                  <button className="product-add" title="Add to Cart">
-                    <i className="fas fa-shopping-basket"></i>
-                    <span>add to cart</span>
-                  </button>
-                  <div className="product-action">
-                    <button className="action-minus" title="Quantity Minus">
+
+                  {product_detaile.cart_count !== null ? <div className="product-action">
+                    <button onClick={() => incrementDecrementCount_function("0", product_detaile.cart_count, product_detaile.id)} className="action-minus" title="Quantity Minus">
                       <i className="icofont-minus"></i>
                     </button>
                     <input
@@ -179,25 +267,30 @@ const product_detail = () => {
                       title="Quantity Number"
                       type="text"
                       name="quantity"
-                      value="1"
+                      value={product_detaile.cart_count}
                     />
-                    <button className="action-plus" title="Quantity Plus">
+                    <button onClick={() => incrementDecrementCount_function("1", product_detaile.cart_count, product_detaile.id)} className="action-plus" title="Quantity Plus">
                       <i className="icofont-plus"></i>
                     </button>
-                  </div>
+                  </div> :
+                    <button onClick={() => { cart_update_function(product_detaile.cart_count, product_detaile.id) }} className="product-add" title="Add to Cart">
+                      <i className="fas fa-shopping-basket"></i>
+                      <span>add to cart</span>
+                    </button>
+                  }
                 </div>
                 <div className="details-action-group">
-                  <Link 
+                  <Link
                     className="details-wish wish"
-                    to="" 
+                    to=""
                     title="Add Your Wishlist"
                   >
                     <i className="icofont-heart"></i>
                     <span>add to wish</span>
                   </Link>
-                  <Link 
+                  <Link
                     className="details-compare"
-                    to="" 
+                    to=""
                     title="Compare This Item"
                   >
                     <i className="fas fa-random"></i>
@@ -215,8 +308,8 @@ const product_detail = () => {
             <div className="col-lg-12">
               <ul className="nav nav-tabs">
                 <li>
-                  <Link 
-                    to="" 
+                  <Link
+                    to=""
                     className="tab-link active"
                     data-bs-toggle="tab"
                   >
@@ -271,9 +364,9 @@ const product_detail = () => {
                 <div className="product-details-frame">
                   <div className="tab-descrip">
                     <img src="images/video.jpg" alt="video" />
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
@@ -515,21 +608,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -590,21 +683,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -664,21 +757,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -738,21 +831,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -812,21 +905,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -886,21 +979,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -960,21 +1053,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1035,21 +1128,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1109,21 +1202,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1183,21 +1276,21 @@ const product_detail = () => {
                     <img src={product} alt="product" />
                   </Link>
                   <div className="product-widget">
-                    <Link 
+                    <Link
                       title="Product Compare"
-                      to="" 
+                      to=""
                       className="fas fa-random"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product Video"
-                      to="" 
+                      to=""
                       className="venobox fas fa-play"
                       data-autoplay="true"
                       data-vbtype="video"
                     ></Link>
-                    <Link 
+                    <Link
                       title="Product View"
-                      to="" 
+                      to=""
                       className="fas fa-eye"
                       data-bs-toggle="modal"
                       data-bs-target="#product-view"
@@ -1261,4 +1354,4 @@ const product_detail = () => {
   );
 };
 
-export default product_detail;
+export default Product_detail;

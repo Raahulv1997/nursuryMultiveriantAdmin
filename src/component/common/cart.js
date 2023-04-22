@@ -9,7 +9,7 @@ import {
     cart_delete_api,
 } from "../api/api";
 
-const Cart = ({ showCartProp, cart_list_hide }) => {
+const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
     const [reload, setReload] = useState("");
     const navigate = useNavigate();
     const [cartdata, setCartdata] = useState();
@@ -21,6 +21,8 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
             token_obj = { headers: { user_token: `${user_token}` } }
             let result = await user_cart_api(token_obj)
             console.log(result)
+            result.length > 9 ? cart_count('9+') : cart_count(result.length)
+
             setCartdata(result)
         } else {
             alert("please login your account")
@@ -91,8 +93,9 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
                     </button>
                 </div>
                 <ul className="cart-list">
-                    {(cartdata || []).map((cart_item) => {
-                        return <CartItem cover_image={cart_item.cover_image} name={cart_item.name} product_id={cart_item.product_id} cart_product_quantity={cart_item.cart_product_quantity} price={cart_item.price} incrementDecrementCount={incrementDecrementCount_function} />;
+                    {(cartdata || []).map((cart_item, cart_no) => {
+                        return <CartItem cover_image={cart_item.cover_image} name={cart_item.name} product_id={cart_item.product_id} cart_product_quantity={cart_item.cart_product_quantity} price={cart_item.price} incrementDecrementCount={incrementDecrementCount_function} cart_no={cart_no} />;
+
                     })}
                 </ul>
                 <div className="cart-footer">

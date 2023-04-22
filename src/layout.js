@@ -7,7 +7,7 @@ import Sidebar from "./component/common/sidebar";
 import Index from "./component/user";
 import Checkout from "./component/user/chackout";
 import Nav from "./component/common/nav";
-import UserProductdetail from "./component/user/product_detail";
+// import Product_detail from "./component/user/product_detail";
 import Profile from "./component/user/profile";
 import Wishlist from "./component/user/wishlist";
 import Shop from "./component/user/shop";
@@ -27,7 +27,7 @@ import Otpverify from "./component/user/otpVerify.js";
 import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 import AuthWrapper from "./AuthWrapper";
-
+import Product_detail from './component/user/product_detail.js'
 function Layout() {
   let path = window.location.pathname;
   console.log("path  " + path);
@@ -99,10 +99,7 @@ function Layout() {
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/order_list" element={<UserOrderlist />} />
                     <Route path="/wallet" element={<Wallet />} />
-                    <Route
-                      path="/product_detail"
-                      element={<UserProductdetail />}
-                    />
+                    <Route path="/product_detaile" element={<Product_detail />} />
                   </Routes>
                 </div>
               </div>

@@ -207,19 +207,19 @@ const AddProduct = () => {
             row.status === "pending"
               ? "badge bg-secondary"
               : row.status === "draft"
-              ? "badge bg-primary"
-              : row.status === "approved"
-              ? "badge bg-info"
-              : "badge bg-dark"
+                ? "badge bg-primary"
+                : row.status === "approved"
+                  ? "badge bg-info"
+                  : "badge bg-dark"
           }
         >
           {row.status === "pending"
             ? "pending"
             : row.status === "draft"
-            ? "draft"
-            : row.status === "approved"
-            ? "approved"
-            : "return"}
+              ? "draft"
+              : row.status === "approved"
+                ? "approved"
+                : "return"}
         </span>
       ),
       sortable: true,
@@ -299,24 +299,24 @@ const AddProduct = () => {
         value === null || value === ""
           ? "Name is required"
           : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+            ? "Cannot use special character "
+            : null,
     ],
     brand: [
       (value) =>
         value === null || value === ""
           ? "Brand is required"
           : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+            ? "Cannot use special character "
+            : null,
     ],
     category: [
       (value) =>
         value === null || value === ""
           ? "Category is required"
           : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+            ? "Cannot use special character "
+            : null,
     ],
     price: [
       (value) => (value === null || value === "" ? "Price is required" : null),
@@ -326,24 +326,24 @@ const AddProduct = () => {
         value === null || value === ""
           ? "Mrp is required"
           : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+            ? "Cannot use special character "
+            : null,
     ],
     gst: [
       (value) =>
         value === null || value === ""
           ? "GST is required"
           : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+            ? "Cannot use special character "
+            : null,
     ],
     product_stock_quantity: [
       (value) =>
         value === null || value === ""
           ? "product stock quantity is required"
           : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+            ? "Cannot use special character "
+            : null,
     ],
   };
 
@@ -871,8 +871,8 @@ const AddProduct = () => {
                   />
                   {errors.name
                     ? (errors.name || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
+                      return <small className="text-danger">{error}</small>;
+                    })
                     : null}
                 </Form.Group>
               </div>
@@ -911,8 +911,8 @@ const AddProduct = () => {
                   />
                   {errors.mrp
                     ? (errors.mrp || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
+                      return <small className="text-danger">{error}</small>;
+                    })
                     : null}
                 </Form.Group>
               </div>
@@ -950,8 +950,8 @@ const AddProduct = () => {
                   />
                   {errors.gst
                     ? (errors.gst || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
+                      return <small className="text-danger">{error}</small>;
+                    })
                     : null}
                 </Form.Group>
               </div>
@@ -1008,8 +1008,8 @@ const AddProduct = () => {
                   ) : null}
                   {errors.price
                     ? (errors.price || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
+                      return <small className="text-danger">{error}</small>;
+                    })
                     : null}
                 </Form.Group>
               </div>
@@ -1076,8 +1076,8 @@ const AddProduct = () => {
                   />
                   {errors.product_stock_quantity
                     ? (errors.product_stock_quantity || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
+                      return <small className="text-danger">{error}</small>;
+                    })
                     : null}
                 </Form.Group>
               </div>
@@ -1173,10 +1173,10 @@ const AddProduct = () => {
                       </Form.Select>
                       {errors.category
                         ? (errors.category || []).map((error) => {
-                            return (
-                              <small className="text-danger">{error}</small>
-                            );
-                          })
+                          return (
+                            <small className="text-danger">{error}</small>
+                          );
+                        })
                         : null}
                     </InputGroup>
                   </Col>
@@ -1215,10 +1215,10 @@ const AddProduct = () => {
                       </Form.Select>
                       {errors.brand
                         ? (errors.brand || []).map((error) => {
-                            return (
-                              <small className="text-danger">{error}</small>
-                            );
-                          })
+                          return (
+                            <small className="text-danger">{error}</small>
+                          );
+                        })
                         : null}
                     </InputGroup>
                   </Col>
@@ -1301,7 +1301,7 @@ const AddProduct = () => {
                 {newImageUrls ? (
                   <tr
                     className={"d-flex flex-wrap"}
-                    // id={"variantimgbox" + variantdata.id}
+                  // id={"variantimgbox" + variantdata.id}
                   >
                     <td className="" colSpan={"12"}>
                       <div className="image_box d-flex  flex-wrap gap-4">
@@ -1409,8 +1409,8 @@ const AddProduct = () => {
         title="Added Successfully"
         text={"Product Added"}
         onConfirm={closeProductAlert}
-        // showCancelButton={}
-        // onCancel={}
+      // showCancelButton={}
+      // onCancel={}
       />
 
       <SweetAlert
@@ -1418,8 +1418,8 @@ const AddProduct = () => {
         title="Updated Successfully"
         text={"Product update"}
         onConfirm={closeProductAlert}
-        // showCancelButton={}
-        // onCancel={}
+      // showCancelButton={}
+      // onCancel={}
       />
 
       <SweetAlert

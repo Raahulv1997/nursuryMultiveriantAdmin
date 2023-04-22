@@ -4,9 +4,10 @@ import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "./cart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const Header = () => {
   const [showcart, setShowcart] = useState(false)
+  const [count_cart, SetCount_cart] = useState(false)
   // function cart_hide_show() {
   //   console.log("__________________________showCart")
   // }
@@ -27,9 +28,19 @@ const Header = () => {
   };
 
 
+  // useEffect(() => {
+
+  // }, [count_cart, false])
+
+
   function cart_list_hide_fun() {
     console.log("______________________________cart_list_hide")
     setShowcart(false)
+  }
+
+  function cart_count_fun(count) {
+    console.log("header________________________________37" + count)
+    SetCount_cart(count)
   }
   return (
     <Fragment>
@@ -69,7 +80,7 @@ const Header = () => {
               </Link>
               <button onClick={() => { setShowcart(true) }} className="header-widget header-cart" title="Cartlist">
                 <i className="fas fa-shopping-basket"></i>
-                <sup>9+</sup>
+                <sup>{count_cart}</sup>
                 <span>
                   total price<small>$345.00</small>
                 </span>
@@ -98,7 +109,7 @@ const Header = () => {
         <button className="cart-btn" title="Cartlist">
           <i className="fas fa-shopping-basket"></i>
           <span>cartlist</span>
-          <sup>9+</sup>
+          <sup>{count_cart}</sup>
         </button>
         <Link to="">
           <i className="fas fa-heart"></i>
@@ -112,7 +123,7 @@ const Header = () => {
         </Link>
       </div>
 
-      <Cart showCartProp={showcart} cart_list_hide={cart_list_hide_fun} />
+      <Cart showCartProp={showcart} cart_list_hide={cart_list_hide_fun} cart_count={cart_count_fun} />
     </Fragment>
   );
 };

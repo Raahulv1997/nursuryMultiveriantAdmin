@@ -119,7 +119,7 @@ export const AllproductData = async (
       is_deleted: [0],
     },
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: "admin_master_token=we2code_123456" },
     }
   );
   return response.data;
@@ -380,3 +380,16 @@ export const user_cart_api = async (req_body_obj) => {
   let response = await axios.get(`http://localhost:8888/cart_list`, req_body_obj);
   return response.data;
 };
+
+export const call_product_detaile_api = async (req_body_obj) => {
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`, {
+    price_from: "",
+    price_to: "",
+    search: "",
+    id: [req_body_obj[0]],
+    is_deleted: [0],
+  }, req_body_obj[1]
+  );
+  return response.data
+}

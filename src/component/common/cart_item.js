@@ -4,7 +4,7 @@ import { updateCart } from "../api/api";
 // import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
 // src/component/css-js/fonts/icofont/icofont.min.css
 
-const CartItem = ({ cover_image, name, product_id, cart_product_quantity, price, incrementDecrementCount }) => {
+const CartItem = ({ cover_image, name, product_id, cart_product_quantity, price, incrementDecrementCount, cart_no }) => {
 
 
     //   const incrementCount = (value) => {

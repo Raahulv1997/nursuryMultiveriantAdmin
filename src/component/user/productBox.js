@@ -69,6 +69,10 @@ const ProductBox = ({
   //   }
   //   // setItemprice(cartData.price * Qty);
   // };
+  function product_full_detaile(product_id) {
+    localStorage.setItem("productID", product_id)
+    navigate("/product_detaile");
+  }
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
@@ -82,7 +86,7 @@ const ProductBox = ({
             <button className="product-wish wish">
               <i className="fas fa-heart"></i>
             </button>
-            <a className="product-image" href="#">
+            <a onClick={product_full_detaile.bind(this, [product_id])} className="product-image" href="#">
               <img src={image} alt="product" width={250} height={250} />
             </a>
             {/* <div className="product-widget">
