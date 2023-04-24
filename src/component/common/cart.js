@@ -1,7 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchcartdata } from "../api/api";
+// import { fetchcartdata } from "../api/api";
 import CartItem from "./cart_item";
 import {
     user_cart_api,

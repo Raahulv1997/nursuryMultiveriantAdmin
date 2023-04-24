@@ -4,8 +4,10 @@ import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "./cart";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 const Header = () => {
+  const [searchbox, setSearchBox] = useState("");
+  let [searcherror, setsearcherror] = useState(false);
   const [showcart, setShowcart] = useState(false)
   const [count_cart, SetCount_cart] = useState(false)
   // function cart_hide_show() {
@@ -27,6 +29,22 @@ const Header = () => {
     }
   };
 
+  const SeacrhValueHandler = (e) => {
+    setSearchBox(e.target.value);
+    setsearcherror(false);
+    if (searchbox.length == 0) {
+      navigate("/shop1");
+    }
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (searchbox.length === 0) {
+      setsearcherror(true);
+    } else {
+      navigate(`/shop1?search=${searchbox}`);
+    }
+  };
 
   // useEffect(() => {
 
@@ -34,8 +52,8 @@ const Header = () => {
 
 
   function cart_list_hide_fun() {
-    console.log("______________________________cart_list_hide")
-    setShowcart(false)
+    console.log("______________________________cart_list_hide");
+    setShowcart(false);
   }
 
   function cart_count_fun(count) {
@@ -64,11 +82,19 @@ const Header = () => {
             <img src={Profile} alt="user" />
 
             <form className="header-form">
-              <input type="text" placeholder="Search anything..." />
-              <button>
+              <input
+                type="text"
+                placeholder="Search anything..."
+                onChange={SeacrhValueHandler}
+              />
+              <button onClick={submitHandler}>
                 <i className="fas fa-search"></i>
               </button>
+              {searcherror === true ? (
+                <small className="text-danger">please fill the feild</small>
+              ) : null}
             </form>
+
             <div className="header-widget-group">
               <Link to="" className="header-widget" title="Compare List">
                 <i className="fas fa-random"></i>
@@ -78,7 +104,13 @@ const Header = () => {
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
               </Link>
-              <button onClick={() => { setShowcart(true) }} className="header-widget header-cart" title="Cartlist">
+              <button
+                onClick={() => {
+                  setShowcart(true);
+                }}
+                className="header-widget header-cart"
+                title="Cartlist"
+              >
                 <i className="fas fa-shopping-basket"></i>
                 <sup>{count_cart}</sup>
                 <span>

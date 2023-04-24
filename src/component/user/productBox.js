@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const ProductBox = ({
   id,
   name,
+
+  mrp,
   price,
-  discount,
-  brand,
   unit,
+  rating,
+  discount,
+
+  brand,
+
   value,
 
   product_stock_quantity,
@@ -25,15 +29,14 @@ const ProductBox = ({
   // cart,
   // is_featured,
   // is_special_offer,
-  rating,
-  cart_count
+
+  cart_count,
 }) => {
-  let [count, setCount] = useState(1);
+  // let [count, setCount] = useState(1);
   let ratingbox = [1, 2, 3, 4, 5];
   const [totalqty, settotalqty] = useState(false);
   const navigate = useNavigate();
-  let ratingg = Number(rating);
-
+  // let ratingg = Number(rating);
 
   // function addToCart(cart_count) {
   //   let token = localStorage.getItem("user_token");
@@ -134,45 +137,53 @@ const ProductBox = ({
               <a href="product-video.html">{name}</a>
             </h6>
             <h6 className="product-price">
-              <del>ghfg</del>
+              <del> ₹{mrp}</del>
               <span>
                 ₹ {price}
                 <small>/{unit}</small>
               </span>
             </h6>
-            {console.log(cart_count)}
-            {cart_count !== null && cart_count !== "" && cart_count !== undefined ? <div className="product-action">
+            {/* {console.log(cart_count)} */}
+            {cart_count !== null &&
+              cart_count !== "" &&
+              cart_count !== undefined ? (
+              <div className="product-action">
+                <button
+                  className="action-minus"
+                  title="Quantity Minus"
+                  onClick={() =>
+                    incrementDecrementCount("0", cart_count, product_id)
+                  }
+                >
+                  <i className="icofont-minus"></i>
+                </button>
+                <input
+                  className="action-input"
+                  title="Quantity Number"
+                  type="text"
+                  name="quantity"
+                  value={cart_count}
+                />
+                <button
+                  className="action-plus"
+                  title="Quantity Plus"
+                  onClick={() =>
+                    incrementDecrementCount("1", cart_count, product_id)
+                  }
+                >
+                  <i className="icofont-plus"></i>
+                </button>
+              </div>
+            ) : (
               <button
-                className="action-minus"
-                title="Quantity Minus"
-                onClick={() => incrementDecrementCount("0", cart_count, product_id)}
+                className="product-add"
+                title="Add to Cart"
+                onClick={() => cart_update_fun(cart_count, product_id)}
               >
-                <i className="icofont-minus"></i>
+                <i className="fas fa-shopping-basket"></i>
+                <span>add </span>
               </button>
-              <input
-                className="action-input"
-                title="Quantity Number"
-                type="text"
-                name="quantity"
-                value={cart_count}
-              />
-              <button
-                className="action-plus"
-                title="Quantity Plus"
-                onClick={() => incrementDecrementCount("1", cart_count, product_id)}
-              >
-                <i className="icofont-plus"></i>
-              </button>
-            </div> : <button
-              className="product-add"
-              title="Add to Cart"
-              onClick={() => cart_update_fun(cart_count, product_id)}
-            >
-              <i className="fas fa-shopping-basket"></i>
-              <span>add </span>
-            </button>}
-
-
+            )}
           </div>
           {totalqty === true ? (
             <p className="mt-1 ms-2 text-danger" type="invalid">

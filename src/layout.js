@@ -10,7 +10,7 @@ import Nav from "./component/common/nav";
 // import Product_detail from "./component/user/product_detail";
 import Profile from "./component/user/profile";
 import Wishlist from "./component/user/wishlist";
-import Shop from "./component/user/shop";
+// import Shop from "./component/user/shop";
 import Footer from "./component/common/footer";
 
 import UserChangePassword from "./component/user/change_password";
@@ -28,6 +28,8 @@ import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 import AuthWrapper from "./AuthWrapper";
 import Product_detail from './component/user/product_detail.js'
+import Shop1 from "./component/user/Shop1";
+
 function Layout() {
   let path = window.location.pathname;
   console.log("path  " + path);
@@ -96,7 +98,7 @@ function Layout() {
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/wishlist" element={<Wishlist />} />
-                    <Route path="/shop" element={<Shop />} />
+                    <Route path="/shop1" element={<Shop1 />} />
                     <Route path="/order_list" element={<UserOrderlist />} />
                     <Route path="/wallet" element={<Wallet />} />
                     <Route path="/product_detaile" element={<Product_detail />} />

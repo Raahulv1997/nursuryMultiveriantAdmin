@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { updateCart } from "../api/api";
+// import axios from "axios";
+import React from "react";
+// import { updateCart } from "../api/api";
 // import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
 // src/component/css-js/fonts/icofont/icofont.min.css
 

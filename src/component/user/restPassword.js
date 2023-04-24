@@ -58,7 +58,7 @@ const Rest_password = () => {
                             </div>
                             <div className="user-form-footer">
                                 <p>
-                                    Greeny | &COPY; Copyright by <a href="#">Mironcoder</a>
+                                    Greeny | &COPY; Copyright by <Link to={""} >Mironcoder</Link>
                                 </p>
                             </div>
                         </div>

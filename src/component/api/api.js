@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+// import React from "react";
 let user_token = localStorage.getItem("user_token");
 
 export const updateCart = async (props, qty) => {
@@ -62,18 +62,19 @@ export const allproduct = async (
   price_from,
   price_to,
   showcategorydata,
+  brand,
   currentPage,
   recordsPerPage
 ) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
     {
       price_from: price_from,
       price_to: price_to,
       search: searchbox,
       category: [],
       rating: showcategorydata,
-      brand: [],
+      brand: brand,
       seo_tag: [],
       vendor_id: [],
       name: [],
@@ -377,7 +378,10 @@ export const cart_delete_api = async (req_body_obj) => {
   return response.data;
 };
 export const user_cart_api = async (req_body_obj) => {
-  let response = await axios.get(`http://localhost:8888/cart_list`, req_body_obj);
+  let response = await axios.get(
+    `${process.env.REACT_APP_BASEURL_0}/cart_list`,
+    req_body_obj
+  );
   return response.data;
 };
 

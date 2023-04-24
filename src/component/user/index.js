@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+// import React, { Children } from "react";
 import img1 from "../css-js/images/home/index/01.png";
 import img2 from "../css-js/images/home/index/02.png";
 import product from "../css-js/images/product/01.jpg";
@@ -266,6 +266,7 @@ const Index = () => {
                         : "https://picsum.photos/300"
                     }
                     discount={product.discount}
+                    mrp={product.mrp}
                     price={product.price}
                     unit={product.unit}
                     rating={product.rating}
