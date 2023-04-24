@@ -27,9 +27,10 @@ const Shop1 = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
   const [recordsPerPage, setrecordsPerPage] = useState(10);
-  const [rating, setRating] = useState([]);
+  const [rating, setRating] = useState();
 
-  const [brand, setBrand] = useState([]);
+  const [brand, setBrand] = useState();
+  const [category, setCategory] = useState();
 
   let [page, setPage] = useState([]);
   /*<-----Pagination Calculator----> */
@@ -52,8 +53,9 @@ const Shop1 = () => {
     searchbox,
     pricefilter.from_product_price,
     pricefilter.to_product_price,
-    // rating,
+    rating,
     brand,
+    category,
   ]);
 
   // console.log("search value--" + searchbox);
@@ -92,7 +94,7 @@ const Shop1 = () => {
       searchparams.get("rating") === "" ||
       searchparams.get("rating") === undefined
     ) {
-      setRating([]);
+      setRating();
     } else {
       setRating(searchparams.get("rating"));
     }
@@ -102,17 +104,28 @@ const Shop1 = () => {
       searchparams.get("brand") === "" ||
       searchparams.get("brand") === undefined
     ) {
-      setBrand([]);
+      setBrand();
     } else {
       setBrand(searchparams.get("brand"));
+    }
+
+    if (
+      searchparams.get("category") === null ||
+      searchparams.get("category") === "" ||
+      searchparams.get("category") === undefined
+    ) {
+      setCategory();
+    } else {
+      setCategory(searchparams.get("category"));
     }
   }, [
     searchbox,
     searchparams,
     pricefilter.from_product_price,
     pricefilter.to_product_price,
-    // rating,
-    // brand,
+    rating,
+    brand,
+    category,
   ]);
   console.log("branddd----" + brand);
   const fetchProductData = async () => {
@@ -122,6 +135,7 @@ const Shop1 = () => {
       pricefilter.to_product_price,
       rating,
       brand,
+      category,
       currentPage,
       recordsPerPage
     );

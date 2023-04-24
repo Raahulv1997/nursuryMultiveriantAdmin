@@ -4,6 +4,7 @@ import { fetchfilter } from "../api/api";
 import shop_img from "../css-js/images/promo/shop/01.jpg";
 let selectRatingData = [];
 let selectBrandData = [];
+let selectCategoryData = [];
 const Filters1 = () => {
   const navigate = useNavigate();
   const [brandData, setBrandData] = useState([]);
@@ -26,6 +27,14 @@ const Filters1 = () => {
 
   //brand checkbox state end here
 
+  // category checkbox state start here
+
+  const [categoryCheckboxfilter, setCategoryCheckboxfilter] = useState(false);
+
+  const [categoryfilter, setCategoryfilter] = useState([]);
+
+  // category checkbox state End here
+
   const filterPriceHandler = (e) => {
     setpricefilter({ ...pricefilter, [e.target.name]: e.target.value });
     // setapicall(false);
@@ -40,16 +49,34 @@ const Filters1 = () => {
 
   const priceReset = (e) => {
     e.preventDefault();
-    setcheckboxfilter(false);
+    // setcheckboxfilter(false);
     setpricefilter({
       to_product_price: "",
       from_product_price: "",
     });
     navigate(`/shop1`);
-    // fetchProductData();
-    // setapicall(true);
   };
 
+  const ratingReset = (e) => {
+    e.preventDefault();
+    setcheckboxfilter(false);
+
+    navigate(`/shop1`);
+  };
+
+  const BrandReset = (e) => {
+    e.preventDefault();
+    setBrandCheckboxfilter(false);
+
+    navigate(`/shop1`);
+  };
+
+  const CategoryReset = (e) => {
+    e.preventDefault();
+    setCategoryCheckboxfilter(false);
+
+    navigate(`/shop1`);
+  };
   const onRatingFilterAdd = (e) => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -92,6 +119,30 @@ const Filters1 = () => {
       }
     }
     navigate(`/shop1?brand=${selectBrandData}`);
+  };
+
+  const onCategoryFilterAdd = (e) => {
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    if (e.target.checked === true) {
+      setCategoryfilter((categoryfilter, index) => [
+        setCategoryCheckboxfilter(index, true),
+        ...categoryfilter,
+        e.target.value,
+      ]);
+      selectCategoryData.push(e.target.value);
+    } else {
+      setCategoryfilter(
+        categoryfilter.filter((item) => item !== e.target.value)
+      );
+      // setcheckboxfilter(false);
+      const index = selectCategoryData.indexOf(e.target.value);
+      if (index > -1) {
+        // only splice array when item is found
+        selectCategoryData.splice(index, 1); // 2nd parameter means remove one item only
+      }
+    }
+    navigate(`/shop1?category=${selectCategoryData}`);
   };
 
   useEffect(() => {
@@ -270,7 +321,7 @@ const Filters1 = () => {
               </li>
             </ul>
 
-            <button className="shop-widget-btn mt-2" onClick={priceReset}>
+            <button className="shop-widget-btn mt-2" onClick={ratingReset}>
               <i className="far fa-trash-alt"></i>
               <span>clear filter</span>
             </button>
@@ -351,7 +402,7 @@ const Filters1 = () => {
                 );
               })}
             </ul>
-            <button className="shop-widget-btn mt-2" onClick={priceReset}>
+            <button className="shop-widget-btn mt-2" onClick={BrandReset}>
               <i className="far fa-trash-alt"></i>
               <span>clear filter</span>
             </button>
@@ -371,15 +422,22 @@ const Filters1 = () => {
                   <>
                     <li>
                       <div className="shop-widget-content">
-                        <input type="checkbox" id="brand1" />
-                        <label for="brand1">{item.category}</label>
+                        <input
+                          type="checkbox"
+                          id="category1"
+                          name="category"
+                          defaultValue={item.category}
+                          checked={categoryCheckboxfilter}
+                          onChange={(e) => onCategoryFilterAdd(e)}
+                        />
+                        <label for="category1">{item.category}</label>
                       </div>
                     </li>
                   </>
                 );
               })}
             </ul>
-            <button className="shop-widget-btn">
+            <button className="shop-widget-btn mt-2" onClick={CategoryReset}>
               <i className="far fa-trash-alt"></i>
               <span>clear filter</span>
             </button>

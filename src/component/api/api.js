@@ -20,14 +20,10 @@ export const updateCart = async (props, qty) => {
 };
 
 export const fetchcartdata = async () => {
-  const response = await axios.post(
+  const response = await axios.get(
     `${process.env.REACT_APP_BASEURL_0}/cart_list`,
-    {
-      user_id: "",
-    },
-    {
-      headers: { user_token },
-    }
+
+    { headers: { user_token: `${user_token}` } }
   );
   return response.data;
 };
@@ -63,18 +59,20 @@ export const allproduct = async (
   price_to,
   showcategorydata,
   brand,
+  category,
   currentPage,
   recordsPerPage
 ) => {
+  console.log("rating-------" + showcategorydata);
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
     {
       price_from: price_from,
       price_to: price_to,
       search: searchbox,
-      category: [],
-      rating: showcategorydata,
-      brand: brand,
+      category: [category],
+      rating: [showcategorydata],
+      brand: [brand],
       seo_tag: [],
       vendor_id: [],
       name: [],
@@ -331,8 +329,7 @@ export const change_password_api = async (req_body_obj) => {
 export const user_home_api = async (req_body_obj) => {
   let token = localStorage.getItem("user_token");
   let token_obj;
-  console.log("user_token--------------------------");
-  console.log(token);
+
   if (token !== "" && token !== null && token !== undefined) {
     token_obj = { headers: { user_token: `${token}` } };
   } else {
