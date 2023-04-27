@@ -4,12 +4,7 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import DataTable from "react-data-table-component";
-import axios from "axios";
-import { BsTrash } from "react-icons/bs";
-import { BiEdit } from "react-icons/bi";
 
-import SweetAlert from "sweetalert-react";
-import "sweetalert/dist/sweetalert.css";
 import { fetchUserData } from "../api/api";
 import useValidation from "../common/useValidation";
 // import useValidation from "../common/useValidation";

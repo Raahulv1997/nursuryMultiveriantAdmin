@@ -31,7 +31,7 @@ const Header = () => {
       navigate("/");
     } else if (admin_token !== null && aa === true) {
       console.log("in user token");
-      return false;
+
       localStorage.removeItem("admin_token");
       navigate("/admin");
     } else {

@@ -1,6 +1,7 @@
 import axios from "axios";
 // import React from "react";
 let user_token = localStorage.getItem("user_token");
+let admin_token = "admin_master_token=we2code_123456";
 
 export const updateCart = async (product_id, qty) => {
   console.log("in update cart fucntion==" + product_id);
@@ -66,6 +67,7 @@ export const allproduct = async (
   currentPage,
   recordsPerPage
 ) => {
+  console.log("user toekn--" + user_token);
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
     {
@@ -79,9 +81,10 @@ export const allproduct = async (
       vendor_id: [],
       name: [],
     },
-    {
-      headers: { user_token: user_token },
-    }
+
+    user_token !== null && user_token !== undefined
+      ? { headers: { user_token: user_token } }
+      : { headers: { user_blank: true } }
   );
   return response.data;
 };
@@ -119,7 +122,7 @@ export const AllproductData = async (
       is_deleted: [0],
     },
     {
-      headers: { admin_token: "admin_master_token=we2code_123456" },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -131,7 +134,7 @@ export const AddProductData = async (props) => {
     props,
 
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -143,7 +146,7 @@ export const UpdateProductData = async (props) => {
     props,
 
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -162,7 +165,7 @@ export const allOrder = async (searchdata) => {
     },
 
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -178,7 +181,7 @@ export const OrderStatusChange = async (stautsValue, orderID, userId) => {
     },
     {
       headers: {
-        admin_token: "admin_master_token=we2code_123456",
+        admin_token: admin_token,
       },
     }
   );
@@ -194,7 +197,7 @@ export const fetchUserData = async (searchData, id) => {
     },
     {
       headers: {
-        admin_token: "admin_master_token=we2code_123456 ",
+        admin_token: admin_token,
       },
     }
   );
@@ -210,7 +213,7 @@ export const UpdateProductStatus = async (statusValue, id) => {
     },
 
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -225,7 +228,7 @@ export const DeleteProductStatus = async (id) => {
     },
 
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -247,7 +250,7 @@ export const AddProductImage = async (imgobj) => {
     `${process.env.REACT_APP_BASEURL_0}/add_product_image`,
     imgobj,
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -266,7 +269,7 @@ export const DeleteProductImage = async (
       product_image_name: product_image_name,
     },
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -281,7 +284,7 @@ export const ProductCoverImageChange = async (id, product_img_id) => {
       image_position: "cover",
     },
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: admin_token },
     }
   );
   return response.data;
@@ -454,6 +457,65 @@ export const OrderByNo = async (orderID) => {
 
     {
       headers: { user_token: user_token },
+    }
+  );
+  return response.data;
+};
+
+export const UserUpdatefunction = async (props, file, filename) => {
+  const formData = new FormData();
+  formData.append("first_name", props.first_name);
+  formData.append("last_name", props.last_name);
+  formData.append("email", props.email);
+  formData.append("password", props.password);
+  formData.append("phone_no", props.phone_no);
+  formData.append("pincode", props.pincode);
+  formData.append("image", file);
+  formData.append("filename", filename);
+  formData.append("city", props.city);
+  formData.append("address", props.address);
+  formData.append("alternate_address", props.alternate_address);
+
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_user`,
+    formData,
+    {
+      headers: { user_token: user_token },
+    }
+  );
+  return response.data;
+};
+
+export const AddVendorfunction = async (props, file, filename) => {
+  const formData = new FormData();
+
+  formData.append("owner_name", props.owner_name);
+  formData.append("shop_name", props.shop_name);
+  formData.append("email", props.email);
+  formData.append("mobile", props.mobile);
+  formData.append("shop_address", props.shop_address);
+  formData.append("gstn", props.gstn);
+  formData.append("image", file);
+  formData.append("filename", filename);
+  formData.append("geolocation", props.geolocation);
+  formData.append("availability", props.availability);
+
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/admin_add_vendor`,
+    formData,
+    {
+      headers: { admin_token: admin_token },
+    }
+  );
+  return response.data;
+};
+
+export const VendorListFunction = async (search, shopname) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/vendor_list`,
+    {
+      search: search,
+      shop_name: shopname,
     }
   );
   return response.data;

@@ -27,18 +27,21 @@ import Otpverify from "./component/user/otpVerify.js";
 import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 import AuthWrapper from "./AuthWrapper";
-import Product_detail from './component/user/product_detail.js'
+import Product_detail from "./component/user/product_detail.js";
 import Shop1 from "./component/user/Shop1";
 import Order from "./component/user/order";
+import Vendor from "./component/admin/Vendor";
 
 function Layout() {
   let path = window.location.pathname;
   console.log("path  " + path);
   const aa = path.includes("/admin");
   const bb = path.includes("/");
-  console.log("---" + aa);
+  console.log("aa  " + aa);
+  console.log("-bb--" + bb);
   const adminLogged = localStorage.getItem("admin_token");
-  console.log(" login------" + adminLogged);
+  const userLogged = localStorage.getItem("user_token");
+  console.log(" login------" + userLogged);
 
   return (
     <div>
@@ -72,6 +75,7 @@ function Layout() {
                         element={<OrderDetail />}
                       />
                       <Route path="/admin/userList" element={<UserAdd />} />
+                      <Route path="/admin/vendor" element={<Vendor />} />
                       <Route
                         path="/admin/productDetails"
                         element={<ProductDetails />}
@@ -103,7 +107,10 @@ function Layout() {
                     <Route path="/order_list" element={<UserOrderlist />} />
                     <Route path="/orderDetails" element={<Order />} />
                     <Route path="/wallet" element={<Wallet />} />
-                    <Route path="/product_detaile" element={<Product_detail />} />
+                    <Route
+                      path="/product_detaile"
+                      element={<Product_detail />}
+                    />
                   </Routes>
                 </div>
               </div>

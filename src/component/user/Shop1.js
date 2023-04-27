@@ -140,10 +140,16 @@ const Shop1 = () => {
       currentPage,
       recordsPerPage
     );
-    setProductData(data.results);
+    console.log("---" + JSON.stringify(data));
+    if (data.error === "send only vendor, user, admin token") {
+      setProductData([]);
+    } else {
+      setProductData(data.results);
+    }
+    // console.log("all--" + JSON.stringify(data));
+
     setapicall(false);
     // setRating(num);
-    // console.log("all--" + JSON.stringify(productData));
   };
 
   useEffect(() => {

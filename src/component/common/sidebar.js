@@ -11,7 +11,7 @@ const Sidebar = () => {
               <i className="flaticon-vegetable"></i>
               <span>Product</span>
             </Link>
-            <div className="banner-category-dropdown">
+            {/* <div className="banner-category-dropdown">
               <h5>vegetables item</h5>
               <div className="banner-sub-category">
                 <ul>
@@ -83,14 +83,14 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </li>
           <li className="banner-category-item">
             <Link to="/admin/orderList">
               <i className="flaticon-groceries"></i>
               <span>Orders</span>
             </Link>
-            <div className="banner-category-dropdown">
+            {/* <div className="banner-category-dropdown">
               <h5>groceries item</h5>
               <div className="banner-sub-category">
                 <ul>
@@ -145,14 +145,14 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </li>
           <li className="banner-category-item">
             <Link to={"/admin/userList"}>
               <i className="flaticon-fruit"></i>
               <span>Users</span>
             </Link>
-            <div className="banner-category-dropdown">
+            {/* <div className="banner-category-dropdown">
               <h5>fruits item</h5>
               <div className="banner-sub-category">
                 <ul>
@@ -190,14 +190,14 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </li>
           <li className="banner-category-item">
-            <Link to="#">
+            <Link to="/admin/vendor">
               <i className="flaticon-dairy-products"></i>
-              <span>productDetails</span>
+              <span>Vendor</span>
             </Link>
-            <div className="banner-category-dropdown">
+            {/* <div className="banner-category-dropdown">
               <h5>dairy items</h5>
               <div className="banner-sub-category">
                 <ul>
@@ -218,7 +218,7 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </li>
           <li className="banner-category-item">
             <a href="#">

@@ -409,9 +409,9 @@ const nav = () => {
                     <li>
                       <Link to="/profile">My profile</Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/order_list">My orders</Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </li>
                 <li class="navbar-item dropdown">
