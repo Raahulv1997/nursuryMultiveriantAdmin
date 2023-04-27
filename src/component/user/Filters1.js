@@ -5,7 +5,7 @@ import shop_img from "../css-js/images/promo/shop/01.jpg";
 let selectRatingData = [];
 let selectBrandData = [];
 let selectCategoryData = [];
-const Filters1 = () => {
+const Filters1 = ({ handleClick }) => {
   const navigate = useNavigate();
   const [brandData, setBrandData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
@@ -54,13 +54,18 @@ const Filters1 = () => {
       to_product_price: "",
       from_product_price: "",
     });
+
+    handleClick("true", "Pricereset");
+    // console.log("rating aray---", selectRatingData);
     navigate(`/shop1`);
   };
 
   const ratingReset = (e) => {
     e.preventDefault();
     setcheckboxfilter(false);
-
+    selectRatingData = [];
+    handleClick("true", "ratingReset");
+    // console.log("rating aray---", selectRatingData);
     navigate(`/shop1`);
   };
 
@@ -96,7 +101,9 @@ const Filters1 = () => {
         selectRatingData.splice(index, 1); // 2nd parameter means remove one item only
       }
     }
-    navigate(`/shop1?rating=${selectRatingData}`);
+    handleClick(selectRatingData, "rating");
+    // console.log("rating aray---", selectRatingData);
+    navigate(`/shop1`);
   };
 
   const onBrandFilterAdd = (e) => {
@@ -118,7 +125,8 @@ const Filters1 = () => {
         selectBrandData.splice(index, 1); // 2nd parameter means remove one item only
       }
     }
-    navigate(`/shop1?brand=${selectBrandData}`);
+    handleClick(selectBrandData, "brand");
+    navigate(`/shop1`);
   };
 
   const onCategoryFilterAdd = (e) => {
@@ -142,7 +150,8 @@ const Filters1 = () => {
         selectCategoryData.splice(index, 1); // 2nd parameter means remove one item only
       }
     }
-    navigate(`/shop1?category=${selectCategoryData}`);
+    handleClick(selectCategoryData, "category");
+    navigate(`/shop1`);
   };
 
   useEffect(() => {
@@ -321,10 +330,10 @@ const Filters1 = () => {
               </li>
             </ul>
 
-            <button className="shop-widget-btn mt-2" onClick={ratingReset}>
+            {/* <button className="shop-widget-btn mt-2" onClick={ratingReset}>
               <i className="far fa-trash-alt"></i>
               <span>clear filter</span>
-            </button>
+            </button> */}
           </form>
         </div>
         <div className="shop-widget">
@@ -402,10 +411,10 @@ const Filters1 = () => {
                 );
               })}
             </ul>
-            <button className="shop-widget-btn mt-2" onClick={BrandReset}>
+            {/* <button className="shop-widget-btn mt-2" onClick={BrandReset}>
               <i className="far fa-trash-alt"></i>
               <span>clear filter</span>
-            </button>
+            </button> */}
           </form>
         </div>
         <div className="shop-widget">
@@ -437,10 +446,10 @@ const Filters1 = () => {
                 );
               })}
             </ul>
-            <button className="shop-widget-btn mt-2" onClick={CategoryReset}>
+            {/* <button className="shop-widget-btn mt-2" onClick={CategoryReset}>
               <i className="far fa-trash-alt"></i>
               <span>clear filter</span>
-            </button>
+            </button> */}
           </form>
         </div>
       </div>

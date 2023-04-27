@@ -3,23 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 
 import CartItem from "./cart_item";
 import { user_cart_api, update_to_cart_api, cart_delete_api } from "../api/api";
-// import CartContext from "../helper/cart";
+import { useContext } from "react";
+import CartContext from "../helper/cart/index";
 
-const Cart = ({ showCartProp, cart_list_hide }) => {
+const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
+  const ContextValue = useContext(CartContext);
+
   const [reload, setReload] = useState("");
   const navigate = useNavigate();
   const [cartdata, setCartdata] = useState();
   const user_token = localStorage.getItem("user_token");
+  const updateQty = ContextValue.updateQty;
 
   async function call_cart_list() {
     let token_obj;
     if (user_token !== "" && user_token !== null && user_token !== undefined) {
       token_obj = { headers: { user_token: `${user_token}` } };
       let result = await user_cart_api(token_obj);
-      console.log(result);
+      // console.log(result);
+      result.length > 9 ? cart_count("9+") : cart_count(result.length);
+
       setCartdata(result);
     } else {
-      alert("please login your account");
+      // alert("please login your account");
     }
   }
 
@@ -45,10 +51,7 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
 
     if (token !== "" && token !== null && token !== undefined) {
       if (cart_product_quantity < 1) {
-        let result = await cart_delete_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
+        let result = await cart_delete_api(product_id, cart_product_quantity);
         console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
@@ -56,25 +59,19 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
           alert(result.success);
         }
       } else {
-        //  localStorage.setItem("product_Quanity", cart_product_quantity);
-        let result = await update_to_cart_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
+        const result = updateQty(product_id, cart_product_quantity);
 
-        // <CartContext.Provider value={{ message: cart_product_quantity }}>
-        //   {props.children}
-        // </CartContext.Provider>;
-        // localStorage.setItem("product_Quanity", true);
+        console.log("updfe result---" + JSON.stringify(result));
 
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
         } else {
-          alert(result.success);
+          setReload(Math.floor(Math.random() * 500 + 1));
+          // alert(result.success);
         }
       }
     } else {
-      alert("please login your account___" + cart_count);
+      alert("please login your account");
       navigate("/login");
     }
   }
@@ -100,7 +97,7 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
           </button>
         </div>
         <ul className="cart-list">
-          {(cartdata || []).map((cart_item) => {
+          {(cartdata || []).map((cart_item, cart_no) => {
             return (
               <CartItem
                 cover_image={cart_item.cover_image}
@@ -109,6 +106,7 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
                 cart_product_quantity={cart_item.cart_product_quantity}
                 price={cart_item.price}
                 incrementDecrementCount={incrementDecrementCount_function}
+                cart_no={cart_no}
               />
             );
           })}
@@ -121,9 +119,11 @@ const Cart = ({ showCartProp, cart_list_hide }) => {
               <span>apply</span>
             </button>
           </form>
-          <Link to={`/checkout`} className="cart-checkout-btn">
-            <span className="checkout-label  "> Proceed to Checkout</span>
-            <span className="checkout-price"> </span>
+          <Link to={"/checkout"} className="cart-checkout-btn">
+            <span className="checkout-label" onClick={cart_list_hide}>
+              Proceed to Checkout
+            </span>
+            <span className="checkout-price"></span>
           </Link>
         </div>
       </aside>

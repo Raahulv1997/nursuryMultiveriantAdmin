@@ -16,49 +16,85 @@ const Shop1 = () => {
   const [reload, setReload] = useState("");
   const navigate = useNavigate();
 
-  const [pricefilter, setpricefilter] = useState({
-    to_product_price: "",
-    from_product_price: "",
-  });
+  const [fromPrice, setFromPrice] = useState("");
+  const [toPrice, setToPrice] = useState("");
+
   const [productData, setProductData] = useState([]);
   const [searchbox, setSearchBox] = useState("");
   const [apicall, setapicall] = useState(false);
   const [searchparams] = useSearchParams();
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [recordsPerPage, setrecordsPerPage] = useState(10);
-  const [rating, setRating] = useState();
+  const [recordsPerPage] = useState(3);
 
-  const [brand, setBrand] = useState();
-  const [category, setCategory] = useState();
+  const [rating, setRating] = useState([]);
+
+  const [brand, setBrand] = useState([]);
+  const [category, setCategory] = useState([]);
 
   let [page, setPage] = useState([]);
   /*<-----Pagination Calculator----> */
   const indexOfLastRecord = currentPage * recordsPerPage;
+  // console.log("indexOfLastRecord---" + indexOfLastRecord);
   // console.log(indexOfLastRecord);
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // console.log(indexOfFirstRecord);
+  // console.log("indexOfFirstRecord---" + indexOfFirstRecord);
+  // console.log("product data---" + JSON.stringify(productData));
+
   const currentRecords = productData.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
-  console.log("current record--" + currentRecords);
+  // console.log("current record--" + productData.length);
   const nPages = Math.ceil(productData.length / recordsPerPage);
-  console.log("npage--" + nPages);
+  // console.log("npage--" + nPages);
 
+  // calback function for rating
+  const handleClick = (num, str) => {
+    // console.log("filter array--" + num, " ----" + str);
+    if (str === "rating") {
+      setRating(num);
+      setBrand([]);
+      setCategory([]);
+    }
+    if (str === "brand") {
+      setBrand(num);
+      setRating([]);
+      setCategory([]);
+    }
+
+    if (str === "category") {
+      setCategory(num);
+      setBrand([]);
+      setRating([]);
+    }
+    if (str === "Pricereset") {
+      setapicall(num);
+      // setapicall(false);
+    }
+
+    if (str === "ratingReset") {
+      // alert("yes");
+      setapicall(true);
+    }
+
+    setapicall(true);
+    // 👇️ take the parameter passed from the Child component
+  };
   useEffect(() => {
     fetchProductData();
   }, [
     apicall,
     searchbox,
-    pricefilter.from_product_price,
-    pricefilter.to_product_price,
+    fromPrice,
+    toPrice,
     rating,
     brand,
     category,
+    currentPage,
+    recordsPerPage,
   ]);
 
-  // console.log("search value--" + searchbox);
   useEffect(() => {
     if (
       searchparams.get("search") === null ||
@@ -67,72 +103,37 @@ const Shop1 = () => {
     ) {
       setSearchBox("");
     } else {
+      // console.log("searchparams.get--" + searchparams.get("search"));
       setSearchBox(searchparams.get("search"));
     }
 
     if (
       searchparams.get("Fromprice") === null ||
       searchparams.get("Fromprice") === "" ||
-      searchparams.get("Fromprice") === undefined ||
+      searchparams.get("Fromprice") === undefined
+    ) {
+      setFromPrice("");
+    } else {
+      setFromPrice(searchparams.get("Fromprice"));
+    }
+
+    if (
       searchparams.get("Toprice") === null ||
       searchparams.get("Toprice") === "" ||
       searchparams.get("Toprice") === undefined
     ) {
-      setpricefilter({
-        from_product_price: "",
-        to_product_price: "",
-      });
+      setToPrice("");
     } else {
-      setpricefilter({
-        from_product_price: searchparams.get("Fromprice"),
-        to_product_price: searchparams.get("Toprice"),
-      });
+      setToPrice(searchparams.get("Toprice"));
+      // setapicall(true);
     }
+  }, [searchbox, searchparams, fromPrice, toPrice]);
 
-    if (
-      searchparams.get("rating") === null ||
-      searchparams.get("rating") === "" ||
-      searchparams.get("rating") === undefined
-    ) {
-      setRating();
-    } else {
-      setRating(searchparams.get("rating"));
-    }
-
-    if (
-      searchparams.get("brand") === null ||
-      searchparams.get("brand") === "" ||
-      searchparams.get("brand") === undefined
-    ) {
-      setBrand();
-    } else {
-      setBrand(searchparams.get("brand"));
-    }
-
-    if (
-      searchparams.get("category") === null ||
-      searchparams.get("category") === "" ||
-      searchparams.get("category") === undefined
-    ) {
-      setCategory();
-    } else {
-      setCategory(searchparams.get("category"));
-    }
-  }, [
-    searchbox,
-    searchparams,
-    pricefilter.from_product_price,
-    pricefilter.to_product_price,
-    rating,
-    brand,
-    category,
-  ]);
-  console.log("branddd----" + brand);
   const fetchProductData = async () => {
     const data = await allproduct(
       searchbox,
-      pricefilter.from_product_price,
-      pricefilter.to_product_price,
+      fromPrice,
+      toPrice,
       rating,
       brand,
       category,
@@ -140,7 +141,8 @@ const Shop1 = () => {
       recordsPerPage
     );
     setProductData(data.results);
-
+    setapicall(false);
+    // setRating(num);
     // console.log("all--" + JSON.stringify(productData));
   };
 
@@ -152,26 +154,30 @@ const Shop1 = () => {
     setPage(pages);
   }, [productData]);
 
-  console.log("lenght---" + productData.length);
+  const CurrentpageSeting = (item) => {
+    // alert(item);
+    setCurrentPage(item);
+  };
 
   const nextPage = () => {
     if (currentPage !== nPages) setCurrentPage(currentPage + 1);
-    fetchProductData();
+    setapicall(true);
   };
 
   //Function to go to previous page with pagination :-
   const prevPage = () => {
     if (currentPage !== 0) setCurrentPage(currentPage - 1);
-    fetchProductData();
+    setapicall(true);
   };
 
   async function cart_update_function(cart_count, product_id) {
-    console.log("child_data____________________________27");
-    console.log(product_id);
+    console.log("cart--" + cart_count);
+    console.log("product id--" + product_id);
+
     let token = localStorage.getItem("user_token");
 
     if (token !== "" && token !== null && token !== undefined) {
-      alert("token available___" + cart_count);
+      alert("user Logged in");
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
         { product_id, cart_product_quantity },
@@ -179,11 +185,11 @@ const Shop1 = () => {
       ]);
       console.log(result.success);
       if (result.success === true) {
-        setReload(Math.floor(Math.random() * 500 + 1));
+        setapicall(true);
       } else {
       }
     } else {
-      alert("please login your account___" + cart_count);
+      alert("please login your account");
       navigate("/login");
     }
   }
@@ -210,7 +216,7 @@ const Shop1 = () => {
         ]);
         console.log(result);
         if (result.success === true) {
-          setReload(Math.floor(Math.random() * 500 + 1));
+          setapicall(true);
         } else {
           alert(result.success);
         }
@@ -221,13 +227,13 @@ const Shop1 = () => {
         ]);
         console.log(result);
         if (result.success === true) {
-          setReload(Math.floor(Math.random() * 500 + 1));
+          setapicall(true);
         } else {
           alert(result.success);
         }
       }
     } else {
-      alert("please login your account___" + cart_count);
+      alert("please login your account");
       navigate("/login");
     }
   }
@@ -253,7 +259,7 @@ const Shop1 = () => {
       <section className="inner-section shop-part">
         <div className="container">
           <div className="row content-reverse">
-            <Filters1 />
+            <Filters1 handleClick={handleClick} />
             <div className="col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
@@ -342,7 +348,7 @@ const Shop1 = () => {
                                     : "text-success"
                                 }`}
                                 to=""
-                                onClick={() => setCurrentPage(item)}
+                                onClick={() => CurrentpageSeting(item)}
                               >
                                 {item + 1}
                               </Link>

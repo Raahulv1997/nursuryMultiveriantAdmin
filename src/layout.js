@@ -7,10 +7,10 @@ import Sidebar from "./component/common/sidebar";
 import Index from "./component/user";
 import Checkout from "./component/user/checkout";
 import Nav from "./component/common/nav";
-import UserProductdetail from "./component/user/product_detail";
+// import Product_detail from "./component/user/product_detail";
 import Profile from "./component/user/profile";
 import Wishlist from "./component/user/wishlist";
-import Shop from "./component/user/shop";
+// import Shop from "./component/user/shop";
 import Footer from "./component/common/footer";
 
 import UserChangePassword from "./component/user/change_password";
@@ -27,6 +27,7 @@ import Otpverify from "./component/user/otpVerify.js";
 import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 import AuthWrapper from "./AuthWrapper";
+import Product_detail from './component/user/product_detail.js'
 import Shop1 from "./component/user/Shop1";
 import Order from "./component/user/order";
 
@@ -102,10 +103,7 @@ function Layout() {
                     <Route path="/order_list" element={<UserOrderlist />} />
                     <Route path="/orderDetails" element={<Order />} />
                     <Route path="/wallet" element={<Wallet />} />
-                    <Route
-                      path="/product_detail"
-                      element={<UserProductdetail />}
-                    />
+                    <Route path="/product_detaile" element={<Product_detail />} />
                   </Routes>
                 </div>
               </div>

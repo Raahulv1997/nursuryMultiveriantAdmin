@@ -403,6 +403,19 @@ const nav = () => {
                 </li>
                 <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
+                    My Account
+                  </Link>
+                  <ul class="dropdown-position-list">
+                    <li>
+                      <Link to="/profile">My profile</Link>
+                    </li>
+                    <li>
+                      <Link to="/order_list">My orders</Link>
+                    </li>
+                  </ul>
+                </li>
+                <li class="navbar-item dropdown">
+                  <Link class="navbar-link dropdown-arrow" to="">
                     authentic
                   </Link>
                   <ul class="dropdown-position-list">

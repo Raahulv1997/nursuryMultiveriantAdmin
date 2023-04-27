@@ -23,10 +23,8 @@ const Login = () => {
       email: sign_up_mail,
       password: sign_up_password,
     });
-
+    console.log("responxe---" + JSON.stringify(result));
     if (result.res_code === "001" || result.res_code === "002") {
-      console.log("responxe---" + JSON.stringify(result));
-
       localStorage.setItem("user_token", result.token);
       setSign_up_mail("");
       setSign_up_passwordl("");

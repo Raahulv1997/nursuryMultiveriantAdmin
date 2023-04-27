@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+// import React, { Children } from "react";
 import img1 from "../css-js/images/home/index/01.png";
 import img2 from "../css-js/images/home/index/02.png";
 import product from "../css-js/images/product/01.jpg";
@@ -45,7 +45,7 @@ const Index = () => {
     let token = localStorage.getItem("user_token");
 
     if (token !== "" && token !== null && token !== undefined) {
-      alert("token available___" + cart_count);
+      alert("User logged in");
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
         { product_id, cart_product_quantity },
@@ -57,7 +57,7 @@ const Index = () => {
       } else {
       }
     } else {
-      alert("please login your account___" + cart_count);
+      alert("please login your account");
       navigate("/login");
     }
   }
@@ -101,7 +101,7 @@ const Index = () => {
         }
       }
     } else {
-      alert("please login your account___" + cart_count);
+      alert("please login your account");
       navigate("/login");
     }
   }

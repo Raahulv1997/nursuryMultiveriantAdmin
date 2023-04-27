@@ -19,6 +19,7 @@ import "../src/component/css-js/css/orderlist.css";
 import "../src/component/css-js/css/wallet.css";
 import "../src/component/css-js/css/invoice.css";
 import "../src/component/css-js/css/checkout.css";
+import CartProvider from "./component/helper/cart/CartProvider";
 // <link rel="stylesheet" to=""  />
 
 //  js
@@ -34,7 +35,9 @@ import "../src/component/css-js/css/checkout.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <CartProvider>
+      <App />
+    </CartProvider>
   </React.StrictMode>
 );
 

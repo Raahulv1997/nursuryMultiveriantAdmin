@@ -1,6 +1,31 @@
-import React from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import { OrderByNo, userOrder } from "../api/api";
 
 const Order = () => {
+  const orderIDD = localStorage.getItem("orderId");
+
+  const [orderData, setOrderData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [productData, setProductData] = useState([]);
+  useEffect(() => {
+    getOrderDetail();
+  }, []);
+
+  const getOrderDetail = async () => {
+    const response = await OrderByNo(orderIDD);
+
+    const { order_detaile, order_product_detaile, user_detaile } = response;
+
+    setOrderData(order_detaile[0]);
+    setUserData(user_detaile[0]);
+    setProductData(order_product_detaile);
+    console.log("product  data----" + JSON.stringify(order_product_detaile));
+  };
+
+  // console.log("order ID--" + orderID);
   return (
     <div>
       <section class="inner-section invoice-part">
@@ -19,16 +44,25 @@ const Order = () => {
                 <div class="account-content">
                   <div class="invoice-recieved">
                     <h6>
-                      order number <span>1665</span>
+                      order number <span>{orderData.order_id}</span>
                     </h6>
                     <h6>
-                      order date <span>february 02, 2021</span>
+                      order date{" "}
+                      <span>
+                        {moment(orderData.order_date).format("DD-MM-YYYY")}
+                      </span>
                     </h6>
                     <h6>
-                      total amount <span>$24,176.00</span>
+                      total amount{" "}
+                      <span>{Number(orderData.total_amount).toFixed(2)}</span>
                     </h6>
                     <h6>
-                      payment method <span>Cash on delivery</span>
+                      payment method{" "}
+                      <span>
+                        {orderData.payment_mode === "cod"
+                          ? "Case on Delivery"
+                          : null}
+                      </span>
                     </h6>
                   </div>
                 </div>
@@ -42,20 +76,22 @@ const Order = () => {
                 <div class="account-content">
                   <ul class="invoice-details">
                     <li>
-                      <h6>Total Item</h6>
-                      <p>6 Items</p>
+                      <h6>Total Item </h6>
+                      <p> {orderData.total_order_product_quantity}Items</p>
                     </li>
                     <li>
                       <h6>Order Time</h6>
-                      <p>1.00pm 10-12-2021</p>
+                      <p> {moment(orderData.order_date).format("h:mm:ss a")}</p>
                     </li>
                     <li>
                       <h6>Delivery Time</h6>
-                      <p>90 Minute Express Delivery</p>
+                      <p>
+                        {moment(orderData.delivery_date).format("h:mm:ss a")}
+                      </p>
                     </li>
                     <li>
                       <h6>Delivery Location</h6>
-                      <p>House 17/A, West Jalkuri, Dhaka.</p>
+                      <p>{userData.address}</p>
                     </li>
                   </ul>
                 </div>
@@ -68,23 +104,32 @@ const Order = () => {
                 </div>
                 <div class="account-content">
                   <ul class="invoice-details">
-                    <li>
+                    {/* <li>
                       <h6>Sub Total</h6>
                       <p>$10,864.00</p>
-                    </li>
+                    </li> */}
                     <li>
                       <h6>discount</h6>
-                      <p>$20.00</p>
+                      <p>{Number(orderData.total_discount).toFixed(2)}</p>
+                    </li>
+                    <li>
+                      <h6>Total Tax</h6>
+                      <p>₹{Number(orderData.total_gst).toFixed(2)}</p>
                     </li>
                     <li>
                       <h6>Payment Method</h6>
-                      <p>Cash On Delivery</p>
+                      <p>
+                        {" "}
+                        {orderData.payment_mode === "cod"
+                          ? "Cash on Delivery"
+                          : null}
+                      </p>
                     </li>
                     <li>
                       <h6>
                         Total<small>(Incl. VAT)</small>
                       </h6>
-                      <p>$10,874.00</p>
+                      <p>₹{Number(orderData.total_amount).toFixed(2)}</p>
                     </li>
                   </ul>
                 </div>
@@ -100,120 +145,39 @@ const Order = () => {
                       <th scope="col">Name</th>
                       <th scope="col">Price</th>
                       <th scope="col">brand</th>
-                      <th scope="col">quantity</th>
+                      {/* <th scope="col">quantity</th> */}
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="table-serial">
-                        <h6>01</h6>
-                      </td>
-                      <td class="table-image">
-                        <img src="images/product/01.jpg" alt="product" />
-                      </td>
-                      <td class="table-name">
-                        <h6>product name</h6>
-                      </td>
-                      <td class="table-price">
-                        <h6>
-                          $19<small>/kilo</small>
-                        </h6>
-                      </td>
-                      <td class="table-brand">
-                        <h6>Fresh Company</h6>
-                      </td>
-                      <td class="table-quantity">
-                        <h6>3</h6>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="table-serial">
-                        <h6>02</h6>
-                      </td>
-                      <td class="table-image">
-                        <img src="images/product/02.jpg" alt="product" />
-                      </td>
-                      <td class="table-name">
-                        <h6>product name</h6>
-                      </td>
-                      <td class="table-price">
-                        <h6>
-                          $19<small>/kilo</small>
-                        </h6>
-                      </td>
-                      <td class="table-brand">
-                        <h6>Radhuni Masala</h6>
-                      </td>
-                      <td class="table-quantity">
-                        <h6>5</h6>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="table-serial">
-                        <h6>03</h6>
-                      </td>
-                      <td class="table-image">
-                        <img src="images/product/03.jpg" alt="product" />
-                      </td>
-                      <td class="table-name">
-                        <h6>product name</h6>
-                      </td>
-                      <td class="table-price">
-                        <h6>
-                          $19<small>/kilo</small>
-                        </h6>
-                      </td>
-                      <td class="table-brand">
-                        <h6>Pran Prio</h6>
-                      </td>
-                      <td class="table-quantity">
-                        <h6>2</h6>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="table-serial">
-                        <h6>04</h6>
-                      </td>
-                      <td class="table-image">
-                        <img src="images/product/04.jpg" alt="product" />
-                      </td>
-                      <td class="table-name">
-                        <h6>product name</h6>
-                      </td>
-                      <td class="table-price">
-                        <h6>
-                          $19<small>/kilo</small>
-                        </h6>
-                      </td>
-                      <td class="table-brand">
-                        <h6>Real Food</h6>
-                      </td>
-                      <td class="table-quantity">
-                        <h6>3</h6>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="table-serial">
-                        <h6>05</h6>
-                      </td>
-                      <td class="table-image">
-                        <img src="images/product/05.jpg" alt="product" />
-                      </td>
-                      <td class="table-name">
-                        <h6>product name</h6>
-                      </td>
-                      <td class="table-price">
-                        <h6>
-                          $19<small>/kilo</small>
-                        </h6>
-                      </td>
-                      <td class="table-brand">
-                        <h6>Rdhuni Company</h6>
-                      </td>
-                      <td class="table-quantity">
-                        <h6>7</h6>
-                      </td>
-                    </tr>
+                    {productData.map((pdata, id) => {
+                      return (
+                        <>
+                          <tr>
+                            <td class="table-serial">
+                              <h6>{id + 1}</h6>
+                            </td>
+                            <td class="table-image">
+                              <img src={pdata.cover_image} alt="product" />
+                            </td>
+                            <td class="table-name">
+                              <h6>{pdata.name}</h6>
+                            </td>
+                            <td class="table-price">
+                              <h6>
+                                ₹ {pdata.price}
+                                <small>/{pdata.unit}</small>
+                              </h6>
+                            </td>
+                            <td class="table-brand">
+                              <h6>{pdata.brand}</h6>
+                            </td>
+                            {/* <td class="table-quantity">
+                              <h6>3</h6>
+                            </td> */}
+                          </tr>
+                        </>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -226,7 +190,7 @@ const Order = () => {
                 <span>download invoice</span>
               </a>
               <div class="back-home">
-                <a href="index.html">Back to Home</a>
+                <Link to={"/"}>Back to Home</Link>
               </div>
             </div>
           </div>

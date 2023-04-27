@@ -1,21 +1,24 @@
 import axios from "axios";
-import React from "react";
+// import React from "react";
 let user_token = localStorage.getItem("user_token");
 
-export const updateCart = async (props, qty) => {
+export const updateCart = async (product_id, qty) => {
+  console.log("in update cart fucntion==" + product_id);
+  console.log("qty==" + qty);
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/cart_update/${props.id}`,
+    `${process.env.REACT_APP_BASEURL_0}/cart_update`,
     {
-      user_id: props.user_id,
-      product_id: props.product_id,
+      product_id: product_id,
       cart_product_quantity: qty,
     },
     {
       headers: {
-        user_token,
+        user_token: user_token,
       },
     }
   );
+  console.log("in update cart fucntion==" + JSON.stringify(response));
+
   return response.data;
 };
 
@@ -52,33 +55,32 @@ export const userdetails = async () => {
   );
   return response.data;
 };
-
+// const brandArrrry = [];
 export const allproduct = async (
   searchbox,
   price_from,
   price_to,
-  showcategorydata,
+  showratingdata,
   brand,
   category,
   currentPage,
   recordsPerPage
 ) => {
-  console.log("rating-------" + showcategorydata);
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
+    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
     {
       price_from: price_from,
       price_to: price_to,
       search: searchbox,
-      category: [category],
-      rating: [showcategorydata],
-      brand: [brand],
+      category: category,
+      rating: showratingdata,
+      brand: brand,
       seo_tag: [],
       vendor_id: [],
       name: [],
     },
     {
-      headers: { user_blank: true },
+      headers: { user_token: user_token },
     }
   );
   return response.data;
@@ -92,7 +94,6 @@ export const fetchfilter = async () => {
 };
 
 export const AllproductData = async (
-  id,
   search,
   category,
   price_from,
@@ -114,11 +115,11 @@ export const AllproductData = async (
       seo_tag: [seo_tag],
       vendor_id: [vendor_id],
       name: [],
-      id: [id],
+      // id: [],
       is_deleted: [0],
     },
     {
-      headers: { admin_token: "admin_master_token=we2code_123456 " },
+      headers: { admin_token: "admin_master_token=we2code_123456" },
     }
   );
   return response.data;
@@ -366,11 +367,16 @@ export const update_to_cart_api = async (req_body_obj) => {
   );
   return response.data;
 };
-export const cart_delete_api = async (req_body_obj) => {
+export const cart_delete_api = async (productID, qty) => {
   let response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/cart_delete`,
-    req_body_obj[0],
-    req_body_obj[1]
+    {
+      product_id: productID,
+      cart_product_quantity: qty,
+    },
+    {
+      headers: { user_token: user_token },
+    }
   );
   return response.data;
 };
@@ -378,6 +384,77 @@ export const user_cart_api = async (req_body_obj) => {
   let response = await axios.get(
     `${process.env.REACT_APP_BASEURL_0}/cart_list`,
     req_body_obj
+  );
+  return response.data;
+};
+
+export const call_product_detaile_api = async (req_body_obj) => {
+  let response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
+    {
+      price_from: "",
+      price_to: "",
+      search: "",
+      id: [req_body_obj[0]],
+      is_deleted: [0],
+    },
+    req_body_obj[1]
+  );
+  return response.data;
+};
+
+export const UserSideDeleteProduct = async (id) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_product`,
+    {
+      id: id,
+      is_deleted: [1],
+    },
+
+    {
+      headers: { user_token: user_token },
+    }
+  );
+  return response.data;
+};
+
+export const AddUserOrder = async (props) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/add_order`,
+    props,
+    {
+      headers: { user_token: user_token },
+    }
+  );
+  return response.data;
+};
+
+export const userOrder = async (orderID) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400`,
+    {
+      search: "",
+      order_id: orderID,
+      vendor_id: "",
+      category: "",
+      brand: "",
+      user_id: "",
+    },
+
+    {
+      headers: { user_token: user_token },
+    }
+  );
+  return response.data;
+};
+
+export const OrderByNo = async (orderID) => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_BASEURL_0}/order_details?id=${orderID}`,
+
+    {
+      headers: { user_token: user_token },
+    }
   );
   return response.data;
 };

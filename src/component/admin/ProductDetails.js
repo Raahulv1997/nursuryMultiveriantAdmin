@@ -22,7 +22,6 @@ const ProductDetails = () => {
 
   const productGEtByid = async () => {
     const response = await AllproductData(
-      initialFormState.id,
       initialFormState.search,
       initialFormState.category,
       initialFormState.price_from,
@@ -32,10 +31,10 @@ const ProductDetails = () => {
       initialFormState.seo_tag,
       initialFormState.vendor_id
     );
+    // console.log("product data--" + JSON.stringify(response));
 
     setProductData(response.results[0]);
   };
-  console.log("product data--" + JSON.stringify(productData));
   let ratingbox = [1, 2, 3, 4, 5];
   return (
     <div>

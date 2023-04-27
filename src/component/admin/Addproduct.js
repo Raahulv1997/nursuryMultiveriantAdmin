@@ -389,7 +389,7 @@ const AddProduct = () => {
     setApicall(false);
     setProductTable(data.results);
 
-    // console.log("all-product-" + JSON.stringify(data.results));
+    console.log("all-product-" + JSON.stringify(data.results));
   };
 
   //fetch brand list and category list data---

@@ -1,36 +1,48 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "./cart";
-
+import { useState } from "react";
 const Header = () => {
+  let path = window.location.pathname;
+  console.log("path  " + path);
+  const aa = path.includes("/admin");
+  const bb = path.includes("/");
+  console.log("aa--" + aa);
+  console.log("bb--" + bb);
   const [searchbox, setSearchBox] = useState("");
-
   let [searcherror, setsearcherror] = useState(false);
   const [showcart, setShowcart] = useState(false);
-
+  const [count_cart, SetCount_cart] = useState(false);
+  // function cart_hide_show() {
+  //   console.log("__________________________showCart")
+  // }
   const navigate = useNavigate();
   const admin_token = localStorage.getItem("admin_token");
   const user_token = localStorage.getItem("user_token");
 
   const OnLogoutClick = () => {
-    if (admin_token !== null) {
-      localStorage.removeItem("admin_token");
-      navigate("/admin");
-    }
+    if (user_token !== null && bb === true) {
+      console.log("in user token");
 
-    if (user_token) {
       localStorage.removeItem("user_token");
       navigate("/");
+    } else if (admin_token !== null && aa === true) {
+      console.log("in user token");
+      return false;
+      localStorage.removeItem("admin_token");
+      navigate("/admin");
+    } else {
+      alert("not logout");
     }
   };
 
   const SeacrhValueHandler = (e) => {
     setSearchBox(e.target.value);
     setsearcherror(false);
-    if (searchbox.length == 0) {
+    if (searchbox.length === 0) {
       navigate("/shop1");
     }
   };
@@ -44,9 +56,18 @@ const Header = () => {
     }
   };
 
+  // useEffect(() => {
+
+  // }, [count_cart, false])
+
   function cart_list_hide_fun() {
-    console.log("______________________________cart_list_hide");
+    // console.log("______________________________cart_list_hide");
     setShowcart(false);
+  }
+
+  function cart_count_fun(count) {
+    // console.log("header________________________________37" + count)
+    SetCount_cart(count);
   }
   return (
     <Fragment>
@@ -100,7 +121,7 @@ const Header = () => {
                 title="Cartlist"
               >
                 <i className="fas fa-shopping-basket"></i>
-                <sup>9+</sup>
+                <sup>{count_cart}</sup>
                 <span>
                   total price<small>$345.00</small>
                 </span>
@@ -108,6 +129,10 @@ const Header = () => {
               <Link to="/login" className="header-widget" title="Wishlist">
                 <i className="fas fa-login"></i>
                 <span>Login</span>
+              </Link>
+              <Link to="" className="header-widget" title="Wishlist">
+                <i className="fas fa-login"></i>
+                <span> seller Login</span>
               </Link>
               <Link className="header-widget" title="Wishlist">
                 <i className="fas fa-login"></i>
@@ -129,7 +154,7 @@ const Header = () => {
         <button className="cart-btn" title="Cartlist">
           <i className="fas fa-shopping-basket"></i>
           <span>cartlist</span>
-          <sup>9+</sup>
+          <sup>{count_cart}</sup>
         </button>
         <Link to="">
           <i className="fas fa-heart"></i>
@@ -143,7 +168,11 @@ const Header = () => {
         </Link>
       </div>
 
-      <Cart showCartProp={showcart} cart_list_hide={cart_list_hide_fun} />
+      <Cart
+        showCartProp={showcart}
+        cart_list_hide={cart_list_hide_fun}
+        cart_count={cart_count_fun}
+      />
     </Fragment>
   );
 };

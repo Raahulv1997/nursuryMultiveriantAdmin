@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { updateCart } from "../api/api";
+// import axios from "axios";
+import React from "react";
+// import { updateCart } from "../api/api";
 // import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
 // src/component/css-js/fonts/icofont/icofont.min.css
 
@@ -11,25 +11,8 @@ const CartItem = ({
   cart_product_quantity,
   price,
   incrementDecrementCount,
+  cart_no,
 }) => {
-  //   const incrementCount = (value) => {
-  //     if (value === 1) {
-  //       if (Qty < cartData.product_stock_quantity) {
-  //         setQty(Qty + 1);
-  //         settotalqty(false);
-  //       } else {
-  //         settotalqty(true);
-  //       }
-  //     } else if (value === 0) {
-  //       if (Qty > 1) {
-  //         setQty(Qty - 1);
-  //         settotalqty(false);
-  //       } else {
-  //         settotalqty("qty is less");
-  //       }
-  //     }
-  //   };
-
   // useEffect(() => {
   //     update();
   // }, [Qty]);

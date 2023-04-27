@@ -1,95 +1,128 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
-import { fetchcartdata, userdetails } from "../api/api";
+import {
+  AddUserOrder,
+  cart_delete_api,
+  fetchcartdata,
+  userdetails,
+} from "../api/api";
 import CheckoutItem from "./checkout_item";
 import payment1 from "../css-js/images/payment/png/01.png";
 import CartContext from "../helper/cart";
+import SweetAlert from "sweetalert-react";
+import "sweetalert/dist/sweetalert.css";
+// import CartContext from "../helper/cart";
 
 function Checkout() {
-  const [cartData, setCartData] = useState([]);
-  const [userDetails, setUserDetails] = useState([]);
-
-  const qtyValue = useContext(CartContext);
-  console.log("ss--" + qtyValue);
-  const [orderadd, setorderadd] = useState({
-    product_id: 15,
-    total_order_product_quantity: 1,
-    total_amount: "1100",
-    total_gst: "123",
-    total_cgst: "12",
-    total_sgst: "44",
-    total_discount: "20",
-    shipping_charges: "",
-    invoice_id: 9,
-    payment_mode: "cod",
-    payment_ref_id: "22",
-    discount_coupon: "rafaf",
-    discount_coupon_value: "120",
-  });
-
-  useEffect(() => {
-    cartdatafucntion();
-    userdetailsFunction();
-  }, []);
-
-  const cartdatafucntion = async () => {
-    const userData = await fetchcartdata();
-    console.log("cart data--" + JSON.stringify(userData));
-    setCartData(userData);
-
-    let totalprice = 0;
-    let discount = 0;
-    let totalDiscount = 0;
-    let Taxx = 0;
-    let totalTaxx = 0;
-    let Grand_Total = 0;
-    let total_qty = 0;
-    cartData.map((cdata) => {
-      total_qty += cdata.cart_product_quantity;
-      console.log("qtyyy--" + total_qty);
-      totalprice += Number(cdata.price) * Number(cdata.cart_product_quantity);
-      discount += Number(cdata.discount) * Number(cdata.cart_product_quantity);
-
-      totalDiscount = (totalprice * discount) / 100;
-
-      Taxx += Number(cdata.gst) * Number(cdata.cart_product_quantity);
-      totalTaxx += (Taxx * totalprice) / 100;
-      Grand_Total = totalprice + totalTaxx - totalDiscount;
-
-      setorderadd({
-        ...orderadd,
-        product_id: "",
-        total_order_product_quantity: "",
-        total_amount: "",
-        total_gst: "",
-        total_cgst: "",
-        total_sgst: "",
-        total_discount: "",
-        shipping_charges: "",
-        invoice_id: "",
-        payment_mode: "",
-        payment_ref_id: "",
-        discount_coupon: "",
-        discount_coupon_value: "",
-      });
-    });
-  };
-
-  const addCartInorder = () => {};
-
-  const userdetailsFunction = async () => {
-    const userData = await userdetails();
-
-    setUserDetails(userData[0]);
-  };
-
+  const databyID = [];
   let totalprice = 0;
   let discount = 0;
   let totalDiscount = 0;
   let Taxx = 0;
   let totalTaxx = 0;
   let Grand_Total = 0;
+  let total_qty = 0;
+  let totalSgst = 0;
+  let totalCgst = 0;
+  const navigate = useNavigate();
+  const [ShowOrderAlert, setShowOrderAlert] = useState(false);
+  const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
+  const ContextValue = useContext(CartContext);
+  const [cartData, setCartData] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
+  const [cartProductId, setCartProductId] = useState("");
+  const [cartProductQty, setCartProductQty] = useState("");
+
+  useEffect(() => {
+    cartdatafucntion();
+    userdetailsFunction();
+  }, [ContextValue.state]);
+
+  const cartdatafucntion = async () => {
+    const userData = await fetchcartdata();
+    console.log("cart data--" + JSON.stringify(userData));
+
+    setCartData(userData);
+    ContextValue.setapicall(false);
+
+    cartData.map((cdata) => {
+      total_qty += cdata.cart_product_quantity;
+      totalprice += Number(cdata.price) * Number(cdata.cart_product_quantity);
+      discount += Number(cdata.discount);
+      totalDiscount = Number(totalprice * discount) / 100;
+      Taxx += Number(cdata.gst);
+      totalTaxx = Number(Taxx * totalprice) / 100;
+      totalSgst = totalTaxx / 2;
+      totalCgst = totalTaxx / 2;
+      Grand_Total = totalprice + totalTaxx - totalDiscount;
+    });
+
+    // console.log("qtyyy--" + JSON.stringify(kk));
+  };
+
+  // console.log("qtyyy--" + JSON.stringify(orderadd));
+
+  const addCartInorder = async () => {
+    cartData.map((cdata) => {
+      databyID.push({
+        product_id: cdata.product_id,
+        vendor_id: cdata.vendor_id,
+        total_order_product_quantity: total_qty,
+        total_amount: Grand_Total,
+        total_gst: totalTaxx,
+        total_cgst: totalCgst,
+        total_sgst: totalSgst,
+        total_discount: totalDiscount,
+        shipping_charges: "0",
+        invoice_id: "12345",
+        payment_mode: "cod",
+        payment_ref_id: "refrf",
+        discount_coupon: "12",
+        discount_coupon_value: "150",
+      });
+    });
+    console.log("add order json--" + JSON.stringify(databyID));
+    const response = await AddUserOrder(databyID);
+    console.log("order response---" + JSON.stringify(response));
+    if (response.status === "ok") {
+      navigate("/order_list");
+    } else {
+      alert("Order not placed");
+    }
+  };
+
+  const OrderPlacedFucntion = () => {
+    // navigate("/orderDetails");
+    // setShowOrderAlert(false);
+  };
+  const userdetailsFunction = async () => {
+    const userData = await userdetails();
+
+    setUserDetails(userData[0]);
+  };
+
+  function product_full_detaile(product_id) {
+    localStorage.setItem("productID", product_id);
+
+    navigate("/product_detaile");
+  }
+
+  const handleAlert = (id) => {
+    setCartProductId(id[0]);
+    setCartProductQty(id[1]);
+    setShowDeleteAlert(true);
+  };
+
+  const deleteProductAlert = async () => {
+    const responce = await cart_delete_api(cartProductId, cartProductQty);
+    // console.log("delerte respoce--" + JSON.stringify(responce));
+    setShowDeleteAlert(false);
+    ContextValue.setapicall(true);
+  };
+  const closeProductAlert = () => {
+    setShowDeleteAlert(false);
+  };
 
   return (
     <div>
@@ -145,23 +178,85 @@ function Checkout() {
                         </tr>
                       </thead>
                       <tbody id="cartAlldata">
-                        {cartData.map((cdata) => {
+                        {cartData.map((cdata, id) => {
+                          total_qty += cdata.cart_product_quantity;
                           totalprice +=
                             Number(cdata.price) *
                             Number(cdata.cart_product_quantity);
-                          discount +=
-                            Number(cdata.discount) *
-                            Number(cdata.cart_product_quantity);
+                          discount += Number(cdata.discount);
 
                           totalDiscount = (totalprice * discount) / 100;
 
-                          Taxx +=
-                            Number(cdata.gst) *
-                            Number(cdata.cart_product_quantity);
-                          totalTaxx += (Taxx * totalprice) / 100;
+                          Taxx += Number(cdata.gst);
+
+                          totalTaxx = (Taxx * totalprice) / 100;
+                          console.log("taxx--" + totalTaxx);
+                          totalSgst = totalTaxx / 2;
+                          totalCgst = totalTaxx / 2;
                           Grand_Total = totalprice + totalTaxx - totalDiscount;
                           // Grand_Total = Grand_Total - totalDiscount;
-                          return <CheckoutItem cdata={cdata} />;
+                          return (
+                            <>
+                              <tr>
+                                <td className="table-serial">
+                                  <h6>{id + 1}</h6>
+                                </td>
+                                <td className="table-image">
+                                  <img
+                                    src={cdata.cover_image}
+                                    alt="product"
+                                    style={{
+                                      height: "80px",
+                                      borderRadius: "10px",
+                                    }}
+                                  />
+                                </td>
+                                <td className="table-name">
+                                  <h6>{cdata.name}</h6>
+                                </td>
+
+                                <td className="table-price">
+                                  <h6>₹ {cdata.price} </h6>
+                                </td>
+                                <td className="table-brand">
+                                  <h6>{cdata.brand}</h6>
+                                </td>
+                                <td className="table-price">
+                                  <h6> {cdata.cart_product_quantity}</h6>
+                                </td>
+                                <td className="table-brand">
+                                  <h6>
+                                    {cdata.cart_product_quantity * cdata.price}
+                                  </h6>
+                                </td>
+                                <td className="table-action">
+                                  <a
+                                    className="view"
+                                    onClick={product_full_detaile.bind(this, [
+                                      cdata.product_id,
+                                    ])}
+                                    title="Quick View"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#product-view"
+                                  >
+                                    <i className="fas fa-eye"></i>
+                                  </a>
+                                  <a
+                                    className="trash"
+                                    title="Remove Wishlist"
+                                    onClick={handleAlert.bind(this, [
+                                      cdata.product_id,
+                                      cdata.cart_product_quantity,
+                                    ])}
+                                  >
+                                    <i className="icofont-trash"></i>
+                                  </a>
+                                </td>
+                              </tr>
+                            </>
+                          );
+
+                          // <CheckoutItem cdata={cdata} />;
                         })}
                       </tbody>
                     </table>
@@ -192,7 +287,7 @@ function Checkout() {
                         <span> ₹{Number(totalDiscount).toFixed(2)}</span>
                       </li>
                       <li>
-                        <span>Total Tax ({Taxx} %) :</span>
+                        <span>Total Tax ({Taxx} %):</span>
                         <span> ₹{Number(totalTaxx).toFixed(2)}</span>
                       </li>
                       <li>
@@ -485,13 +580,30 @@ function Checkout() {
                   </label>
                 </div>
                 <div className="checkout-proced">
-                  <button className="btn btn-inline">proced to checkout</button>
+                  <button className="btn btn-inline " onClick={addCartInorder}>
+                    proced to checkout
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+      <SweetAlert
+        show={ShowDeleteAlert}
+        title="Cart Delete"
+        text="Are you Sure  delete from cart"
+        onConfirm={deleteProductAlert}
+        showCancelButton={true}
+        onCancel={closeProductAlert}
+      />
+
+      <SweetAlert
+        show={ShowOrderAlert}
+        title="Order Added"
+        text="Order successfully placed.."
+        onConfirm={OrderPlacedFucntion}
+      />
     </div>
   );
 }
