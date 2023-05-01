@@ -40,6 +40,7 @@ const AdminLogin = () => {
     if (validate()) {
       const response = await AdminLoginData(state.email, state.password);
       console.log("resultt--" + JSON.stringify(response.admin_token));
+      localStorage.removeItem("vendor_token");
       localStorage.setItem("admin_token", response.admin_token);
       if (response.status === false) {
         setErrMsg("staus is false");

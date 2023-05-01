@@ -1,6 +1,11 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./component/common/header";
 import Sidebar from "./component/common/sidebar";
 
@@ -31,12 +36,16 @@ import Product_detail from "./component/user/product_detail.js";
 import ShopPage from "./component/user/shoppage";
 import Order from "./component/user/order";
 import Vendor from "./component/admin/Vendor";
+import SellerRegister from "./component/vendor/SellerRegister.js";
+import SellerLogin from "./component/vendor/SellerLogin";
+import SellerForgetPassword from "./component/vendor/SellerForgetPassword";
+import SellerSignUp from "./component/vendor/SellerSignUp";
+import SellerOtpVerify from "./component/vendor/SellerOtpVerify";
+import UpdateSellerForgetPassword from "./component/vendor/updateSellerForgetpassword";
 import NotFound from "./component/common/notfound";
 
 function Layout() {
   let path = window.location.pathname;
-  const aa = path.includes("/admin");
-  const bb = path.includes("/");
   const adminLogged = localStorage.getItem("admin_token");
   const userLogged = localStorage.getItem("user_token");
   // console.log(" login------" + userLogged);

@@ -389,7 +389,7 @@ const AddProduct = () => {
     setApicall(false);
     setProductTable(data.results);
 
-    console.log("all-product-" + JSON.stringify(data.results));
+    // console.log("all-product-" + JSON.stringify(data.results));
   };
 
   //fetch brand list and category list data---
@@ -589,6 +589,7 @@ const AddProduct = () => {
   const handleDocsClose = (e) => {
     e.preventDefault();
     setDocsShow(false);
+    setApicall(true);
   };
 
   // IMAGE UPLOAD SECTION
@@ -664,13 +665,13 @@ const AddProduct = () => {
     // setimageboxid(id);
 
     const response = await GetProductImages(id);
-    console.log("imgae----" + JSON.stringify(response));
+
     setnewImageUrls(response);
   };
 
   const onImgCoverEditClick = async (id, product_img_id) => {
     const response = await ProductCoverImageChange(id, product_img_id);
-    console.log("cover responce--" + JSON.stringify(response));
+
     onImgView(id);
   };
   // // END IMAGE UPLOAD SECTION

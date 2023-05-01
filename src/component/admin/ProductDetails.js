@@ -3,6 +3,7 @@ import { AllproductData } from "../api/api";
 
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
+  console.log("id-------" + productId);
   const [productData, setProductData] = useState([]);
   const initialFormState = {
     id: productId,
@@ -22,6 +23,7 @@ const ProductDetails = () => {
 
   const productGEtByid = async () => {
     const response = await AllproductData(
+      productId,
       initialFormState.search,
       initialFormState.category,
       initialFormState.price_from,
