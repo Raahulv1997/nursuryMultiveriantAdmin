@@ -48,9 +48,9 @@ const Header = () => {
   const SeacrhValueHandler = (e) => {
     setSearchBox(e.target.value);
     setsearcherror(false);
-    if (searchbox.length === 0) {
-      navigate("/shop1");
-    }
+    // if (searchbox.length === 0) {
+    //   navigate("/shop");
+    // }
   };
 
   const submitHandler = (e) => {
@@ -58,7 +58,7 @@ const Header = () => {
     if (searchbox.length === 0) {
       setsearcherror(true);
     } else {
-      navigate(`/shop1?search=${searchbox}`);
+      navigate(`/shop?search=${searchbox}`);
     }
   };
 

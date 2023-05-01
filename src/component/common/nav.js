@@ -10,10 +10,10 @@ const nav = () => {
             <div class="navbar-content">
               <ul class="navbar-list">
                 <li class="navbar-item dropdown">
-                  <Link class="navbar-link dropdown-arrow" to="">
+                  <Link class="navbar-link dropdown-arrow" to="/">
                     home
                   </Link>
-                  <ul class="dropdown-position-list">
+                  {/* <ul class="dropdown-position-list">
                     <li>
                       <Link to="/">Home</Link>
                     </li>
@@ -38,13 +38,13 @@ const nav = () => {
                     <li>
                       <Link to="/forgot_password">Product Detail</Link>
                     </li>
-                  </ul>
+                  </ul> */}
                 </li>
                 <li class="navbar-item dropdown-megamenu">
-                  <Link class="navbar-link dropdown-arrow" to="/shop1">
+                  <Link class="navbar-link dropdown-arrow" to="/shop">
                     shop
                   </Link>
-                  <div class="megamenu">
+                  {/* <div class="megamenu">
                     <div class="container">
                       <div class="row">
                         <div class="col-lg-3">
@@ -128,9 +128,9 @@ const nav = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </li>
-                <li class="navbar-item dropdown-megamenu">
+                {/* <li class="navbar-item dropdown-megamenu">
                   <Link class="navbar-link dropdown-arrow" to="">
                     category
                   </Link>
@@ -360,8 +360,8 @@ const nav = () => {
                       </div>
                     </div>
                   </div>
-                </li>
-                <li class="navbar-item dropdown">
+                </li> */}
+                {/* <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
                     pages
                   </Link>
@@ -400,7 +400,7 @@ const nav = () => {
                       <Link to="">email template</Link>
                     </li>
                   </ul>
-                </li>
+                </li> */}
                 <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
                     My Account
@@ -414,7 +414,7 @@ const nav = () => {
                     </li> */}
                   </ul>
                 </li>
-                <li class="navbar-item dropdown">
+                {/* <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
                     authentic
                   </Link>
@@ -432,8 +432,8 @@ const nav = () => {
                       <Link to="">change password</Link>
                     </li>
                   </ul>
-                </li>
-                <li class="navbar-item dropdown">
+                </li> */}
+                {/* <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
                     blogs
                   </Link>
@@ -451,7 +451,7 @@ const nav = () => {
                       <Link to="">blog author</Link>
                     </li>
                   </ul>
-                </li>
+                </li> */}
               </ul>
               <div class="navbar-info-group">
                 <div class="navbar-info">

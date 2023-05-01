@@ -72,9 +72,7 @@ function Layout() {
             <div className="col-lg-9 col-md-9 admin_content_bar">
               <div className="main_content_div">
                 <Routes>
-                  {/* <Route element={<AuthWrapper />}> */}
                   <Route path="/admin/home" element={<AddProduct />} />
-
                   <Route path="/admin/orderList" element={<OrderList />} />
                   <Route path="/admin/orderDetails" element={<OrderDetail />} />
                   <Route path="/admin/userList" element={<UserAdd />} />
@@ -83,13 +81,13 @@ function Layout() {
                     path="/admin/productDetails"
                     element={<ProductDetails />}
                   />
-                  {/* </Route> */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
             </div>
           </div>
         ) : null}
+
         {userLogged ? (
           <Routes>
             <Route path="/checkout" element={<Checkout />} />

@@ -15,6 +15,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import Header from "../common/header";
+import Footer from "../common/footer";
 const Index = () => {
   const [ShowAlert, setShowAlert] = useState(false);
   const [productData, setProductData] = useState();
@@ -122,7 +124,8 @@ const Index = () => {
           })
         }
       />
-      <section className="home-index-slider slider-arrow slider-dots">
+      <Header />
+      {/* <section className="home-index-slider slider-arrow slider-dots">
         <div className="banner-part banner-1">
           <div className="container">
             <div className="row align-items-center">
@@ -257,7 +260,7 @@ const Index = () => {
             </li>
           </ul>
         </div>
-      </section>{" "}
+      </section>{" "} */}
       <section className="section recent-part">
         <div className="container">
           <div className="row">
@@ -1578,7 +1581,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-      <section className="section countdown-part">
+      {/* <section className="section countdown-part">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6 mx-auto">
@@ -4747,7 +4750,8 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+      <Footer />
     </div>
   );
 };

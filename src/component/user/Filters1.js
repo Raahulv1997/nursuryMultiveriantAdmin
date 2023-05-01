@@ -43,7 +43,7 @@ const Filters1 = ({ handleClick }) => {
   const priceSubmitHandler = (e) => {
     e.preventDefault();
     navigate(
-      `/shop1?Fromprice=${pricefilter.from_product_price}&&Toprice=${pricefilter.to_product_price}`
+      `/shop?Fromprice=${pricefilter.from_product_price}&&Toprice=${pricefilter.to_product_price}`
     );
   };
 
@@ -57,31 +57,31 @@ const Filters1 = ({ handleClick }) => {
 
     handleClick("true", "Pricereset");
     // console.log("rating aray---", selectRatingData);
-    navigate(`/shop1`);
+    navigate(`/shop`);
   };
 
-  const ratingReset = (e) => {
-    e.preventDefault();
-    setcheckboxfilter(false);
-    selectRatingData = [];
-    handleClick("true", "ratingReset");
-    // console.log("rating aray---", selectRatingData);
-    navigate(`/shop1`);
-  };
+  // const ratingReset = (e) => {
+  //   e.preventDefault();
+  //   setcheckboxfilter(false);
+  //   selectRatingData = [];
+  //   handleClick("true", "ratingReset");
+  //   // console.log("rating aray---", selectRatingData);
+  //   navigate(`/shop`);
+  // };
 
-  const BrandReset = (e) => {
-    e.preventDefault();
-    setBrandCheckboxfilter(false);
+  // const BrandReset = (e) => {
+  //   e.preventDefault();
+  //   setBrandCheckboxfilter(false);
 
-    navigate(`/shop1`);
-  };
+  //   navigate(`/shop`);
+  // };
 
-  const CategoryReset = (e) => {
-    e.preventDefault();
-    setCategoryCheckboxfilter(false);
+  // const CategoryReset = (e) => {
+  //   e.preventDefault();
+  //   setCategoryCheckboxfilter(false);
 
-    navigate(`/shop1`);
-  };
+  //   navigate(`/shop`);
+  // };
   const onRatingFilterAdd = (e) => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -103,7 +103,7 @@ const Filters1 = ({ handleClick }) => {
     }
     handleClick(selectRatingData, "rating");
     // console.log("rating aray---", selectRatingData);
-    navigate(`/shop1`);
+    navigate(`/shop`);
   };
 
   const onBrandFilterAdd = (e) => {
@@ -126,7 +126,7 @@ const Filters1 = ({ handleClick }) => {
       }
     }
     handleClick(selectBrandData, "brand");
-    navigate(`/shop1`);
+    navigate(`/shop`);
   };
 
   const onCategoryFilterAdd = (e) => {
@@ -151,7 +151,7 @@ const Filters1 = ({ handleClick }) => {
       }
     }
     handleClick(selectCategoryData, "category");
-    navigate(`/shop1`);
+    navigate(`/shop`);
   };
 
   useEffect(() => {
