@@ -7,11 +7,11 @@ import Cart from "./cart";
 import { useState } from "react";
 const Header = () => {
   let path = window.location.pathname;
-  console.log("path  " + path);
+  // console.log("path  " + path);
   const aa = path.includes("/admin");
   const bb = path.includes("/");
-  console.log("aa--" + aa);
-  console.log("bb--" + bb);
+  // console.log("aa--" + aa);
+  // console.log("bb--" + bb);
   const [searchbox, setSearchBox] = useState("");
   let [searcherror, setsearcherror] = useState(false);
   const [showcart, setShowcart] = useState(false);

@@ -10,44 +10,53 @@ const Login = () => {
   const navigate = useNavigate();
   let [sign_up_mail, setSign_up_mail] = useState("");
   let [sign_up_password, setSign_up_passwordl] = useState("");
-  let [res_result, setRes_result] = useState("");
-  const [ShowAlert, setShowAlert] = useState(false);
 
+  const [ShowAlert, setShowAlert] = useState(false);
+  const [ShowErrorAlert, setShowErrorAlert] = useState(false);
   async function sign_up_btn(event) {
     event.preventDefault();
-    console.log("_____________________________log-in_________________________");
-    console.log(sign_up_mail);
-    console.log(sign_up_password);
 
     let result = await login_api({
       email: sign_up_mail,
       password: sign_up_password,
     });
-    console.log("responxe---" + JSON.stringify(result));
+    // console.log("responxe---" + JSON.stringify(result));
+    const { user_detaile } = result;
+
     if (result.res_code === "001" || result.res_code === "002") {
       localStorage.setItem("user_token", result.token);
+      localStorage.setItem("user_type", user_detaile.user_type);
       setSign_up_mail("");
       setSign_up_passwordl("");
-      setRes_result(result.response);
+
       setShowAlert(true);
-      alert(result.response);
-      navigate("/");
     } else {
-      setRes_result(result.response);
-      setShowAlert(true);
+      setShowErrorAlert(true);
     }
   }
+
+  const onCloseAlert = () => {
+    return Promise.resolve(setShowAlert(false));
+  };
 
   return (
     <div>
       {" "}
       <SweetAlert
         show={ShowAlert}
-        title="LogIn message"
-        text={res_result}
-        onConfirm={() => {
-          setShowAlert(false);
-        }}
+        title="Login Message"
+        text={"Login successfully"}
+        onConfirm={() =>
+          onCloseAlert().then(() => {
+            navigate("/");
+          })
+        }
+      />
+      <SweetAlert
+        show={ShowErrorAlert}
+        title="Login Message"
+        text={"Not login Please try again"}
+        onConfirm={() => setShowErrorAlert(false)}
       />
       <section className="user-form-part">
         <div className="container">

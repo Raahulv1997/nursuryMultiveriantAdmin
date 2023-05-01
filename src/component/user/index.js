@@ -12,8 +12,10 @@ import {
   cart_delete_api,
 } from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
-
+import SweetAlert from "sweetalert-react";
+import "sweetalert/dist/sweetalert.css";
 const Index = () => {
+  const [ShowAlert, setShowAlert] = useState(false);
   const [productData, setProductData] = useState();
   const [reload, setReload] = useState("");
   const navigate = useNavigate();
@@ -30,8 +32,8 @@ const Index = () => {
       id: [],
     });
     let result = result_all["results"];
-    console.log("__________________________________user___home___api");
-    console.log(result);
+    // console.log("__________________________________user___home___api");
+    // console.log(result);
     setProductData(result);
   }
 
@@ -45,7 +47,7 @@ const Index = () => {
     let token = localStorage.getItem("user_token");
 
     if (token !== "" && token !== null && token !== undefined) {
-      alert("User logged in");
+      // alert("User logged in");
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
         { product_id, cart_product_quantity },
@@ -57,8 +59,7 @@ const Index = () => {
       } else {
       }
     } else {
-      alert("please login your account");
-      navigate("/login");
+      setShowAlert(true);
     }
   }
 
@@ -101,13 +102,25 @@ const Index = () => {
         }
       }
     } else {
-      alert("please login your account");
-      navigate("/login");
+      setShowAlert(true);
     }
   }
 
+  const onCloseAlert = () => {
+    return Promise.resolve(setShowAlert(false));
+  };
   return (
     <div>
+      <SweetAlert
+        show={ShowAlert}
+        title="Login Message"
+        text={"Please login Your account"}
+        onConfirm={() =>
+          onCloseAlert().then(() => {
+            navigate("/login");
+          })
+        }
+      />
       <section className="home-index-slider slider-arrow slider-dots">
         <div className="banner-part banner-1">
           <div className="container">
@@ -1058,8 +1071,32 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
-            <div className="col">
+          <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+            {(productData || []).map((product) => {
+              return (
+                <>
+                  <ProductBox
+                    name={product.name}
+                    image={
+                      product.cover_image !== null
+                        ? product.cover_image
+                        : "https://picsum.photos/300"
+                    }
+                    discount={product.discount}
+                    mrp={product.mrp}
+                    price={product.price}
+                    unit={product.unit}
+                    rating={product.rating}
+                    product_stock_quantity={product.product_stock_quantity}
+                    cart_count={product.cart_count}
+                    product_id={product.id}
+                    cart_update_fun={cart_update_function}
+                    incrementDecrementCount={incrementDecrementCount_function}
+                  />
+                </>
+              );
+            })}
+            {/* <div className="col">
               <div className="feature-card">
                 <div className="feature-media">
                   <div className="feature-label">
@@ -1526,7 +1563,7 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row">
             <div className="col-lg-12">

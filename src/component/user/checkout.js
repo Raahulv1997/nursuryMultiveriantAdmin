@@ -27,6 +27,7 @@ function Checkout() {
   let totalCgst = 0;
   const navigate = useNavigate();
   const [ShowOrderAlert, setShowOrderAlert] = useState(false);
+  const [ShowOrderErrorAlert, setShowOrderErrorAlert] = useState(false);
   const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
   const ContextValue = useContext(CartContext);
   const [cartData, setCartData] = useState([]);
@@ -86,13 +87,15 @@ function Checkout() {
     const response = await AddUserOrder(databyID);
     console.log("order response---" + JSON.stringify(response));
     if (response.status === "ok") {
-      navigate("/order_list");
+      setShowOrderAlert(true);
     } else {
-      alert("Order not placed");
+      setShowOrderErrorAlert(true);
     }
   };
 
   const OrderPlacedFucntion = () => {
+    return Promise.resolve(setShowOrderAlert(false));
+
     // navigate("/orderDetails");
     // setShowOrderAlert(false);
   };
@@ -602,7 +605,18 @@ function Checkout() {
         show={ShowOrderAlert}
         title="Order Added"
         text="Order successfully placed.."
-        onConfirm={OrderPlacedFucntion}
+        onConfirm={() =>
+          OrderPlacedFucntion().then(() => {
+            navigate("/order_list");
+          })
+        }
+      />
+
+      <SweetAlert
+        show={ShowOrderErrorAlert}
+        title="Order"
+        text="Order not placed"
+        onConfirm={() => setShowOrderErrorAlert(false)}
       />
     </div>
   );
