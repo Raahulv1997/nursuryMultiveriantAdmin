@@ -1,4 +1,5 @@
 // import React, { Children } from "react";
+import React, { Component } from "react";
 import img1 from "../css-js/images/home/index/01.png";
 import img2 from "../css-js/images/home/index/02.png";
 import product from "../css-js/images/product/01.jpg";
@@ -256,7 +257,7 @@ const Index = () => {
             </li>
           </ul>
         </div>
-      </section>
+      </section>{" "}
       <section className="section recent-part">
         <div className="container">
           <div className="row">

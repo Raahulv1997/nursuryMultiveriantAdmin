@@ -33,7 +33,7 @@ import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 import AuthWrapper from "./AuthWrapper";
 import Product_detail from "./component/user/product_detail.js";
-import Shop1 from "./component/user/Shop1";
+import ShopPage from "./component/user/shoppage";
 import Order from "./component/user/order";
 import Vendor from "./component/admin/Vendor";
 import SellerRegister from "./component/vendor/SellerRegister.js";
@@ -42,116 +42,65 @@ import SellerForgetPassword from "./component/vendor/SellerForgetPassword";
 import SellerSignUp from "./component/vendor/SellerSignUp";
 import SellerOtpVerify from "./component/vendor/SellerOtpVerify";
 import UpdateSellerForgetPassword from "./component/vendor/updateSellerForgetpassword";
+import NotFound from "./component/common/notfound";
 
 function Layout() {
   let path = window.location.pathname;
-  console.log("path  " + path);
-  const aa = path.includes("/admin");
-  const bb = path.includes("/");
-  console.log("aa  " + aa);
-  console.log("-bb--" + bb);
   const adminLogged = localStorage.getItem("admin_token");
   const userLogged = localStorage.getItem("user_token");
-  console.log("  user login------" + userLogged);
-  console.log("  Admin login------" + adminLogged);
+  // console.log(" login------" + userLogged);
 
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/change_password" element={<UserChangePassword />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/orderDetails" element={<Order />} />
+          <Route path="/shop" element={<ShopPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user_register" element={<Register />} />
           <Route path="/otp_verify" element={<Otpverify />} />
           <Route path="/user_forgate_password" element={<Resetpassword />} />
-          {/* <Route path="/admin" element={<AdminLogin />} /> */}
-          <Route
-            path="/admin"
-            element={
-              adminLogged == null ? (
-                <AdminLogin />
-              ) : (
-                <Navigate replace to={"/admin/Home"} />
-              )
-            }
-          />
-
-          <Route path="/sellerlogin" element={<SellerLogin />} />
-          <Route path="/sellerRegister" element={<SellerRegister />} />
-          <Route path="/sellerSignup" element={<SellerSignUp />} />
-          <Route path="/sellerOtpVerify" element={<SellerOtpVerify />} />
-          <Route
-            path="/sellerforgetpassword"
-            element={<SellerForgetPassword />}
-          />
-          <Route
-            path="/updatesellerforgetpassword"
-            element={<UpdateSellerForgetPassword />}
-          />
+          <Route path="/admin" element={<AdminLogin />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
+        {adminLogged ? (
+          <div className="row admin_row">
+            <div className="col-lg-3 col-md-3 admin_sidebar">
+              {adminLogged ? <Sidebar /> : null}
+            </div>
+            <div className="col-lg-9 col-md-9 admin_content_bar">
+              <div className="main_content_div">
+                <Routes>
+                  {/* <Route element={<AuthWrapper />}> */}
+                  <Route path="/admin/home" element={<AddProduct />} />
 
-        {aa === true ? (
-          <div className="container-fluid p-0">
-            <Header />
-
-            <div className="row">
-              <div className="col-lg-3">
-                <Sidebar />
-              </div>
-              <div className="col-lg-9">
-                <div className="main_content_div">
-                  <Routes>
-                    {/* <Route element={<AuthWrapper />}> */}
-                    <Route path="/admin/Home" element={<AddProduct />} />
-
-                    <Route path="/admin/orderList" element={<OrderList />} />
-                    <Route
-                      path="/admin/orderDetails"
-                      element={<OrderDetail />}
-                    />
-                    <Route path="/admin/userList" element={<UserAdd />} />
-                    <Route path="/admin/vendor" element={<Vendor />} />
-                    <Route
-                      path="/admin/productDetails"
-                      element={<ProductDetails />}
-                    />
-                    {/* </Route> */}
-                  </Routes>
-                </div>
+                  <Route path="/admin/orderList" element={<OrderList />} />
+                  <Route path="/admin/orderDetails" element={<OrderDetail />} />
+                  <Route path="/admin/userList" element={<UserAdd />} />
+                  <Route path="/admin/vendor" element={<Vendor />} />
+                  <Route
+                    path="/admin/productDetails"
+                    element={<ProductDetails />}
+                  />
+                  {/* </Route> */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
               </div>
             </div>
           </div>
-        ) : (
-          console.log("check -- --else---___" + aa + "_&&_ " + adminLogged + "")
-        )}
-
-        {bb === true ? (
-          <div className="container-fluid p-0">
-            <Header />
-
-            <div className="userpage">
-              <Nav></Nav>
-              <div className="col-lg-12">
-                <div className="main_content_div">
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/checkout" element={<Checkout />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/wishlist" element={<Wishlist />} />
-                    <Route path="/shop1" element={<Shop1 />} />
-                    <Route path="/order_list" element={<UserOrderlist />} />
-                    <Route path="/orderDetails" element={<Order />} />
-                    <Route path="/wallet" element={<Wallet />} />
-                    <Route
-                      path="/product_detaile"
-                      element={<Product_detail />}
-                    />
-                  </Routes>
-                </div>
-              </div>
-              <Footer />
-            </div>
-          </div>
+        ) : null}
+        {userLogged ? (
+          <Routes>
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/order_list" element={<UserOrderlist />} />
+            <Route path="/wallet" element={<Wallet />} />
+            <Route path="/product_detail" element={<Product_detail />} />
+            <Route path="/change_password" element={<UserChangePassword />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         ) : null}
       </Router>
     </div>

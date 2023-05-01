@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+.admin_sidebar, .admin_content_bar{
+  height: 100vh;
+  overflow: hidden auto;
+  margin: 0;
+}
+.admin_sidebar{
+  overflow: hidden;
+}

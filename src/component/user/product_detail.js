@@ -8,6 +8,8 @@ import {
   cart_delete_api,
 } from "../api/api";
 import { useState, useEffect } from "react";
+import Header from "../common/header";
+import Footer from "../common/footer";
 
 const Product_detail = () => {
   const navigate = useNavigate();
@@ -105,7 +107,7 @@ const Product_detail = () => {
 
   return (
     <div>
-      {" "}
+      <Header />
       <section className="single-banner inner-section">
         <div className="container">
           <h2>product video</h2>
@@ -1382,6 +1384,7 @@ const Product_detail = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

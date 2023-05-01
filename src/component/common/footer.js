@@ -7,7 +7,7 @@ import Payment3 from "../css-js/images/payment/jpg/03.jpg";
 import Payment4 from "../css-js/images/payment/jpg/04.jpg";
 import Google from "../css-js/images/google-store.png";
 import Apple from "../css-js/images/app-store.png";
-const footer = () => {
+const Footer = () => {
   return (
     <div>
       <section
@@ -231,4 +231,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default Footer;
