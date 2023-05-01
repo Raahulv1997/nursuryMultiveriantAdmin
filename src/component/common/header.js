@@ -22,7 +22,7 @@ const Header = () => {
   const navigate = useNavigate();
   const admin_token = localStorage.getItem("admin_token");
   const user_token = localStorage.getItem("user_token");
-
+  const vendor_token = localStorage.getItem("vendor_token");
   const OnLogoutClick = () => {
     if (user_token !== null && bb === true) {
       console.log("in user token");
@@ -30,10 +30,15 @@ const Header = () => {
       localStorage.removeItem("user_token");
       navigate("/");
     } else if (admin_token !== null && aa === true) {
-      console.log("in user token");
+      console.log("in admin token");
 
       localStorage.removeItem("admin_token");
       navigate("/admin");
+    } else if (vendor_token !== null) {
+      console.log("in vendor token");
+
+      localStorage.removeItem("vendor_token");
+      navigate("/sellerlogin");
     } else {
       alert("not logout");
     }
@@ -126,11 +131,18 @@ const Header = () => {
                   total price<small>$345.00</small>
                 </span>
               </button>
-              <Link to="/login" className="header-widget" title="Wishlist">
-                <i className="fas fa-login"></i>
-                <span>Login</span>
-              </Link>
-              <Link to="" className="header-widget" title="Wishlist">
+              {user_token !== null ? null : (
+                <Link to="/login" className="header-widget" title="Wishlist">
+                  <i className="fas fa-login"></i>
+                  <span>Login</span>
+                </Link>
+              )}
+
+              <Link
+                to="/sellerlogin"
+                className="header-widget"
+                title="Wishlist"
+              >
                 <i className="fas fa-login"></i>
                 <span> seller Login</span>
               </Link>

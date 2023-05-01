@@ -1,6 +1,11 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./component/common/header";
 import Sidebar from "./component/common/sidebar";
 
@@ -31,6 +36,12 @@ import Product_detail from "./component/user/product_detail.js";
 import Shop1 from "./component/user/Shop1";
 import Order from "./component/user/order";
 import Vendor from "./component/admin/Vendor";
+import SellerRegister from "./component/vendor/SellerRegister.js";
+import SellerLogin from "./component/vendor/SellerLogin";
+import SellerForgetPassword from "./component/vendor/SellerForgetPassword";
+import SellerSignUp from "./component/vendor/SellerSignUp";
+import SellerOtpVerify from "./component/vendor/SellerOtpVerify";
+import UpdateSellerForgetPassword from "./component/vendor/updateSellerForgetpassword";
 
 function Layout() {
   let path = window.location.pathname;
@@ -41,7 +52,8 @@ function Layout() {
   console.log("-bb--" + bb);
   const adminLogged = localStorage.getItem("admin_token");
   const userLogged = localStorage.getItem("user_token");
-  console.log(" login------" + userLogged);
+  console.log("  user login------" + userLogged);
+  console.log("  Admin login------" + adminLogged);
 
   return (
     <div>
@@ -52,7 +64,30 @@ function Layout() {
           <Route path="/user_register" element={<Register />} />
           <Route path="/otp_verify" element={<Otpverify />} />
           <Route path="/user_forgate_password" element={<Resetpassword />} />
-          <Route path="/admin" element={<AdminLogin />} />
+          {/* <Route path="/admin" element={<AdminLogin />} /> */}
+          <Route
+            path="/admin"
+            element={
+              adminLogged == null ? (
+                <AdminLogin />
+              ) : (
+                <Navigate replace to={"/admin/Home"} />
+              )
+            }
+          />
+
+          <Route path="/sellerlogin" element={<SellerLogin />} />
+          <Route path="/sellerRegister" element={<SellerRegister />} />
+          <Route path="/sellerSignup" element={<SellerSignUp />} />
+          <Route path="/sellerOtpVerify" element={<SellerOtpVerify />} />
+          <Route
+            path="/sellerforgetpassword"
+            element={<SellerForgetPassword />}
+          />
+          <Route
+            path="/updatesellerforgetpassword"
+            element={<UpdateSellerForgetPassword />}
+          />
         </Routes>
 
         {aa === true ? (
@@ -66,21 +101,21 @@ function Layout() {
               <div className="col-lg-9">
                 <div className="main_content_div">
                   <Routes>
-                    <Route element={<AuthWrapper />}>
-                      <Route path="/admin/Home" element={<AddProduct />} />
+                    {/* <Route element={<AuthWrapper />}> */}
+                    <Route path="/admin/Home" element={<AddProduct />} />
 
-                      <Route path="/admin/orderList" element={<OrderList />} />
-                      <Route
-                        path="/admin/orderDetails"
-                        element={<OrderDetail />}
-                      />
-                      <Route path="/admin/userList" element={<UserAdd />} />
-                      <Route path="/admin/vendor" element={<Vendor />} />
-                      <Route
-                        path="/admin/productDetails"
-                        element={<ProductDetails />}
-                      />
-                    </Route>
+                    <Route path="/admin/orderList" element={<OrderList />} />
+                    <Route
+                      path="/admin/orderDetails"
+                      element={<OrderDetail />}
+                    />
+                    <Route path="/admin/userList" element={<UserAdd />} />
+                    <Route path="/admin/vendor" element={<Vendor />} />
+                    <Route
+                      path="/admin/productDetails"
+                      element={<ProductDetails />}
+                    />
+                    {/* </Route> */}
                   </Routes>
                 </div>
               </div>
