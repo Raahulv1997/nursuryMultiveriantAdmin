@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { OrderByNo, userOrder } from "../api/api";
+import Header from "../common/header";
+import Footer from "../common/footer";
 
 const Order = () => {
   const orderIDD = localStorage.getItem("orderId");
@@ -28,6 +30,7 @@ const Order = () => {
   // console.log("order ID--" + orderID);
   return (
     <div>
+      <Header />
       <section class="inner-section invoice-part">
         <div class="container">
           <div class="row">
@@ -196,6 +199,7 @@ const Order = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

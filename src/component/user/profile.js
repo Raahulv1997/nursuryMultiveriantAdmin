@@ -6,6 +6,8 @@ import { Form, Modal } from "react-bootstrap";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import Header from "../common/header";
+import Footer from "../common/footer";
 /* eslint-disable no-unused-vars */
 const Profile = () => {
   const [modalshow, setmodalshow] = useState(false);
@@ -82,8 +84,14 @@ const Profile = () => {
     ],
   };
   // CUSTOM VALIDATIONS IMPORT
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators);
+  const {
+    state,
+    setState,
+    onInputChange,
+    setErrors,
+    errors,
+    validate,
+  } = useValidation(initialFormState, validators);
   // USER CARRER PROFILE SUBMIT BUTTON
 
   const OnFileUpload = (e) => {
@@ -139,6 +147,7 @@ const Profile = () => {
   };
   return (
     <div>
+      <Header />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"
@@ -989,6 +998,7 @@ const Profile = () => {
         // showCancelButton={}
         // onCancel={}
       />
+      <Footer />
     </div>
   );
 };

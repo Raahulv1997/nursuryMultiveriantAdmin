@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userOrder } from "../api/api";
 import product from "../css-js/images/product/01.jpg";
+import Header from "../common/header";
+import Footer from "../common/footer";
 
 const Order_list = () => {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const Order_list = () => {
   };
   return (
     <div>
-      {" "}
+      <Header />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"
@@ -891,6 +893,7 @@ const Order_list = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

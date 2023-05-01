@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import Header from "../common/header";
+import Footer from "../common/footer";
 
 const wallet = () => {
   return (
     <div>
+      <Header />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) n<imgo-repeat center"
@@ -12,7 +15,7 @@ const wallet = () => {
           <h2>my wallet</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="" >Home</Link>
+              <Link to="">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               wallet
@@ -51,28 +54,28 @@ const wallet = () => {
                     <h6>suggested:</h6>
                     <ul>
                       <li>
-                        <Link to="" >$50</Link>
+                        <Link to="">$50</Link>
                       </li>
                       <li>
-                        <Link to="" >$100</Link>
+                        <Link to="">$100</Link>
                       </li>
                       <li>
-                        <Link to="" >$300</Link>
+                        <Link to="">$300</Link>
                       </li>
                       <li>
-                        <Link to="" >$500</Link>
+                        <Link to="">$500</Link>
                       </li>
                       <li>
-                        <Link to="" >$800</Link>
+                        <Link to="">$800</Link>
                       </li>
                       <li>
-                        <Link to="" >$1000</Link>
+                        <Link to="">$1000</Link>
                       </li>
                       <li>
-                        <Link to="" >$3000</Link>
+                        <Link to="">$3000</Link>
                       </li>
                       <li>
-                        <Link to="" >$5000</Link>
+                        <Link to="">$5000</Link>
                       </li>
                     </ul>
                   </div>
@@ -124,7 +127,7 @@ const wallet = () => {
                         <td>02 February 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -135,7 +138,7 @@ const wallet = () => {
                         <td>02 march 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -146,7 +149,7 @@ const wallet = () => {
                         <td>02 april 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -157,7 +160,7 @@ const wallet = () => {
                         <td>02 may 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -168,7 +171,7 @@ const wallet = () => {
                         <td>02 june 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -179,7 +182,7 @@ const wallet = () => {
                         <td>02 February 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -190,7 +193,7 @@ const wallet = () => {
                         <td>02 march 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -201,7 +204,7 @@ const wallet = () => {
                         <td>02 april 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -212,7 +215,7 @@ const wallet = () => {
                         <td>02 may 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -223,7 +226,7 @@ const wallet = () => {
                         <td>02 june 2021</td>
                         <td>Order Altered</td>
                         <td>
-                          Order <Link to="" >(26881)</Link>
+                          Order <Link to="">(26881)</Link>
                         </td>
                         <td>$345.89</td>
                         <td>$345.89</td>
@@ -236,33 +239,33 @@ const wallet = () => {
                   <p className="page-info">Showing 12 of 60 Results</p>
                   <ul className="pagination">
                     <li className="page-item">
-                      <Link className="page-link" to="" >
+                      <Link className="page-link" to="">
                         <i className="fas fa-long-arrow-alt-left"></i>
                       </Link>
                     </li>
                     <li className="page-item">
-                      <Link className="page-link active" to="" >
+                      <Link className="page-link active" to="">
                         1
                       </Link>
                     </li>
                     <li className="page-item">
-                      <Link className="page-link" to="" >
+                      <Link className="page-link" to="">
                         2
                       </Link>
                     </li>
                     <li className="page-item">
-                      <Link className="page-link" to="" >
+                      <Link className="page-link" to="">
                         3
                       </Link>
                     </li>
                     <li className="page-item">...</li>
                     <li className="page-item">
-                      <Link className="page-link" to="" >
+                      <Link className="page-link" to="">
                         60
                       </Link>
                     </li>
                     <li className="page-item">
-                      <Link className="page-link" to="" >
+                      <Link className="page-link" to="">
                         <i className="fas fa-long-arrow-alt-right"></i>
                       </Link>
                     </li>
@@ -273,6 +276,7 @@ const wallet = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

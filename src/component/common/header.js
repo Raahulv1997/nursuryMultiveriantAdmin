@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
+import Nav from "./nav";
 import Cart from "./cart";
 import { useState } from "react";
 const Header = () => {
@@ -173,6 +174,7 @@ const Header = () => {
         cart_list_hide={cart_list_hide_fun}
         cart_count={cart_count_fun}
       />
+      <Nav />
     </Fragment>
   );
 };

@@ -12,6 +12,8 @@ import payment1 from "../css-js/images/payment/png/01.png";
 import CartContext from "../helper/cart";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import Header from "../common/header";
+import Footer from "../common/footer";
 // import CartContext from "../helper/cart";
 
 function Checkout() {
@@ -126,6 +128,7 @@ function Checkout() {
 
   return (
     <div>
+      <Header />
       <section
         class="inner-section single-banner"
         // style="background: url(images/single-banner.jpg) no-repeat center;"
@@ -604,6 +607,7 @@ function Checkout() {
         text="Order successfully placed.."
         onConfirm={OrderPlacedFucntion}
       />
+      <Footer />
     </div>
   );
 }

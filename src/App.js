@@ -5,7 +5,7 @@ import Layout from "./layout";
 
 function App() {
   return (
-    <div>
+    <div className="container-fluid p-0">
       <Layout />
     </div>
   );

@@ -11,8 +11,10 @@ import {
 // import Filters from "./Filters";
 import Filters1 from "./Filters1";
 import ProductBox from "./productBox";
+import Header from "../common/header";
+import Footer from "../common/footer";
 
-const Shop1 = () => {
+const ShopPage = () => {
   const [reload, setReload] = useState("");
   const navigate = useNavigate();
 
@@ -246,6 +248,7 @@ const Shop1 = () => {
 
   return (
     <div>
+      <Header />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"
@@ -386,8 +389,9 @@ const Shop1 = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
 
-export default Shop1;
+export default ShopPage;
