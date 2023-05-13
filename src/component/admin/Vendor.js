@@ -17,6 +17,7 @@ import {
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import DataTable from "react-data-table-component";
+import Sidebar from "../common/sidebar";
 
 const Vendor = () => {
   const initialFormState = {
@@ -391,383 +392,419 @@ const Vendor = () => {
 
   return (
     <div>
-      <div
-        className="dashboard-main-container mt-df25 mt-lg-31"
-        id="dashboard-body"
-      >
-        <div className="">
-          <div className="page_main_contant">
-            <h4>Vendor </h4>
-            <div className=" mt-3 p-3">
-              <div className="row pb-3">
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      className={
-                        customValidation === "nameBlank"
-                          ? "form-control border border-danger"
-                          : "form-control"
-                      }
-                      placeholder="Search by Owner name"
-                      name="searchName"
-                      onChange={SearchOnChange}
-                      value={searchdata.searchName}
-                    />
-                  </Form.Group>
-                  {customValidation === "nameBlank" ? (
-                    <small className="text-danger">Fill the Owner name..</small>
-                  ) : customValidation !== "nameBlank" ? null : null}
-                </div>
-
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      className={
-                        customValidation === "shopBlank"
-                          ? "form-control border border-danger"
-                          : "form-control"
-                      }
-                      placeholder="Search by Shop Name"
-                      name="searchShopName"
-                      onChange={SearchOnChange}
-                      value={searchdata.searchShopName}
-                    />
-                  </Form.Group>
-                  {customValidation === "shopBlank" ? (
-                    <small className="text-danger">Fill the Shop name..</small>
-                  ) : customValidation !== "shopBlank" ? null : null}
-                </div>
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <div>
-                    <Button
-                      type="submit"
-                      className="button  btn-success main_button w-100"
-                      onClick={submitHandler}
-                    >
-                      Search
-                    </Button>
-                  </div>
-                </div>
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <div>
-                    <Button
-                      type="reset"
-                      name=""
-                      value=""
-                      className="button btn-success  main_button w-100"
-                      onClick={OnReset}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                </div>
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <Button
-                    className="button btn-success  main_button w-100"
-                    onClick={() => handleShow("add")}
-                  >
-                    Add Vendor
-                  </Button>
-                </div>
-              </div>
-
-              <DataTable
-                columns={columns}
-                data={vendorListData}
-                pagination
-                highlightOnHover
-                pointerOnHover
-                className={"table_body product_table"}
-                subHeader
-              />
-
-              <Modal
-                size="lg"
-                show={modalshow}
-                onHide={ModelCloseFunction}
-                aria-labelledby="example-modal-sizes-title-lg"
-              >
-                <Form
-                  className="p-2 addproduct_form"
-                  onSubmit={
-                    modalshow === "add"
-                      ? (e) => handleAddVendor(e)
-                      : (modalshow) => handleUpdateVendor(modalshow)
-                  }
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                      {modalshow === "add" ? "Add Vendor" : "Update Vendor"}
-                    </Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <div className="row">
-                      <div className="col-md-6">
+      <div className="row admin_row">
+        <div className="col-lg-3 col-md-3 admin_sidebar">
+          <Sidebar />
+        </div>
+        <div className="col-lg-9 col-md-9 admin_content_bar">
+          <div className="main_content_div">
+            <div
+              className="dashboard-main-container mt-df25 mt-lg-31"
+              id="dashboard-body"
+            >
+              <div className="">
+                <div className="page_main_contant">
+                  <h4>Vendor </h4>
+                  <div className=" mt-3 p-3">
+                    <div className="row pb-3">
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Owner Name <small className="text-danger">*</small>
-                          </Form.Label>
-                          <Form.Control
-                            className={
-                              errors.owner_name
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
-                            type="text"
-                            value={state.owner_name}
-                            name="owner_name"
-                            onChange={onInputChange}
-                            id="owner_name"
-                          />
-                          {errors.owner_name
-                            ? (errors.owner_name || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Shop Name<small className="text-danger">*</small>
-                          </Form.Label>
                           <Form.Control
                             type="text"
                             className={
-                              errors.shop_name
+                              customValidation === "nameBlank"
                                 ? "form-control border border-danger"
                                 : "form-control"
                             }
-                            value={state.shop_name}
-                            name="shop_name"
-                            onChange={onInputChange}
-                            id="shop_name"
+                            placeholder="Search by Owner name"
+                            name="searchName"
+                            onChange={SearchOnChange}
+                            value={searchdata.searchName}
                           />
-                          {errors.shop_name
-                            ? (errors.shop_name || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
                         </Form.Group>
+                        {customValidation === "nameBlank" ? (
+                          <small className="text-danger">
+                            Fill the Owner name..
+                          </small>
+                        ) : customValidation !== "nameBlank" ? null : null}
                       </div>
 
-                      <div className="col-md-6">
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Email <small className="text-danger">*</small>
-                          </Form.Label>
                           <Form.Control
-                            className={
-                              errors.email
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
                             type="text"
-                            value={state.email}
-                            name="email"
-                            onChange={onInputChange}
-                            id="email"
-                          />
-                          {errors.email
-                            ? (errors.email || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Mobile <small className="text-danger">*</small>
-                          </Form.Label>
-                          <Form.Control
                             className={
-                              errors.mobile
+                              customValidation === "shopBlank"
                                 ? "form-control border border-danger"
                                 : "form-control"
                             }
-                            type="number"
-                            value={state.mobile}
-                            name="mobile"
-                            onChange={onInputChange}
-                            id="mobile"
-                          />
-                          {errors.mobile
-                            ? (errors.mobile || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Shop Address{" "}
-                            <small className="text-danger">*</small>
-                          </Form.Label>
-                          <Form.Control
-                            className={
-                              errors.shop_address
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
-                            type="text"
-                            value={state.shop_address}
-                            name="shop_address"
-                            onChange={onInputChange}
-                            id="shop_address"
-                          />
-                          {errors.shop_address
-                            ? (errors.shop_address || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            GSTN <small className="text-danger">*</small>
-                          </Form.Label>
-                          <Form.Control
-                            className={
-                              errors.gstn
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
-                            type="text"
-                            value={state.gstn}
-                            name="gstn"
-                            onChange={onInputChange}
-                            id="gstn"
-                          />
-                          {errors.gstn
-                            ? (errors.gstn || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Image
-                          </Form.Label>
-                          <Form.Control
-                            type="file"
-                            // value={state.gstn}
-                            name="image"
-                            onChange={(e) => OnFileUpload(e)}
-                            id="image"
+                            placeholder="Search by Shop Name"
+                            name="searchShopName"
+                            onChange={SearchOnChange}
+                            value={searchdata.searchShopName}
                           />
                         </Form.Group>
+                        {customValidation === "shopBlank" ? (
+                          <small className="text-danger">
+                            Fill the Shop name..
+                          </small>
+                        ) : customValidation !== "shopBlank" ? null : null}
                       </div>
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Geolocation <small className="text-danger">*</small>
-                          </Form.Label>
-                          <Form.Control
-                            className={
-                              errors.geolocation
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
-                            type="text"
-                            value={state.geolocation}
-                            name="geolocation"
-                            onChange={onInputChange}
-                            id="geolocation"
-                          />
-                          {errors.geolocation
-                            ? (errors.geolocation || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
-                            : null}
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-6">
-                        <Form.Group className="mb-3">
-                          <Form.Label className="" column sm="12">
-                            Availabilty <small className="text-danger">*</small>
-                          </Form.Label>
-                          <Col sm="12">
-                            <InputGroup className="">
-                              <Form.Select
-                                aria-label="Default select example"
-                                // className="nice-select w-100"
-                                className={
-                                  errors.availability
-                                    ? "form-control border border-danger"
-                                    : "form-control"
-                                }
-                                sm="9"
-                                name="availability"
-                                onChange={onInputChange}
-                                value={state.availability}
-                              >
-                                <option value={""}>Select Availabilty</option>
-                                <option value={"open"}>Open</option>
-                                <option value={"close"}>Close</option>
-                              </Form.Select>
-                            </InputGroup>
-                          </Col>
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-md-3 col-sm-4 p-2 text-center">
-                        <div className="manufacture_date addvariety_inputbox">
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
                           <Button
-                            variant="outline-success"
-                            className="addcategoryicon w-100"
-                            type={"submit"}
+                            type="submit"
+                            className="button  btn-success main_button w-100"
+                            onClick={submitHandler}
                           >
+                            Search
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
+                          <Button
+                            type="reset"
+                            name=""
+                            value=""
+                            className="button btn-success  main_button w-100"
+                            onClick={OnReset}
+                          >
+                            Reset
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <Button
+                          className="button btn-success  main_button w-100"
+                          onClick={() => handleShow("add")}
+                        >
+                          Add Vendor
+                        </Button>
+                      </div>
+                    </div>
+
+                    <DataTable
+                      columns={columns}
+                      data={vendorListData}
+                      pagination
+                      highlightOnHover
+                      pointerOnHover
+                      className={"table_body product_table"}
+                      subHeader
+                    />
+
+                    <Modal
+                      size="lg"
+                      show={modalshow}
+                      onHide={ModelCloseFunction}
+                      aria-labelledby="example-modal-sizes-title-lg"
+                    >
+                      <Form
+                        className="p-2 addproduct_form"
+                        onSubmit={
+                          modalshow === "add"
+                            ? (e) => handleAddVendor(e)
+                            : (modalshow) => handleUpdateVendor(modalshow)
+                        }
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title id="example-modal-sizes-title-lg">
                             {modalshow === "add"
                               ? "Add Vendor"
                               : "Update Vendor"}
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="col-md-3 col-sm-4 p-2 text-center">
-                        <div className="manufacture_date addvariety_inputbox">
-                          <Button
-                            variant="outline-danger"
-                            className="addcategoryicon w-100"
-                            // type="submit"
-                            onClick={ModelCloseFunction}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    {/* <Button onClick={setLgShow(false)}>Close</Button> */}
-                  </Modal.Footer>
-                </Form>
-              </Modal>
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Owner Name{" "}
+                                  <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  className={
+                                    errors.owner_name
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  type="text"
+                                  value={state.owner_name}
+                                  name="owner_name"
+                                  onChange={onInputChange}
+                                  id="owner_name"
+                                />
+                                {errors.owner_name
+                                  ? (errors.owner_name || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Shop Name
+                                  <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  className={
+                                    errors.shop_name
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  value={state.shop_name}
+                                  name="shop_name"
+                                  onChange={onInputChange}
+                                  id="shop_name"
+                                />
+                                {errors.shop_name
+                                  ? (errors.shop_name || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Email <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  className={
+                                    errors.email
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  type="text"
+                                  value={state.email}
+                                  name="email"
+                                  onChange={onInputChange}
+                                  id="email"
+                                />
+                                {errors.email
+                                  ? (errors.email || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Mobile{" "}
+                                  <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  className={
+                                    errors.mobile
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  type="number"
+                                  value={state.mobile}
+                                  name="mobile"
+                                  onChange={onInputChange}
+                                  id="mobile"
+                                />
+                                {errors.mobile
+                                  ? (errors.mobile || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Shop Address{" "}
+                                  <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  className={
+                                    errors.shop_address
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  type="text"
+                                  value={state.shop_address}
+                                  name="shop_address"
+                                  onChange={onInputChange}
+                                  id="shop_address"
+                                />
+                                {errors.shop_address
+                                  ? (errors.shop_address || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  GSTN <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  className={
+                                    errors.gstn
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  type="text"
+                                  value={state.gstn}
+                                  name="gstn"
+                                  onChange={onInputChange}
+                                  id="gstn"
+                                />
+                                {errors.gstn
+                                  ? (errors.gstn || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Image
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  // value={state.gstn}
+                                  name="image"
+                                  onChange={(e) => OnFileUpload(e)}
+                                  id="image"
+                                />
+                              </Form.Group>
+                            </div>
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Geolocation{" "}
+                                  <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Form.Control
+                                  className={
+                                    errors.geolocation
+                                      ? "form-control border border-danger"
+                                      : "form-control"
+                                  }
+                                  type="text"
+                                  value={state.geolocation}
+                                  name="geolocation"
+                                  onChange={onInputChange}
+                                  id="geolocation"
+                                />
+                                {errors.geolocation
+                                  ? (errors.geolocation || []).map((error) => {
+                                      return (
+                                        <small className="text-danger">
+                                          {error}
+                                        </small>
+                                      );
+                                    })
+                                  : null}
+                              </Form.Group>
+                            </div>
+                            <div className="col-md-6">
+                              <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                  Availabilty{" "}
+                                  <small className="text-danger">*</small>
+                                </Form.Label>
+                                <Col sm="12">
+                                  <InputGroup className="">
+                                    <Form.Select
+                                      aria-label="Default select example"
+                                      // className="nice-select w-100"
+                                      className={
+                                        errors.availability
+                                          ? "form-control border border-danger"
+                                          : "form-control"
+                                      }
+                                      sm="9"
+                                      name="availability"
+                                      onChange={onInputChange}
+                                      value={state.availability}
+                                    >
+                                      <option value={""}>
+                                        Select Availabilty
+                                      </option>
+                                      <option value={"open"}>Open</option>
+                                      <option value={"close"}>Close</option>
+                                    </Form.Select>
+                                  </InputGroup>
+                                </Col>
+                              </Form.Group>
+                            </div>
+
+                            <div className="col-md-3 col-sm-4 p-2 text-center">
+                              <div className="manufacture_date addvariety_inputbox">
+                                <Button
+                                  variant="outline-success"
+                                  className="addcategoryicon w-100"
+                                  type={"submit"}
+                                >
+                                  {modalshow === "add"
+                                    ? "Add Vendor"
+                                    : "Update Vendor"}
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="col-md-3 col-sm-4 p-2 text-center">
+                              <div className="manufacture_date addvariety_inputbox">
+                                <Button
+                                  variant="outline-danger"
+                                  className="addcategoryicon w-100"
+                                  // type="submit"
+                                  onClick={ModelCloseFunction}
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          {/* <Button onClick={setLgShow(false)}>Close</Button> */}
+                        </Modal.Footer>
+                      </Form>
+                    </Modal>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -87,7 +87,7 @@ function Checkout() {
     });
     console.log("add order json--" + JSON.stringify(databyID));
     const response = await AddUserOrder(databyID);
-    console.log("order response---" + JSON.stringify(response));
+    // console.log("order response---" + JSON.stringify(response));
     if (response.status === "ok") {
       setShowOrderAlert(true);
     } else {

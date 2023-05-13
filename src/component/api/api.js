@@ -3,6 +3,7 @@ import axios from "axios";
 let user_token = localStorage.getItem("user_token");
 let admin_token = localStorage.getItem("admin_token");
 let vendor_token = localStorage.getItem("vendor_token");
+let driver_token = localStorage.getItem("driver_token");
 console.log("admin_token--" + admin_token);
 console.log("vendor_token--" + vendor_token);
 
@@ -99,7 +100,6 @@ export const fetchfilter = async () => {
 };
 
 export const AllproductData = async (
-  id,
   search,
   category,
   price_from,
@@ -107,7 +107,8 @@ export const AllproductData = async (
   rating,
   brand,
   seo_tag,
-  vendor_id
+  vendor_id,
+  id
 ) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -860,6 +861,105 @@ export const getForgetpasswordUpdate = async (password) => {
     {
       headers: {
         vendor_token: vendor_token,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const DriverSignUpFuntion = async (email, password) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/sign_by_driver`,
+    {
+      email: email,
+      password: password,
+    }
+  );
+  return response.data;
+};
+
+export const DriverOtpVerifyFuntion = async (email, otp) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/driver_otp_verify`,
+    {
+      email: email,
+      otp: otp,
+    }
+  );
+  return response.data;
+};
+
+export const DriverLoginFuntion = async (email, password) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/driver_login`,
+    {
+      email: email,
+      password: password,
+    }
+  );
+  return response.data;
+};
+
+export const getForgetOtpDriver = async (email) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/driver_forgate_password`,
+    {
+      email: email,
+    }
+  );
+  return response.data;
+};
+
+export const ForgetpasswordDriverUpdate = async (password) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/driver_forgate_password_update`,
+    {
+      password: password,
+    },
+    {
+      headers: {
+        driver_token: driver_token,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const getDriverDetails = async () => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_BASEURL_0}/driver_details`,
+
+    {
+      headers: {
+        driver_token: driver_token,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const UpdateDriverByToken = async (props, file, filename) => {
+  const formData = new FormData();
+
+  formData.append("driver_name", props.driver_name);
+  formData.append("driver_last_name", props.driver_last_name);
+  formData.append("date_of_birth", props.date_of_birth);
+  formData.append("current_address", props.current_address);
+  formData.append("gender", props.gender);
+  formData.append("age", props.age);
+  formData.append("image", file);
+  formData.append("filename", filename);
+  formData.append("contect_no", props.contect_no);
+  formData.append("aadhar_no", props.aadhar_no);
+  formData.append("licence_no", props.licence_no);
+  formData.append("licence_issue_date", props.licence_issue_date);
+  formData.append("licence_validity_date", props.licence_validity_date);
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_driver`,
+    formData,
+    {
+      headers: {
+        driver_token: driver_token,
       },
     }
   );

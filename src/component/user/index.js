@@ -1041,7 +1041,7 @@ const Index = () => {
               </div>
             </div> */}
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-lg-12">
               <div className="section-btn-25">
                 <Link to="">
@@ -1050,10 +1050,10 @@ const Index = () => {
                 </Link>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
-      <div className="section promo-part">
+      {/* <div className="section promo-part">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -1065,7 +1065,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <section className="section feature-part">
         <div className="container">
           <div className="row">
@@ -1569,7 +1569,7 @@ const Index = () => {
               </div>
             </div> */}
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-lg-12">
               <div className="section-btn-25">
                 <Link to="">
@@ -1578,7 +1578,7 @@ const Index = () => {
                 </Link>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
       {/* <section className="section countdown-part">

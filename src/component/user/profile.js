@@ -84,14 +84,8 @@ const Profile = () => {
     ],
   };
   // CUSTOM VALIDATIONS IMPORT
-  const {
-    state,
-    setState,
-    onInputChange,
-    setErrors,
-    errors,
-    validate,
-  } = useValidation(initialFormState, validators);
+  const { state, setState, onInputChange, setErrors, errors, validate } =
+    useValidation(initialFormState, validators);
   // USER CARRER PROFILE SUBMIT BUTTON
 
   const OnFileUpload = (e) => {

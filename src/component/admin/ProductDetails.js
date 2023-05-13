@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AllproductData } from "../api/api";
 
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
-  console.log("id-------" + productId);
+  console.log("id-------------" + productId);
   const [productData, setProductData] = useState([]);
   const initialFormState = {
-    id: productId,
     search: "",
     category: "",
     price_from: "",
@@ -23,7 +23,6 @@ const ProductDetails = () => {
 
   const productGEtByid = async () => {
     const response = await AllproductData(
-      productId,
       initialFormState.search,
       initialFormState.category,
       initialFormState.price_from,
@@ -31,7 +30,8 @@ const ProductDetails = () => {
       initialFormState.rating,
       initialFormState.brand,
       initialFormState.seo_tag,
-      initialFormState.vendor_id
+      initialFormState.vendor_id,
+      productId
     );
     // console.log("product data--" + JSON.stringify(response));
 
@@ -88,7 +88,7 @@ const ProductDetails = () => {
                     );
                   })}
 
-                  <a href="#">({productData.rating} reviews)</a>
+                  <Link to="#">({productData.rating} reviews)</Link>
                 </div>
                 <h3 class="details-price">
                   <del> ₹{Number(productData.mrp).toFixed(2)}</del>
@@ -103,7 +103,7 @@ const ProductDetails = () => {
                   <label class="details-list-title">Category:</label>
                   <ul class="details-tag-list">
                     <li>
-                      <a>{productData.category}</a>
+                      <Link>{productData.category}</Link>
                     </li>
                   </ul>
                 </div>
@@ -112,7 +112,7 @@ const ProductDetails = () => {
                   <label class="details-list-title">Stock Quantity:</label>
                   <ul class="details-tag-list">
                     <li>
-                      <a>{productData.product_stock_quantity}</a>
+                      <Link>{productData.product_stock_quantity}</Link>
                     </li>
                   </ul>
                 </div>
@@ -120,7 +120,7 @@ const ProductDetails = () => {
                   <label class="details-list-title"> Quantity:</label>
                   <ul class="details-tag-list">
                     <li>
-                      <a>{productData.quantity}</a>
+                      <Link>{productData.quantity}</Link>
                     </li>
                   </ul>
                 </div>
@@ -128,7 +128,7 @@ const ProductDetails = () => {
                   <label class="details-list-title">Unit:</label>
                   <ul class="details-tag-list">
                     <li>
-                      <a>{productData.unit}</a>
+                      <Link>{productData.unit}</Link>
                     </li>
                   </ul>
                 </div>
@@ -136,13 +136,13 @@ const ProductDetails = () => {
                   <label class="details-list-title">Tax:</label>
                   <ul class="details-tag-list">
                     <li>
-                      <a>GST: {productData.gst} %</a>
+                      <Link>GST: {productData.gst} %</Link>
                     </li>
                     <li>
-                      <a>SGST: {productData.sgst} %</a>
+                      <Link>SGST: {productData.sgst} %</Link>
                     </li>
                     <li>
-                      <a>CGST: {productData.cgst} %</a>
+                      <Link>CGST: {productData.cgst} %</Link>
                     </li>
                   </ul>
                 </div>
@@ -150,20 +150,32 @@ const ProductDetails = () => {
                   <label class="details-list-title">Share:</label>
                   <ul class="details-share-list">
                     <li>
-                      <a href="#" class="icofont-facebook" title="Facebook"></a>
+                      <Link
+                        to="#"
+                        class="icofont-facebook"
+                        title="Facebook"
+                      ></Link>
                     </li>
                     <li>
-                      <a href="#" class="icofont-twitter" title="Twitter"></a>
+                      <Link
+                        to="#"
+                        class="icofont-twitter"
+                        title="Twitter"
+                      ></Link>
                     </li>
                     <li>
-                      <a href="#" class="icofont-linkedin" title="Linkedin"></a>
+                      <Link
+                        to="#"
+                        class="icofont-linkedin"
+                        title="Linkedin"
+                      ></Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        to="#"
                         class="icofont-instagram"
                         title="Instagram"
-                      ></a>
+                      ></Link>
                     </li>
                   </ul>
                 </div>

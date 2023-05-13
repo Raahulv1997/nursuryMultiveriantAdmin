@@ -6,40 +6,28 @@ import { Link, useNavigate } from "react-router-dom";
 import Nav from "./nav";
 import Cart from "./cart";
 import { useState } from "react";
+import SweetAlert from "sweetalert-react";
+import "sweetalert/dist/sweetalert.css";
+
 const Header = () => {
   let path = window.location.pathname;
-  // console.log("path  " + path);
+
   const aa = path.includes("/admin");
   const bb = path.includes("/");
-  // console.log("aa--" + aa);
-  // console.log("bb--" + bb);
+
+  const [ShowAlert, setShowAlert] = useState(false);
   const [searchbox, setSearchBox] = useState("");
   let [searcherror, setsearcherror] = useState(false);
   const [showcart, setShowcart] = useState(false);
   const [count_cart, SetCount_cart] = useState(false);
-  // function cart_hide_show() {
-  //   console.log("__________________________showCart")
-  // }
+
   const navigate = useNavigate();
   const admin_token = localStorage.getItem("admin_token");
   const user_token = localStorage.getItem("user_token");
   const vendor_token = localStorage.getItem("vendor_token");
   const OnLogoutClick = () => {
     if (user_token !== null && bb === true) {
-      console.log("in user token");
-
-      localStorage.removeItem("user_token");
-      navigate("/");
-    } else if (admin_token !== null && aa === true) {
-      console.log("in admin token");
-
-      localStorage.removeItem("admin_token");
-      navigate("/admin");
-    } else if (vendor_token !== null) {
-      console.log("in vendor token");
-
-      localStorage.removeItem("vendor_token");
-      navigate("/sellerlogin");
+      setShowAlert(true);
     } else {
       alert("not logout");
     }
@@ -75,8 +63,30 @@ const Header = () => {
     // console.log("header________________________________37" + count)
     SetCount_cart(count);
   }
+
+  const onConfirmAlert = () => {
+    return Promise.resolve(setShowAlert(false));
+  };
+
+  const onCancelAlert = () => {
+    setShowAlert(false);
+  };
+
   return (
     <Fragment>
+      <SweetAlert
+        show={ShowAlert}
+        title="Logout Message"
+        text={"Are you sure logout "}
+        onConfirm={() =>
+          onConfirmAlert().then(() => {
+            localStorage.removeItem("user_token");
+            navigate("/");
+          })
+        }
+        showCancelButton={true}
+        onCancel={onCancelAlert}
+      />
       <header className="header-part">
         <div className="container">
           <div className="header-content">
@@ -94,7 +104,7 @@ const Header = () => {
             <Link to="">
               <img src={Logo} alt="logo" />
             </Link>
-            <img src={Profile} alt="user" />
+            {/* <img src={Profile} alt="user" /> */}
 
             <form className="header-form">
               <input
@@ -111,14 +121,14 @@ const Header = () => {
             </form>
 
             <div className="header-widget-group">
-              <Link to="" className="header-widget" title="Compare List">
+              {/* <Link to="" className="header-widget" title="Compare List">
                 <i className="fas fa-random"></i>
                 <sup>0</sup>
-              </Link>
-              <Link to="" className="header-widget" title="Wishlist">
+              </Link> */}
+              {/* <Link to="" className="header-widget" title="Wishlist">
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
-              </Link>
+              </Link> */}
               <button
                 onClick={() => {
                   setShowcart(true);
@@ -128,9 +138,9 @@ const Header = () => {
               >
                 <i className="fas fa-shopping-basket"></i>
                 <sup>{count_cart}</sup>
-                <span>
+                {/* <span>
                   total price<small>$345.00</small>
-                </span>
+                </span> */}
               </button>
               {user_token !== null ? null : (
                 <Link to="/login" className="header-widget" title="Wishlist">
@@ -140,17 +150,28 @@ const Header = () => {
               )}
 
               <Link
-                to="/sellerlogin"
+                to="/DriverLogin"
                 className="header-widget"
                 title="Wishlist"
               >
                 <i className="fas fa-login"></i>
+                <span>Driver Login</span>
+              </Link>
+              <Link
+                to="/sellerlogin"
+                className="header-widget"
+                // title="Wishlist"
+              >
+                <i className="fas fa-login"></i>
                 <span> seller Login</span>
               </Link>
-              <Link className="header-widget" title="Wishlist">
-                <i className="fas fa-login"></i>
-                <span onClick={OnLogoutClick}>Logout</span>
-              </Link>
+
+              {user_token !== null ? (
+                <Link className="header-widget">
+                  <i className="fas fa-login"></i>
+                  <span onClick={OnLogoutClick}>Logout</span>
+                </Link>
+              ) : null}
             </div>
           </div>
         </div>

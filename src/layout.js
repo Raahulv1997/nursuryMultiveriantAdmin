@@ -1,22 +1,14 @@
 import "./App.css";
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Header from "./component/common/header";
-import Sidebar from "./component/common/sidebar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Index from "./component/user";
 import Checkout from "./component/user/checkout";
-import Nav from "./component/common/nav";
+
 // import Product_detail from "./component/user/product_detail";
 import Profile from "./component/user/profile";
 import Wishlist from "./component/user/wishlist";
 // import Shop from "./component/user/shop";
-import Footer from "./component/common/footer";
 
 import UserChangePassword from "./component/user/change_password";
 import UserOrderlist from "./component/user/order_list";
@@ -31,7 +23,7 @@ import Register from "./component/user/Register.js";
 import Otpverify from "./component/user/otpVerify.js";
 import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
-import AuthWrapper from "./AuthWrapper";
+// import AuthWrapper from "./AuthWrapper";
 import Product_detail from "./component/user/product_detail.js";
 import ShopPage from "./component/user/shoppage";
 import Order from "./component/user/order";
@@ -43,12 +35,19 @@ import SellerSignUp from "./component/vendor/SellerSignUp";
 import SellerOtpVerify from "./component/vendor/SellerOtpVerify";
 import UpdateSellerForgetPassword from "./component/vendor/updateSellerForgetpassword";
 import NotFound from "./component/common/notfound";
+import DriverSignUp from "./component/driver/DriverSignUp";
+import DriverLogin from "./component/driver/DriverLogin";
+import DriverOtpVerify from "./component/driver/DriverOtpVerify";
+import DriverForgetPassword from "./component/driver/DriverForgetPassword";
+import UpdateDriverForgetPassword from "./component/driver/UpdateDriverForgetPassword";
+import DriverRegister from "./component/driver/DriverRegister";
 
 function Layout() {
   let path = window.location.pathname;
   const adminLogged = localStorage.getItem("admin_token");
   const userLogged = localStorage.getItem("user_token");
-  // console.log(" login------" + userLogged);
+  const vendorLogged = localStorage.getItem("vendor_token");
+  console.log(" admin login------" + adminLogged);
 
   return (
     <div>
@@ -62,31 +61,47 @@ function Layout() {
           <Route path="/otp_verify" element={<Otpverify />} />
           <Route path="/user_forgate_password" element={<Resetpassword />} />
           <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/sellerlogin" element={<SellerLogin />} />
+          <Route path="/sellerRegister" element={<SellerRegister />} />
+          <Route path="/sellerSignup" element={<SellerSignUp />} />
+          <Route path="/sellerOtpVerify" element={<SellerOtpVerify />} />
+          <Route
+            path="/sellerforgetpassword"
+            element={<SellerForgetPassword />}
+          />
+          <Route
+            path="/updatesellerforgetpassword"
+            element={<UpdateSellerForgetPassword />}
+          />
+
+          <Route path="/DriverSignup" element={<DriverSignUp />} />
+          <Route path="/DriverRegister" element={<DriverRegister />} />
+          <Route path="/DriverLogin" element={<DriverLogin />} />
+          <Route path="/Driverotpverify" element={<DriverOtpVerify />} />
+          <Route
+            path="/Driverforgetpassword"
+            element={<DriverForgetPassword />}
+          />
+          <Route
+            path="/updateDriverForgetpassword"
+            element={<UpdateDriverForgetPassword />}
+          />
+
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
-        {adminLogged ? (
-          <div className="row admin_row">
-            <div className="col-lg-3 col-md-3 admin_sidebar">
-              {adminLogged ? <Sidebar /> : null}
-            </div>
-            <div className="col-lg-9 col-md-9 admin_content_bar">
-              <div className="main_content_div">
-                <Routes>
-                  <Route path="/admin/home" element={<AddProduct />} />
-                  <Route path="/admin/orderList" element={<OrderList />} />
-                  <Route path="/admin/orderDetails" element={<OrderDetail />} />
-                  <Route path="/admin/userList" element={<UserAdd />} />
-                  <Route path="/admin/vendor" element={<Vendor />} />
-                  <Route
-                    path="/admin/productDetails"
-                    element={<ProductDetails />}
-                  />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-            </div>
-          </div>
-        ) : null}
+        {adminLogged !== null || vendorLogged !== null ? (
+          <Routes>
+            <Route path="/admin/home" element={<AddProduct />} />
+            <Route path="/admin/orderList" element={<OrderList />} />
+            <Route path="/admin/orderDetails" element={<OrderDetail />} />
+            <Route path="/admin/userList" element={<UserAdd />} />
+            <Route path="/admin/vendor" element={<Vendor />} />
+            <Route path="/admin/productDetails" element={<ProductDetails />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        ) : (
+          console.log("in admin else")
+        )}
 
         {userLogged ? (
           <Routes>

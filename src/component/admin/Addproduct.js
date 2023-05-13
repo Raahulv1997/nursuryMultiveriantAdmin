@@ -30,6 +30,7 @@ import Select from "react-select";
 import useValidation from "../common/useValidation";
 
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../common/sidebar";
 let encoded;
 let ImgObj = [];
 
@@ -288,6 +289,7 @@ const AddProduct = () => {
   ];
 
   const onProductClick = (id) => {
+    console.log("idddd--" + id);
     localStorage.setItem("productID", id);
 
     navigate("/admin/productDetails");
@@ -678,160 +680,170 @@ const AddProduct = () => {
 
   return (
     <div>
-      <div
-        className="dashboard-main-container mt-df25 mt-lg-31"
-        id="dashboard-body"
-      >
-        <div className="">
-          <div className="page_main_contant">
-            <h4>Product</h4>
-            <div className=" mt-3 p-3">
-              <div className="row pb-3">
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Search by name"
-                      name="search"
-                      onChange={searchValueHandler}
-                      value={searchdata.search}
-                    />
-                  </Form.Group>
-                </div>
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Search by SEO Tag"
-                      name="seo_tag"
-                      onChange={searchValueHandler}
-                      value={searchdata.seo_tag}
-                    />
-                  </Form.Group>
-                </div>
+      <div className="row admin_row">
+        <div className="col-lg-3 col-md-3 admin_sidebar">
+          <Sidebar />
+        </div>
+        <div className="col-lg-9 col-md-9 admin_content_bar">
+          <div className="main_content_div">
+            <div
+              className="dashboard-main-container mt-df25 mt-lg-31"
+              id="dashboard-body"
+            >
+              <div className="">
+                <div className="page_main_contant">
+                  <h4>Product</h4>
+                  <div className=" mt-3 p-3">
+                    <div className="row pb-3">
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="text"
+                            placeholder="Search by name"
+                            name="search"
+                            onChange={searchValueHandler}
+                            value={searchdata.search}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="text"
+                            placeholder="Search by SEO Tag"
+                            name="seo_tag"
+                            onChange={searchValueHandler}
+                            value={searchdata.seo_tag}
+                          />
+                        </Form.Group>
+                      </div>
 
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Price from"
-                      name="price_from"
-                      onChange={searchValueHandler}
-                      value={searchdata.price_from}
-                    />
-                  </Form.Group>
-                </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="text"
+                            placeholder="Price from"
+                            name="price_from"
+                            onChange={searchValueHandler}
+                            value={searchdata.price_from}
+                          />
+                        </Form.Group>
+                      </div>
 
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Price to"
-                      name="price_to"
-                      onChange={searchValueHandler}
-                      value={searchdata.price_to}
-                    />
-                  </Form.Group>
-                </div>
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Search by rating"
-                      name="rating"
-                      onChange={searchValueHandler}
-                      value={searchdata.rating}
-                    />
-                  </Form.Group>
-                </div>
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Select
-                    className=" basic-multi-select"
-                    placeholder="Search by category"
-                    onChange={CategoryHanler}
-                    classNamePrefix="select"
-                    isMulti
-                    options={options3[0]}
-                  />
-                </div>
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Select
-                    className="nice-select w-100"
-                    aria-label="Default select example"
-                    name="vendor_id"
-                    value={searchdata.vendor_id}
-                    onChange={searchValueHandler}
-                  >
-                    <option value={""}>Search By Vendor</option>
-                    {vendorJson.vendorjson.map((item, id) => {
-                      return (
-                        <>
-                          <option value={id + 1}>{item}</option>
-                        </>
-                      );
-                    })}
-                  </Form.Select>
-                </div>
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Select
-                    className=" basic-multi-select"
-                    placeholder="Search by Brand"
-                    onChange={BrandHanler}
-                    classNamePrefix="select"
-                    isMulti
-                    options={options2[0]}
-                  />
-                </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="text"
+                            placeholder="Price to"
+                            name="price_to"
+                            onChange={searchValueHandler}
+                            value={searchdata.price_to}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="text"
+                            placeholder="Search by rating"
+                            name="rating"
+                            onChange={searchValueHandler}
+                            value={searchdata.rating}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Select
+                          className=" basic-multi-select"
+                          placeholder="Search by category"
+                          onChange={CategoryHanler}
+                          classNamePrefix="select"
+                          isMulti
+                          options={options3[0]}
+                        />
+                      </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Select
+                          className="nice-select w-100"
+                          aria-label="Default select example"
+                          name="vendor_id"
+                          value={searchdata.vendor_id}
+                          onChange={searchValueHandler}
+                        >
+                          <option value={""}>Search By Vendor</option>
+                          {vendorJson.vendorjson.map((item, id) => {
+                            return (
+                              <>
+                                <option value={id + 1}>{item}</option>
+                              </>
+                            );
+                          })}
+                        </Form.Select>
+                      </div>
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Select
+                          className=" basic-multi-select"
+                          placeholder="Search by Brand"
+                          onChange={BrandHanler}
+                          classNamePrefix="select"
+                          isMulti
+                          options={options2[0]}
+                        />
+                      </div>
 
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <div>
-                    <Button
-                      type=""
-                      name=""
-                      value=""
-                      className="button  btn-success main_button w-100"
-                      onClick={submitHandler}
-                    >
-                      Search
-                    </Button>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
+                          <Button
+                            type=""
+                            name=""
+                            value=""
+                            className="button  btn-success main_button w-100"
+                            onClick={submitHandler}
+                          >
+                            Search
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
+                          <Button
+                            type="reset"
+                            name=""
+                            value=""
+                            className="button btn-success  main_button w-100"
+                            onClick={OnReset}
+                          >
+                            Reset
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <Button
+                          className="button btn-success  main_button w-100"
+                          onClick={() => handleShow("add")}
+                        >
+                          Add product
+                        </Button>
+                      </div>
+                    </div>
+
+                    <DataTable
+                      columns={columns}
+                      data={productTable}
+                      pagination
+                      highlightOnHover
+                      pointerOnHover
+                      className={"table_body product_table"}
+                      subHeader
+                    />
                   </div>
-                </div>
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <div>
-                    <Button
-                      type="reset"
-                      name=""
-                      value=""
-                      className="button btn-success  main_button w-100"
-                      onClick={OnReset}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                </div>
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <Button
-                    className="button btn-success  main_button w-100"
-                    onClick={() => handleShow("add")}
-                  >
-                    Add product
-                  </Button>
                 </div>
               </div>
-
-              <DataTable
-                columns={columns}
-                data={productTable}
-                pagination
-                highlightOnHover
-                pointerOnHover
-                className={"table_body product_table"}
-                subHeader
-              />
             </div>
           </div>
         </div>
       </div>
+
       <Modal
         size="lg"
         show={modalshow}

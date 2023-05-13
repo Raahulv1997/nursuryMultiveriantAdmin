@@ -10,7 +10,7 @@ import Apple from "../css-js/images/app-store.png";
 const Footer = () => {
   return (
     <div>
-      <section
+      {/* <section
         className="news-part"
         // style="background: url(images/newsletter.jpg) no-repeat center"
       >
@@ -34,8 +34,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </section>
-      <section className="intro-part">
+      </section> */}
+      {/* <section className="intro-part">
         <div className="container">
           <div className="row intro-content">
             <div className="col-sm-6 col-lg-3">
@@ -84,7 +84,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <footer className="footer-part">
         <div className="container">
           <div className="row">

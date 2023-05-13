@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import useValidation from "../common/useValidation";
 import { allOrder, OrderStatusChange } from "../api/api";
+import Sidebar from "../common/sidebar";
 
 const OrderList = () => {
   const navigate = useNavigate();
@@ -221,74 +222,85 @@ const OrderList = () => {
 
   return (
     <div>
-      <div
-        className="dashboard-main-container mt-df25 mt-lg-31"
-        id="dashboard-body"
-      >
-        <div className="">
-          <div className="page_main_contant">
-            <h4>Order List</h4>
-            <div className=" mt-3 p-3">
-              <div className="row pb-3">
-                <div className="col-md-3 col-sm-6 aos_input mb-2">
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      className={
-                        errors.order_id
-                          ? "form-control border border-danger"
-                          : "form-control"
-                      }
-                      placeholder="Search by order no."
-                      name="order_id"
-                      onChange={onInputChange}
-                      value={state.order_id}
-                    />
-                  </Form.Group>
-                  {errors.order_id
-                    ? (errors.order_id || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
-                      })
-                    : null}
-                </div>
+      <div className="row admin_row">
+        <div className="col-lg-3 col-md-3 admin_sidebar">
+          <Sidebar />
+        </div>
+        <div className="col-lg-9 col-md-9 admin_content_bar">
+          <div className="main_content_div">
+            <div
+              className="dashboard-main-container mt-df25 mt-lg-31"
+              id="dashboard-body"
+            >
+              <div className="">
+                <div className="page_main_contant">
+                  <h4>Order List</h4>
+                  <div className=" mt-3 p-3">
+                    <div className="row pb-3">
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="text"
+                            className={
+                              errors.order_id
+                                ? "form-control border border-danger"
+                                : "form-control"
+                            }
+                            placeholder="Search by order no."
+                            name="order_id"
+                            onChange={onInputChange}
+                            value={state.order_id}
+                          />
+                        </Form.Group>
+                        {errors.order_id
+                          ? (errors.order_id || []).map((error) => {
+                              return (
+                                <small className="text-danger">{error}</small>
+                              );
+                            })
+                          : null}
+                      </div>
 
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <div>
-                    <Button
-                      type=""
-                      name=""
-                      value=""
-                      className="button  btn-success main_button w-100"
-                      onClick={submitHandler}
-                    >
-                      Search
-                    </Button>
-                  </div>
-                </div>
-                <div className="col-md-2 col-sm-6 aos_input mb-2">
-                  <div>
-                    <Button
-                      type="reset"
-                      name=""
-                      value=""
-                      className="button btn-success  main_button w-100"
-                      onClick={OnReset}
-                    >
-                      Reset
-                    </Button>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
+                          <Button
+                            type=""
+                            name=""
+                            value=""
+                            className="button  btn-success main_button w-100"
+                            onClick={submitHandler}
+                          >
+                            Search
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
+                          <Button
+                            type="reset"
+                            name=""
+                            value=""
+                            className="button btn-success  main_button w-100"
+                            onClick={OnReset}
+                          >
+                            Reset
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <DataTable
+                      columns={columns}
+                      data={ordertable}
+                      pagination
+                      highlightOnHover
+                      pointerOnHover
+                      className={"table_body product_table"}
+                      subHeader
+                    />
                   </div>
                 </div>
               </div>
-
-              <DataTable
-                columns={columns}
-                data={ordertable}
-                pagination
-                highlightOnHover
-                pointerOnHover
-                className={"table_body product_table"}
-                subHeader
-              />
             </div>
           </div>
         </div>

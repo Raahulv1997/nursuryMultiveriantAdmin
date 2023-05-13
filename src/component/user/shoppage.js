@@ -13,8 +13,10 @@ import Filters1 from "./Filters1";
 import ProductBox from "./productBox";
 import Header from "../common/header";
 import Footer from "../common/footer";
-
+import SweetAlert from "sweetalert-react";
+import "sweetalert/dist/sweetalert.css";
 const ShopPage = () => {
+  const [ShowAlert, setShowAlert] = useState(false);
   const [reload, setReload] = useState("");
   const navigate = useNavigate();
 
@@ -185,7 +187,6 @@ const ShopPage = () => {
     let token = localStorage.getItem("user_token");
 
     if (token !== "" && token !== null && token !== undefined) {
-      alert("user Logged in");
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
         { product_id, cart_product_quantity },
@@ -197,8 +198,7 @@ const ShopPage = () => {
       } else {
       }
     } else {
-      alert("please login your account");
-      navigate("/login");
+      setShowAlert(true);
     }
   }
 
@@ -241,13 +241,27 @@ const ShopPage = () => {
         }
       }
     } else {
-      alert("please login your account");
-      navigate("/login");
+      setShowAlert(true);
+      // alert("please login your account");
+      // navigate("/login");
     }
   }
 
+  const onCloseAlert = () => {
+    return Promise.resolve(setShowAlert(false));
+  };
   return (
     <div>
+      <SweetAlert
+        show={ShowAlert}
+        title="Login Message"
+        text={"Please login Your account"}
+        onConfirm={() =>
+          onCloseAlert().then(() => {
+            navigate("/login");
+          })
+        }
+      />
       <Header />
       <section
         className="inner-section single-banner"

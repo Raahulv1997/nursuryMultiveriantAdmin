@@ -1,7 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const admin_token = localStorage.getItem("admin_token");
+  const vendor_token = localStorage.getItem("vendor_token");
+  const navigate = useNavigate();
+  const OnLogoutClick = () => {
+    if (admin_token !== null) {
+      console.log("in admin token");
+
+      localStorage.removeItem("admin_token");
+      navigate("/admin");
+    } else if (vendor_token !== null) {
+      console.log("in vendor token");
+
+      localStorage.removeItem("vendor_token");
+      navigate("/sellerlogin");
+    } else {
+      alert("not logout");
+    }
+  };
   return (
     <div>
       <div className="banner-category">
@@ -220,7 +238,12 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
-          <li className="banner-category-item">
+
+          <li className="banner-category-item" style={{ cursor: "pointer" }}>
+            <i className="flaticon-dairy-products"></i>
+            <span onClick={OnLogoutClick}> Logout</span>
+          </li>
+          {/* <li className="banner-category-item">
             <a href="#">
               <i className="flaticon-crab"></i>
               <span>sea foods</span>
@@ -415,7 +438,7 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

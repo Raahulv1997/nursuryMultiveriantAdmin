@@ -11,21 +11,24 @@ const AuthWrapper = () => {
 
   return adminLogged === null ||
     adminLogged === "" ||
-    adminLogged === undefined ? (
+    adminLogged === undefined ||
+    !adminLogged ? (
     <Navigate
       to="/admin"
       replace
       state={{ from: location }} // <-- pass location in route state
     />
-  ) : vendorLogged === null ||
-    vendorLogged === "" ||
-    vendorLogged === undefined ? (
-    <Navigate
-      to="/sellerlogin"
-      replace
-      state={{ from: location }} // <-- pass location in route state
-    />
   ) : (
+    // :
+    //  vendorLogged === null ||
+    //   vendorLogged === "" ||
+    //   vendorLogged === undefined ? (
+    //   <Navigate
+    //     to="/sellerlogin"
+    //     replace
+    //     state={{ from: location }} // <-- pass location in route state
+    //   />
+    // )
     <Outlet />
   );
 };

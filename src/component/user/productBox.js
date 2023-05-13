@@ -40,7 +40,7 @@ const ProductBox = ({
 
   function product_full_detaile(product_id) {
     localStorage.setItem("productID", product_id);
-    navigate("/product_detaile");
+    navigate("/product_detail");
   }
   return (
     <>
