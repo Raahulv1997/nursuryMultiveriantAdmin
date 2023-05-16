@@ -4,7 +4,7 @@ import { AllproductData } from "../api/api";
 
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
-  console.log("id-------------" + productId);
+  // console.log("id-------------" + productId);
   const [productData, setProductData] = useState([]);
   const initialFormState = {
     search: "",

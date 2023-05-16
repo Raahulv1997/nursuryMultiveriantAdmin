@@ -6,7 +6,7 @@ const AuthWrapper = () => {
 
   const adminLogged = localStorage.getItem("admin_token");
   const vendorLogged = localStorage.getItem("vendor_token");
-  console.log("iiii---" + adminLogged);
+  // console.log("iiii---" + adminLogged);
   //   const VendorLogged = localStorage.getItem("vendor_token");
 
   return adminLogged === null ||

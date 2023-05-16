@@ -4,12 +4,12 @@ let user_token = localStorage.getItem("user_token");
 let admin_token = localStorage.getItem("admin_token");
 let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
-console.log("admin_token--" + admin_token);
-console.log("vendor_token--" + vendor_token);
+// console.log("admin_token--" + admin_token);
+// console.log("vendor_token--" + vendor_token);
 
 export const updateCart = async (product_id, qty) => {
-  console.log("in update cart fucntion==" + product_id);
-  console.log("qty==" + qty);
+  // console.log("in update cart fucntion==" + product_id);
+  // console.log("qty==" + qty);
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/cart_update`,
     {
@@ -22,7 +22,6 @@ export const updateCart = async (product_id, qty) => {
       },
     }
   );
-  console.log("in update cart fucntion==" + JSON.stringify(response));
 
   return response.data;
 };
@@ -60,7 +59,7 @@ export const userdetails = async () => {
   );
   return response.data;
 };
-// const brandArrrry = [];
+
 export const allproduct = async (
   searchbox,
   price_from,
@@ -115,12 +114,16 @@ export const AllproductData = async (
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -152,12 +155,16 @@ export const AddProductData = async (props) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -177,12 +184,16 @@ export const UpdateProductData = async (props) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -203,18 +214,22 @@ export const allOrder = async (searchdata) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
   }
 
-  if (searchdata == undefined) {
+  if (searchdata === undefined) {
     searchdata = "";
   }
   const response = await axios.post(
@@ -239,12 +254,16 @@ export const OrderStatusChange = async (stautsValue, orderID, userId) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -269,12 +288,16 @@ export const fetchUserData = async (searchData, id) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -297,12 +320,16 @@ export const UpdateProductStatus = async (statusValue, id) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -326,12 +353,16 @@ export const DeleteProductStatus = async (id) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -365,12 +396,16 @@ export const AddProductImage = async (imgobj) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -394,12 +429,16 @@ export const DeleteProductImage = async (
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -423,12 +462,16 @@ export const ProductCoverImageChange = async (id, product_img_id) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -506,7 +549,7 @@ export const user_home_api = async (req_body_obj) => {
 export const AdminLoginData = async (email, password) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/admin_login`,
-    { email: email, password: password }
+    { admin_email: email, admin_password: password }
   );
   return response.data;
 };
@@ -661,12 +704,16 @@ export const AddVendorfunction = async (props, file, filename) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -734,12 +781,16 @@ export const UpdateVendorfunction = async (props, file, filename, id) => {
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
 
-  if (vendor_token != null && vendor_token != undefined && vendor_token != "") {
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
   } else if (
-    admin_token != null &&
-    admin_token != undefined &&
-    admin_token != ""
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
@@ -962,6 +1013,83 @@ export const UpdateDriverByToken = async (props, file, filename) => {
         driver_token: driver_token,
       },
     }
+  );
+  return response.data;
+};
+
+export const addAdminFunction = async (props) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/add_admin`,
+    {
+      admin_email: props.admin_email,
+      admin_name: props.admin_name,
+      admin_phone: props.admin_phone,
+      admin_type: props.admin_type,
+      admin_password: props.admin_password,
+    },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+export const getAdminList = async () => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/admin_search`,
+    {
+      admin_name: "",
+      admin_type: "",
+    },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+export const UpdateAdminFunction = async (props) => {
+  console.log("props data--" + JSON.stringify(props));
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_admin`,
+    {
+      id: props.id,
+      admin_email: props.admin_email,
+      admin_name: props.admin_name,
+      admin_phone: props.admin_phone,
+      admin_type: props.admin_type,
+      admin_password: props.admin_password,
+    },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+export const getAdminfilter = async (name, type) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/admin_search`,
+    {
+      admin_name: name,
+      admin_type: type,
+    },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+export const orderAssignByAdmin = async (
+  orderID,
+  payment,
+  payment_method,
+  order_delivery_confirm_code
+) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/order_asign`,
+    {
+      order_id: orderID,
+
+      order_asign_by: "admin",
+      payment: payment,
+      payment_method: payment_method,
+      order_delivery_confirm_code: order_delivery_confirm_code,
+    },
+    { headers: { admin_token: `${admin_token}` } }
   );
   return response.data;
 };

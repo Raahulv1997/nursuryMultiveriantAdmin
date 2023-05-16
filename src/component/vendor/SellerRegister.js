@@ -118,7 +118,7 @@ const SellerRegister = () => {
     if (validate()) {
       const response = await UpdateVendorByToken(state, file, filename);
       const { message, vendor_detaile } = response;
-      console.log("vendor update" + JSON.stringify(response));
+      // console.log("vendor update" + JSON.stringify(response));
       if (
         message === "updated vendor successfully" &&
         vendor_detaile[0].status === "pending"

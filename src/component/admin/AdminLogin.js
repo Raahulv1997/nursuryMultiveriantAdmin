@@ -39,14 +39,15 @@ const AdminLogin = () => {
 
     if (validate()) {
       const response = await AdminLoginData(state.email, state.password);
-      console.log("resultt--" + JSON.stringify(response.admin_token));
+      // console.log("resultt--" + JSON.stringify(response));
       localStorage.removeItem("vendor_token");
-      localStorage.setItem("admin_token", response.admin_token);
-      if (response.status === false) {
+      if (response === "password not matched") {
         setErrMsg("staus is false");
-      } else {
-        path = "/admin";
-        navigate("/admin/Home");
+      } else if (response === "email not found") {
+        setErrMsg("email not found");
+      } else if (response[1].true === true) {
+        localStorage.setItem("admin_token", response[1].token);
+        navigate("/admin/home");
       }
     }
   };
@@ -139,13 +140,19 @@ const AdminLogin = () => {
                         Remember Me
                       </label>
                     </div>
+                    {errMsg === "staus is false" ? (
+                      <small className="text-danger">
+                        credentials Not Matches
+                      </small>
+                    ) : null}
+
+                    {errMsg === "email not found" ? (
+                      <small className="text-danger">Email not found</small>
+                    ) : null}
+
                     <div className="form-button">
                       <button onClick={OnLoginClick}>login</button>
-                      {errMsg === "staus is false" ? (
-                        <small className="text-danger">
-                          credentials Not Matches
-                        </small>
-                      ) : null}
+
                       <p>
                         Forgot your password?
                         <Link to={"/"}>reset here</Link>

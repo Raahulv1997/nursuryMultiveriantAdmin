@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userOrder } from "../api/api";
-import product from "../css-js/images/product/01.jpg";
+
 import Header from "../common/header";
 import Footer from "../common/footer";
 
@@ -10,16 +10,16 @@ const Order_list = () => {
   const navigate = useNavigate();
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
+    const fetchOrderData = async () => {
+      const response = await userOrder(orderID);
+
+      console.log("order data--" + JSON.stringify(response.results));
+      setOrderData(response.results);
+    };
+
     fetchOrderData();
   }, []);
   const orderID = "";
-
-  const fetchOrderData = async () => {
-    const response = await userOrder(orderID);
-
-    console.log("order data--" + JSON.stringify(response.results));
-    setOrderData(response.results);
-  };
 
   const gerOrderDetails = (orderID) => {
     localStorage.setItem("orderId", orderID);
@@ -52,7 +52,7 @@ const Order_list = () => {
                 <h5>
                   total order <span>- ({orderData.length})</span>
                 </h5>
-                <div className="filter-short">
+                {/* <div className="filter-short">
                   <label className="form-label">short by:</label>
                   <select className="form-select">
                     <option value="all" selected>
@@ -63,7 +63,7 @@ const Order_list = () => {
                     <option value="shipped">shipped order</option>
                     <option value="delivered">delivered order</option>
                   </select>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -80,25 +80,35 @@ const Order_list = () => {
                       <div className="orderlist-body">
                         <div className="row">
                           <div className="col-lg-12">
-                            <div className="order-track">
-                              <ul className="order-track-list">
-                                <li className="order-track-item active">
+                            <div className="col-lg-4">
+                              <div className="order-track">
+                                <ul className="order-track-list">
+                                  {odata.status_order === "pending" ? (
+                                    <li className="order-track-item active">
+                                      <i className="icofont-check"></i>
+                                      <span>order recieved</span>
+                                    </li>
+                                  ) : odata.status_order === "shipped" ? (
+                                    <li className="order-track-item">
+                                      <i className="icofont-close"></i>
+                                      <span>order shipped</span>
+                                    </li>
+                                  ) : odata.status_order === "delivered" ? (
+                                    <li className="order-track-item">
+                                      <i className="icofont-close"></i>
+                                      <span>order delivered</span>
+                                    </li>
+                                  ) : null}
+                                  {/* <li className="order-track-item active">
                                   <i className="icofont-check"></i>
                                   <span>order recieved</span>
                                 </li>
                                 <li className="order-track-item">
                                   <i className="icofont-close"></i>
                                   <span>order processed</span>
-                                </li>
-                                <li className="order-track-item">
-                                  <i className="icofont-close"></i>
-                                  <span>order shipped</span>
-                                </li>
-                                <li className="order-track-item">
-                                  <i className="icofont-close"></i>
-                                  <span>order delivered</span>
-                                </li>
-                              </ul>
+                                </li> */}
+                                </ul>
+                              </div>
                             </div>
                           </div>
                           <div
@@ -145,10 +155,10 @@ const Order_list = () => {
                                 <h6>Total Tax</h6>
                                 <p>₹{Number(odata.total_gst).toFixed(2)}</p>
                               </li>
-                              <li>
+                              {/* <li>
                                 <h6>discount</h6>
                                 <p>{Number(odata.total_discount).toFixed(2)}</p>
-                              </li>
+                              </li> */}
                               <li>
                                 <h6>delivery fee</h6>
                                 <p>
@@ -854,7 +864,7 @@ const Order_list = () => {
               </div> */}
             </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-lg-12">
               <ul className="pagination">
                 <li className="page-item">
@@ -890,7 +900,7 @@ const Order_list = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
       <Footer />

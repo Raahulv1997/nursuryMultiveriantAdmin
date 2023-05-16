@@ -25,7 +25,7 @@ const SellerSignUp = () => {
     setSpinner("spinner");
 
     const response = await VendorSignUpFuntion(emailVal, passval);
-    console.log("response---" + JSON.stringify(response));
+    // console.log("response---" + JSON.stringify(response));
     // setSpinner(false);
     if (response.response === "brfore submit, please fill mail address") {
       setSpinner(false);

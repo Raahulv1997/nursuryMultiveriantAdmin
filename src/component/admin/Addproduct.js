@@ -289,7 +289,7 @@ const AddProduct = () => {
   ];
 
   const onProductClick = (id) => {
-    console.log("idddd--" + id);
+    // console.log("idddd--" + id);
     localStorage.setItem("productID", id);
 
     navigate("/admin/productDetails");
@@ -538,7 +538,7 @@ const AddProduct = () => {
     e.preventDefault();
     if (validate()) {
       const response = await UpdateProductData(state);
-      console.log("data---" + JSON.stringify(response.response.affectedRows));
+      // console.log("data---" + JSON.stringify(response.response.affectedRows));
       if (response.response.affectedRows === 1) {
         setupdateProductAlert(true);
       }
@@ -583,7 +583,7 @@ const AddProduct = () => {
   //product status change function----
   const onStatusChange = async (e, id) => {
     const response = await UpdateProductStatus(e.target.value, id);
-    console.log("respo--" + response);
+    // console.log("respo--" + response);
     fetchProductData();
     setApicall(true);
   };
@@ -642,7 +642,7 @@ const AddProduct = () => {
 
         const response = await AddProductImage(ImgObj);
 
-        console.log("iimg add" + JSON.stringify(response));
+        // console.log("iimg add" + JSON.stringify(response));
         ImgObj = [];
         onImgView(product_Id);
         setcustomValidated("");
@@ -658,7 +658,7 @@ const AddProduct = () => {
       product_img_id,
       product_img_name
     );
-    console.log("delete responce--" + JSON.stringify(response));
+    // console.log("delete responce--" + JSON.stringify(response));
     onImgView(id);
   };
 
@@ -1319,7 +1319,7 @@ const AddProduct = () => {
                     <td className="" colSpan={"12"}>
                       <div className="image_box d-flex  flex-wrap gap-4">
                         {newImageUrls.map((imgg, i) => {
-                          console.log("img path----" + imgg.product_image_path);
+                          // console.log("img path----" + imgg.product_image_path);
                           return (
                             <>
                               <div className="add_Product_Image" key={i}>

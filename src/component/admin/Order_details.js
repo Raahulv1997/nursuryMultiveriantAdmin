@@ -62,7 +62,7 @@ const OrderDetail = () => {
     const response = await OrderByNo(orderIDD);
 
     const { order_detaile, order_product_detaile, user_detaile } = response;
-    console.log("user  data----" + JSON.stringify(user_detaile));
+    // console.log("user  data----" + JSON.stringify(user_detaile));
     setOrderData(order_detaile[0]);
     setUserData(user_detaile[0]);
     setProductData(order_product_detaile);

@@ -12,7 +12,7 @@ import "sweetalert/dist/sweetalert.css";
 import { useNavigate } from "react-router-dom";
 
 import useValidation from "../common/useValidation";
-import { allOrder, OrderStatusChange } from "../api/api";
+import { allOrder, orderAssignByAdmin, OrderStatusChange } from "../api/api";
 import Sidebar from "../common/sidebar";
 
 const OrderList = () => {
@@ -20,7 +20,7 @@ const OrderList = () => {
 
   const [ordertable, setorderTable] = useState([]);
   const [apicall, setApicall] = useState(false);
-
+  const [orderAssignAlert, setorderAssignAlert] = useState(false);
   const initialFormState = {
     search: "",
     order_id: "",
@@ -82,6 +82,25 @@ const OrderList = () => {
       sortable: true,
       width: "140px",
       center: true,
+    },
+    {
+      name: "Order assign",
+      selector: (row) => (
+        <span
+          className={"badge bg-primary"}
+          onClick={onOrderAssignClick.bind(
+            this,
+            row.order_id,
+            row.total_amount,
+            row.payment_mode,
+            row.delivery_verify_code
+          )}
+        >
+          Order Assign for delivery admin
+        </span>
+      ),
+      width: "200px",
+      sortable: true,
     },
     {
       name: "Order date",
@@ -172,6 +191,27 @@ const OrderList = () => {
   };
   //order search data function----
 
+  const onOrderAssignClick = async (
+    order_id,
+    total_amount,
+    payment_mode,
+    delivery_verify_code
+  ) => {
+    const response = await orderAssignByAdmin(
+      order_id,
+      total_amount,
+      payment_mode,
+      delivery_verify_code
+    );
+    if (response.affectedRows === 1) {
+      setorderAssignAlert(true);
+    }
+  };
+
+  const closeAssignAlert = () => {
+    setorderAssignAlert(false);
+  };
+
   const validators = {
     order_id: [
       (value) =>
@@ -215,7 +255,7 @@ const OrderList = () => {
 
   const onStatusChange = async (e, order_id, user_id) => {
     const response = await OrderStatusChange(e.target.value, order_id, user_id);
-    console.log("respo--" + response);
+    // console.log("respo--" + response);
     OrderData();
     setApicall(true);
   };
@@ -303,6 +343,14 @@ const OrderList = () => {
               </div>
             </div>
           </div>
+          <SweetAlert
+            show={orderAssignAlert}
+            title="Assigned Successfully"
+            text={"Assign"}
+            onConfirm={closeAssignAlert}
+            // showCancelButton={}
+            // onCancel={}
+          />
         </div>
       </div>
     </div>

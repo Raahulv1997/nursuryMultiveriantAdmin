@@ -12,7 +12,6 @@ import "sweetalert/dist/sweetalert.css";
 const Header = () => {
   let path = window.location.pathname;
 
-  const aa = path.includes("/admin");
   const bb = path.includes("/");
 
   const [ShowAlert, setShowAlert] = useState(false);
@@ -22,9 +21,9 @@ const Header = () => {
   const [count_cart, SetCount_cart] = useState(false);
 
   const navigate = useNavigate();
-  const admin_token = localStorage.getItem("admin_token");
+
   const user_token = localStorage.getItem("user_token");
-  const vendor_token = localStorage.getItem("vendor_token");
+
   const OnLogoutClick = () => {
     if (user_token !== null && bb === true) {
       setShowAlert(true);
@@ -137,7 +136,7 @@ const Header = () => {
                 title="Cartlist"
               >
                 <i className="fas fa-shopping-basket"></i>
-                <sup>{count_cart}</sup>
+                {count_cart ? <sup>{count_cart}</sup> : null}
                 {/* <span>
                   total price<small>$345.00</small>
                 </span> */}

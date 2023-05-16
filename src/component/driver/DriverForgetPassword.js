@@ -18,7 +18,7 @@ const DriverForgetPassword = () => {
     e.preventDefault();
     setSpinner("spinner");
     const response = await getForgetOtpDriver(emailVal);
-    console.log("res--" + JSON.stringify(response));
+    // console.log("res--" + JSON.stringify(response));
     if (
       response.response ===
       "email already exist, check your mail or try after sometime"

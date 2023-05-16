@@ -144,7 +144,7 @@ const ShopPage = () => {
       currentPage,
       recordsPerPage
     );
-    console.log("---" + JSON.stringify(data));
+    // console.log("---" + JSON.stringify(data));
     if (data.error === "send only vendor, user, admin token") {
       setProductData([]);
     } else {
@@ -181,9 +181,6 @@ const ShopPage = () => {
   };
 
   async function cart_update_function(cart_count, product_id) {
-    console.log("cart--" + cart_count);
-    console.log("product id--" + product_id);
-
     let token = localStorage.getItem("user_token");
 
     if (token !== "" && token !== null && token !== undefined) {

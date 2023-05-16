@@ -329,7 +329,7 @@ const Vendor = () => {
     e.preventDefault();
     if (validate()) {
       const response = await AddVendorfunction(state, file, filename);
-      console.log("vendor add" + JSON.stringify(response));
+      // console.log("vendor add" + JSON.stringify(response));
       if (response.message === "add vendor successfully") {
         setAddVendorAlert(true);
       }

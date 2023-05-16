@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const profile = () => {
   return (
@@ -12,7 +13,7 @@ const profile = () => {
           <h2>my profile</h2>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <Link to="index.html">Home</Link>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
               profile
@@ -35,9 +36,9 @@ const profile = () => {
                   <div class="row">
                     <div class="col-lg-2">
                       <div class="profile-image">
-                        <a href="#">
+                        <Link to="#">
                           <img src="images/user.png" alt="user" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
@@ -62,7 +63,7 @@ const profile = () => {
                     </div>
                     <div class="col-lg-2">
                       <div class="profile-btn">
-                        <a href="change-password.html">change pass.</a>
+                        <Link to="change-password.html">change pass.</Link>
                       </div>
                     </div>
                   </div>

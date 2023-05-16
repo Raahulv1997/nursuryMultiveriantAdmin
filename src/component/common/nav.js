@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+const user_token = localStorage.getItem("user_token");
+// console.log("toekn in nav" + user_token);
 
 const nav = () => {
   return (
@@ -401,19 +403,18 @@ const nav = () => {
                     </li>
                   </ul>
                 </li> */}
-                <li class="navbar-item dropdown">
-                  <Link class="navbar-link dropdown-arrow" to="">
-                    My Account
-                  </Link>
-                  <ul class="dropdown-position-list">
-                    <li>
-                      <Link to="/profile">My profile</Link>
-                    </li>
-                    {/* <li>
-                      <Link to="/order_list">My orders</Link>
-                    </li> */}
-                  </ul>
-                </li>
+                {user_token === null ? null : (
+                  <li class="navbar-item dropdown">
+                    <Link class="navbar-link dropdown-arrow" to="">
+                      My Account
+                    </Link>
+                    <ul class="dropdown-position-list">
+                      <li>
+                        <Link to="/profile">My profile</Link>
+                      </li>
+                    </ul>
+                  </li>
+                )}
                 {/* <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
                     authentic

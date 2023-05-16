@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { OrderByNo, userOrder } from "../api/api";
+import { OrderByNo } from "../api/api";
 import Header from "../common/header";
 import Footer from "../common/footer";
 
@@ -13,19 +13,17 @@ const Order = () => {
   const [userData, setUserData] = useState([]);
   const [productData, setProductData] = useState([]);
   useEffect(() => {
+    const getOrderDetail = async () => {
+      const response = await OrderByNo(orderIDD);
+
+      const { order_detaile, order_product_detaile, user_detaile } = response;
+
+      setOrderData(order_detaile[0]);
+      setUserData(user_detaile[0]);
+      setProductData(order_product_detaile);
+    };
     getOrderDetail();
-  }, []);
-
-  const getOrderDetail = async () => {
-    const response = await OrderByNo(orderIDD);
-
-    const { order_detaile, order_product_detaile, user_detaile } = response;
-
-    setOrderData(order_detaile[0]);
-    setUserData(user_detaile[0]);
-    setProductData(order_product_detaile);
-    console.log("product  data----" + JSON.stringify(order_product_detaile));
-  };
+  }, [orderIDD]);
 
   // console.log("order ID--" + orderID);
   return (
@@ -188,10 +186,10 @@ const Order = () => {
           </div>
           <div class="row">
             <div class="col-lg-12 text-center mt-5">
-              <a class="btn btn-inline" href="#">
+              {/* <a class="btn btn-inline" href="#">
                 <i class="icofont-download"></i>
                 <span>download invoice</span>
-              </a>
+              </a> */}
               <div class="back-home">
                 <Link to={"/"}>Back to Home</Link>
               </div>

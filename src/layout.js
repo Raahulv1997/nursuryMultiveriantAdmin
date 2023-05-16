@@ -24,7 +24,7 @@ import Otpverify from "./component/user/otpVerify.js";
 import Resetpassword from "./component/user/restPassword.js";
 import AdminLogin from "./component/admin/AdminLogin";
 // import AuthWrapper from "./AuthWrapper";
-import Product_detail from "./component/user/product_detail.js";
+
 import ShopPage from "./component/user/shoppage";
 import Order from "./component/user/order";
 import Vendor from "./component/admin/Vendor";
@@ -41,20 +41,22 @@ import DriverOtpVerify from "./component/driver/DriverOtpVerify";
 import DriverForgetPassword from "./component/driver/DriverForgetPassword";
 import UpdateDriverForgetPassword from "./component/driver/UpdateDriverForgetPassword";
 import DriverRegister from "./component/driver/DriverRegister";
+import ManageAdmin from "./component/admin/ManageAdmin";
+import UserProductDetails from "./component/user/userproductDetail.js";
 
 function Layout() {
-  let path = window.location.pathname;
   const adminLogged = localStorage.getItem("admin_token");
   const userLogged = localStorage.getItem("user_token");
   const vendorLogged = localStorage.getItem("vendor_token");
-  console.log(" admin login------" + adminLogged);
+  // console.log(" admin login------" + adminLogged);
 
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path={"/"} element={<Index />} />
           <Route path="/orderDetails" element={<Order />} />
+          <Route path="/product_detail" element={<UserProductDetails />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user_register" element={<Register />} />
@@ -95,6 +97,7 @@ function Layout() {
             <Route path="/admin/orderList" element={<OrderList />} />
             <Route path="/admin/orderDetails" element={<OrderDetail />} />
             <Route path="/admin/userList" element={<UserAdd />} />
+            <Route path="/admin/manageAdmin" element={<ManageAdmin />} />
             <Route path="/admin/vendor" element={<Vendor />} />
             <Route path="/admin/productDetails" element={<ProductDetails />} />
             <Route path="*" element={<NotFound />} />
@@ -110,7 +113,7 @@ function Layout() {
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/order_list" element={<UserOrderlist />} />
             <Route path="/wallet" element={<Wallet />} />
-            <Route path="/product_detail" element={<Product_detail />} />
+            {/* <Route path="/product_detail" element={<Product_detail />} /> */}
             <Route path="/change_password" element={<UserChangePassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
