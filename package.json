@@ -24,6 +24,9 @@
     "sweetalert-react": "^0.4.10",
     "web-vitals": "^2.1.4"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "react-scripts start --openssl-legacy-provider start",
     "build": "react-scripts build --openssl-legacy-provider build",
