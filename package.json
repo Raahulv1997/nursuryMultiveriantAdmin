@@ -34,7 +34,7 @@
     "eject": "react-scripts eject"
   },
   "resolutions": {
-    "styled-components": "^5"
+    "styled-components": "^6"
   },
   "eslintConfig": {
     "extends": [
