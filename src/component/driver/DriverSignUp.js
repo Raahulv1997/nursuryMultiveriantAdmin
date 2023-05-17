@@ -26,7 +26,7 @@ const DriverSignUp = () => {
     setSpinner("spinner");
 
     const response = await DriverSignUpFuntion(emailVal, passval);
-    console.log("response---" + JSON.stringify(response));
+    // console.log("response---" + JSON.stringify(response));
     // setSpinner(false);
     if (response.response === "brfore submit, please fill mail address") {
       setSpinner(false);
@@ -56,9 +56,9 @@ const DriverSignUp = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
               <div className="user-form-logo">
-                <a href="index.html">
+                <Link to="index.html">
                   <img src={Logo} alt="logo" />
-                </a>
+                </Link>
               </div>
               <div className="user-form-card">
                 <div className="user-form-title">
@@ -68,24 +68,24 @@ const DriverSignUp = () => {
                 <div className="user-form-group">
                   <ul className="user-form-social">
                     <li>
-                      <a href="#" className="facebook">
+                      <Link to="#" className="facebook">
                         <i className="fab fa-facebook-f"></i>Join with facebook
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="twitter">
+                      <Link to="#" className="twitter">
                         <i className="fab fa-twitter"></i>Join with twitter
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="google">
+                      <Link to="#" className="google">
                         <i className="fab fa-google"></i>Join with google
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="instagram">
+                      <Link to="#" className="instagram">
                         <i className="fab fa-instagram"></i>Join with instagram
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                   <div className="user-form-divider">
@@ -138,7 +138,7 @@ const DriverSignUp = () => {
                         id="check"
                       />
                       <label className="form-check-label" for="check">
-                        Accept all the <a href="#">Terms & Conditions</a>
+                        Accept all the <Link to="#">Terms & Conditions</Link>
                       </label>
                     </div>
                     <div className="form-button">
@@ -164,7 +164,7 @@ const DriverSignUp = () => {
               </div>
               <div className="user-form-footer">
                 <p>
-                  Greeny | &COPY; Copyright by <a href="#">Mironcoder</a>
+                  Greeny | &COPY; Copyright by <Link to="#">Mironcoder</Link>
                 </p>
               </div>
             </div>

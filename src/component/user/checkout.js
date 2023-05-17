@@ -7,8 +7,8 @@ import {
   fetchcartdata,
   userdetails,
 } from "../api/api";
-import CheckoutItem from "./checkout_item";
-import payment1 from "../css-js/images/payment/png/01.png";
+// import CheckoutItem from "./checkout_item";
+// import payment1 from "../css-js/images/payment/png/01.png";
 import CartContext from "../helper/cart";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
@@ -44,7 +44,6 @@ function Checkout() {
 
   const cartdatafucntion = async () => {
     const userData = await fetchcartdata();
-    console.log("cart data--" + JSON.stringify(userData));
 
     setCartData(userData);
     ContextValue.setapicall(false);
@@ -85,7 +84,7 @@ function Checkout() {
         discount_coupon_value: "150",
       });
     });
-    console.log("add order json--" + JSON.stringify(databyID));
+    // console.log("add order json--" + JSON.stringify(databyID));
     const response = await AddUserOrder(databyID);
     // console.log("order response---" + JSON.stringify(response));
     if (response.status === "ok") {
@@ -140,10 +139,10 @@ function Checkout() {
           <h2>checkout</h2>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <Link to="index.html">Home</Link>
             </li>
             <li class="breadcrumb-item">
-              <a href="shop-4column.html">shop grid</a>
+              <Link to="shop-4column.html">shop grid</Link>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
               checkout
@@ -158,7 +157,7 @@ function Checkout() {
               <div class="alert-info">
                 <p>
                   Returning customer?{" "}
-                  <a href="login.html">Click here to login</a>
+                  <Link to="login.html">Click here to login</Link>
                 </p>
               </div>
             </div>
@@ -196,7 +195,7 @@ function Checkout() {
                           Taxx += Number(cdata.gst);
 
                           totalTaxx = (Taxx * totalprice) / 100;
-                          console.log("taxx--" + totalTaxx);
+                          // console.log("taxx--" + totalTaxx);
                           totalSgst = totalTaxx / 2;
                           totalCgst = totalTaxx / 2;
                           Grand_Total = totalprice + totalTaxx - totalDiscount;
@@ -232,7 +231,9 @@ function Checkout() {
                                 </td>
                                 <td className="table-brand">
                                   <h6>
-                                    {cdata.cart_product_quantity * cdata.price}
+                                    {Number(
+                                      cdata.cart_product_quantity * cdata.price
+                                    ).toFixed(2)}
                                   </h6>
                                 </td>
                                 <td className="table-action">
@@ -508,13 +509,13 @@ function Checkout() {
             </div>
             <div className="col-lg-12">
               <div className="account-card mb-0">
-                <div className="account-title">
+                {/* <div className="account-title">
                   <h4>payment option</h4>
                   <button data-bs-toggle="modal" data-bs-target="#payment-add">
                     add card
                   </button>
-                </div>
-                <div className="account-content">
+                </div> */}
+                {/* <div className="account-content">
                   <div className="row">
                     <div className="col-md-6 col-lg-4 alert fade show">
                       <div className="payment-card payment active">
@@ -577,12 +578,12 @@ function Checkout() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="checkout-check">
                   <input type="checkbox" id="checkout-check" />
                   <label for="checkout-check">
                     By making this purchase you agree to our{" "}
-                    <a href="#">Terms and Conditions</a>.
+                    <Link to="#">Terms and Conditions</Link>.
                   </label>
                 </div>
                 <div className="checkout-proced">

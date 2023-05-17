@@ -52,7 +52,7 @@ const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
     if (token !== "" && token !== null && token !== undefined) {
       if (cart_product_quantity < 1) {
         let result = await cart_delete_api(product_id, cart_product_quantity);
-        console.log(result);
+        // console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
         } else {
@@ -61,7 +61,7 @@ const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
       } else {
         const result = updateQty(product_id, cart_product_quantity);
 
-        console.log("updfe result---" + JSON.stringify(result));
+        // console.log("updfe result---" + JSON.stringify(result));
 
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));

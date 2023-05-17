@@ -108,7 +108,7 @@ const Profile = () => {
 
   const UserData = async () => {
     const userData = await userdetails();
-    console.log("user update----" + JSON.stringify(userData));
+    // console.log("user update----" + JSON.stringify(userData));
     setGetuserData(userData[0]);
     setState(userData[0]);
   };
@@ -432,7 +432,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-12">
+            {/* <div className="col-lg-12">
               <div className="account-card mb-0">
                 <div className="account-title">
                   <h4>payment option</h4>
@@ -499,11 +499,11 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
-      <div className="modal fade" id="contact-add">
+      {/* <div className="modal fade" id="contact-add">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <button className="modal-close" data-bs-dismiss="modal">
@@ -535,8 +535,8 @@ const Profile = () => {
             </form>
           </div>
         </div>
-      </div>
-      <div className="modal fade" id="address-add">
+      </div> */}
+      {/* <div className="modal fade" id="address-add">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <button className="modal-close" data-bs-dismiss="modal">
@@ -570,8 +570,8 @@ const Profile = () => {
             </form>
           </div>
         </div>
-      </div>
-      <div className="modal fade" id="payment-add">
+      </div> */}
+      {/* <div className="modal fade" id="payment-add">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <button className="modal-close" data-bs-dismiss="modal">
@@ -595,8 +595,8 @@ const Profile = () => {
             </form>
           </div>
         </div>
-      </div>
-      <div className="modal fade" id="profile-edit">
+      </div> */}
+      {/* <div className="modal fade" id="profile-edit">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <button className="modal-close" data-bs-dismiss="modal">
@@ -632,8 +632,8 @@ const Profile = () => {
             </form>
           </div>
         </div>
-      </div>
-      <div className="modal fade" id="contact-edit">
+      </div> */}
+      {/* <div className="modal fade" id="contact-edit">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <button className="modal-close" data-bs-dismiss="modal">
@@ -666,8 +666,8 @@ const Profile = () => {
             </form>
           </div>
         </div>
-      </div>
-      <div className="modal fade" id="address-edit">
+      </div> */}
+      {/* <div className="modal fade" id="address-edit">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <button className="modal-close" data-bs-dismiss="modal">
@@ -702,7 +702,7 @@ const Profile = () => {
             </form>
           </div>
         </div>
-      </div>
+      </div> */}
       <Modal
         size="lg"
         show={modalshow}

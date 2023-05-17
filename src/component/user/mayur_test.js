@@ -6,9 +6,9 @@ const user_cart_api = async () => {
     let response = await axios.get(`192.168/cart_list`, {
       headers: { user_token: `${tt}` },
     });
-    console.log(response.data);
+    // console.log(response.data);
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 };
 user_cart_api();

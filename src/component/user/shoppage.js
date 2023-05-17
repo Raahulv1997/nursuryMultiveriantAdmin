@@ -29,7 +29,7 @@ const ShopPage = () => {
   const [searchparams] = useSearchParams();
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [recordsPerPage] = useState(3);
+  const [recordsPerPage] = useState(12);
 
   const [rating, setRating] = useState([]);
 
@@ -155,7 +155,7 @@ const ShopPage = () => {
     setapicall(false);
     // setRating(num);
   };
-
+  console.log("n page--" + nPages);
   useEffect(() => {
     let pages = [];
     for (let i = 0; i < nPages; i++) {
@@ -164,13 +164,15 @@ const ShopPage = () => {
     setPage(pages);
   }, [productData]);
 
+  console.log("pageArray" + page);
   const CurrentpageSeting = (item) => {
     // alert(item);
     setCurrentPage(item);
   };
 
   const nextPage = () => {
-    if (currentPage !== nPages) setCurrentPage(currentPage + 1);
+    setCurrentPage(currentPage + 1);
+
     setapicall(true);
   };
 
@@ -189,7 +191,7 @@ const ShopPage = () => {
         { product_id, cart_product_quantity },
         { headers: { user_token: `${token}` } },
       ]);
-      console.log(result.success);
+
       if (result.success === true) {
         setapicall(true);
       } else {
@@ -230,7 +232,7 @@ const ShopPage = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        console.log(result);
+        // console.log(result);
         if (result.success === true) {
           setapicall(true);
         } else {
@@ -268,7 +270,7 @@ const ShopPage = () => {
           <h2>Shop 4 Column</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <Link to="index.html">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               shop-4column
@@ -300,15 +302,15 @@ const ShopPage = () => {
                       </select>
                     </div>
                     <div className="filter-action">
-                      <a href="shop-3column.html" title="Three Column">
+                      <Link to="shop-3column.html" title="Three Column">
                         <i className="fas fa-th"></i>
-                      </a>
-                      <a href="shop-2column.html" title="Two Column">
+                      </Link>
+                      <Link to="shop-2column.html" title="Two Column">
                         <i className="fas fa-th-large"></i>
-                      </a>
-                      <a href="shop-1column.html" title="One Column">
+                      </Link>
+                      <Link to="shop-1column.html" title="One Column">
                         <i className="fas fa-th-list"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -357,7 +359,7 @@ const ShopPage = () => {
                         </Link>
                       </li>
                       {page.map((item) => {
-                        console.log(" total-page-----" + JSON.stringify(page));
+                        // console.log(" total-page-----" + JSON.stringify(page));
                         return (
                           <>
                             <li className="page-item">

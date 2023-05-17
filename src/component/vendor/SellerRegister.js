@@ -5,7 +5,7 @@ import { Button, Col, InputGroup } from "react-bootstrap";
 import useValidation from "../common/useValidation";
 import Modal from "react-bootstrap/Modal";
 import { UpdateVendorByToken, VendorDetailsBytoken } from "../api/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const SellerRegister = () => {
   const initialFormState = {
     owner_name: "",
@@ -140,9 +140,9 @@ const SellerRegister = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
               <div className="user-form-logo">
-                <a href="index.html">
+                <Link to="index.html">
                   <img src={Logo} alt="logo" />
-                </a>
+                </Link>
               </div>
               <div className="user-form-card">
                 <div className="user-form-title">
