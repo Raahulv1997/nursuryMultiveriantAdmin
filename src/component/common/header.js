@@ -8,6 +8,9 @@ import Cart from "./cart";
 import { useState } from "react";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import { MdAccountCircle } from "react-icons/md";
+import { HiOutlineLogout } from "react-icons/hi";
+import { RiShoppingBasket2Line } from "react-icons/ri";
 import { fetchcartdata, user_cart_api } from "../api/api";
 
 const user_token = localStorage.getItem("user_token");
@@ -177,13 +180,17 @@ const Header = ({ cartqty, setCartQty }) => {
               </Link> */}
               {user_token === null ? null : (
                 <Link className="header-widget" to={"/profile"}>
-                  <i className="fas fa-login"></i>
+                  <i className="">
+                    <MdAccountCircle />
+                  </i>
                   <span>My Account</span>
                 </Link>
               )}
               {user_token !== null ? (
                 <Link className="header-widget">
-                  <i className="fas fa-login"></i>
+                  <i className="">
+                    <HiOutlineLogout />
+                  </i>
                   <span onClick={OnLogoutClick}>Logout</span>
                 </Link>
               ) : null}
@@ -201,7 +208,9 @@ const Header = ({ cartqty, setCartQty }) => {
           <span>category</span>
         </button>
         <button className="cart-btn" title="Cartlist">
-          <i className="fas fa-shopping-basket"></i>
+          <i className="">
+            <RiShoppingBasket2Line />
+          </i>
           <span>cartlist</span>
           <sup>{count_cart}</sup>
         </button>
