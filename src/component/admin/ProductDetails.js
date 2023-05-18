@@ -40,18 +40,18 @@ const ProductDetails = () => {
   let ratingbox = [1, 2, 3, 4, 5];
   return (
     <div>
-      <section class="inner-section">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="details-gallery">
-                <div class="details-label-group">
-                  <label class="details-label new">new</label>
-                  <label class="details-label off">
+      <section className="inner-section">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="details-gallery">
+                <div className="details-label-group">
+                  <label className="details-label new">new</label>
+                  <label className="details-label off">
                     {productData.discount}%
                   </label>
                 </div>
-                <ul class="details-preview">
+                <ul className="details-preview">
                   <li>
                     <img
                       src={
@@ -65,10 +65,10 @@ const ProductDetails = () => {
                 </ul>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="details-content">
-                <h3 class="details-name">{productData.name}</h3>
-                <div class="details-meta">
+            <div className="col-lg-6">
+              <div className="details-content">
+                <h3 className="details-name">{productData.name}</h3>
+                <div className="details-meta">
                   <p>
                     ID:<span>{productData.id}</span>
                   </p>
@@ -77,7 +77,7 @@ const ProductDetails = () => {
                   </p>
                 </div>
 
-                <div class="details-rating">
+                <div className="details-rating">
                   {ratingbox.map((rat, i) => {
                     return productData.rating - rat >= 0 ? (
                       <>
@@ -90,51 +90,51 @@ const ProductDetails = () => {
 
                   <Link to="#">({productData.rating} reviews)</Link>
                 </div>
-                <h3 class="details-price">
+                <h3 className="details-price">
                   <del> ₹{Number(productData.mrp).toFixed(2)}</del>
                   <span>
                     ₹{Number(productData.price).toFixed(2)}
                     <small>/per {productData.unit}</small>
                   </span>
                 </h3>
-                <label class="details-list-title">Description:</label>
-                <p class="details-desc"> {productData.description}</p>
-                <div class="details-list-group">
-                  <label class="details-list-title">Category:</label>
-                  <ul class="details-tag-list">
+                <label className="details-list-title">Description:</label>
+                <p className="details-desc"> {productData.description}</p>
+                <div className="details-list-group">
+                  <label className="details-list-title">Category:</label>
+                  <ul className="details-tag-list">
                     <li>
                       <Link>{productData.category}</Link>
                     </li>
                   </ul>
                 </div>
 
-                <div class="details-list-group">
-                  <label class="details-list-title">Stock Quantity:</label>
-                  <ul class="details-tag-list">
+                <div className="details-list-group">
+                  <label className="details-list-title">Stock Quantity:</label>
+                  <ul className="details-tag-list">
                     <li>
                       <Link>{productData.product_stock_quantity}</Link>
                     </li>
                   </ul>
                 </div>
-                <div class="details-list-group">
-                  <label class="details-list-title"> Quantity:</label>
-                  <ul class="details-tag-list">
+                <div className="details-list-group">
+                  <label className="details-list-title"> Quantity:</label>
+                  <ul className="details-tag-list">
                     <li>
                       <Link>{productData.quantity}</Link>
                     </li>
                   </ul>
                 </div>
-                <div class="details-list-group">
-                  <label class="details-list-title">Unit:</label>
-                  <ul class="details-tag-list">
+                <div className="details-list-group">
+                  <label className="details-list-title">Unit:</label>
+                  <ul className="details-tag-list">
                     <li>
                       <Link>{productData.unit}</Link>
                     </li>
                   </ul>
                 </div>
-                <div class="details-list-group">
-                  <label class="details-list-title">Tax:</label>
-                  <ul class="details-tag-list">
+                <div className="details-list-group">
+                  <label className="details-list-title">Tax:</label>
+                  <ul className="details-tag-list">
                     <li>
                       <Link>GST: {productData.gst} %</Link>
                     </li>
@@ -146,34 +146,34 @@ const ProductDetails = () => {
                     </li>
                   </ul>
                 </div>
-                <div class="details-list-group">
-                  <label class="details-list-title">Share:</label>
-                  <ul class="details-share-list">
+                <div className="details-list-group">
+                  <label className="details-list-title">Share:</label>
+                  <ul className="details-share-list">
                     <li>
                       <Link
                         to="#"
-                        class="icofont-facebook"
+                        className="icofont-facebook"
                         title="Facebook"
                       ></Link>
                     </li>
                     <li>
                       <Link
                         to="#"
-                        class="icofont-twitter"
+                        className="icofont-twitter"
                         title="Twitter"
                       ></Link>
                     </li>
                     <li>
                       <Link
                         to="#"
-                        class="icofont-linkedin"
+                        className="icofont-linkedin"
                         title="Linkedin"
                       ></Link>
                     </li>
                     <li>
                       <Link
                         to="#"
-                        class="icofont-instagram"
+                        className="icofont-instagram"
                         title="Instagram"
                       ></Link>
                     </li>

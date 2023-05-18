@@ -44,3 +44,9 @@
 .admin_sidebar{
   overflow: hidden;
 }
+.text-truncate{
+  width: 100%;
+}
+.product-card .product-content .product-price .selling_price {
+  font-size: 20px;
+}

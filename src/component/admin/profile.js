@@ -6,63 +6,63 @@ const profile = () => {
     <div>
       {" "}
       <section
-        class="inner-section single-banner"
+        className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"
       >
-        <div class="container">
+        <div className="container">
           <h2>my profile</h2>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <Link to="index.html">Home</Link>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               profile
             </li>
           </ol>
         </div>
       </section>
-      <section class="inner-section profile-part">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="account-card">
-                <div class="account-title">
+      <section className="inner-section profile-part">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="account-card">
+                <div className="account-title">
                   <h4>Your Profile</h4>
                   <button data-bs-toggle="modal" data-bs-target="#profile-edit">
                     edit profile
                   </button>
                 </div>
-                <div class="account-content">
-                  <div class="row">
-                    <div class="col-lg-2">
-                      <div class="profile-image">
+                <div className="account-content">
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <div className="profile-image">
                         <Link to="#">
                           <img src="images/user.png" alt="user" />
                         </Link>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                      <div class="form-group">
-                        <label class="form-label">name</label>
+                    <div className="col-md-6 col-lg-4">
+                      <div className="form-group">
+                        <label className="form-label">name</label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           type="text"
                           value="Miron Mahmud"
                         />
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                      <div class="form-group">
-                        <label class="form-label">Email</label>
+                    <div className="col-md-6 col-lg-4">
+                      <div className="form-group">
+                        <label className="form-label">Email</label>
                         <input
-                          class="form-control"
+                          className="form-control"
                           type="email"
                           value="mironcoder@gmail.com"
                         />
                       </div>
                     </div>
-                    <div class="col-lg-2">
-                      <div class="profile-btn">
+                    <div className="col-lg-2">
+                      <div className="profile-btn">
                         <Link to="change-password.html">change pass.</Link>
                       </div>
                     </div>
@@ -70,24 +70,24 @@ const profile = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="account-card">
-                <div class="account-title">
+            <div className="col-lg-12">
+              <div className="account-card">
+                <div className="account-title">
                   <h4>contact number</h4>
                   <button data-bs-toggle="modal" data-bs-target="#contact-add">
                     add contact
                   </button>
                 </div>
-                <div class="account-content">
-                  <div class="row">
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="profile-card contact active">
+                <div className="account-content">
+                  <div className="row">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="profile-card contact active">
                         <h6>primary</h6>
                         <p>+8801838288389</p>
                         <ul>
                           <li>
                             <button
-                              class="edit icofont-edit"
+                              className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#contact-edit"
@@ -95,7 +95,7 @@ const profile = () => {
                           </li>
                           <li>
                             <button
-                              class="trash icofont-ui-delete"
+                              className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
@@ -103,14 +103,14 @@ const profile = () => {
                         </ul>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="profile-card contact">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="profile-card contact">
                         <h6>secondary</h6>
                         <p>+8801941101915</p>
                         <ul>
                           <li>
                             <button
-                              class="edit icofont-edit"
+                              className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#contact-edit"
@@ -118,7 +118,7 @@ const profile = () => {
                           </li>
                           <li>
                             <button
-                              class="trash icofont-ui-delete"
+                              className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
@@ -126,14 +126,14 @@ const profile = () => {
                         </ul>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="profile-card contact">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="profile-card contact">
                         <h6>secondary</h6>
                         <p>+8801747875727</p>
                         <ul>
                           <li>
                             <button
-                              class="edit icofont-edit"
+                              className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#contact-edit"
@@ -141,7 +141,7 @@ const profile = () => {
                           </li>
                           <li>
                             <button
-                              class="trash icofont-ui-delete"
+                              className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
@@ -153,27 +153,27 @@ const profile = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="account-card">
-                <div class="account-title">
+            <div className="col-lg-12">
+              <div className="account-card">
+                <div className="account-title">
                   <h4>delivery address</h4>
                   <button data-bs-toggle="modal" data-bs-target="#address-add">
                     add address
                   </button>
                 </div>
-                <div class="account-content">
-                  <div class="row">
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="profile-card address active">
+                <div className="account-content">
+                  <div className="row">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="profile-card address active">
                         <h6>Home</h6>
                         <p>
                           jalkuri, fatullah, narayanganj-1420. word no-09, road
                           no-17/A
                         </p>
-                        <ul class="user-action">
+                        <ul className="user-action">
                           <li>
                             <button
-                              class="edit icofont-edit"
+                              className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#address-edit"
@@ -181,7 +181,7 @@ const profile = () => {
                           </li>
                           <li>
                             <button
-                              class="trash icofont-ui-delete"
+                              className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
@@ -189,17 +189,17 @@ const profile = () => {
                         </ul>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="profile-card address">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="profile-card address">
                         <h6>Office</h6>
                         <p>
                           east tejturi bazar, dhaka-1200. word no-04, road
                           no-13/c, house no-4/b
                         </p>
-                        <ul class="user-action">
+                        <ul className="user-action">
                           <li>
                             <button
-                              class="edit icofont-edit"
+                              className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#address-edit"
@@ -207,7 +207,7 @@ const profile = () => {
                           </li>
                           <li>
                             <button
-                              class="trash icofont-ui-delete"
+                              className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
@@ -215,17 +215,17 @@ const profile = () => {
                         </ul>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="profile-card address">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="profile-card address">
                         <h6>Bussiness</h6>
                         <p>
                           kawran bazar, dhaka-1100. word no-02, road no-13/d,
                           house no-7/m
                         </p>
-                        <ul class="user-action">
+                        <ul className="user-action">
                           <li>
                             <button
-                              class="edit icofont-edit"
+                              className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#address-edit"
@@ -233,7 +233,7 @@ const profile = () => {
                           </li>
                           <li>
                             <button
-                              class="trash icofont-ui-delete"
+                              className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
@@ -245,18 +245,18 @@ const profile = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="account-card mb-0">
-                <div class="account-title">
+            <div className="col-lg-12">
+              <div className="account-card mb-0">
+                <div className="account-title">
                   <h4>payment option</h4>
                   <button data-bs-toggle="modal" data-bs-target="#payment-add">
                     add card
                   </button>
                 </div>
-                <div class="account-content">
-                  <div class="row">
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="payment-card payment active">
+                <div className="account-content">
+                  <div className="row">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="payment-card payment active">
                         <img src="images/payment/png/01.png" alt="payment" />
                         <h4>card number</h4>
                         <p>
@@ -267,14 +267,14 @@ const profile = () => {
                         </p>
                         <h5>miron mahmud</h5>
                         <button
-                          class="trash icofont-ui-delete"
+                          className="trash icofont-ui-delete"
                           title="Remove This"
                           data-bs-dismiss="alert"
                         ></button>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="payment-card payment">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="payment-card payment">
                         <img src="images/payment/png/02.png" alt="payment" />
                         <h4>card number</h4>
                         <p>
@@ -285,14 +285,14 @@ const profile = () => {
                         </p>
                         <h5>miron mahmud</h5>
                         <button
-                          class="trash icofont-ui-delete"
+                          className="trash icofont-ui-delete"
                           title="Remove This"
                           data-bs-dismiss="alert"
                         ></button>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 alert fade show">
-                      <div class="payment-card payment">
+                    <div className="col-md-6 col-lg-4 alert fade show">
+                      <div className="payment-card payment">
                         <img src="images/payment/png/03.png" alt="payment" />
                         <h4>card number</h4>
                         <p>
@@ -303,7 +303,7 @@ const profile = () => {
                         </p>
                         <h5>miron mahmud</h5>
                         <button
-                          class="trash icofont-ui-delete"
+                          className="trash icofont-ui-delete"
                           title="Remove This"
                           data-bs-dismiss="alert"
                         ></button>
@@ -316,52 +316,52 @@ const profile = () => {
           </div>
         </div>
       </section>
-      <div class="modal fade" id="contact-add">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-              <i class="icofont-close"></i>
+      <div className="modal fade" id="contact-add">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button className="modal-close" data-bs-dismiss="modal">
+              <i className="icofont-close"></i>
             </button>
-            <form class="modal-form">
-              <div class="form-title">
+            <form className="modal-form">
+              <div className="form-title">
                 <h3>add new contact</h3>
               </div>
-              <div class="form-group">
-                <label class="form-label">title</label>
-                <select class="form-select">
+              <div className="form-group">
+                <label className="form-label">title</label>
+                <select className="form-select">
                   <option selected>choose title</option>
                   <option value="primary">primary</option>
                   <option value="secondary">secondary</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label class="form-label">number</label>
+              <div className="form-group">
+                <label className="form-label">number</label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="text"
                   placeholder="Enter your number"
                 />
               </div>
-              <button class="form-btn" type="submit">
+              <button className="form-btn" type="submit">
                 save contact info
               </button>
             </form>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="address-add">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-              <i class="icofont-close"></i>
+      <div className="modal fade" id="address-add">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button className="modal-close" data-bs-dismiss="modal">
+              <i className="icofont-close"></i>
             </button>
-            <form class="modal-form">
-              <div class="form-title">
+            <form className="modal-form">
+              <div className="form-title">
                 <h3>add new address</h3>
               </div>
-              <div class="form-group">
-                <label class="form-label">title</label>
-                <select class="form-select">
+              <div className="form-group">
+                <label className="form-label">title</label>
+                <select className="form-select">
                   <option selected>choose title</option>
                   <option value="home">home</option>
                   <option value="office">office</option>
@@ -370,125 +370,129 @@ const profile = () => {
                   <option value="others">others</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label class="form-label">address</label>
+              <div className="form-group">
+                <label className="form-label">address</label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   placeholder="Enter your address"
                 ></textarea>
               </div>
-              <button class="form-btn" type="submit">
+              <button className="form-btn" type="submit">
                 save address info
               </button>
             </form>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="payment-add">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-              <i class="icofont-close"></i>
+      <div className="modal fade" id="payment-add">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button className="modal-close" data-bs-dismiss="modal">
+              <i className="icofont-close"></i>
             </button>
-            <form class="modal-form">
-              <div class="form-title">
+            <form className="modal-form">
+              <div className="form-title">
                 <h3>add new payment</h3>
               </div>
-              <div class="form-group">
-                <label class="form-label">card number</label>
+              <div className="form-group">
+                <label className="form-label">card number</label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="text"
                   placeholder="Enter your card number"
                 />
               </div>
-              <button class="form-btn" type="submit">
+              <button className="form-btn" type="submit">
                 save card info
               </button>
             </form>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="profile-edit">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-              <i class="icofont-close"></i>
+      <div className="modal fade" id="profile-edit">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button className="modal-close" data-bs-dismiss="modal">
+              <i className="icofont-close"></i>
             </button>
-            <form class="modal-form">
-              <div class="form-title">
+            <form className="modal-form">
+              <div className="form-title">
                 <h3>edit profile info</h3>
               </div>
-              <div class="form-group">
-                <label class="form-label">profile image</label>
-                <input class="form-control" type="file" />
+              <div className="form-group">
+                <label className="form-label">profile image</label>
+                <input className="form-control" type="file" />
               </div>
-              <div class="form-group">
-                <label class="form-label">name</label>
-                <input class="form-control" type="text" value="Miron Mahmud" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">email</label>
+              <div className="form-group">
+                <label className="form-label">name</label>
                 <input
-                  class="form-control"
+                  className="form-control"
+                  type="text"
+                  value="Miron Mahmud"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">email</label>
+                <input
+                  className="form-control"
                   type="text"
                   value="mironcoder@gmail.com"
                 />
               </div>
-              <button class="form-btn" type="submit">
+              <button className="form-btn" type="submit">
                 save profile info
               </button>
             </form>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="contact-edit">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-              <i class="icofont-close"></i>
+      <div className="modal fade" id="contact-edit">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button className="modal-close" data-bs-dismiss="modal">
+              <i className="icofont-close"></i>
             </button>
-            <form class="modal-form">
-              <div class="form-title">
+            <form className="modal-form">
+              <div className="form-title">
                 <h3>edit contact info</h3>
               </div>
-              <div class="form-group">
-                <label class="form-label">title</label>
-                <select class="form-select">
+              <div className="form-group">
+                <label className="form-label">title</label>
+                <select className="form-select">
                   <option value="primary" selected>
                     primary
                   </option>
                   <option value="secondary">secondary</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label class="form-label">number</label>
+              <div className="form-group">
+                <label className="form-label">number</label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="text"
                   value="+8801838288389"
                 />
               </div>
-              <button class="form-btn" type="submit">
+              <button className="form-btn" type="submit">
                 save contact info
               </button>
             </form>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="address-edit">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-              <i class="icofont-close"></i>
+      <div className="modal fade" id="address-edit">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button className="modal-close" data-bs-dismiss="modal">
+              <i className="icofont-close"></i>
             </button>
-            <form class="modal-form">
-              <div class="form-title">
+            <form className="modal-form">
+              <div className="form-title">
                 <h3>edit address info</h3>
               </div>
-              <div class="form-group">
-                <label class="form-label">title</label>
-                <select class="form-select">
+              <div className="form-group">
+                <label className="form-label">title</label>
+                <select className="form-select">
                   <option value="home" selected>
                     home
                   </option>
@@ -498,14 +502,14 @@ const profile = () => {
                   <option value="others">others</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label class="form-label">address</label>
+              <div className="form-group">
+                <label className="form-label">address</label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   placeholder="jalkuri, fatullah, narayanganj-1420. word no-09, road no-17/A"
                 ></textarea>
               </div>
-              <button class="form-btn" type="submit">
+              <button className="form-btn" type="submit">
                 save address info
               </button>
             </form>

@@ -5,17 +5,17 @@ const user_token = localStorage.getItem("user_token");
 
 const nav = () => {
   return (
-    <nav class="navbar-part">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="navbar-content">
-              <ul class="navbar-list">
-                <li class="navbar-item dropdown">
-                  <Link class="navbar-link dropdown-arrow" to="/">
+    <nav className="navbar-part">
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="navbar-content">
+              <ul className="navbar-list">
+                <li className="navbar-item dropdown">
+                  <Link className="navbar-link dropdown-arrow" to="/">
                     home
                   </Link>
-                  {/* <ul class="dropdown-position-list">
+                  {/* <ul className="dropdown-position-list">
                     <li>
                       <Link to="/">Home</Link>
                     </li>
@@ -42,17 +42,17 @@ const nav = () => {
                     </li>
                   </ul> */}
                 </li>
-                <li class="navbar-item dropdown-megamenu">
-                  <Link class="navbar-link dropdown-arrow" to="/shop">
+                <li className="navbar-item dropdown-megamenu">
+                  <Link className="navbar-link dropdown-arrow" to="/shop">
                     shop
                   </Link>
-                  {/* <div class="megamenu">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-lg-3">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">shop pages</h5>
-                            <ul class="megamenu-list">
+                  {/* <div className="megamenu">
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-lg-3">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">shop pages</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">shop 5 column</Link>
                               </li>
@@ -71,10 +71,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col-lg-3">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">product pages</h5>
-                            <ul class="megamenu-list">
+                        <div className="col-lg-3">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">product pages</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">product single tab</Link>
                               </li>
@@ -90,10 +90,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col-lg-3">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">user action</h5>
-                            <ul class="megamenu-list">
+                        <div className="col-lg-3">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">user action</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">wishlist</Link>
                               </li>
@@ -112,10 +112,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col-lg-3">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">other pages</h5>
-                            <ul class="megamenu-list">
+                        <div className="col-lg-3">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">other pages</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">all Category</Link>
                               </li>
@@ -132,17 +132,17 @@ const nav = () => {
                     </div>
                   </div> */}
                 </li>
-                {/* <li class="navbar-item dropdown-megamenu">
-                  <Link class="navbar-link dropdown-arrow" to="">
+                {/* <li className="navbar-item dropdown-megamenu">
+                  <Link className="navbar-link dropdown-arrow" to="">
                     category
                   </Link>
-                  <div class="megamenu">
-                    <div class="container">
-                      <div class="row row-cols-5">
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">vegetables</h5>
-                            <ul class="megamenu-list">
+                  <div className="megamenu">
+                    <div className="container">
+                      <div className="row row-cols-5">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">vegetables</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">carrot</Link>
                               </li>
@@ -161,10 +161,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">fruits</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">fruits</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">Apple</Link>
                               </li>
@@ -183,10 +183,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">dairy farms</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">dairy farms</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">Butter</Link>
                               </li>
@@ -205,10 +205,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">seafoods</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">seafoods</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">Lobster</Link>
                               </li>
@@ -227,10 +227,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">diet foods</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">diet foods</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">Salmon</Link>
                               </li>
@@ -249,10 +249,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">fast foods</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">fast foods</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">burger</Link>
                               </li>
@@ -271,10 +271,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">drinks</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">drinks</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">cocktail</Link>
                               </li>
@@ -293,10 +293,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">meats</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">meats</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">Meatball</Link>
                               </li>
@@ -315,10 +315,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">fishes</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">fishes</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">scads</Link>
                               </li>
@@ -337,10 +337,10 @@ const nav = () => {
                             </ul>
                           </div>
                         </div>
-                        <div class="col">
-                          <div class="megamenu-wrap">
-                            <h5 class="megamenu-title">dry foods</h5>
-                            <ul class="megamenu-list">
+                        <div className="col">
+                          <div className="megamenu-wrap">
+                            <h5 className="megamenu-title">dry foods</h5>
+                            <ul className="megamenu-list">
                               <li>
                                 <Link to="">noodles</Link>
                               </li>
@@ -363,11 +363,11 @@ const nav = () => {
                     </div>
                   </div>
                 </li> */}
-                {/* <li class="navbar-item dropdown">
-                  <Link class="navbar-link dropdown-arrow" to="">
+                {/* <li className="navbar-item dropdown">
+                  <Link className="navbar-link dropdown-arrow" to="">
                     pages
                   </Link>
-                  <ul class="dropdown-position-list">
+                  <ul className="dropdown-position-list">
                     <li>
                       <Link to="">faqs</Link>
                     </li>
@@ -404,22 +404,22 @@ const nav = () => {
                   </ul>
                 </li> */}
                 {/* {user_token === null ? null : (
-                  <li class="navbar-item dropdown">
-                    <Link class="navbar-link dropdown-arrow" to="">
+                  <li className="navbar-item dropdown">
+                    <Link className="navbar-link dropdown-arrow" to="">
                       My Account
                     </Link>
-                    <ul class="dropdown-position-list">
+                    <ul className="dropdown-position-list">
                       <li>
                         <Link to="/profile">My profile</Link>
                       </li>
                     </ul>
                   </li>
                 )} */}
-                {/* <li class="navbar-item dropdown">
-                  <Link class="navbar-link dropdown-arrow" to="">
+                {/* <li className="navbar-item dropdown">
+                  <Link className="navbar-link dropdown-arrow" to="">
                     authentic
                   </Link>
-                  <ul class="dropdown-position-list">
+                  <ul className="dropdown-position-list">
                     <li>
                       <Link to="">login</Link>
                     </li>
@@ -434,11 +434,11 @@ const nav = () => {
                     </li>
                   </ul>
                 </li> */}
-                {/* <li class="navbar-item dropdown">
-                  <Link class="navbar-link dropdown-arrow" to="">
+                {/* <li className="navbar-item dropdown">
+                  <Link className="navbar-link dropdown-arrow" to="">
                     blogs
                   </Link>
-                  <ul class="dropdown-position-list">
+                  <ul className="dropdown-position-list">
                     <li>
                       <Link to="">blog grid</Link>
                     </li>
@@ -462,8 +462,8 @@ const nav = () => {
                     <span>(+91) 96850-13001</span>
                   </p>
                 </div>
-                <div class="navbar-info">
-                  <i class="icofont-ui-email"></i>
+                <div className="navbar-info">
+                  <i className="icofont-ui-email"></i>
                   <p>
                     <small>email us</small>
                     <span>contact@we2code.com</span>
