@@ -40,7 +40,7 @@ const ProductBox = ({
 
   function product_full_detaile(product_id) {
     localStorage.setItem("productID", product_id);
-    navigate("/product_detail");
+    navigate("/product_detail?prdctid=" + product_id);
   }
   return (
     <>
@@ -65,14 +65,15 @@ const ProductBox = ({
               {ratingbox.map((rat, i) => {
                 return rating - rat >= 0 ? (
                   <>
-                    <i className="active icofont-star"></i>
+                    <i key={i} className="active icofont-star"></i>
                   </>
                 ) : (
                   <i className=" icofont-star"></i>
                 );
               })}
-              <Link to="/">({rating})</Link>
+              {rating ? <Link to="/">({rating})</Link> : null}
             </div>
+
             <div onClick={product_full_detaile.bind(this, [product_id])}>
               <h6 className="product-name text-truncate">{name}</h6>
               <h6 className="product-price">

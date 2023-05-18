@@ -200,21 +200,29 @@ const Header = ({ cartqty, setCartQty }) => {
           <i className="fas fa-list"></i>
           <span>category</span>
         </button>
-        <button className="cart-btn" title="Cartlist">
+        <button
+          onClick={() => {
+            setShowcart(true);
+          }}
+          className="header-widget header-cart"
+          title="Cartlist"
+        >
           <i className="fas fa-shopping-basket"></i>
-          <span>cartlist</span>
-          <sup>{count_cart}</sup>
+          {count_cart ? <sup>{count_cart}</sup> : null}
+          {/* <span>
+                  total price<small>$345.00</small>
+                </span> */}
         </button>
-        <Link to="">
+        {/* <Link to="">
           <i className="fas fa-heart"></i>
           <span>wishlist</span>
           <sup>0</sup>
-        </Link>
-        <Link to="">
+        </Link> */}
+        {/* <Link to="">
           <i className="fas fa-random"></i>
           <span>compare</span>
           <sup>0</sup>
-        </Link>
+        </Link> */}
       </div>
 
       <Cart
