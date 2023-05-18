@@ -131,7 +131,7 @@ const Header = ({ cartqty, setCartQty }) => {
                 <small className="text-danger">please fill the feild</small>
               ) : null}
             </form>
-
+            <Nav />
             <div className="header-widget-group">
               {/* <Link to="" className="header-widget" title="Compare List">
                 <i className="fas fa-random"></i>
@@ -141,7 +141,36 @@ const Header = ({ cartqty, setCartQty }) => {
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
               </Link> */}
-
+              {user_token === null ? null : (
+                <li className="navbar-item dropdown profile_nav_dropdown">
+                  <Link className="navbar-link dropdown-arrow" to="/">
+                    Username
+                  </Link>
+                  <ul className="dropdown-position-list">
+                    <li>
+                      <Link
+                        className="header-widget justify-content-start"
+                        to={"/profile"}
+                      >
+                        <i className="">
+                          <MdAccountCircle />
+                        </i>
+                        <span>My Account</span>
+                      </Link>
+                    </li>
+                    <li>
+                      {user_token !== null ? (
+                        <Link className="header-widget justify-content-start">
+                          <i className="">
+                            <HiOutlineLogout />
+                          </i>
+                          <span onClick={OnLogoutClick}>Logout</span>
+                        </Link>
+                      ) : null}
+                    </li>
+                  </ul>
+                </li>
+              )}
               <button
                 onClick={() => {
                   setShowcart(true);
@@ -155,6 +184,7 @@ const Header = ({ cartqty, setCartQty }) => {
                   total price<small>$345.00</small>
                 </span> */}
               </button>
+
               {user_token !== null ? null : (
                 <Link to="/login" className="header-widget" title="Wishlist">
                   <i className="fas fa-login"></i>
@@ -178,7 +208,8 @@ const Header = ({ cartqty, setCartQty }) => {
                 <i className="fas fa-login"></i>
                 <span> seller Login</span>
               </Link> */}
-              {user_token === null ? null : (
+
+              {/* {user_token === null ? null : (
                 <Link className="header-widget" to={"/profile"}>
                   <i className="">
                     <MdAccountCircle />
@@ -193,7 +224,7 @@ const Header = ({ cartqty, setCartQty }) => {
                   </i>
                   <span onClick={OnLogoutClick}>Logout</span>
                 </Link>
-              ) : null}
+              ) : null} */}
             </div>
           </div>
         </div>
@@ -231,7 +262,6 @@ const Header = ({ cartqty, setCartQty }) => {
         cart_list_hide={cart_list_hide_fun}
         cart_count={cart_count_fun}
       />
-      <Nav />
     </Fragment>
   );
 };

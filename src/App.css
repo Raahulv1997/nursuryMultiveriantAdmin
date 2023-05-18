@@ -61,3 +61,7 @@
 .cart-info h6{
   line-height: 1.25;
 }
+li.navbar-item.dropdown {
+  display: block;
+  margin-left: 15px;
+}

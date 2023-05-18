@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import product from "../css-js/images/product/01.jpg";
 import {
   call_product_detaile_api,
   add_to_cart_api,

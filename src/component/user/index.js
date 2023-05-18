@@ -39,15 +39,15 @@ const Index = () => {
         price_from: "",
         price_to: "",
         price: "",
-        rating: "",
-        created_on: "DESC",
-        id_: "",
+        rating__: "",
+        created_on__: "DESC",
+        id__: "",
+        name__: "",
         search: "",
         category: [""],
         brand: [],
         seo_tag: [],
         vendor_id: [],
-        id: [],
       },
       recordsPerPage
     );
@@ -145,12 +145,7 @@ const Index = () => {
 
       <section className="section recent-part">
         <div className="container-fluid p-0">
-          <Carousel
-            renderIndicator={false}
-            showThumbs={false}
-            autoPlay={true}
-            infiniteLoop={true}
-          >
+          <Carousel renderIndicator={false} showThumbs={false} autoPlay={true}>
             <div>
               <img src={img1} />
               {/* <p className="legend">Legend 1</p> */}
@@ -169,7 +164,7 @@ const Index = () => {
       <section className="section recent-part">
         <div className="container">
           <div className="row">
-            <div className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat1} alt="brand" />
@@ -181,7 +176,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat2} alt="brand" />
@@ -193,7 +188,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat3} alt="brand" />
@@ -205,7 +200,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat4} alt="brand" />
@@ -217,7 +212,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat5} alt="brand" />
@@ -229,7 +224,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat6} alt="brand" />
