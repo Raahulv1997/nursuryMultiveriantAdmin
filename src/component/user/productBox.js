@@ -45,16 +45,18 @@ const ProductBox = ({
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
-      <div className="col-4 ">
-        <div className="product-card">
+      <div className="col-lg-4 col-sm-6">
+        <div className="product-card p-0">
           <div className="product-media">
-            <div className="product-label">
-              <label className="label-text new">{discount} %</label>
-            </div>
+            {discount ? (
+              <div className="product-label ">
+                <label className="label-text new bg-danger">{discount} %</label>
+              </div>
+            ) : null}
 
-            <button className="product-wish wish">
+            {/* <button className="product-wish wish">
               <i className="fas fa-heart"></i>
-            </button>
+            </button> */}
             <a
               onClick={product_full_detaile.bind(this, [product_id])}
               className="product-image"
@@ -83,7 +85,7 @@ const ProductBox = ({
                 ></a>
               </div> */}
           </div>
-          <div className="product-content">
+          <div className="product-content p-3">
             <div className="product-rating">
               {ratingbox.map((rat, i) => {
                 return rating - rat >= 0 ? (
