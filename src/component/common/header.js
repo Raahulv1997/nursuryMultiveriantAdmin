@@ -159,7 +159,7 @@ const Header = ({ cartqty, setCartQty }) => {
                 </Link>
               )}
 
-              <Link
+              {/* <Link
                 to="/DriverLogin"
                 className="header-widget"
                 title="Wishlist"
@@ -174,8 +174,13 @@ const Header = ({ cartqty, setCartQty }) => {
               >
                 <i className="fas fa-login"></i>
                 <span> seller Login</span>
-              </Link>
-
+              </Link> */}
+              {user_token === null ? null : (
+                <Link className="header-widget" to={"/profile"}>
+                  <i className="fas fa-login"></i>
+                  <span>My Account</span>
+                </Link>
+              )}
               {user_token !== null ? (
                 <Link className="header-widget">
                   <i className="fas fa-login"></i>

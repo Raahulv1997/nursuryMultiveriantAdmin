@@ -336,7 +336,7 @@ const Filters1 = ({ handleClick }) => {
             </button> */}
           </form>
         </div>
-        <div className="shop-widget">
+        {/* <div className="shop-widget">
           <h6 className="shop-widget-title">Filter by Tag</h6>
           <form>
             <ul className="shop-widget-list">
@@ -381,7 +381,7 @@ const Filters1 = ({ handleClick }) => {
               <span>clear filter</span>
             </button>
           </form>
-        </div>
+        </div> */}
         <div className="shop-widget">
           <h6 className="shop-widget-title">Filter by Brand</h6>
           <form>
