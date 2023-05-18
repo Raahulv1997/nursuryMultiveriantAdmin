@@ -20,6 +20,7 @@ const ShopPage = () => {
   const [ShowAlert, setShowAlert] = useState(false);
   const [filterapicall, setfilerapicall] = useState(false);
   const navigate = useNavigate();
+  const [recordCount, setrecordCount] = useState("");
   const [ratingg, setRatingg] = useState("");
   const [price, setPrice] = useState("");
   const [name, setName] = useState("");
@@ -33,7 +34,7 @@ const ShopPage = () => {
   const [searchparams] = useSearchParams();
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [recordsPerPage, setRecordPerpage] = useState(12);
+  const [recordsPerPage, setRecordPerpage] = useState(10);
 
   const [rating, setRating] = useState([]);
 
@@ -53,8 +54,9 @@ const ShopPage = () => {
     indexOfFirstRecord,
     indexOfLastRecord
   );
-  // console.log("current record--" + productData.length);
-  const nPages = Math.ceil(productData.length / recordsPerPage);
+  console.log(" record--" + recordCount);
+  console.log("per page--" + recordsPerPage);
+  const nPages = Math.ceil(recordCount / recordsPerPage);
   // console.log("npage--" + nPages);
 
   // calback function for rating
@@ -156,6 +158,9 @@ const ShopPage = () => {
     if (data.error === "send only vendor, user, admin token") {
       setProductData([]);
     } else {
+      const { pagination } = data;
+      setrecordCount(pagination.count_rows);
+      console.log("ddddd-" + JSON.stringify(pagination.count_rows));
       setProductData(data.results);
     }
     // console.log("all--" + JSON.stringify(data));
@@ -370,7 +375,7 @@ const ShopPage = () => {
                         <option value="24">24</option>
                         <option value="36">36</option>
                         <option value="48">48</option>
-                        <option value="2000">all</option>
+                        <option value={recordCount}>All</option>
                       </select>
                     </div>
                     <div className="filter-short">
@@ -437,7 +442,7 @@ const ShopPage = () => {
                 <div className="col-lg-12">
                   <div className="bottom-paginate">
                     <p className="page-info">
-                      Showing {productData.length} of 60 Results
+                      Showing {productData.length} of {recordCount} Results
                     </p>
                     <ul className="pagination">
                       <li className="page-item">
