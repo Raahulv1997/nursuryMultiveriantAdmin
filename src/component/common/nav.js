@@ -454,9 +454,9 @@ const nav = () => {
                   </ul>
                 </li> */}
               </ul>
-              <div className="navbar-info-group">
-                <div className="navbar-info">
-                  <i className="icofont-ui-touch-phone"></i>
+              {/* <div class="navbar-info-group">
+                <div class="navbar-info">
+                  <i class="icofont-ui-touch-phone"></i>
                   <p>
                     <small>call us</small>
                     <span>(+91) 96850-13001</span>
@@ -469,7 +469,7 @@ const nav = () => {
                     <span>contact@we2code.com</span>
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
