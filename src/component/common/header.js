@@ -214,16 +214,16 @@ const Header = ({ cartqty, setCartQty }) => {
           <span>cartlist</span>
           <sup>{count_cart}</sup>
         </button>
-        <Link to="">
+        {/* <Link to="">
           <i className="fas fa-heart"></i>
           <span>wishlist</span>
           <sup>0</sup>
-        </Link>
-        <Link to="">
+        </Link> */}
+        {/* <Link to="">
           <i className="fas fa-random"></i>
           <span>compare</span>
           <sup>0</sup>
-        </Link>
+        </Link> */}
       </div>
 
       <Cart
