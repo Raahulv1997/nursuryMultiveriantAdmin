@@ -50,3 +50,8 @@
 .product-card .product-content .product-price .selling_price {
   font-size: 20px;
 }
+.product-rating a{
+  line-height: 1;
+  font-size: 12px;
+  text-decoration: none;
+}

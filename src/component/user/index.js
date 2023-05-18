@@ -41,7 +41,7 @@ const Index = () => {
         price: "",
         rating: "",
         created_on: "DESC",
-        id_: "DESC",
+        id_: "",
         search: "",
         category: [""],
         brand: [],
@@ -145,7 +145,12 @@ const Index = () => {
 
       <section className="section recent-part">
         <div className="container-fluid p-0">
-          <Carousel renderIndicator={false} showThumbs={false} autoPlay={true}>
+          <Carousel
+            renderIndicator={false}
+            showThumbs={false}
+            autoPlay={true}
+            infiniteLoop={true}
+          >
             <div>
               <img src={img1} />
               {/* <p className="legend">Legend 1</p> */}
