@@ -132,19 +132,19 @@ function Checkout() {
     <div>
       <Header />
       <section
-        class="inner-section single-banner"
+        className="inner-section single-banner"
         // style="background: url(images/single-banner.jpg) no-repeat center;"
       >
-        <div class="container">
+        <div className="container">
           <h2>checkout</h2>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <Link to="index.html">Home</Link>
             </li>
-            <li class="breadcrumb-item">
+            <li className="breadcrumb-item">
               <Link to="shop-4column.html">shop grid</Link>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li className="breadcrumb-item active" aria-current="page">
               checkout
             </li>
           </ol>
@@ -153,8 +153,8 @@ function Checkout() {
       <section className="inner-section checkout-part">
         <div className="container">
           <div className="row">
-            <div class="col-lg-12">
-              <div class="alert-info">
+            <div className="col-lg-12">
+              <div className="alert-info">
                 <p>
                   Returning customer?{" "}
                   <Link to="login.html">Click here to login</Link>

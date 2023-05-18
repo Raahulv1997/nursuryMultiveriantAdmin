@@ -29,21 +29,21 @@ const Order = () => {
   return (
     <div>
       <Header />
-      <section class="inner-section invoice-part">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="alert-info">
+      <section className="inner-section invoice-part">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="alert-info">
                 <p>Thank you! We have recieved your order.</p>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="account-card">
-                <div class="account-title">
+            <div className="col-lg-12">
+              <div className="account-card">
+                <div className="account-title">
                   <h4>order recieved</h4>
                 </div>
-                <div class="account-content">
-                  <div class="invoice-recieved">
+                <div className="account-content">
+                  <div className="invoice-recieved">
                     <h6>
                       order number <span>{orderData.order_id}</span>
                     </h6>
@@ -69,13 +69,13 @@ const Order = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="account-card">
-                <div class="account-title">
+            <div className="col-lg-6">
+              <div className="account-card">
+                <div className="account-title">
                   <h4>Order Details</h4>
                 </div>
-                <div class="account-content">
-                  <ul class="invoice-details">
+                <div className="account-content">
+                  <ul className="invoice-details">
                     <li>
                       <h6>Total Item </h6>
                       <p> {orderData.total_order_product_quantity}Items</p>
@@ -98,13 +98,13 @@ const Order = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="account-card">
-                <div class="account-title">
+            <div className="col-lg-6">
+              <div className="account-card">
+                <div className="account-title">
                   <h4>Amount Details</h4>
                 </div>
-                <div class="account-content">
-                  <ul class="invoice-details">
+                <div className="account-content">
+                  <ul className="invoice-details">
                     {/* <li>
                       <h6>Sub Total</h6>
                       <p>$10,864.00</p>
@@ -136,9 +136,9 @@ const Order = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="table-scroll">
-                <table class="table-list">
+            <div className="col-lg-12">
+              <div className="table-scroll">
+                <table className="table-list">
                   <thead>
                     <tr>
                       <th scope="col">Serial</th>
@@ -154,25 +154,25 @@ const Order = () => {
                       return (
                         <>
                           <tr>
-                            <td class="table-serial">
+                            <td className="table-serial">
                               <h6>{id + 1}</h6>
                             </td>
-                            <td class="table-image">
+                            <td className="table-image">
                               <img src={pdata.cover_image} alt="product" />
                             </td>
-                            <td class="table-name">
+                            <td className="table-name">
                               <h6>{pdata.name}</h6>
                             </td>
-                            <td class="table-price">
+                            <td className="table-price">
                               <h6>
                                 ₹ {pdata.price}
                                 <small>/{pdata.unit}</small>
                               </h6>
                             </td>
-                            <td class="table-brand">
+                            <td className="table-brand">
                               <h6>{pdata.brand}</h6>
                             </td>
-                            {/* <td class="table-quantity">
+                            {/* <td className="table-quantity">
                               <h6>3</h6>
                             </td> */}
                           </tr>
@@ -184,13 +184,13 @@ const Order = () => {
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-12 text-center mt-5">
-              {/* <a class="btn btn-inline" href="#">
-                <i class="icofont-download"></i>
+          <div className="row">
+            <div className="col-lg-12 text-center mt-5">
+              {/* <a className="btn btn-inline" href="#">
+                <i className="icofont-download"></i>
                 <span>download invoice</span>
               </a> */}
-              <div class="back-home">
+              <div className="back-home">
                 <Link to={"/"}>Back to Home</Link>
               </div>
             </div>

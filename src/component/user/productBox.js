@@ -53,37 +53,12 @@ const ProductBox = ({
                 <label className="label-text new bg-danger">{discount} %</label>
               </div>
             ) : null}
-
-            {/* <button className="product-wish wish">
-              <i className="fas fa-heart"></i>
-            </button>*/}
             <span
               onClick={product_full_detaile.bind(this, [product_id])}
               className="product-image"
             >
               <img src={image} alt="product" width={250} height={250} />
             </span>
-            {/* <div className="product-widget">
-                <a
-                  title="Product Compare"
-                  href="compare.html"
-                  className="fas fa-random"
-                ></Link>
-                <a
-                  title="Product Video"
-                  href="https://youtu.be/9xzcVxSBbG8"
-                  className="venobox fas fa-play"
-                  data-autoplay="true"
-                  data-vbtype="video"
-                ></Link>
-                <a
-                  title="Product View"
-                  href="#"
-                  className="fas fa-eye"
-                  data-bs-toggle="modal"
-                  data-bs-target="#product-view"
-                ></Link>
-              </div> */}
           </div>
           <div className="product-content p-3">
             <div className="product-rating">
@@ -96,24 +71,19 @@ const ProductBox = ({
                   <i className=" icofont-star"></i>
                 );
               })}
-              {/* <i className="active icofont-star"></i>
-                <i className="active icofont-star"></i>
-                <i className="active icofont-star"></i>
-                <i className="active icofont-star"></i>
-                <i className="icofont-star"></i> */}
-
-              <Link to="product-video.html">({rating})</Link>
+              <Link to="/">({rating})</Link>
             </div>
-            <h6 className="product-name">
-              <Link to="product-video.html">{name}</Link>
-            </h6>
-            <h6 className="product-price">
-              <del> ₹{mrp}</del>
-              <span>
-                ₹ {price}
-                <small>/{unit}</small>
-              </span>
-            </h6>
+            <div onClick={product_full_detaile.bind(this, [product_id])}>
+              <h6 className="product-name text-truncate">{name}</h6>
+              <h6 className="product-price">
+                {mrp === price ? null : <del> ₹{mrp}</del>}
+                <span className="font-s selling_price">
+                  ₹ {price}
+                  <small>/-{unit}</small>
+                </span>
+              </h6>
+            </div>
+
             {/* {console.log(cart_count)} */}
             {cart_count !== null &&
             cart_count !== "" &&

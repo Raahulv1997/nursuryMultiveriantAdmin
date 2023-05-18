@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Logo from "../css-js/images/logo.png";
+import Logo from "../../logo192.png";
 import Profile from "../css-js/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import Nav from "./nav";
@@ -104,14 +104,14 @@ const Header = ({ cartqty, setCartQty }) => {
                 <img src={Profile} alt="user" />
               </button>
               <Link to="">
-                <img src={Logo} alt="logo" />
+                <img src={Logo} alt="logo" width={"100px"} />
               </Link>
               <button className="header-src">
                 <i className="fas fa-search"></i>
               </button>
             </div>
             <Link to="">
-              <img src={Logo} alt="logo" />
+              <img src={Logo} alt="logo" height={"100px"} />
             </Link>
             {/* <img src={Profile} alt="user" /> */}
 

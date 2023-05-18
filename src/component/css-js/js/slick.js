@@ -7,8 +7,8 @@ $(".home-index-slider").slick({
   autoplay: !0,
   arrows: !0,
   speed: 600,
-  prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-  nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+  prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+  nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
   slidesToShow: 1,
   slidesToScroll: 1,
   responsive: [
@@ -28,8 +28,8 @@ $(".home-index-slider").slick({
     autoplay: !0,
     arrows: !0,
     speed: 600,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
@@ -49,8 +49,8 @@ $(".home-index-slider").slick({
     autoplay: !0,
     arrows: !0,
     speed: 500,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
@@ -70,8 +70,8 @@ $(".home-index-slider").slick({
     autoplay: !0,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
@@ -90,8 +90,8 @@ $(".home-index-slider").slick({
     autoplay: !0,
     arrows: !0,
     speed: 1e3,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 5,
     slidesToScroll: 2,
     responsive: [
@@ -110,8 +110,8 @@ $(".home-index-slider").slick({
     autoplay: !0,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 5,
     slidesToScroll: 1,
     responsive: [
@@ -135,8 +135,8 @@ $(".home-index-slider").slick({
     autoplay: !0,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 5,
     slidesToScroll: 1,
     responsive: [
@@ -160,8 +160,8 @@ $(".home-index-slider").slick({
     autoplay: !1,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 5,
     slidesToScroll: 1,
     responsive: [
@@ -185,8 +185,8 @@ $(".home-index-slider").slick({
     autoplay: !1,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [
@@ -210,8 +210,8 @@ $(".home-index-slider").slick({
     centerPadding: "250px",
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     responsive: [
       {
         breakpoint: 1200,
@@ -250,8 +250,8 @@ $(".home-index-slider").slick({
     autoplay: !1,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
@@ -267,8 +267,8 @@ $(".home-index-slider").slick({
     autoplay: !1,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 4,
     slidesToScroll: 1,
     responsive: [
@@ -284,8 +284,8 @@ $(".home-index-slider").slick({
     autoplay: !1,
     arrows: !0,
     speed: 800,
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     slidesToShow: 5,
     slidesToScroll: 2,
     responsive: [
@@ -301,8 +301,8 @@ $(".home-index-slider").slick({
     arrows: !0,
     fade: !0,
     asNavFor: ".thumb-slider",
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     responsive: [
       {
         breakpoint: 576,
@@ -331,8 +331,8 @@ $(".home-index-slider").slick({
     arrows: !1,
     fade: !0,
     asNavFor: ".details-thumb",
-    prevArrow: '<i class="icofont-arrow-right dandik"></i>',
-    nextArrow: '<i class="icofont-arrow-left bamdik"></i>',
+    prevArrow: '<i className="icofont-arrow-right dandik"></i>',
+    nextArrow: '<i className="icofont-arrow-left bamdik"></i>',
     responsive: [
       {
         breakpoint: 576,

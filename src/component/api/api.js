@@ -580,7 +580,7 @@ export const change_password_api = async (req_body_obj) => {
   return response.data;
 };
 
-export const user_home_api = async (req_body_obj) => {
+export const user_home_api = async (req_body_obj, perpage) => {
   let token = localStorage.getItem("user_token");
   let token_obj;
 
@@ -590,7 +590,7 @@ export const user_home_api = async (req_body_obj) => {
     token_obj = { headers: { user_blank: "true" } };
   }
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=${perpage}`,
     req_body_obj,
     token_obj
   );
