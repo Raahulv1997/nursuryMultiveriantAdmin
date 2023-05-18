@@ -56,7 +56,7 @@ const ProductBox = ({
 
             {/* <button className="product-wish wish">
               <i className="fas fa-heart"></i>
-            </button>
+            </button>*/}
             <span
               onClick={product_full_detaile.bind(this, [product_id])}
               className="product-image"
