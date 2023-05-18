@@ -28,6 +28,10 @@ const Index = () => {
     let result_all = await user_home_api({
       price_from: "",
       price_to: "",
+      price_: "",
+      rating_: "",
+      name_: "",
+      updated_on_: "",
       search: "",
       category: [],
       rating: [],

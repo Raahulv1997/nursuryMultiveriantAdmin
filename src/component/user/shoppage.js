@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   add_to_cart_api,
   allproduct,
+  allShortfilerProduct,
   cart_delete_api,
   fetchfilter,
   update_to_cart_api,
@@ -17,9 +18,12 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 const ShopPage = () => {
   const [ShowAlert, setShowAlert] = useState(false);
-  const [reload, setReload] = useState("");
+  const [filterapicall, setfilerapicall] = useState(false);
   const navigate = useNavigate();
-
+  const [ratingg, setRatingg] = useState("");
+  const [price, setPrice] = useState("");
+  const [name, setName] = useState("");
+  const [update, setUpdate] = useState("");
   const [fromPrice, setFromPrice] = useState("");
   const [toPrice, setToPrice] = useState("");
 
@@ -92,6 +96,8 @@ const ShopPage = () => {
     searchbox,
     fromPrice,
     toPrice,
+    // price,
+    // name,
     rating,
     brand,
     category,
@@ -138,6 +144,8 @@ const ShopPage = () => {
       searchbox,
       fromPrice,
       toPrice,
+      // price,
+      // name,
       rating,
       brand,
       category,
@@ -154,6 +162,32 @@ const ShopPage = () => {
 
     setapicall(false);
     // setRating(num);
+  };
+
+  useEffect(() => {
+    allgetsortFilter();
+  }, [
+    filterapicall,
+    ratingg,
+    name,
+    price,
+    update,
+    currentPage,
+    recordsPerPage,
+  ]);
+
+  const allgetsortFilter = async () => {
+    const response = await allShortfilerProduct(
+      ratingg,
+      name,
+      price,
+      update,
+      currentPage,
+      recordsPerPage
+    );
+    setProductData(response.results);
+    console.log("data-------" + JSON.stringify(response));
+    setfilerapicall(true);
   };
   console.log("n page--" + nPages);
   useEffect(() => {
@@ -254,8 +288,39 @@ const ShopPage = () => {
     setRecordPerpage(e.target.value);
   };
 
-  const onShoringfilter = (e) => {
-    setRecordPerpage(e.target.value);
+  const onShoringfilter = async (e) => {
+    let value = Number(e.target.value);
+
+    if (value === 1) {
+      setRatingg("DESC");
+      setName("");
+      setPrice("");
+      setUpdate("");
+      setfilerapicall(true);
+    }
+
+    if (value === 2) {
+      setName("DESC");
+      setRatingg("");
+      setPrice("");
+      setUpdate("");
+      setfilerapicall(true);
+    }
+    if (value === 3) {
+      setPrice("DESC");
+      setName("");
+      setRatingg("");
+      setUpdate("");
+      setfilerapicall(true);
+    }
+
+    if (value === 4) {
+      setUpdate("DESC");
+      setPrice("");
+      setName("");
+      setRatingg("");
+      setfilerapicall(true);
+    }
   };
   return (
     <div>
@@ -317,10 +382,10 @@ const ShopPage = () => {
                         }}
                       >
                         <option selected>Featured</option>
-                        <option value="1">Trending</option>
-                        <option value="2">Name wise</option>
-                        <option value="3">Price wise</option>
-                        <option value="4">Latest First</option>
+                        <option value={1}>Trending</option>
+                        <option value={2}>Name wise</option>
+                        <option value={3}>Price wise</option>
+                        <option value={4}>Latest First</option>
                       </select>
                     </div>
                     {/* <div className="filter-action">

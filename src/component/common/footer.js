@@ -87,7 +87,7 @@ const Footer = () => {
       </section> */}
       <footer className="footer-part">
         <div className="container">
-          <div className="row">
+          {/* <div className="row">
             <div className="col-sm-6 col-xl-3">
               <div className="footer-widget">
                 <Link className="footer-logo" to="">
@@ -99,7 +99,7 @@ const Footer = () => {
                   multiplied under favourable conditions for transplanting in
                   prepared beds.
                 </p>
-                {/* <ul className="footer-social">
+                <ul className="footer-social">
                   <li>
                     <Link className="icofont-facebook" to=""></Link>
                   </li>
@@ -115,7 +115,7 @@ const Footer = () => {
                   <li>
                     <Link className="icofont-pinterest" to=""></Link>
                   </li>
-                </ul> */}
+                </ul>
               </div>
             </div>
             <div className="col-sm-6 col-xl-3">
@@ -133,7 +133,7 @@ const Footer = () => {
                     <i className="icofont-ui-touch-phone"></i>
                     <p>
                       <span>+91-96850-13001</span>
-                      {/* <span>+91-96850-13001</span> */}
+                      <span>+91-96850-13001</span>
                     </p>
                   </li>
                   <li>
@@ -156,7 +156,7 @@ const Footer = () => {
                     <li>
                       <Link to="/order_list">Order History</Link>
                     </li>
-                    {/* <li>
+                    <li>
                       <Link to="">Order Tracking</Link>
                     </li>
                     <li>
@@ -164,9 +164,9 @@ const Footer = () => {
                     </li>
                     <li>
                       <Link to="">New Arrivals</Link>
-                    </li> */}
+                    </li>
                   </ul>
-                  {/* <ul>
+                  <ul>
                     <li>
                       <Link to="">Location</Link>
                     </li>
@@ -182,11 +182,11 @@ const Footer = () => {
                     <li>
                       <Link to="">Faq</Link>
                     </li>
-                  </ul> */}
+                  </ul>
                 </div>
               </div>
             </div>
-            {/* <div className="col-sm-6 col-xl-3">
+            <div className="col-sm-6 col-xl-3">
               <div className="footer-widget">
                 <h3 className="footer-title">Download App</h3>
                 <p className="footer-desc">
@@ -203,15 +203,15 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-            </div> */}
-          </div>
-          {/* <div className="row">
+            </div>
+          </div> */}
+          <div className="row">
             <div className="col-12">
               <div className="footer-bottom">
                 <p className="footer-copytext">
-                  &copy; All Copyrights Reserved by Greeny
+                  &copy; All Copyrights Reserved by We2code technology
                 </p>
-                <div className="footer-card">
+                {/* <div className="footer-card">
                   <Link to="">
                     <img src={Payment1} alt="payment" />
                   </Link>
@@ -224,10 +224,10 @@ const Footer = () => {
                   <Link to="">
                     <img src={Payment4} alt="payment" />
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </footer>
     </div>

@@ -64,6 +64,7 @@ export const allproduct = async (
   searchbox,
   price_from,
   price_to,
+
   showratingdata,
   brand,
   category,
@@ -75,13 +76,43 @@ export const allproduct = async (
     {
       price_from: price_from,
       price_to: price_to,
+      price_: "",
+      rating_: "",
+      name_: "",
+      created_on_: "",
       search: searchbox,
       category: category,
       rating: showratingdata,
       brand: brand,
       seo_tag: [],
       vendor_id: [],
-      name: [],
+    },
+
+    user_token !== null && user_token !== undefined
+      ? { headers: { user_token: user_token } }
+      : { headers: { user_blank: true } }
+  );
+  return response.data;
+};
+
+export const allShortfilerProduct = async (
+  ratingg,
+  name,
+  price,
+  update,
+  currentPage,
+  recordsPerPage
+) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
+    {
+      price_from: "",
+      price_to: "",
+      price_: price,
+      rating_: ratingg,
+      name_: name,
+      created_on_: update,
+      search: "",
     },
 
     user_token !== null && user_token !== undefined
@@ -134,6 +165,10 @@ export const AllproductData = async (
     {
       price_from: price_from,
       price_to: price_to,
+      price_: "",
+      rating_: "",
+      name_: "",
+      created_on_: "",
       search: search,
       category: category,
       rating: [rating],
@@ -185,13 +220,17 @@ export const filterProductData = async (
     {
       price_from: price_from,
       price_to: price_to,
+      price_: "",
+      rating_: "",
+      name_: "",
+      created_on_: "",
       search: search,
       category: category,
       rating: [rating],
       brand: brand,
       seo_tag: [seo_tag],
       vendor_id: [vendor_id],
-      name: [],
+
       id: [id],
       is_deleted: [0],
     },
@@ -647,6 +686,10 @@ export const call_product_detaile_api = async (req_body_obj) => {
     {
       price_from: "",
       price_to: "",
+      price_: "",
+      rating_: "",
+      name_: "",
+      created_on_: "",
       search: "",
       id: [req_body_obj[0]],
       is_deleted: [0],

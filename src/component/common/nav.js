@@ -454,7 +454,7 @@ const nav = () => {
                   </ul>
                 </li> */}
               </ul>
-              <div class="navbar-info-group">
+              {/* <div class="navbar-info-group">
                 <div class="navbar-info">
                   <i class="icofont-ui-touch-phone"></i>
                   <p>
@@ -469,7 +469,7 @@ const nav = () => {
                     <span>contact@we2code.com</span>
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
