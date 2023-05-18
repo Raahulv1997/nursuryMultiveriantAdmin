@@ -33,7 +33,7 @@ const UserProductDetails = () => {
         pass_obj = { headers: { user_blank: true } };
       }
       let result = await call_product_detaile_api([productID, pass_obj]);
-
+      console.log("daata----" + JSON.stringify(result));
       setProduct_detaile(result.results[0]);
 
       let image_array = result.results[0]["all_images_url"].split(",");
@@ -45,13 +45,15 @@ const UserProductDetails = () => {
   }, [reload, token]);
 
   async function cart_update_function(cart_count, product_id) {
+    // console.log(cart_count);
+    // console.log(product_id);
     if (token !== "" && token !== null && token !== undefined) {
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
         { product_id, cart_product_quantity },
         { headers: { user_token: `${token}` } },
       ]);
-
+      console.log(result.success);
       if (result.success === true) {
         setReload(true);
       } else {
@@ -81,7 +83,7 @@ const UserProductDetails = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        // console.log(result);
+        console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
         } else {
@@ -92,7 +94,7 @@ const UserProductDetails = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        // console.log(result);
+        console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
         } else {
@@ -271,7 +273,7 @@ const UserProductDetails = () => {
                     </li>
                   </ul>
                 </div> */}
-
+                {console.log("cart---" + product_detaile.cart_count)}
                 <div className="details-add-group">
                   {product_detaile.cart_count !== null &&
                   product_detaile.cart_count !== "" &&
@@ -333,7 +335,7 @@ const UserProductDetails = () => {
                     </button>
                   )}
                 </div>
-                {/* <div className="details-action-group">
+                <div className="details-action-group">
                   <Link
                     className="details-wish wish"
                     to=""
@@ -350,7 +352,7 @@ const UserProductDetails = () => {
                     <i className="fas fa-random"></i>
                     <span>Compare This</span>
                   </Link>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
@@ -1399,7 +1401,7 @@ const UserProductDetails = () => {
       <SweetAlert
         show={ShowAlert}
         title="Login Message"
-        text={"Please login Your account"}
+        text="Please login Your account"
         onConfirm={() =>
           onCloseAlert().then(() => {
             navigate("/login");

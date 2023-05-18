@@ -21,6 +21,7 @@ import {
   DeleteProductImage,
   DeleteProductStatus,
   fetchfilter,
+  filterProductData,
   GetProductImages,
   ProductCoverImageChange,
   UpdateProductData,
@@ -378,7 +379,7 @@ const AddProduct = () => {
   //  all product data search function
 
   const fetchProductData = async () => {
-    const data = await AllproductData(
+    const data = await filterProductData(
       searchdata.search,
       searchdata.category,
       searchdata.price_from,

@@ -18,6 +18,7 @@ const CartProvider = (props) => {
 
   const cartdatafucntion = async () => {
     const userData = await fetchcartdata();
+
     return userData;
   };
 

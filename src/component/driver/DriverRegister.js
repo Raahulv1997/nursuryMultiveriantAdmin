@@ -6,7 +6,7 @@ import useValidation from "../common/useValidation";
 import Modal from "react-bootstrap/Modal";
 import { getDriverDetails, UpdateDriverByToken } from "../api/api";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import { areavalue, area_lat_long } from "./locationJSON";
 const DriverRegister = () => {
@@ -190,7 +190,7 @@ const DriverRegister = () => {
     if (validate()) {
       const response = await UpdateDriverByToken(state, file, filename);
       // const { message, vendor_detaile } = response;
-      console.log("driver update" + JSON.stringify(response));
+      // console.log("driver update" + JSON.stringify(response));
       if (response.message === "updated user successfully") {
         localStorage.removeItem("driver_token");
         setShowmodel(true);
@@ -210,9 +210,9 @@ const DriverRegister = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
               <div className="user-form-logo">
-                <a href="index.html">
+                <Link to="index.html">
                   <img src={Logo} alt="logo" />
-                </a>
+                </Link>
               </div>
               <div className="user-form-card">
                 <div className="user-form-title">

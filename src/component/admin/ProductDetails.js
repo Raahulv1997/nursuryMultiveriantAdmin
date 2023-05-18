@@ -4,7 +4,7 @@ import { AllproductData } from "../api/api";
 
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
-  // console.log("id-------------" + productId);
+  console.log("id-------------" + productId);
   const [productData, setProductData] = useState([]);
   const initialFormState = {
     search: "",
@@ -23,6 +23,7 @@ const ProductDetails = () => {
 
   const productGEtByid = async () => {
     const response = await AllproductData(
+      productId,
       initialFormState.search,
       initialFormState.category,
       initialFormState.price_from,
@@ -30,8 +31,7 @@ const ProductDetails = () => {
       initialFormState.rating,
       initialFormState.brand,
       initialFormState.seo_tag,
-      initialFormState.vendor_id,
-      productId
+      initialFormState.vendor_id
     );
     // console.log("product data--" + JSON.stringify(response));
 

@@ -13,7 +13,7 @@ const Order_list = () => {
     const fetchOrderData = async () => {
       const response = await userOrder(orderID);
 
-      console.log("order data--" + JSON.stringify(response.results));
+      // console.log("order data--" + JSON.stringify(response.results));
       setOrderData(response.results);
     };
 

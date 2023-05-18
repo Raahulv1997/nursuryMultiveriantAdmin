@@ -27,7 +27,7 @@ const UpdateDriverForgetPassword = () => {
     if (response.response === "update your password successfully") {
       setShowmodel(true);
     }
-    console.log("password---" + JSON.stringify(response));
+    // console.log("password---" + JSON.stringify(response));
   };
 
   const handleClose = () => {

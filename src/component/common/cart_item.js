@@ -80,7 +80,7 @@ const CartItem = ({
                 <i className="icofont-plus"></i>
               </button>
             </div>
-            <h6> ₹ {price * cart_product_quantity}</h6>
+            <h6> ₹ {Number(price * cart_product_quantity).toFixed(2)}</h6>
           </div>
           {/* {totalqty === true ? (
             <p className="mt-1 ms-2 text-danger" type="invalid">

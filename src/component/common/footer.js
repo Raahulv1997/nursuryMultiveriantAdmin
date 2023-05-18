@@ -94,11 +94,12 @@ const Footer = () => {
                   <img src={Logo} alt="logo" />
                 </Link>
                 <p className="footer-desc">
-                  Adipisci asperiores ipsum ipsa repellat consequatur
-                  repudiandae quisquam assumenda dolor perspiciatis sit ipsum
-                  dolor amet.
+                  Nursery is a place where planting material, such as seedlings,
+                  saplings, cuttings, etc., are raised, propagated and
+                  multiplied under favourable conditions for transplanting in
+                  prepared beds.
                 </p>
-                <ul className="footer-social">
+                {/* <ul className="footer-social">
                   <li>
                     <Link className="icofont-facebook" to=""></Link>
                   </li>
@@ -114,7 +115,7 @@ const Footer = () => {
                   <li>
                     <Link className="icofont-pinterest" to=""></Link>
                   </li>
-                </ul>
+                </ul> */}
               </div>
             </div>
             <div className="col-sm-6 col-xl-3">
@@ -124,20 +125,22 @@ const Footer = () => {
                   <li>
                     <i className="icofont-ui-email"></i>
                     <p>
-                      <span>support@example.com</span>
-                      <span>carrer@example.com</span>
+                      <span>contact@we2code.com</span>
+                      <span>www.we2code.com</span>
                     </p>
                   </li>
                   <li>
                     <i className="icofont-ui-touch-phone"></i>
                     <p>
-                      <span>+120 279 532 13</span>
-                      <span>+120 279 532 14</span>
+                      <span>+91-96850-13001</span>
+                      {/* <span>+91-96850-13001</span> */}
                     </p>
                   </li>
                   <li>
                     <i className="icofont-location-pin"></i>
-                    <p>1Hd- 50, 010 Avenue, NY 90001 United States</p>
+                    <p>
+                      45, Universal Tower Scheme 54, PU4, Indore, MP (452001)
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -148,12 +151,12 @@ const Footer = () => {
                 <div className="footer-links">
                   <ul>
                     <li>
-                      <Link to="">My Account</Link>
+                      <Link to="/profile">My Account</Link>
                     </li>
                     <li>
-                      <Link to="">Order History</Link>
+                      <Link to="/order_list">Order History</Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="">Order Tracking</Link>
                     </li>
                     <li>
@@ -161,9 +164,9 @@ const Footer = () => {
                     </li>
                     <li>
                       <Link to="">New Arrivals</Link>
-                    </li>
+                    </li> */}
                   </ul>
-                  <ul>
+                  {/* <ul>
                     <li>
                       <Link to="">Location</Link>
                     </li>
@@ -179,11 +182,11 @@ const Footer = () => {
                     <li>
                       <Link to="">Faq</Link>
                     </li>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>
-            <div className="col-sm-6 col-xl-3">
+            {/* <div className="col-sm-6 col-xl-3">
               <div className="footer-widget">
                 <h3 className="footer-title">Download App</h3>
                 <p className="footer-desc">
@@ -200,9 +203,9 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-12">
               <div className="footer-bottom">
                 <p className="footer-copytext">
@@ -224,7 +227,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>

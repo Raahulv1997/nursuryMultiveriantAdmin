@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../css-js/images/logo.png";
 import Profile from "../css-js/images/user.png";
@@ -8,8 +8,10 @@ import Cart from "./cart";
 import { useState } from "react";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import { fetchcartdata, user_cart_api } from "../api/api";
 
-const Header = () => {
+const user_token = localStorage.getItem("user_token");
+const Header = ({ cartqty, setCartQty }) => {
   let path = window.location.pathname;
 
   const bb = path.includes("/");
@@ -18,7 +20,7 @@ const Header = () => {
   const [searchbox, setSearchBox] = useState("");
   let [searcherror, setsearcherror] = useState(false);
   const [showcart, setShowcart] = useState(false);
-  const [count_cart, SetCount_cart] = useState(false);
+  const [count_cart, SetCount_cart] = useState("");
 
   const navigate = useNavigate();
 
@@ -49,9 +51,17 @@ const Header = () => {
     }
   };
 
-  // useEffect(() => {
+  useEffect(() => {
+    getCart();
+  }, [cartqty]);
 
-  // }, [count_cart, false])
+  const getCart = async () => {
+    const response = await fetchcartdata();
+    console.log("cart-----" + JSON.stringify(response.length));
+
+    SetCount_cart(response.length);
+    // setCartQty(false);
+  };
 
   function cart_list_hide_fun() {
     // console.log("______________________________cart_list_hide");
@@ -128,6 +138,7 @@ const Header = () => {
                 <i className="fas fa-heart"></i>
                 <sup>0</sup>
               </Link> */}
+
               <button
                 onClick={() => {
                   setShowcart(true);
@@ -148,7 +159,7 @@ const Header = () => {
                 </Link>
               )}
 
-              <Link
+              {/* <Link
                 to="/DriverLogin"
                 className="header-widget"
                 title="Wishlist"
@@ -163,8 +174,13 @@ const Header = () => {
               >
                 <i className="fas fa-login"></i>
                 <span> seller Login</span>
-              </Link>
-
+              </Link> */}
+              {user_token === null ? null : (
+                <Link className="header-widget" to={"/profile"}>
+                  <i className="fas fa-login"></i>
+                  <span>My Account</span>
+                </Link>
+              )}
               {user_token !== null ? (
                 <Link className="header-widget">
                   <i className="fas fa-login"></i>

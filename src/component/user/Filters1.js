@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchfilter } from "../api/api";
 import shop_img from "../css-js/images/promo/shop/01.jpg";
 let selectRatingData = [];
@@ -191,9 +191,9 @@ const Filters1 = ({ handleClick }) => {
     <>
       <div className="col-lg-3">
         <div className="shop-widget-promo">
-          <a href="#">
+          <Link to="#">
             <img src={shop_img} alt="promo" />
-          </a>
+          </Link>
         </div>
         <div className="shop-widget">
           <h6 className="shop-widget-title">Filter by Price</h6>
@@ -336,7 +336,7 @@ const Filters1 = ({ handleClick }) => {
             </button> */}
           </form>
         </div>
-        <div className="shop-widget">
+        {/* <div className="shop-widget">
           <h6 className="shop-widget-title">Filter by Tag</h6>
           <form>
             <ul className="shop-widget-list">
@@ -381,7 +381,7 @@ const Filters1 = ({ handleClick }) => {
               <span>clear filter</span>
             </button>
           </form>
-        </div>
+        </div> */}
         <div className="shop-widget">
           <h6 className="shop-widget-title">Filter by Brand</h6>
           <form>

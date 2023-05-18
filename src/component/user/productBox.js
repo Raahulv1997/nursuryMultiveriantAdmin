@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductBox = ({
   id,
@@ -56,33 +56,33 @@ const ProductBox = ({
 
             {/* <button className="product-wish wish">
               <i className="fas fa-heart"></i>
-            </button> */}
-            <a
+            </button>
+            <span
               onClick={product_full_detaile.bind(this, [product_id])}
               className="product-image"
             >
               <img src={image} alt="product" width={250} height={250} />
-            </a>
+            </span>
             {/* <div className="product-widget">
                 <a
                   title="Product Compare"
                   href="compare.html"
                   className="fas fa-random"
-                ></a>
+                ></Link>
                 <a
                   title="Product Video"
                   href="https://youtu.be/9xzcVxSBbG8"
                   className="venobox fas fa-play"
                   data-autoplay="true"
                   data-vbtype="video"
-                ></a>
+                ></Link>
                 <a
                   title="Product View"
                   href="#"
                   className="fas fa-eye"
                   data-bs-toggle="modal"
                   data-bs-target="#product-view"
-                ></a>
+                ></Link>
               </div> */}
           </div>
           <div className="product-content p-3">
@@ -102,10 +102,10 @@ const ProductBox = ({
                 <i className="active icofont-star"></i>
                 <i className="icofont-star"></i> */}
 
-              <a href="product-video.html">({rating})</a>
+              <Link to="product-video.html">({rating})</Link>
             </div>
             <h6 className="product-name">
-              <a href="product-video.html">{name}</a>
+              <Link to="product-video.html">{name}</Link>
             </h6>
             <h6 className="product-price">
               <del> ₹{mrp}</del>
@@ -133,6 +133,7 @@ const ProductBox = ({
                   title="Quantity Number"
                   type="text"
                   name="quantity"
+                  disabled
                   value={cart_count}
                 />
                 <button

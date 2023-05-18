@@ -403,7 +403,7 @@ const nav = () => {
                     </li>
                   </ul>
                 </li> */}
-                {user_token === null ? null : (
+                {/* {user_token === null ? null : (
                   <li class="navbar-item dropdown">
                     <Link class="navbar-link dropdown-arrow" to="">
                       My Account
@@ -414,7 +414,7 @@ const nav = () => {
                       </li>
                     </ul>
                   </li>
-                )}
+                )} */}
                 {/* <li class="navbar-item dropdown">
                   <Link class="navbar-link dropdown-arrow" to="">
                     authentic
@@ -459,14 +459,14 @@ const nav = () => {
                   <i class="icofont-ui-touch-phone"></i>
                   <p>
                     <small>call us</small>
-                    <span>(+880) 183 8288 389</span>
+                    <span>(+91) 96850-13001</span>
                   </p>
                 </div>
                 <div class="navbar-info">
                   <i class="icofont-ui-email"></i>
                   <p>
                     <small>email us</small>
-                    <span>support@example.com</span>
+                    <span>contact@we2code.com</span>
                   </p>
                 </div>
               </div>

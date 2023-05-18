@@ -35,7 +35,7 @@ const CheckoutItem = (cdata) => {
           <h6> {Qty}</h6>
         </td>
         <td className="table-brand">
-          <h6>{Qty * cartData.price}</h6>
+          <h6>{Number(Qty * cartData.price).toFixed(2)}</h6>
         </td>
         <td className="table-action">
           <a

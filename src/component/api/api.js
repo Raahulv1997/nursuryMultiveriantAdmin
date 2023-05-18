@@ -99,6 +99,57 @@ export const fetchfilter = async () => {
 };
 
 export const AllproductData = async (
+  id,
+  search,
+  category,
+  price_from,
+  price_to,
+  rating,
+  brand,
+  seo_tag,
+  vendor_id
+) => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
+    {
+      price_from: price_from,
+      price_to: price_to,
+      search: search,
+      category: category,
+      rating: [rating],
+      brand: brand,
+      seo_tag: [seo_tag],
+      vendor_id: [vendor_id],
+      name: [],
+      id: [id],
+      is_deleted: [0],
+    },
+    head
+  );
+  return response.data;
+};
+
+export const filterProductData = async (
   search,
   category,
   price_from,
@@ -1045,7 +1096,7 @@ export const getAdminList = async () => {
 };
 
 export const UpdateAdminFunction = async (props) => {
-  console.log("props data--" + JSON.stringify(props));
+  // console.log("props data--" + JSON.stringify(props));
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/update_admin`,
     {

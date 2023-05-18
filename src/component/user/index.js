@@ -17,7 +17,9 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import Header from "../common/header";
 import Footer from "../common/footer";
+
 const Index = () => {
+  const [cartqty, setCartQty] = useState(false);
   const [ShowAlert, setShowAlert] = useState(false);
   const [productData, setProductData] = useState();
   const [reload, setReload] = useState("");
@@ -45,8 +47,7 @@ const Index = () => {
   }, [reload]);
 
   async function cart_update_function(cart_count, product_id) {
-    console.log("child_data____________________________27");
-    console.log(product_id);
+    // console.log(product_id);
     let token = localStorage.getItem("user_token");
 
     if (token !== "" && token !== null && token !== undefined) {
@@ -56,8 +57,9 @@ const Index = () => {
         { product_id, cart_product_quantity },
         { headers: { user_token: `${token}` } },
       ]);
-      console.log(result.success);
+      // console.log(result.success);
       if (result.success === true) {
+        setCartQty(true);
         setReload(Math.floor(Math.random() * 500 + 1));
       } else {
       }
@@ -86,7 +88,7 @@ const Index = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        console.log(result);
+        // console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
         } else {
@@ -97,7 +99,7 @@ const Index = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        console.log(result);
+        // console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
         } else {
@@ -124,7 +126,7 @@ const Index = () => {
           })
         }
       />
-      <Header />
+      <Header cartqty={cartqty} setCartQty={setCartQty} />
       {/* <section className="home-index-slider slider-arrow slider-dots">
         <div className="banner-part banner-1">
           <div className="container">
