@@ -65,3 +65,25 @@ li.navbar-item.dropdown {
   display: block;
   margin-left: 15px;
 }
+.shop-widget-scroll {
+  min-height: 70px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.shop-widget .shop-widget-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.pagination {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.bottom-paginate {
+  border-top: none;
+  flex-wrap: wrap;
+}
+.pagination .page-item {
+  margin-left: 0px;
+}

@@ -54,8 +54,6 @@ const ShopPage = () => {
     indexOfFirstRecord,
     indexOfLastRecord
   );
-  console.log(" record--" + recordCount);
-  console.log("per page--" + recordsPerPage);
   const nPages = Math.ceil(recordCount / recordsPerPage);
   // console.log("npage--" + nPages);
 
