@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import product from "../css-js/images/product/01.jpg";
 import {
   call_product_detaile_api,
   add_to_cart_api,
@@ -22,11 +21,11 @@ const UserProductDetails = () => {
   const [img_array, setImg_array] = useState("");
 
   let token = localStorage.getItem("user_token");
-  let productID = localStorage.getItem("productID");
-  console.log("productID" + productID);
+
   useEffect(() => {
     async function call_product_detaile() {
       let pass_obj;
+      let productID = localStorage.getItem("productID");
       if (token !== "" && token !== null && token !== undefined) {
         pass_obj = { headers: { user_token: `${token}` } };
       } else {
@@ -42,7 +41,7 @@ const UserProductDetails = () => {
     }
 
     call_product_detaile();
-  }, [reload, token, productID]);
+  }, [reload, token]);
 
   async function cart_update_function(cart_count, product_id) {
     // console.log(cart_count);

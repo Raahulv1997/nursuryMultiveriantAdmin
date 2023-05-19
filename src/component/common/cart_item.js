@@ -40,7 +40,7 @@ const CartItem = ({
         </div>
         <div className="cart-info-group">
           <div className="cart-info">
-            <h6>{name}</h6>
+            <h6 className="text-truncate">{name}</h6>
             <p> Price - ₹ {price}</p>
           </div>
           <div className="cart-action-group">

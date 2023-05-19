@@ -34,7 +34,7 @@ const ShopPage = () => {
   const [searchparams] = useSearchParams();
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [recordsPerPage, setRecordPerpage] = useState(10);
+  const [recordsPerPage, setRecordPerpage] = useState(12);
 
   const [rating, setRating] = useState([]);
 
@@ -364,7 +364,6 @@ const ShopPage = () => {
             <div className="col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
-                  <h1>No Record Found</h1>
                   <div className="top-filter">
                     <div className="filter-short">
                       <label className="filter-label">Show :</label>

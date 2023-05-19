@@ -5,45 +5,24 @@ const user_token = localStorage.getItem("user_token");
 
 const nav = () => {
   return (
-    <nav className="navbar-part">
+    <nav className="navbar">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
-            <div className="navbar-content">
+            <div className="navbar-content border-0">
               <ul className="navbar-list">
                 <li className="navbar-item dropdown">
-                  <Link className="navbar-link dropdown-arrow" to="/">
+                  <Link className="navbar-link" to="/">
                     home
                   </Link>
                   {/* <ul className="dropdown-position-list">
                     <li>
                       <Link to="/">Home</Link>
                     </li>
-                    <li>
-                      <Link to="/shop">Shop</Link>
-                    </li>
-                    <li>
-                      <Link to="/profile">Profile</Link>
-                    </li>
-                    <li>
-                      <Link to="/checkout">Checkout</Link>
-                    </li>
-                    <li>
-                      <Link to="/product_detail">Product Detail</Link>
-                    </li>
-                    <li>
-                      <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                      <Link to="/register">Signup</Link>
-                    </li>
-                    <li>
-                      <Link to="/forgot_password">Product Detail</Link>
-                    </li>
                   </ul> */}
                 </li>
                 <li className="navbar-item dropdown-megamenu">
-                  <Link className="navbar-link dropdown-arrow" to="/shop">
+                  <Link className="navbar-link " to="/shop">
                     shop
                   </Link>
                   {/* <div className="megamenu">
@@ -132,6 +111,16 @@ const nav = () => {
                     </div>
                   </div> */}
                 </li>
+                {/* <li className="navbar-item dropdown">
+                  <Link className="navbar-link dropdown-arrow" to="/">
+                    Username
+                  </Link>
+                  <ul className="dropdown-position-list">
+                    <li>
+                      <Link to="/">Home</Link>
+                    </li>
+                  </ul>
+                </li> */}
                 {/* <li className="navbar-item dropdown-megamenu">
                   <Link className="navbar-link dropdown-arrow" to="">
                     category

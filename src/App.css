@@ -50,3 +50,40 @@
 .product-card .product-content .product-price .selling_price {
   font-size: 20px;
 }
+.product-rating a{
+  line-height: 1;
+  font-size: 12px;
+  text-decoration: none;
+}
+.cart-info{
+  margin-bottom: 0;
+}
+.cart-info h6{
+  line-height: 1.25;
+}
+li.navbar-item.dropdown {
+  display: block;
+  margin-left: 15px;
+}
+.shop-widget-scroll {
+  min-height: 70px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.shop-widget .shop-widget-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.pagination {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.bottom-paginate {
+  border-top: none;
+  flex-wrap: wrap;
+}
+.pagination .page-item {
+  margin-left: 0px;
+}

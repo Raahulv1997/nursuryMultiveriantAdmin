@@ -40,7 +40,7 @@ const ProductBox = ({
 
   function product_full_detaile(product_id) {
     localStorage.setItem("productID", product_id);
-    navigate("/product_detail?prdctid=" + product_id);
+    navigate("/product_detail");
   }
   return (
     <>
@@ -57,7 +57,7 @@ const ProductBox = ({
               onClick={product_full_detaile.bind(this, [product_id])}
               className="product-image"
             >
-              <img src={image} alt="product" width={250} height={250} />
+              <img src={image} alt="product" width={"100%"} />
             </span>
           </div>
           <div className="product-content p-3">

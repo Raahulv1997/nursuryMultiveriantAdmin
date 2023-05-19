@@ -196,7 +196,7 @@ const Filters1 = ({ handleClick }) => {
           </Link>
         </div>
         <div className="shop-widget">
-          <h6 className="shop-widget-title">Filter by Price</h6>
+          <h6 className="shop-widget-title border-0">Filter by Price</h6>
           <form>
             <div className="shop-widget-group">
               <input

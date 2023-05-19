@@ -682,7 +682,7 @@ export const user_cart_api = async (req_body_obj) => {
 
 export const call_product_detaile_api = async (req_body_obj) => {
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=400`,
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=12`,
     {
       price_from: "",
       price_to: "",
