@@ -27,17 +27,13 @@ const ShopPage = () => {
   const [update, setUpdate] = useState("");
   const [fromPrice, setFromPrice] = useState("");
   const [toPrice, setToPrice] = useState("");
-
   const [productData, setProductData] = useState([]);
   const [searchbox, setSearchBox] = useState("");
   const [apicall, setapicall] = useState(false);
   const [searchparams] = useSearchParams();
-
   const [currentPage, setCurrentPage] = useState(0);
   const [recordsPerPage, setRecordPerpage] = useState(12);
-
   const [rating, setRating] = useState([]);
-
   const [brand, setBrand] = useState([]);
   const [category, setCategory] = useState([]);
 
@@ -87,13 +83,12 @@ const ShopPage = () => {
   };
   useEffect(() => {
     fetchProductData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     apicall,
     searchbox,
     fromPrice,
     toPrice,
-    // price,
-    // name,
     rating,
     brand,
     category,
@@ -163,6 +158,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     allgetsortFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterapicall,
     ratingg,
@@ -183,7 +179,6 @@ const ShopPage = () => {
       recordsPerPage
     );
     setProductData(response.results);
-
     setfilerapicall(true);
   };
 
