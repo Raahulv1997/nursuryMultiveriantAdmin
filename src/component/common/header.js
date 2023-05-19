@@ -10,6 +10,7 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import { MdAccountCircle } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
+import { HiOutlineLogin } from "react-icons/hi";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import { fetchcartdata, user_cart_api } from "../api/api";
 
@@ -47,11 +48,8 @@ const Header = ({ cartqty, setCartQty }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (searchbox.length === 0) {
-      setsearcherror(true);
-    } else {
-      navigate(`/shop?search=${searchbox}`);
-    }
+
+    navigate(`/shop?search=${searchbox}`);
   };
 
   useEffect(() => {
@@ -157,7 +155,11 @@ const Header = ({ cartqty, setCartQty }) => {
               </button>
               {user_token !== null ? null : (
                 <Link to="/login" className="header-widget" title="Wishlist">
-                  <i className="fas fa-login"></i>
+                  <i className="">
+                    {" "}
+                    <HiOutlineLogin />
+                  </i>
+
                   <span>Login</span>
                 </Link>
               )}
