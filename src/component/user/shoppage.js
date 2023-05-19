@@ -34,7 +34,7 @@ const ShopPage = () => {
   const [searchparams] = useSearchParams();
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [recordsPerPage, setRecordPerpage] = useState(10);
+  const [recordsPerPage, setRecordPerpage] = useState(12);
 
   const [rating, setRating] = useState([]);
 
