@@ -11,6 +11,7 @@ const CartItem = ({
   cart_product_quantity,
   price,
   incrementDecrementCount,
+  product_stock_quantity,
   cart_no,
 }) => {
   // useEffect(() => {
@@ -52,7 +53,8 @@ const CartItem = ({
                   incrementDecrementCount(
                     "0",
                     cart_product_quantity,
-                    product_id
+                    product_id,
+                    product_stock_quantity
                   )
                 }
               >
@@ -73,7 +75,8 @@ const CartItem = ({
                   incrementDecrementCount(
                     "1",
                     cart_product_quantity,
-                    product_id
+                    product_id,
+                    product_stock_quantity
                   )
                 }
               >

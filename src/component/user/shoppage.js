@@ -3,7 +3,6 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   add_to_cart_api,
   allproduct,
-  allShortfilerProduct,
   cart_delete_api,
   fetchfilter,
   update_to_cart_api,
@@ -18,7 +17,7 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 const ShopPage = () => {
   const [ShowAlert, setShowAlert] = useState(false);
-  const [filterapicall, setfilerapicall] = useState(false);
+
   const navigate = useNavigate();
   const [recordCount, setrecordCount] = useState("");
   const [ratingg, setRatingg] = useState("");
@@ -89,6 +88,10 @@ const ShopPage = () => {
     searchbox,
     fromPrice,
     toPrice,
+    ratingg,
+    name,
+    price,
+    update,
     rating,
     brand,
     category,
@@ -134,8 +137,11 @@ const ShopPage = () => {
       searchbox,
       fromPrice,
       toPrice,
-      // price,
-      // name,
+      ratingg,
+      name,
+      price,
+      update,
+
       rating,
       brand,
       category,
@@ -154,32 +160,6 @@ const ShopPage = () => {
 
     setapicall(false);
     // setRating(num);
-  };
-
-  useEffect(() => {
-    allgetsortFilter();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    filterapicall,
-    ratingg,
-    name,
-    price,
-    update,
-    currentPage,
-    recordsPerPage,
-  ]);
-
-  const allgetsortFilter = async () => {
-    const response = await allShortfilerProduct(
-      ratingg,
-      name,
-      price,
-      update,
-      currentPage,
-      recordsPerPage
-    );
-    setProductData(response.results);
-    setfilerapicall(true);
   };
 
   useEffect(() => {
@@ -287,7 +267,7 @@ const ShopPage = () => {
       setName("");
       setPrice("");
       setUpdate("");
-      setfilerapicall(true);
+      setapicall(true);
     }
 
     if (value === 2) {
@@ -295,14 +275,14 @@ const ShopPage = () => {
       setRatingg("");
       setPrice("");
       setUpdate("");
-      setfilerapicall(true);
+      setapicall(true);
     }
     if (value === 3) {
       setPrice("DESC");
       setName("");
       setRatingg("");
       setUpdate("");
-      setfilerapicall(true);
+      setapicall(true);
     }
 
     if (value === 4) {
@@ -310,7 +290,7 @@ const ShopPage = () => {
       setPrice("");
       setName("");
       setRatingg("");
-      setfilerapicall(true);
+      setapicall(true);
     }
   };
   console.log("product data--" + JSON.stringify(productData));

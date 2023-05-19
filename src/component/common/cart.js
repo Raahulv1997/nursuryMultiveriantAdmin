@@ -13,6 +13,7 @@ const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
   const navigate = useNavigate();
   const [cartdata, setCartdata] = useState();
   const user_token = localStorage.getItem("user_token");
+  const [ProductqtyError, setProductQtyError] = useState(false);
   const updateQty = ContextValue.updateQty;
 
   async function call_cart_list() {
@@ -36,15 +37,22 @@ const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
   async function incrementDecrementCount_function(
     chk_p_m,
     cart_count,
-    product_id
+    product_id,
+    product_stock_quantity
   ) {
     let cart_product_quantity;
     let token = localStorage.getItem("user_token");
     if (chk_p_m === "1") {
       // localStorage.setItem("product_Quanity", true);
       cart_product_quantity = parseInt(cart_count) + 1;
+
+      if (cart_product_quantity > product_stock_quantity) {
+        setProductQtyError("greter than");
+        cart_product_quantity = product_stock_quantity;
+      }
     }
     if (chk_p_m === "0") {
+      setProductQtyError(false);
       // localStorage.setItem("product_Quanity", true);
       cart_product_quantity = parseInt(cart_count) - 1;
     }
@@ -105,12 +113,19 @@ const Cart = ({ showCartProp, cart_list_hide, cart_count }) => {
                 product_id={cart_item.product_id}
                 cart_product_quantity={cart_item.cart_product_quantity}
                 price={cart_item.price}
+                product_stock_quantity={cart_item.product_stock_quantity}
                 incrementDecrementCount={incrementDecrementCount_function}
                 cart_no={cart_no}
               />
             );
           })}
+          {ProductqtyError === "greter than" ? (
+            <p className="text-danger text-center ">
+              Cart quantity cannot greater than Stock quantity
+            </p>
+          ) : null}
         </ul>
+
         <div className="cart-footer">
           <button className="coupon-btn">Do you have a coupon code?</button>
           <form className="coupon-form">

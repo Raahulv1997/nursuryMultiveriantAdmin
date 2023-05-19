@@ -64,7 +64,10 @@ export const allproduct = async (
   searchbox,
   price_from,
   price_to,
-
+  ratingg,
+  name,
+  price,
+  update,
   showratingdata,
   brand,
   category,
@@ -76,43 +79,16 @@ export const allproduct = async (
     {
       price_from: price_from,
       price_to: price_to,
-      price__: "",
-      rating__: "",
-      name__: "",
-      created_on__: "",
+      price__: price,
+      rating__: ratingg,
+      name__: name,
+      created_on__: update,
       search: searchbox,
       category: category,
       rating: showratingdata,
       brand: brand,
       seo_tag: [],
       vendor_id: [],
-    },
-
-    user_token !== null && user_token !== undefined
-      ? { headers: { user_token: user_token } }
-      : { headers: { user_blank: true } }
-  );
-  return response.data;
-};
-
-export const allShortfilerProduct = async (
-  ratingg,
-  name,
-  price,
-  update,
-  currentPage,
-  recordsPerPage
-) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
-    {
-      price_from: "",
-      price_to: "",
-      price__: price,
-      rating__: ratingg,
-      name__: name,
-      created_on__: update,
-      search: "",
     },
 
     user_token !== null && user_token !== undefined

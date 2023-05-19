@@ -19,7 +19,7 @@ const UserProductDetails = () => {
   const [ShowAlert, setShowAlert] = useState(false);
   const [reload, setReload] = useState(false);
   const [img_array, setImg_array] = useState("");
-
+  const [ProductqtyError, setProductQtyError] = useState(false);
   let token = localStorage.getItem("user_token");
 
   useEffect(() => {
@@ -65,29 +65,38 @@ const UserProductDetails = () => {
   async function incrementDecrementCount_function(
     chk_p_m,
     cart_count,
-    product_id
+    product_id,
+    product_stock_quantity
   ) {
     let cart_product_quantity;
 
     if (chk_p_m === "1") {
+      setProductQtyError(false);
       cart_product_quantity = parseInt(cart_count) + 1;
+      if (cart_product_quantity > product_stock_quantity) {
+        setProductQtyError("greter than");
+        cart_product_quantity = product_stock_quantity;
+      }
     }
     if (chk_p_m === "0") {
+      setProductQtyError(false);
       cart_product_quantity = parseInt(cart_count) - 1;
     }
 
     if (token !== "" && token !== null && token !== undefined) {
       if (cart_product_quantity < 1) {
-        let result = await cart_delete_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
-        console.log(result);
-        if (result.success === true) {
-          setReload(Math.floor(Math.random() * 500 + 1));
-        } else {
-          alert(result.success);
-        }
+        setProductQtyError("cannot lessthan 1");
+
+        // let result = await cart_delete_api([
+        //   { product_id, cart_product_quantity },
+        //   { headers: { user_token: `${token}` } },
+        // ]);
+        // console.log(result);
+        // if (result.success === true) {
+        //   setReload(Math.floor(Math.random() * 500 + 1));
+        // } else {
+        //   alert(result.success);
+        // }
       } else {
         let result = await update_to_cart_api([
           { product_id, cart_product_quantity },
@@ -107,53 +116,56 @@ const UserProductDetails = () => {
   const onCloseAlert = () => {
     return Promise.resolve(setShowAlert(false));
   };
+
   return (
     <div>
       <Header />
       <section className="single-banner inner-section">
         <div className="container">
-          <h2>product video</h2>
+          <h2>product </h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to="">shop-4column</Link>
+              <Link to="/shop">shop</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              product-video
+              product Details
             </li>
           </ol>
         </div>
       </section>
-      <section className="inner-section">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="details-gallery">
-                <div className="details-label-group">
-                  {/* <label className="details-label new">new</label> */}
-                  <label className="details-label off">
-                    {product_detaile.discount}%
-                  </label>
-                </div>
-                <ul className="details-preview">
-                  {(img_array || []).map((url) => {
-                    return (
-                      <li>
-                        <img
-                          src={
-                            url
-                              ? url
-                              : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                          }
-                          alt="product"
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
-                {/* <ul className="details-thumb">
+
+      {product_detaile != "" ? (
+        <section className="inner-section">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-6">
+                <div className="details-gallery">
+                  <div className="details-label-group">
+                    {/* <label className="details-label new">new</label> */}
+                    <label className="details-label off">
+                      {product_detaile.discount}%
+                    </label>
+                  </div>
+                  <ul className="details-preview">
+                    {(img_array || []).map((url) => {
+                      return (
+                        <li>
+                          <img
+                            src={
+                              url
+                                ? url
+                                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                            }
+                            alt="product"
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {/* <ul className="details-thumb">
                   <li>
                     <img src={product} alt="product" />
                   </li>
@@ -170,10 +182,10 @@ const UserProductDetails = () => {
                     <img src={product} alt="product" />
                   </li>
                 </ul> */}
+                </div>
               </div>
-            </div>
-            <div className="col-lg-6">
-              {/* <ul className="product-navigation">
+              <div className="col-lg-6">
+                {/* <ul className="product-navigation">
                 <li className="product-nav-prev">
                   <Link to="">
                     <i className="icofont-arrow-left"></i>prev product
@@ -193,53 +205,53 @@ const UserProductDetails = () => {
                   </Link>
                 </li>
               </ul> */}
-              <div className="details-content">
-                <h3 className="details-name">
-                  <Link to="">{product_detaile.name}</Link>
-                </h3>
-                <div className="details-meta">
-                  <p>
-                    ID:<span>{product_detaile.id}</span>
-                  </p>
-                  <p>
-                    BRAND:<Link to="">{product_detaile.brand}</Link>
-                  </p>
-                </div>
+                <div className="details-content">
+                  <h3 className="details-name">
+                    <Link to="">{product_detaile.name}</Link>
+                  </h3>
+                  <div className="details-meta">
+                    <p>
+                      ID:<span>{product_detaile.id}</span>
+                    </p>
+                    <p>
+                      BRAND:<Link to="">{product_detaile.brand}</Link>
+                    </p>
+                  </div>
 
-                <div className="details-rating">
-                  {[1, 2, 3, 4, 5].map((item) => {
-                    return item <= product_detaile.rating ? (
-                      <i className="active icofont-star"></i>
-                    ) : (
-                      <i className="icofont-star"></i>
-                    );
-                  })}
+                  <div className="details-rating">
+                    {[1, 2, 3, 4, 5].map((item) => {
+                      return item <= product_detaile.rating ? (
+                        <i className="active icofont-star"></i>
+                      ) : (
+                        <i className="icofont-star"></i>
+                      );
+                    })}
 
-                  <Link to=""> {product_detaile.rating}</Link>
-                </div>
-                <h3 className="details-price">
-                  <del>₹ {Number(product_detaile.mrp).toFixed(2)}</del>
-                  <span>
-                    ₹{Number(product_detaile.price).toFixed(2)}
-                    <small>/{product_detaile.unit}</small>
-                  </span>
-                </h3>
-                <p className="details-desc">{product_detaile.description}</p>
-                <div className="details-list-group">
-                  <label className="details-list-title">tags:</label>
-                  <ul className="details-tag-list">
-                    {/* {product_detaile.seo_tag.split(" ").map((item) => {
+                    <Link to=""> {product_detaile.rating}</Link>
+                  </div>
+                  <h3 className="details-price">
+                    <del>₹ {Number(product_detaile.mrp).toFixed(2)}</del>
+                    <span>
+                      ₹{Number(product_detaile.price).toFixed(2)}
+                      <small>/{product_detaile.unit}</small>
+                    </span>
+                  </h3>
+                  <p className="details-desc">{product_detaile.description}</p>
+                  <div className="details-list-group">
+                    <label className="details-list-title">tags:</label>
+                    <ul className="details-tag-list">
+                      {/* {product_detaile.seo_tag.split(" ").map((item) => {
                       <li>
                         <Link to="" >{item}</Link>
                       </li>
                     })} */}
 
-                    <li>
-                      <Link to="">{product_detaile.seo_tag}</Link>
-                    </li>
-                  </ul>
-                </div>
-                {/* <div className="details-list-group">
+                      <li>
+                        <Link to="">{product_detaile.seo_tag}</Link>
+                      </li>
+                    </ul>
+                  </div>
+                  {/* <div className="details-list-group">
                   <label className="details-list-title">Share:</label>
                   <ul className="details-share-list">
                     <li>
@@ -272,91 +284,108 @@ const UserProductDetails = () => {
                     </li>
                   </ul>
                 </div> */}
-                {console.log("cart---" + product_detaile.cart_count)}
-                <div className="details-add-group">
-                  {product_detaile.cart_count !== null &&
-                  product_detaile.cart_count !== "" &&
-                  product_detaile.cart_count !== undefined ? (
-                    <div className="product-action">
+                  {console.log("cart---" + product_detaile.cart_count)}
+                  <div className="details-add-group">
+                    {product_detaile.cart_count !== null &&
+                    product_detaile.cart_count !== "" &&
+                    product_detaile.cart_count !== undefined ? (
+                      <div className="product-action">
+                        <button
+                          onClick={() =>
+                            incrementDecrementCount_function(
+                              "0",
+                              product_detaile.cart_count,
+                              product_detaile.id,
+                              product_detaile.product_stock_quantity
+                            )
+                          }
+                          className="action-minus"
+                          title="Quantity Minus"
+                        >
+                          <i className="icofont-minus"></i>
+                        </button>
+                        <button
+                          className="product-add"
+                          title="Add to Cart"
+                          onClick={() =>
+                            cart_update_function(
+                              product_detaile.cart_count,
+                              product_detaile.id
+                            )
+                          }
+                        >
+                          {/* <i className="fas fa-shopping-basket"></i> */}
+                          <span>{product_detaile.cart_count}</span>
+                        </button>
+                        <button
+                          onClick={() =>
+                            incrementDecrementCount_function(
+                              "1",
+                              product_detaile.cart_count,
+                              product_detaile.id,
+                              product_detaile.product_stock_quantity
+                            )
+                          }
+                          className="action-plus"
+                          title="Quantity Plus"
+                        >
+                          <i className="icofont-plus"></i>
+                        </button>
+                      </div>
+                    ) : (
                       <button
-                        onClick={() =>
-                          incrementDecrementCount_function(
-                            "0",
-                            product_detaile.cart_count,
-                            product_detaile.id
-                          )
-                        }
-                        className="action-minus"
-                        title="Quantity Minus"
-                      >
-                        <i className="icofont-minus"></i>
-                      </button>
-                      <button
-                        className="product-add"
-                        title="Add to Cart"
-                        onClick={() =>
+                        onClick={() => {
                           cart_update_function(
                             product_detaile.cart_count,
                             product_detaile.id
-                          )
-                        }
+                          );
+                        }}
+                        className="product-add"
+                        title="Add to Cart"
                       >
-                        {/* <i className="fas fa-shopping-basket"></i> */}
-                        <span>{product_detaile.cart_count}</span>
+                        <i className="fas fa-shopping-basket"></i>
+                        <span>add to cart</span>
                       </button>
-                      <button
-                        onClick={() =>
-                          incrementDecrementCount_function(
-                            "1",
-                            product_detaile.cart_count,
-                            product_detaile.id
-                          )
-                        }
-                        className="action-plus"
-                        title="Quantity Plus"
-                      >
-                        <i className="icofont-plus"></i>
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        cart_update_function(
-                          product_detaile.cart_count,
-                          product_detaile.id
-                        );
-                      }}
-                      className="product-add"
-                      title="Add to Cart"
+                    )}
+                    {ProductqtyError === "greter than" ? (
+                      <p className="text-danger text-center ">
+                        Cart quantity cannot greater than Stock quantity
+                      </p>
+                    ) : null}
+
+                    {ProductqtyError === "cannot lessthan 1" ? (
+                      <p className="text-danger text-center ">
+                        Cart quantity cannot less than 1
+                      </p>
+                    ) : null}
+                  </div>
+                  {/* <div className="details-action-group">
+                    <Link
+                      className="details-wish wish"
+                      to=""
+                      title="Add Your Wishlist"
                     >
-                      <i className="fas fa-shopping-basket"></i>
-                      <span>add to cart</span>
-                    </button>
-                  )}
-                </div>
-                <div className="details-action-group">
-                  <Link
-                    className="details-wish wish"
-                    to=""
-                    title="Add Your Wishlist"
-                  >
-                    <i className="icofont-heart"></i>
-                    <span>add to wish</span>
-                  </Link>
-                  <Link
-                    className="details-compare"
-                    to=""
-                    title="Compare This Item"
-                  >
-                    <i className="fas fa-random"></i>
-                    <span>Compare This</span>
-                  </Link>
+                      <i className="icofont-heart"></i>
+                      <span>add to wish</span>
+                    </Link>
+                    <Link
+                      className="details-compare"
+                      to=""
+                      title="Compare This Item"
+                    >
+                      <i className="fas fa-random"></i>
+                      <span>Compare This</span>
+                    </Link>
+                  </div> */}
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <h1 style={{ textAlign: "center", marginTop: "100px" }}>No Record </h1>
+      )}
+
       {/* <section className="inner-section">
         <div className="container">
           <div className="row">
