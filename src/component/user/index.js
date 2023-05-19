@@ -38,11 +38,10 @@ const Index = () => {
       {
         price_from: "",
         price_to: "",
-        price: "",
+        price__: "",
         rating__: "",
-        created_on__: "DESC",
-        id__: "",
         name__: "",
+        created_on__: "",
         search: "",
         category: [""],
         brand: [],

@@ -45,6 +45,8 @@ const ShopPage = () => {
     indexOfFirstRecord,
     indexOfLastRecord
   );
+  console.log(" record--" + productData);
+  console.log("per page--" + recordsPerPage);
   const nPages = Math.ceil(recordCount / recordsPerPage);
   // console.log("npage--" + nPages);
 
@@ -96,6 +98,7 @@ const ShopPage = () => {
   ]);
 
   useEffect(() => {
+    console.log("ser--" + searchparams.get("search"));
     if (
       searchparams.get("search") === null ||
       searchparams.get("search") === "" ||
