@@ -162,7 +162,6 @@ const Filters1 = ({ handleClick }) => {
     const data = await fetchfilter();
 
     const { brand_data, category_data } = data;
-    console.log("all--" + JSON.stringify(brand_data));
 
     if (brand_data) {
       const filterUnwanted = (arr) => {

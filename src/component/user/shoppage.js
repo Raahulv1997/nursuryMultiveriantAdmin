@@ -44,24 +44,18 @@ const ShopPage = () => {
   let [page, setPage] = useState([]);
   /*<-----Pagination Calculator----> */
   const indexOfLastRecord = currentPage * recordsPerPage;
-  // console.log("indexOfLastRecord---" + indexOfLastRecord);
-  // console.log(indexOfLastRecord);
+
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // console.log("indexOfFirstRecord---" + indexOfFirstRecord);
-  // console.log("product data---" + JSON.stringify(productData));
 
   const currentRecords = productData.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
-  console.log(" record--" + productData);
-  console.log("per page--" + recordsPerPage);
+
   const nPages = Math.ceil(recordCount / recordsPerPage);
-  // console.log("npage--" + nPages);
 
   // calback function for rating
   const handleClick = (num, str) => {
-    // console.log("filter array--" + num, " ----" + str);
     if (str === "rating") {
       setRating(num);
       setBrand([]);
@@ -108,7 +102,6 @@ const ShopPage = () => {
   ]);
 
   useEffect(() => {
-    console.log("ser--" + searchparams.get("search"));
     if (
       searchparams.get("search") === null ||
       searchparams.get("search") === "" ||
@@ -116,7 +109,6 @@ const ShopPage = () => {
     ) {
       setSearchBox("");
     } else {
-      // console.log("searchparams.get--" + searchparams.get("search"));
       setSearchBox(searchparams.get("search"));
     }
 
@@ -155,16 +147,15 @@ const ShopPage = () => {
       currentPage,
       recordsPerPage
     );
-    // console.log("---" + JSON.stringify(data));
+
     if (data.error === "send only vendor, user, admin token") {
       setProductData([]);
     } else {
       const { pagination } = data;
       setrecordCount(pagination.count_rows);
-      console.log("ddddd-" + JSON.stringify(pagination.count_rows));
+
       setProductData(data.results);
     }
-    // console.log("all--" + JSON.stringify(data));
 
     setapicall(false);
     // setRating(num);
@@ -192,10 +183,10 @@ const ShopPage = () => {
       recordsPerPage
     );
     setProductData(response.results);
-    console.log("data-------" + JSON.stringify(response));
+
     setfilerapicall(true);
   };
-  console.log("n page--" + nPages);
+
   useEffect(() => {
     let pages = [];
     for (let i = 0; i < nPages; i++) {
@@ -204,7 +195,6 @@ const ShopPage = () => {
     setPage(pages);
   }, [productData]);
 
-  console.log("pageArray" + page);
   const CurrentpageSeting = (item) => {
     // alert(item);
     setCurrentPage(item);
@@ -261,7 +251,7 @@ const ShopPage = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        console.log(result);
+
         if (result.success === true) {
           setapicall(true);
         } else {
@@ -272,7 +262,7 @@ const ShopPage = () => {
           { product_id, cart_product_quantity },
           { headers: { user_token: `${token}` } },
         ]);
-        // console.log(result);
+
         if (result.success === true) {
           setapicall(true);
         } else {
@@ -328,6 +318,12 @@ const ShopPage = () => {
       setfilerapicall(true);
     }
   };
+  console.log("product data--" + JSON.stringify(productData));
+  if (productData == "") {
+    console.log(true);
+  } else {
+    console.log(false);
+  }
   return (
     <div>
       <SweetAlert
@@ -364,37 +360,38 @@ const ShopPage = () => {
             <div className="col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
-                  <div className="top-filter">
-                    <div className="filter-short">
-                      <label className="filter-label">Show :</label>
-                      <select
-                        className="form-select filter-select"
-                        onChange={(e) => onProductShowChnge(e)}
-                      >
-                        {/* <option selected>Select</option> */}
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                        <option value="36">36</option>
-                        <option value="48">48</option>
-                        <option value={recordCount}>All</option>
-                      </select>
-                    </div>
-                    <div className="filter-short">
-                      <label className="filter-label">Short by :</label>
-                      <select
-                        className="form-select filter-select"
-                        onChange={(e) => {
-                          onShoringfilter(e);
-                        }}
-                      >
-                        <option selected>Featured</option>
-                        <option value={1}>Trending</option>
-                        <option value={2}>Name wise</option>
-                        <option value={3}>Price wise</option>
-                        <option value={4}>Latest First</option>
-                      </select>
-                    </div>
-                    {/* <div className="filter-action">
+                  {productData != "" ? (
+                    <div className="top-filter">
+                      <div className="filter-short">
+                        <label className="filter-label">Show :</label>
+                        <select
+                          className="form-select filter-select"
+                          onChange={(e) => onProductShowChnge(e)}
+                        >
+                          {/* <option selected>Select</option> */}
+                          <option value="12">12</option>
+                          <option value="24">24</option>
+                          <option value="36">36</option>
+                          <option value="48">48</option>
+                          <option value={recordCount}>All</option>
+                        </select>
+                      </div>
+                      <div className="filter-short">
+                        <label className="filter-label">Short by :</label>
+                        <select
+                          className="form-select filter-select"
+                          onChange={(e) => {
+                            onShoringfilter(e);
+                          }}
+                        >
+                          <option selected>Featured</option>
+                          <option value={1}>Trending</option>
+                          <option value={2}>Name wise</option>
+                          <option value={3}>Price wise</option>
+                          <option value={4}>Latest First</option>
+                        </select>
+                      </div>
+                      {/* <div className="filter-action">
                       <Link to="shop-3column.html" title="Three Column">
                         <i className="fas fa-th"></i>
                       </Link>
@@ -405,92 +402,99 @@ const ShopPage = () => {
                         <i className="fas fa-th-list"></i>
                       </Link>
                     </div> */}
-                  </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <div className="row">
-                {productData.map((product) => {
-                  return (
-                    <>
-                      {/* <div className="row"> */}
-                      <ProductBox
-                        name={product.name}
-                        image={
-                          product.cover_image !== null
-                            ? product.cover_image
-                            : "https://picsum.photos/300"
-                        }
-                        discount={product.discount}
-                        mrp={product.mrp}
-                        price={product.price}
-                        unit={product.unit}
-                        rating={product.rating}
-                        product_stock_quantity={product.product_stock_quantity}
-                        cart_count={product.cart_count}
-                        product_id={product.id}
-                        cart_update_fun={cart_update_function}
-                        incrementDecrementCount={
-                          incrementDecrementCount_function
-                        }
-                      />
-                      {/* </div> */}
-                    </>
-                  );
-                })}
-              </div>
-
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="bottom-paginate">
-                    <p className="page-info">
-                      Showing {productData.length} of {recordCount} Results
-                    </p>
-                    <ul className="pagination">
-                      <li className="page-item">
-                        <Link className="page-link" onClick={prevPage} to="">
-                          <i className="fas fa-long-arrow-alt-left"></i>
-                        </Link>
-                      </li>
-                      {page.map((item) => {
-                        // console.log(" total-page-----" + JSON.stringify(page));
-                        return (
-                          <>
-                            <li className="page-item">
-                              <Link
-                                className={`page-link ${
-                                  currentPage == item
-                                    ? "active "
-                                    : "text-success"
-                                }`}
-                                to=""
-                                onClick={() => CurrentpageSeting(item)}
-                              >
-                                {item + 1}
-                              </Link>
-                            </li>
-                          </>
-                        );
-                      })}
-
-                      <li className="page-item">...</li>
-
-                      <li className="page-item">
-                        <Link
-                          className={
-                            currentPage === nPages.length - 1
-                              ? "page-link d-none text-success"
-                              : "page-link text-success"
+                {productData != "" ? (
+                  productData.map((product) => {
+                    return (
+                      <>
+                        {/* <div className="row"> */}
+                        <ProductBox
+                          name={product.name}
+                          image={
+                            product.cover_image !== null
+                              ? product.cover_image
+                              : "https://picsum.photos/300"
                           }
-                          onClick={nextPage}
-                          to=""
-                        >
-                          <i className="fas fa-long-arrow-alt-right"></i>
-                        </Link>
-                      </li>
-                    </ul>
+                          discount={product.discount}
+                          mrp={product.mrp}
+                          price={product.price}
+                          unit={product.unit}
+                          rating={product.rating}
+                          product_stock_quantity={
+                            product.product_stock_quantity
+                          }
+                          cart_count={product.cart_count}
+                          product_id={product.id}
+                          cart_update_fun={cart_update_function}
+                          incrementDecrementCount={
+                            incrementDecrementCount_function
+                          }
+                        />
+                        {/* </div> */}
+                      </>
+                    );
+                  })
+                ) : (
+                  <h1 style={{ textAlign: "center" }}>No record Found</h1>
+                )}
+              </div>
+              {productData != "" ? (
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="bottom-paginate">
+                      <p className="page-info">
+                        Showing {productData.length} of {recordCount} Results
+                      </p>
+                      <ul className="pagination">
+                        <li className="page-item">
+                          <Link className="page-link" onClick={prevPage} to="">
+                            <i className="fas fa-long-arrow-alt-left"></i>
+                          </Link>
+                        </li>
+                        {page.map((item) => {
+                          return (
+                            <>
+                              <li className="page-item">
+                                <Link
+                                  className={`page-link ${
+                                    currentPage == item
+                                      ? "active "
+                                      : "text-success"
+                                  }`}
+                                  to=""
+                                  onClick={() => CurrentpageSeting(item)}
+                                >
+                                  {item + 1}
+                                </Link>
+                              </li>
+                            </>
+                          );
+                        })}
+
+                        <li className="page-item">...</li>
+
+                        <li className="page-item">
+                          <Link
+                            className={
+                              currentPage === nPages.length - 1
+                                ? "page-link d-none text-success"
+                                : "page-link text-success"
+                            }
+                            onClick={nextPage}
+                            to=""
+                          >
+                            <i className="fas fa-long-arrow-alt-right"></i>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           </div>
         </div>

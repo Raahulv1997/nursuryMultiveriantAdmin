@@ -58,7 +58,6 @@ const Header = ({ cartqty, setCartQty }) => {
 
   const getCart = async () => {
     const response = await fetchcartdata();
-    console.log("cart-----" + JSON.stringify(response.length));
 
     SetCount_cart(response.length);
     // setCartQty(false);
