@@ -27,29 +27,20 @@ const ShopPage = () => {
   const [update, setUpdate] = useState("");
   const [fromPrice, setFromPrice] = useState("");
   const [toPrice, setToPrice] = useState("");
-
   const [productData, setProductData] = useState([]);
   const [searchbox, setSearchBox] = useState("");
   const [apicall, setapicall] = useState(false);
   const [searchparams] = useSearchParams();
-
   const [currentPage, setCurrentPage] = useState(0);
   const [recordsPerPage, setRecordPerpage] = useState(12);
-
   const [rating, setRating] = useState([]);
-
   const [brand, setBrand] = useState([]);
   const [category, setCategory] = useState([]);
 
   let [page, setPage] = useState([]);
   /*<-----Pagination Calculator----> */
   const indexOfLastRecord = currentPage * recordsPerPage;
-  // console.log("indexOfLastRecord---" + indexOfLastRecord);
-  // console.log(indexOfLastRecord);
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // console.log("indexOfFirstRecord---" + indexOfFirstRecord);
-  // console.log("product data---" + JSON.stringify(productData));
-
   const currentRecords = productData.slice(
     indexOfFirstRecord,
     indexOfLastRecord
@@ -91,13 +82,12 @@ const ShopPage = () => {
   };
   useEffect(() => {
     fetchProductData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     apicall,
     searchbox,
     fromPrice,
     toPrice,
-    // price,
-    // name,
     rating,
     brand,
     category,
@@ -169,6 +159,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     allgetsortFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterapicall,
     ratingg,
@@ -189,7 +180,6 @@ const ShopPage = () => {
       recordsPerPage
     );
     setProductData(response.results);
-    console.log("data-------" + JSON.stringify(response));
     setfilerapicall(true);
   };
   console.log("n page--" + nPages);
@@ -449,13 +439,12 @@ const ShopPage = () => {
                         </Link>
                       </li>
                       {page.map((item) => {
-                        // console.log(" total-page-----" + JSON.stringify(page));
                         return (
                           <>
                             <li className="page-item">
                               <Link
                                 className={`page-link ${
-                                  currentPage == item
+                                  currentPage === item
                                     ? "active "
                                     : "text-success"
                                 }`}
@@ -469,7 +458,7 @@ const ShopPage = () => {
                         );
                       })}
 
-                      <li className="page-item">...</li>
+                      {/* <li className="page-item">...</li> */}
 
                       <li className="page-item">
                         <Link
