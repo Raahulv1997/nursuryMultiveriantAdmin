@@ -32,7 +32,7 @@ const UserProductDetails = () => {
         pass_obj = { headers: { user_blank: true } };
       }
       let result = await call_product_detaile_api([productID, pass_obj]);
-      console.log("daata----" + JSON.stringify(result));
+
       setProduct_detaile(result.results[0]);
 
       let image_array = result.results[0]["all_images_url"].split(",");
@@ -85,18 +85,15 @@ const UserProductDetails = () => {
 
     if (token !== "" && token !== null && token !== undefined) {
       if (cart_product_quantity < 1) {
-        setProductQtyError("cannot lessthan 1");
+        // setProductQtyError("cannot lessthan 1");
 
-        // let result = await cart_delete_api([
-        //   { product_id, cart_product_quantity },
-        //   { headers: { user_token: `${token}` } },
-        // ]);
-        // console.log(result);
-        // if (result.success === true) {
-        //   setReload(Math.floor(Math.random() * 500 + 1));
-        // } else {
-        //   alert(result.success);
-        // }
+        let result = await cart_delete_api(product_id, cart_product_quantity);
+        console.log(result);
+        if (result.success === true) {
+          setReload(Math.floor(Math.random() * 500 + 1));
+        } else {
+          alert(result.success);
+        }
       } else {
         let result = await update_to_cart_api([
           { product_id, cart_product_quantity },
@@ -350,12 +347,6 @@ const UserProductDetails = () => {
                     {ProductqtyError === "greter than" ? (
                       <p className="text-danger text-center ">
                         Cart quantity cannot greater than Stock quantity
-                      </p>
-                    ) : null}
-
-                    {ProductqtyError === "cannot lessthan 1" ? (
-                      <p className="text-danger text-center ">
-                        Cart quantity cannot less than 1
                       </p>
                     ) : null}
                   </div>

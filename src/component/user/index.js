@@ -29,7 +29,7 @@ const Index = () => {
   const [cartqty, setCartQty] = useState(false);
   const [ShowAlert, setShowAlert] = useState(false);
   const [productData, setProductData] = useState();
-  const [reload, setReload] = useState("");
+  const [apicall, setapicall] = useState(false);
   const navigate = useNavigate();
   const [recordsPerPage, setRecordPerpage] = useState(10);
 
@@ -53,77 +53,13 @@ const Index = () => {
     let result = result_all["results"];
     // console.log("__________________________________user___home___api");
     // console.log(result);
+    setapicall(false);
     setProductData(result);
   }
 
   useEffect(() => {
     call_api();
-  }, [reload]);
-
-  async function cart_update_function(cart_count, product_id) {
-    // console.log(product_id);
-    let token = localStorage.getItem("user_token");
-
-    if (token !== "" && token !== null && token !== undefined) {
-      // alert("User logged in");
-      let cart_product_quantity = 1;
-      let result = await add_to_cart_api([
-        { product_id, cart_product_quantity },
-        { headers: { user_token: `${token}` } },
-      ]);
-      // console.log(result.success);
-      if (result.success === true) {
-        setCartQty(true);
-        setReload(Math.floor(Math.random() * 500 + 1));
-      } else {
-      }
-    } else {
-      setShowAlert(true);
-    }
-  }
-
-  async function incrementDecrementCount_function(
-    chk_p_m,
-    cart_count,
-    product_id
-  ) {
-    let cart_product_quantity;
-    let token = localStorage.getItem("user_token");
-    if (chk_p_m === "1") {
-      cart_product_quantity = parseInt(cart_count) + 1;
-    }
-    if (chk_p_m === "0") {
-      cart_product_quantity = parseInt(cart_count) - 1;
-    }
-
-    if (token !== "" && token !== null && token !== undefined) {
-      if (cart_product_quantity < 1) {
-        let result = await cart_delete_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
-        // console.log(result);
-        if (result.success === true) {
-          setReload(Math.floor(Math.random() * 500 + 1));
-        } else {
-          alert(result.success);
-        }
-      } else {
-        let result = await update_to_cart_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
-        // console.log(result);
-        if (result.success === true) {
-          setReload(Math.floor(Math.random() * 500 + 1));
-        } else {
-          alert(result.success);
-        }
-      }
-    } else {
-      setShowAlert(true);
-    }
-  }
+  }, [apicall]);
 
   const onCloseAlert = () => {
     return Promise.resolve(setShowAlert(false));
@@ -272,8 +208,8 @@ const Index = () => {
                     product_stock_quantity={product.product_stock_quantity}
                     cart_count={product.cart_count}
                     product_id={product.id}
-                    cart_update_fun={cart_update_function}
-                    incrementDecrementCount={incrementDecrementCount_function}
+                    productapicall={apicall}
+                    setproductapicall={setapicall}
                   />
                 </>
               );
@@ -327,8 +263,10 @@ const Index = () => {
                     product_stock_quantity={product.product_stock_quantity}
                     cart_count={product.cart_count}
                     product_id={product.id}
-                    cart_update_fun={cart_update_function}
-                    incrementDecrementCount={incrementDecrementCount_function}
+                    productapicall={apicall}
+                    setproductapicall={setapicall}
+                    // cart_update_fun={cart_update_function}
+                    // incrementDecrementCount={incrementDecrementCount_function}
                   />
                 </>
               );

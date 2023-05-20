@@ -1,40 +1,46 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import {
+  add_to_cart_api,
+  cart_delete_api,
+  update_to_cart_api,
+} from "../api/api";
+import SweetAlert from "sweetalert-react";
+import "sweetalert/dist/sweetalert.css";
 const ProductBox = ({
-  id,
   name,
-
+  image,
+  discount,
   mrp,
   price,
   unit,
   rating,
-  discount,
-
+  product_stock_quantity,
+  cart_count,
+  productapicall,
+  setproductapicall,
   brand,
 
   value,
 
-  product_stock_quantity,
   category,
   saleprice,
   // wishlistt,
   // wishlistid,
   clickProduct,
-  cart_update_fun,
-  incrementDecrementCount,
+
   //    AddToWishList,
   product_id,
-  image,
+
   // cart,
   // is_featured,
   // is_special_offer,
-
-  cart_count,
 }) => {
   // let [count, setCount] = useState(1);
   let ratingbox = [1, 2, 3, 4, 5];
-  const [totalqty, settotalqty] = useState(false);
+  const [ShowAlert, setShowAlert] = useState(false);
+  const [ProductqtyError, setProductQtyError] = useState(false);
+
   const navigate = useNavigate();
   // let ratingg = Number(rating);
 
@@ -42,6 +48,78 @@ const ProductBox = ({
     localStorage.setItem("productID", product_id);
     navigate("/product_detail");
   }
+
+  async function cart_update_function(cart_count, product_id) {
+    let token = localStorage.getItem("user_token");
+
+    if (token !== "" && token !== null && token !== undefined) {
+      let cart_product_quantity = 1;
+      let result = await add_to_cart_api([
+        { product_id, cart_product_quantity },
+        { headers: { user_token: `${token}` } },
+      ]);
+
+      if (result.success === true) {
+        setproductapicall(true);
+      } else {
+      }
+    } else {
+      setShowAlert(true);
+    }
+  }
+
+  async function incrementDecrementCount_function(
+    chk_p_m,
+    cart_count,
+    product_id,
+    product_stock_quantity
+  ) {
+    let cart_product_quantity;
+    let token = localStorage.getItem("user_token");
+    if (chk_p_m === "1") {
+      cart_product_quantity = parseInt(cart_count) + 1;
+      if (cart_product_quantity > product_stock_quantity) {
+        setProductQtyError("greter than");
+        cart_product_quantity = product_stock_quantity;
+      }
+    }
+    if (chk_p_m === "0") {
+      setProductQtyError(false);
+      cart_product_quantity = parseInt(cart_count) - 1;
+    }
+
+    if (token !== "" && token !== null && token !== undefined) {
+      if (cart_product_quantity < 1) {
+        let result = await cart_delete_api(product_id, cart_product_quantity);
+
+        if (result.success === true) {
+          setproductapicall(true);
+        } else {
+          alert(result.success);
+        }
+      } else {
+        let result = await update_to_cart_api([
+          { product_id, cart_product_quantity },
+          { headers: { user_token: `${token}` } },
+        ]);
+
+        if (result.success === true) {
+          setproductapicall(true);
+        } else {
+          alert(result.success);
+        }
+      }
+    } else {
+      setShowAlert(true);
+      // alert("please login your account");
+      // navigate("/login");
+    }
+  }
+
+  const onCloseAlert = () => {
+    return Promise.resolve(setShowAlert(false));
+  };
+
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
@@ -94,7 +172,12 @@ const ProductBox = ({
                   className="action-minus"
                   title="Quantity Minus"
                   onClick={() =>
-                    incrementDecrementCount("0", cart_count, product_id)
+                    incrementDecrementCount_function(
+                      "0",
+                      cart_count,
+                      product_id,
+                      product_stock_quantity
+                    )
                   }
                 >
                   <i className="icofont-minus"></i>
@@ -111,7 +194,12 @@ const ProductBox = ({
                   className="action-plus"
                   title="Quantity Plus"
                   onClick={() =>
-                    incrementDecrementCount("1", cart_count, product_id)
+                    incrementDecrementCount_function(
+                      "1",
+                      cart_count,
+                      product_id,
+                      product_stock_quantity
+                    )
                   }
                 >
                   <i className="icofont-plus"></i>
@@ -121,24 +209,29 @@ const ProductBox = ({
               <button
                 className="product-add"
                 title="Add to Cart"
-                onClick={() => cart_update_fun(cart_count, product_id)}
+                onClick={() => cart_update_function(cart_count, product_id)}
               >
                 <i className="fas fa-shopping-basket"></i>
                 <span>add</span>
               </button>
             )}
           </div>
-
-          {totalqty === true ? (
-            <p className="mt-1 ms-2 text-danger" type="invalid">
-              Cannot add more then quantity
-            </p>
-          ) : totalqty === "qty is less" ? (
-            <p className="mt-1 ms-2 text-danger" type="invalid">
-              Quantity cannot less than one
-            </p>
-          ) : totalqty === false ? null : null}
+          {ProductqtyError === "greter than" ? (
+            <small className="text-danger text-center ">
+              Cart quantity cannot greater than Stock quantity
+            </small>
+          ) : null}
         </div>
+        <SweetAlert
+          show={ShowAlert}
+          title="Login Message"
+          text={"Please login Your account"}
+          onConfirm={() =>
+            onCloseAlert().then(() => {
+              navigate("/login");
+            })
+          }
+        />
       </div>
       {/* </div> */}
     </>

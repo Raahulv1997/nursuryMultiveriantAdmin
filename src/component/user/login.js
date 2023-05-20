@@ -20,12 +20,13 @@ const Login = () => {
       email: sign_up_mail,
       password: sign_up_password,
     });
-    // console.log("responxe---" + JSON.stringify(result));
+    console.log("responxe---" + JSON.stringify(result));
     const { user_detaile } = result;
 
     if (result.res_code === "001" || result.res_code === "002") {
       localStorage.setItem("user_token", result.token);
       localStorage.setItem("user_type", user_detaile.user_type);
+      localStorage.setItem("user_fname", user_detaile.first_name);
       setSign_up_mail("");
       setSign_up_passwordl("");
 

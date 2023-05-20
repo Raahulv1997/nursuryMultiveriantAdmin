@@ -14,7 +14,6 @@ import { HiOutlineLogin } from "react-icons/hi";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import { fetchcartdata, user_cart_api } from "../api/api";
 
-const user_token = localStorage.getItem("user_token");
 const Header = ({ cartqty, setCartQty }) => {
   let path = window.location.pathname;
 
@@ -22,14 +21,14 @@ const Header = ({ cartqty, setCartQty }) => {
 
   const [ShowAlert, setShowAlert] = useState(false);
   const [searchbox, setSearchBox] = useState("");
-  let [searcherror, setsearcherror] = useState(false);
+
   const [showcart, setShowcart] = useState(false);
   const [count_cart, SetCount_cart] = useState("");
 
   const navigate = useNavigate();
 
   const user_token = localStorage.getItem("user_token");
-
+  const user_name = localStorage.getItem("user_fname");
   const OnLogoutClick = () => {
     if (user_token !== null && bb === true) {
       setShowAlert(true);
@@ -40,7 +39,7 @@ const Header = ({ cartqty, setCartQty }) => {
 
   const SeacrhValueHandler = (e) => {
     setSearchBox(e.target.value);
-    setsearcherror(false);
+
     // if (searchbox.length === 0) {
     //   navigate("/shop");
     // }
@@ -103,14 +102,14 @@ const Header = ({ cartqty, setCartQty }) => {
               <button className="header-user">
                 <img src={Profile} alt="user" />
               </button>
-              <Link to="">
+              <Link to="/">
                 <img src={Logo} alt="logo" width={"100px"} />
               </Link>
               <button className="header-src">
                 <i className="fas fa-search"></i>
               </button>
             </div>
-            <Link to="">
+            <Link to="/">
               <img src={Logo} alt="logo" height={"100px"} />
             </Link>
             {/* <img src={Profile} alt="user" /> */}
@@ -124,9 +123,6 @@ const Header = ({ cartqty, setCartQty }) => {
               <button onClick={submitHandler}>
                 <i className="fas fa-search"></i>
               </button>
-              {searcherror === true ? (
-                <small className="text-danger">please fill the feild</small>
-              ) : null}
             </form>
             <Nav />
             <div className="header-widget-group">
@@ -140,8 +136,11 @@ const Header = ({ cartqty, setCartQty }) => {
               </Link> */}
               {user_token === null ? null : (
                 <li className="navbar-item dropdown profile_nav_dropdown">
-                  <Link className="navbar-link dropdown-arrow" to="/">
-                    Username
+                  <Link
+                    className="navbar-link text-nowrap dropdown-arrow"
+                    to="/"
+                  >
+                    {user_name ? user_name : "username"}
                   </Link>
                   <ul className="dropdown-position-list">
                     <li>

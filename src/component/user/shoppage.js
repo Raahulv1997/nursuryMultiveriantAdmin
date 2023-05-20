@@ -16,9 +16,8 @@ import Footer from "../common/footer";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 const ShopPage = () => {
-  const [ShowAlert, setShowAlert] = useState(false);
-
   const navigate = useNavigate();
+
   const [recordCount, setrecordCount] = useState("");
   const [ratingg, setRatingg] = useState("");
   const [price, setPrice] = useState("");
@@ -187,74 +186,6 @@ const ShopPage = () => {
     setapicall(true);
   };
 
-  async function cart_update_function(cart_count, product_id) {
-    let token = localStorage.getItem("user_token");
-
-    if (token !== "" && token !== null && token !== undefined) {
-      let cart_product_quantity = 1;
-      let result = await add_to_cart_api([
-        { product_id, cart_product_quantity },
-        { headers: { user_token: `${token}` } },
-      ]);
-
-      if (result.success === true) {
-        setapicall(true);
-      } else {
-      }
-    } else {
-      setShowAlert(true);
-    }
-  }
-
-  async function incrementDecrementCount_function(
-    chk_p_m,
-    cart_count,
-    product_id
-  ) {
-    let cart_product_quantity;
-    let token = localStorage.getItem("user_token");
-    if (chk_p_m === "1") {
-      cart_product_quantity = parseInt(cart_count) + 1;
-    }
-    if (chk_p_m === "0") {
-      cart_product_quantity = parseInt(cart_count) - 1;
-    }
-
-    if (token !== "" && token !== null && token !== undefined) {
-      if (cart_product_quantity < 1) {
-        let result = await cart_delete_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
-
-        if (result.success === true) {
-          setapicall(true);
-        } else {
-          alert(result.success);
-        }
-      } else {
-        let result = await update_to_cart_api([
-          { product_id, cart_product_quantity },
-          { headers: { user_token: `${token}` } },
-        ]);
-
-        if (result.success === true) {
-          setapicall(true);
-        } else {
-          alert(result.success);
-        }
-      }
-    } else {
-      setShowAlert(true);
-      // alert("please login your account");
-      // navigate("/login");
-    }
-  }
-
-  const onCloseAlert = () => {
-    return Promise.resolve(setShowAlert(false));
-  };
-
   const onProductShowChnge = (e) => {
     setRecordPerpage(e.target.value);
   };
@@ -293,24 +224,9 @@ const ShopPage = () => {
       setapicall(true);
     }
   };
-  console.log("product data--" + JSON.stringify(productData));
-  if (productData == "") {
-    console.log(true);
-  } else {
-    console.log(false);
-  }
+
   return (
     <div>
-      <SweetAlert
-        show={ShowAlert}
-        title="Login Message"
-        text={"Please login Your account"}
-        onConfirm={() =>
-          onCloseAlert().then(() => {
-            navigate("/login");
-          })
-        }
-      />
       <Header />
       <section
         className="inner-section single-banner"
@@ -404,10 +320,8 @@ const ShopPage = () => {
                           }
                           cart_count={product.cart_count}
                           product_id={product.id}
-                          cart_update_fun={cart_update_function}
-                          incrementDecrementCount={
-                            incrementDecrementCount_function
-                          }
+                          productapicall={apicall}
+                          setproductapicall={setapicall}
                         />
                         {/* </div> */}
                       </>

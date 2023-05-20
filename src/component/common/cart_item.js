@@ -1,5 +1,9 @@
 // import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CartContext from "../helper/cart";
+import { useContext } from "react";
+import { cart_delete_api } from "../api/api";
 // import { updateCart } from "../api/api";
 // import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
 // src/component/css-js/fonts/icofont/icofont.min.css
@@ -12,8 +16,65 @@ const CartItem = ({
   price,
   incrementDecrementCount,
   product_stock_quantity,
+  cartapicall,
+  setcartapicall,
   cart_no,
 }) => {
+  const [ProductqtyError, setProductQtyError] = useState(false);
+  const navigate = useNavigate();
+
+  const ContextValue = useContext(CartContext);
+  const updateQty = ContextValue.updateQty;
+
+  async function incrementDecrementCount_function(
+    chk_p_m,
+    cart_count,
+    product_id,
+    product_stock_quantity
+  ) {
+    let cart_product_quantity;
+    let token = localStorage.getItem("user_token");
+    if (chk_p_m === "1") {
+      // localStorage.setItem("product_Quanity", true);
+      cart_product_quantity = parseInt(cart_count) + 1;
+
+      if (cart_product_quantity > product_stock_quantity) {
+        setProductQtyError("greter than");
+        cart_product_quantity = product_stock_quantity;
+      }
+    }
+    if (chk_p_m === "0") {
+      setProductQtyError(false);
+      // localStorage.setItem("product_Quanity", true);
+      cart_product_quantity = parseInt(cart_count) - 1;
+    }
+
+    if (token !== "" && token !== null && token !== undefined) {
+      if (cart_product_quantity < 1) {
+        let result = await cart_delete_api(product_id, cart_product_quantity);
+        // console.log(result);
+        if (result.success === true) {
+          setcartapicall(true);
+        } else {
+          alert(result.success);
+        }
+      } else {
+        const result = updateQty(product_id, cart_product_quantity);
+
+        // console.log("updfe result---" + JSON.stringify(result));
+
+        if (result.success === true) {
+          setcartapicall(true);
+        } else {
+          setcartapicall(true);
+          // alert(result.success);
+        }
+      }
+    } else {
+      alert("please login your account");
+      navigate("/login");
+    }
+  }
   // useEffect(() => {
   //     update();
   // }, [Qty]);
@@ -50,7 +111,7 @@ const CartItem = ({
                 className="action-minus"
                 title="Quantity Minus"
                 onClick={() =>
-                  incrementDecrementCount(
+                  incrementDecrementCount_function(
                     "0",
                     cart_product_quantity,
                     product_id,
@@ -72,7 +133,7 @@ const CartItem = ({
                 className="action-plus"
                 title="Quantity Plus"
                 onClick={() =>
-                  incrementDecrementCount(
+                  incrementDecrementCount_function(
                     "1",
                     cart_product_quantity,
                     product_id,
@@ -85,15 +146,11 @@ const CartItem = ({
             </div>
             <h6> ₹ {Number(price * cart_product_quantity).toFixed(2)}</h6>
           </div>
-          {/* {totalqty === true ? (
-            <p className="mt-1 ms-2 text-danger" type="invalid">
-              Cannot add more then quantity
-            </p>
-          ) : totalqty === "qty is less" ? (
-            <p className="mt-1 ms-2 text-danger" type="invalid">
-              Quantity cannot less than one
-            </p>
-          ) : totalqty === false ? null : null} */}
+          {ProductqtyError === "greter than" ? (
+            <small className="text-danger text-center ">
+              Cart quantity cannot greater than Stock quantity
+            </small>
+          ) : null}
         </div>
       </li>
     </>
