@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../common/header";
 import Footer from "../common/footer";
 
-const wallet = () => {
+const Wallet = () => {
+  const [cartqty, setCartQty] = useState(false);
+  const [apicall, setapicall] = useState(false);
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) n<imgo-repeat center"
@@ -281,4 +288,4 @@ const wallet = () => {
   );
 };
 
-export default wallet;
+export default Wallet;

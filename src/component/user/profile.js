@@ -10,6 +10,7 @@ import Header from "../common/header";
 import Footer from "../common/footer";
 /* eslint-disable no-unused-vars */
 const Profile = () => {
+  const [cartqty, setCartQty] = useState(false);
   const [modalshow, setmodalshow] = useState(false);
   const [apicall, setapicall] = useState(false);
   const [getUserData, setGetuserData] = useState([]);
@@ -141,7 +142,12 @@ const Profile = () => {
   };
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"

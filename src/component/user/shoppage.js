@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import {
-  add_to_cart_api,
-  allproduct,
-  cart_delete_api,
-  fetchfilter,
-  update_to_cart_api,
-} from "../api/api";
+import { Link, useSearchParams } from "react-router-dom";
+import { allproduct } from "../api/api";
 
 // import Filters from "./Filters";
 import Filters1 from "./Filters1";
 import ProductBox from "./productBox";
 import Header from "../common/header";
 import Footer from "../common/footer";
-import SweetAlert from "sweetalert-react";
-import "sweetalert/dist/sweetalert.css";
-const ShopPage = () => {
-  const navigate = useNavigate();
 
+const ShopPage = () => {
+  const [cartqty, setCartQty] = useState(false);
   const [recordCount, setrecordCount] = useState("");
   const [ratingg, setRatingg] = useState("");
   const [price, setPrice] = useState("");
@@ -225,9 +217,17 @@ const ShopPage = () => {
     }
   };
 
+  const handleCallback = (childData) => {
+    setCartQty(childData);
+  };
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"
@@ -299,7 +299,7 @@ const ShopPage = () => {
               </div>
               <div className="row">
                 {productData != "" ? (
-                  productData.map((product) => {
+                  productData.map((product, i) => {
                     return (
                       <>
                         {/* <div className="row"> */}
@@ -322,6 +322,8 @@ const ShopPage = () => {
                           product_id={product.id}
                           productapicall={apicall}
                           setproductapicall={setapicall}
+                          parentCallback={handleCallback}
+                          keyprop={i}
                         />
                         {/* </div> */}
                       </>

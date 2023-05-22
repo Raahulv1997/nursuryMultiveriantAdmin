@@ -16,8 +16,11 @@ const CartItem = ({
   price,
   incrementDecrementCount,
   product_stock_quantity,
-  cartapicall,
+
   setcartapicall,
+
+  setcartItemapicall,
+
   cart_no,
 }) => {
   const [ProductqtyError, setProductQtyError] = useState(false);
@@ -37,15 +40,17 @@ const CartItem = ({
     if (chk_p_m === "1") {
       // localStorage.setItem("product_Quanity", true);
       cart_product_quantity = parseInt(cart_count) + 1;
+      setcartItemapicall(true);
 
-      if (cart_product_quantity > product_stock_quantity) {
+      if (cart_product_quantity >= product_stock_quantity) {
         setProductQtyError("greter than");
-        cart_product_quantity = product_stock_quantity;
+        // cart_product_quantity = product_stock_quantity;
       }
     }
     if (chk_p_m === "0") {
       setProductQtyError(false);
       // localStorage.setItem("product_Quanity", true);
+      setcartItemapicall(true);
       cart_product_quantity = parseInt(cart_count) - 1;
     }
 
@@ -54,6 +59,8 @@ const CartItem = ({
         let result = await cart_delete_api(product_id, cart_product_quantity);
         // console.log(result);
         if (result.success === true) {
+          // parentCallback(reloadproduct);
+          setcartItemapicall(true);
           setcartapicall(true);
         } else {
           alert(result.success);
@@ -132,6 +139,7 @@ const CartItem = ({
               <button
                 className="action-plus"
                 title="Quantity Plus"
+                disabled={ProductqtyError === "greter than" ? true : false}
                 onClick={() =>
                   incrementDecrementCount_function(
                     "1",

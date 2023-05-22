@@ -7,8 +7,9 @@ import Header from "../common/header";
 import Footer from "../common/footer";
 
 const Order = () => {
+  const [cartqty, setCartQty] = useState(false);
   const orderIDD = localStorage.getItem("orderId");
-
+  const [apicall, setapicall] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [productData, setProductData] = useState([]);
@@ -28,7 +29,12 @@ const Order = () => {
   // console.log("order ID--" + orderID);
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section className="inner-section invoice-part">
         <div className="container">
           <div className="row">

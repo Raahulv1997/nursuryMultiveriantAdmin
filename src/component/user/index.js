@@ -13,12 +13,7 @@ import product from "../css-js/images/blog/01.jpg";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ProductBox from "./productBox";
-import {
-  user_home_api,
-  add_to_cart_api,
-  update_to_cart_api,
-  cart_delete_api,
-} from "../api/api";
+import { user_home_api } from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
@@ -64,6 +59,11 @@ const Index = () => {
   const onCloseAlert = () => {
     return Promise.resolve(setShowAlert(false));
   };
+
+  const handleCallback = (childData) => {
+    setCartQty(childData);
+    console.log("data from child---" + childData);
+  };
   return (
     <div>
       <SweetAlert
@@ -76,7 +76,12 @@ const Index = () => {
           })
         }
       />
-      <Header cartqty={cartqty} setCartQty={setCartQty} />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
 
       <section className="section recent-part">
         <div className="container-fluid p-0">
@@ -190,7 +195,7 @@ const Index = () => {
           </div>
 
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            {(productData || []).map((product) => {
+            {(productData || []).map((product, i) => {
               return (
                 <>
                   <ProductBox
@@ -210,6 +215,8 @@ const Index = () => {
                     product_id={product.id}
                     productapicall={apicall}
                     setproductapicall={setapicall}
+                    parentCallback={handleCallback}
+                    keyprop={i}
                   />
                 </>
               );
@@ -245,7 +252,7 @@ const Index = () => {
             </div>
           </div>
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            {(productData || []).map((product) => {
+            {(productData || []).map((product, i) => {
               return (
                 <>
                   <ProductBox
@@ -265,8 +272,8 @@ const Index = () => {
                     product_id={product.id}
                     productapicall={apicall}
                     setproductapicall={setapicall}
-                    // cart_update_fun={cart_update_function}
-                    // incrementDecrementCount={incrementDecrementCount_function}
+                    parentCallback={handleCallback}
+                    keyprop={i}
                   />
                 </>
               );

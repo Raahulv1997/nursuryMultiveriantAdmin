@@ -28,7 +28,9 @@ function Checkout() {
   let totalSgst = 0;
   let totalCgst = 0;
   const navigate = useNavigate();
+  const [apicall, setapicall] = useState(false);
   const [ShowOrderAlert, setShowOrderAlert] = useState(false);
+  const [cartqty, setCartQty] = useState(false);
   const [ShowOrderErrorAlert, setShowOrderErrorAlert] = useState(false);
   const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
   const ContextValue = useContext(CartContext);
@@ -130,7 +132,12 @@ function Checkout() {
 
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section
         className="inner-section single-banner"
         // style="background: url(images/single-banner.jpg) no-repeat center;"

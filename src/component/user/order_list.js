@@ -8,6 +8,8 @@ import Footer from "../common/footer";
 
 const Order_list = () => {
   const navigate = useNavigate();
+  const [apicall, setapicall] = useState(false);
+  const [cartqty, setCartQty] = useState(false);
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -27,7 +29,12 @@ const Order_list = () => {
   };
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section
         className="inner-section single-banner"
         //   style="background: url(images/single-banner.jpg) no-repeat center"
@@ -36,7 +43,7 @@ const Order_list = () => {
           <h2>Order History</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Orderlist

@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import product from "../css-js/images/product/01.jpg";
 import Header from "../common/header";
 import Footer from "../common/footer";
 
-const wishlist = () => {
+const Wishlist = () => {
+  const [cartqty, setCartQty] = useState(false);
+  const [apicall, setapicall] = useState(false);
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={apicall}
+        setproductapicall={setapicall}
+      />
       <section
         className="inner-section single-banner"
         // style="background: url(images/single-banner.jpg) no-repeat center"
@@ -375,4 +382,4 @@ const wishlist = () => {
   );
 };
 
-export default wishlist;
+export default Wishlist;

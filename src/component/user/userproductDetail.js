@@ -15,6 +15,8 @@ import "sweetalert/dist/sweetalert.css";
 const UserProductDetails = () => {
   // console.log("in product details");
   const navigate = useNavigate();
+  const [cartqty, setCartQty] = useState(false);
+
   const [product_detaile, setProduct_detaile] = useState([]);
   const [ShowAlert, setShowAlert] = useState(false);
   const [reload, setReload] = useState(false);
@@ -38,6 +40,7 @@ const UserProductDetails = () => {
       let image_array = result.results[0]["all_images_url"].split(",");
 
       setImg_array(image_array);
+      setReload(false);
     }
 
     call_product_detaile();
@@ -46,6 +49,8 @@ const UserProductDetails = () => {
   async function cart_update_function(cart_count, product_id) {
     // console.log(cart_count);
     // console.log(product_id);
+    setCartQty(true);
+
     if (token !== "" && token !== null && token !== undefined) {
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
@@ -72,14 +77,18 @@ const UserProductDetails = () => {
 
     if (chk_p_m === "1") {
       setProductQtyError(false);
+      setReload(true);
+
       cart_product_quantity = parseInt(cart_count) + 1;
-      if (cart_product_quantity > product_stock_quantity) {
+      if (cart_product_quantity >= product_stock_quantity) {
         setProductQtyError("greter than");
         cart_product_quantity = product_stock_quantity;
       }
     }
     if (chk_p_m === "0") {
       setProductQtyError(false);
+      setReload(true);
+
       cart_product_quantity = parseInt(cart_count) - 1;
     }
 
@@ -102,6 +111,7 @@ const UserProductDetails = () => {
         console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
+          // setReload(false);
         } else {
           alert(result.success);
         }
@@ -116,7 +126,12 @@ const UserProductDetails = () => {
 
   return (
     <div>
-      <Header />
+      <Header
+        cartqty={cartqty}
+        setCartQty={setCartQty}
+        productapicall={reload}
+        setproductapicall={setReload}
+      />
       <section className="single-banner inner-section">
         <div className="container">
           <h2>product </h2>

@@ -14,7 +14,7 @@ import { HiOutlineLogin } from "react-icons/hi";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import { fetchcartdata, user_cart_api } from "../api/api";
 
-const Header = ({ cartqty, setCartQty }) => {
+const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
   let path = window.location.pathname;
 
   const bb = path.includes("/");
@@ -59,7 +59,7 @@ const Header = ({ cartqty, setCartQty }) => {
     const response = await fetchcartdata();
 
     SetCount_cart(response.length);
-    // setCartQty(false);
+    setCartQty(false);
   };
 
   function cart_list_hide_fun() {
@@ -230,7 +230,7 @@ const Header = ({ cartqty, setCartQty }) => {
         </div>
       </header>
       <div className="mobile-menu">
-        <Link to="">
+        <Link to="/">
           <i className="fas fa-home"></i>
           <span>Home</span>
         </Link>
@@ -261,6 +261,8 @@ const Header = ({ cartqty, setCartQty }) => {
         showCartProp={showcart}
         cart_list_hide={cart_list_hide_fun}
         cart_count={cart_count_fun}
+        cartapicall={productapicall}
+        setcartapicall={setproductapicall}
       />
     </Fragment>
   );

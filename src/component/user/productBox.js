@@ -17,8 +17,10 @@ const ProductBox = ({
   rating,
   product_stock_quantity,
   cart_count,
-  productapicall,
+
   setproductapicall,
+  parentCallback,
+  keyprop,
   brand,
 
   value,
@@ -40,7 +42,7 @@ const ProductBox = ({
   let ratingbox = [1, 2, 3, 4, 5];
   const [ShowAlert, setShowAlert] = useState(false);
   const [ProductqtyError, setProductQtyError] = useState(false);
-
+  const [qtystate, setQtystate] = useState(true);
   const navigate = useNavigate();
   // let ratingg = Number(rating);
 
@@ -52,6 +54,8 @@ const ProductBox = ({
   async function cart_update_function(cart_count, product_id) {
     let token = localStorage.getItem("user_token");
 
+    setQtystate(false);
+    parentCallback(qtystate);
     if (token !== "" && token !== null && token !== undefined) {
       let cart_product_quantity = 1;
       let result = await add_to_cart_api([
@@ -76,11 +80,11 @@ const ProductBox = ({
   ) {
     let cart_product_quantity;
     let token = localStorage.getItem("user_token");
+
     if (chk_p_m === "1") {
       cart_product_quantity = parseInt(cart_count) + 1;
-      if (cart_product_quantity > product_stock_quantity) {
+      if (cart_product_quantity >= product_stock_quantity) {
         setProductQtyError("greter than");
-        cart_product_quantity = product_stock_quantity;
       }
     }
     if (chk_p_m === "0") {
@@ -95,7 +99,7 @@ const ProductBox = ({
         if (result.success === true) {
           setproductapicall(true);
         } else {
-          alert(result.success);
+          // alert(result.success);
         }
       } else {
         let result = await update_to_cart_api([
@@ -106,7 +110,7 @@ const ProductBox = ({
         if (result.success === true) {
           setproductapicall(true);
         } else {
-          alert(result.success);
+          // alert(result.success);
         }
       }
     } else {
@@ -123,7 +127,7 @@ const ProductBox = ({
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
-      <div className="col-lg-4 col-sm-6">
+      <div className="col-lg-4 col-sm-6" key={keyprop}>
         <div className="product-card p-0">
           <div className="product-media">
             {discount ? (
@@ -193,6 +197,7 @@ const ProductBox = ({
                 <button
                   className="action-plus"
                   title="Quantity Plus"
+                  disabled={ProductqtyError === "greter than" ? true : false}
                   onClick={() =>
                     incrementDecrementCount_function(
                       "1",
