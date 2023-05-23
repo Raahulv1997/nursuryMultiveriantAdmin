@@ -247,6 +247,7 @@ const AddProduct = () => {
         </Form.Select>
       ),
       sortable: true,
+      width: "190px",
     },
     {
       name: "Add Images",
@@ -742,15 +743,23 @@ const AddProduct = () => {
                           />
                         </Form.Group>
                       </div>
+
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
-                          <Form.Control
-                            type="text"
-                            placeholder="Search by rating"
-                            name="rating"
+                          <Form.Select
+                            aria-label="Search by delivery"
+                            size="sm"
                             onChange={searchValueHandler}
+                            name="rating"
                             value={searchdata.rating}
-                          />
+                          >
+                            <option value="">Search by Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </Form.Select>
                         </Form.Group>
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
@@ -1099,15 +1108,23 @@ const AddProduct = () => {
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="" column sm="12">
-                    Rating
+                    rating
                   </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name={"rating"}
+                  <Form.Select
+                    aria-label="Search by delivery"
+                    size="sm"
                     onChange={onInputChange}
+                    name="rating"
                     value={state.rating}
                     id="rating"
-                  />
+                  >
+                    <option value="">Select rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </Form.Select>
                 </Form.Group>
               </div>
 
@@ -1412,7 +1429,7 @@ const AddProduct = () => {
               className="button main_outline_button"
               onClick={(e) => handleDocsClose(e)}
             >
-              Cancel
+              Done
             </button>
           </Modal.Footer>
         </Form>

@@ -78,7 +78,7 @@ const CartItem = ({
         }
       }
     } else {
-      alert("please login your account");
+      // alert("please login your account");
       navigate("/login");
     }
   }

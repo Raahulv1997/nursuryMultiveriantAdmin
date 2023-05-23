@@ -346,12 +346,12 @@ function Checkout() {
             </div> */}
             <div className="col-lg-12">
               <div className="account-card">
-                <div className="account-title">
+                {/* <div className="account-title">
                   <h4>contact number</h4>
                   <button data-bs-toggle="modal" data-bs-target="#contact-add">
                     add contact
                   </button>
-                </div>
+                </div> */}
                 <div className="account-content">
                   <div className="row">
                     <div className="col-md-6 col-lg-4 alert fade show">
@@ -430,12 +430,12 @@ function Checkout() {
             </div>
             <div className="col-lg-12">
               <div className="account-card">
-                <div className="account-title">
+                {/* <div className="account-title">
                   <h4>delivery address</h4>
                   <button data-bs-toggle="modal" data-bs-target="#address-add">
                     add address
                   </button>
-                </div>
+                </div> */}
                 <div className="account-content">
                   <div className="row">
                     <div className="col-md-6 col-lg-4 alert fade show">
@@ -590,7 +590,7 @@ function Checkout() {
                   <input type="checkbox" id="checkout-check" />
                   <label for="checkout-check">
                     By making this purchase you agree to our{" "}
-                    <Link to="#">Terms and Conditions</Link>.
+                    <Link to="">Terms and Conditions</Link>.
                   </label>
                 </div>
                 <div className="checkout-proced">

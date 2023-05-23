@@ -3,8 +3,8 @@ import { Button } from "react-bootstrap";
 
 import Form from "react-bootstrap/Form";
 import DataTable from "react-data-table-component";
-import axios from "axios";
-import { BsTrash } from "react-icons/bs";
+// import axios from "axios";
+// import { BsTrash } from "react-icons/bs";
 // import { BiEdit } from "react-icons/bi";
 
 import SweetAlert from "sweetalert-react";
@@ -127,7 +127,7 @@ const OrderList = () => {
               ? "badge bg-secondary"
               : row.status_order === "shipped"
               ? "badge bg-primary"
-              : row.status_order === "delivered"
+              : row.status_order === "deliverd"
               ? "badge bg-success"
               : row.status_order === "packed"
               ? "badge bg-primary"
@@ -140,8 +140,8 @@ const OrderList = () => {
         >
           {row.status_order === "placed"
             ? "placed"
-            : row.status_order === "delivered"
-            ? "delivered"
+            : row.status_order === "deliverd"
+            ? "deliverd"
             : row.status_order === "shipped"
             ? "shipped"
             : row.status_order === "packed"
@@ -172,7 +172,7 @@ const OrderList = () => {
           <option value="placed">Placed</option>
           <option value="pending">Pending</option>
           <option value="shipped">Shipped</option>
-          <option value="delivered">Delivered</option>
+          <option value="deliverd">Delivered</option>
           <option value="packed">Packed</option>
           <option value="cancel">Cancel</option>
           <option value="approved">Approved </option>

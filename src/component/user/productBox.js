@@ -128,7 +128,13 @@ const ProductBox = ({
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
       <div className="col-lg-4 col-sm-6" key={keyprop}>
-        <div className="product-card p-0">
+        <div
+          className={
+            product_stock_quantity <= "0"
+              ? "product-card product-disable"
+              : "product-card p-0"
+          }
+        >
           <div className="product-media">
             {discount ? (
               <div className="product-label ">

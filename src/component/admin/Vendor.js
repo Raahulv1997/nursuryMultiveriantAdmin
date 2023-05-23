@@ -36,7 +36,7 @@ const Vendor = () => {
     searchName: "",
     searchShopName: "",
   });
-  const [customValidation, setCustomValidation] = useState(false);
+
   const [modalshow, setmodalshow] = useState(false);
   const [apicall, setapicall] = useState(false);
   const [vendorListData, setVendorListData] = useState([]);
@@ -287,7 +287,6 @@ const Vendor = () => {
   };
   const SearchOnChange = (e) => {
     setSearchData({ ...searchdata, [e.target.name]: e.target.value });
-    setCustomValidation(false);
   };
   useEffect(() => {
     VendordataList();
@@ -305,20 +304,12 @@ const Vendor = () => {
   };
 
   const submitHandler = async () => {
-    if (searchdata.searchName === "") {
-      setCustomValidation("nameBlank");
-    } else if (searchdata.searchShopName === "") {
-      setCustomValidation("shopBlank");
-    } else {
-      setCustomValidation(false);
-    }
     setapicall(true);
   };
 
   const OnReset = () => {
     setSearchData({ searchName: "", searchShopName: "" });
     setapicall(true);
-    setCustomValidation(false);
   };
   const OnFileUpload = (e) => {
     setFile(e.target.files[0]);
@@ -379,12 +370,13 @@ const Vendor = () => {
     setState(initialFormState);
   };
 
-  const closeProductAlert = () => {
+  const closeVendorAlert = () => {
     setErrors({});
     setAddVendorAlert(false);
     setupdateVendorAlert(false);
+    setShowDeleteAlert(false);
     setState(initialFormState);
-
+    setapicall(true);
     setmodalshow(false);
 
     // setShowDeleteAlert(false);
@@ -411,44 +403,26 @@ const Vendor = () => {
                         <Form.Group className="mb-3">
                           <Form.Control
                             type="text"
-                            className={
-                              customValidation === "nameBlank"
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
+                            className="form-control"
                             placeholder="Search by Owner name"
                             name="searchName"
                             onChange={SearchOnChange}
                             value={searchdata.searchName}
                           />
                         </Form.Group>
-                        {customValidation === "nameBlank" ? (
-                          <small className="text-danger">
-                            Fill the Owner name..
-                          </small>
-                        ) : customValidation !== "nameBlank" ? null : null}
                       </div>
 
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
                             type="text"
-                            className={
-                              customValidation === "shopBlank"
-                                ? "form-control border border-danger"
-                                : "form-control"
-                            }
+                            className="form-control"
                             placeholder="Search by Shop Name"
                             name="searchShopName"
                             onChange={SearchOnChange}
                             value={searchdata.searchShopName}
                           />
                         </Form.Group>
-                        {customValidation === "shopBlank" ? (
-                          <small className="text-danger">
-                            Fill the Shop name..
-                          </small>
-                        ) : customValidation !== "shopBlank" ? null : null}
                       </div>
                       <div className="col-md-2 col-sm-6 aos_input mb-2">
                         <div>
@@ -814,7 +788,7 @@ const Vendor = () => {
         show={AddVendorAlert}
         title="Added Successfully"
         text={"Vendor Added"}
-        onConfirm={closeProductAlert}
+        onConfirm={closeVendorAlert}
         // showCancelButton={}
         // onCancel={}
       />
@@ -823,7 +797,7 @@ const Vendor = () => {
         show={updateVendorAlert}
         title="Updated Successfully"
         text={"Vendor update"}
-        onConfirm={closeProductAlert}
+        onConfirm={closeVendorAlert}
         // showCancelButton={}
         // onCancel={}
       />
@@ -833,7 +807,7 @@ const Vendor = () => {
         text="Are you Sure you want to delete"
         onConfirm={deleteVendorAlert}
         showCancelButton={true}
-        onCancel={closeProductAlert}
+        onCancel={closeVendorAlert}
       />
     </div>
   );

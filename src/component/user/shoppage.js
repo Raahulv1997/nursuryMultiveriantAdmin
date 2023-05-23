@@ -139,7 +139,7 @@ const ShopPage = () => {
       currentPage,
       recordsPerPage
     );
-
+    console.log("data---" + JSON.stringify(data));
     if (data.error === "send only vendor, user, admin token") {
       setProductData([]);
     } else {

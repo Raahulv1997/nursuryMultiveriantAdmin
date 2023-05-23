@@ -8,6 +8,7 @@ import Footer from "../common/footer";
 
 const Order_list = () => {
   const navigate = useNavigate();
+
   const [apicall, setapicall] = useState(false);
   const [cartqty, setCartQty] = useState(false);
   const [orderData, setOrderData] = useState([]);
@@ -27,6 +28,7 @@ const Order_list = () => {
     localStorage.setItem("orderId", orderID);
     navigate(`/orderDetails`);
   };
+
   return (
     <div>
       <Header
@@ -82,41 +84,161 @@ const Order_list = () => {
                     <div className="orderlist">
                       <div className="orderlist-head">
                         <h5>order {id + 1}</h5>
-                        <h5>order recieved</h5>
+                        {odata.status_order === "shipped" ? (
+                          <h5>order Shipped</h5>
+                        ) : odata.status_order === "packed" ? (
+                          <h5>order Packed</h5>
+                        ) : odata.status_order === "deliverd" ? (
+                          <h5>order Deliverd</h5>
+                        ) : odata.status_order === "cancel" ? (
+                          <h5>order Cancel</h5>
+                        ) : odata.status_order === "return" ? (
+                          <h5>order Return</h5>
+                        ) : (
+                          <h5>order Placed</h5>
+                        )}
                       </div>
                       <div className="orderlist-body">
                         <div className="row">
                           <div className="col-lg-12">
-                            <div className="col-lg-4">
-                              <div className="order-track">
-                                <ul className="order-track-list">
-                                  {odata.status_order === "pending" ? (
+                            {/* <div className="col-lg-4"> */}
+                            <div className="order-track">
+                              <ul className="order-track-list">
+                                <li
+                                  className={
+                                    odata.status_order === "pending" ||
+                                    odata.status_order === "placed"
+                                      ? "order-track-item active"
+                                      : "order-track-item "
+                                  }
+                                >
+                                  <i className="icofont-check"></i>
+                                  <span>order Placed</span>
+                                </li>
+                                <li
+                                  className={
+                                    odata.status_order === "packed"
+                                      ? "order-track-item active"
+                                      : "order-track-item "
+                                  }
+                                >
+                                  <i
+                                    className={
+                                      odata.status_order === "packed" ||
+                                      odata.status_order === "shipped" ||
+                                      odata.status_order === "deliverd" ||
+                                      odata.status_order === "cancel" ||
+                                      odata.status_order === "return"
+                                        ? "icofont-check"
+                                        : "icofont-close"
+                                    }
+                                  ></i>
+                                  <span>order processed</span>
+                                </li>
+                                <li
+                                  className={
+                                    odata.status_order === "shipped"
+                                      ? "order-track-item active"
+                                      : "order-track-item "
+                                  }
+                                >
+                                  <i
+                                    className={
+                                      odata.status_order === "shipped" ||
+                                      odata.status_order === "deliverd" ||
+                                      odata.status_order === "cancel" ||
+                                      odata.status_order === "return"
+                                        ? "icofont-check"
+                                        : "icofont-close"
+                                    }
+                                  ></i>
+                                  <span>order shipped</span>
+                                </li>
+                                <li
+                                  className={
+                                    odata.status_order === "deliverd"
+                                      ? "order-track-item active"
+                                      : "order-track-item "
+                                  }
+                                >
+                                  <i
+                                    className={
+                                      odata.status_order === "deliverd" ||
+                                      odata.status_order === "cancel" ||
+                                      odata.status_order === "return"
+                                        ? "icofont-check"
+                                        : "icofont-close"
+                                    }
+                                  ></i>
+                                  <span>order delivered</span>
+                                </li>
+                                <li
+                                  className={
+                                    odata.status_order === "cancel"
+                                      ? "order-track-item active"
+                                      : "order-track-item "
+                                  }
+                                >
+                                  <i
+                                    className={
+                                      odata.status_order === "cancel" ||
+                                      odata.status_order === "return"
+                                        ? "icofont-check"
+                                        : "icofont-close"
+                                    }
+                                  ></i>
+                                  <span>order cancel</span>
+                                </li>
+                                <li
+                                  className={
+                                    odata.status_order === "return"
+                                      ? "order-track-item active"
+                                      : "order-track-item "
+                                  }
+                                >
+                                  <i
+                                    className={
+                                      odata.status_order === "return"
+                                        ? "icofont-check"
+                                        : "icofont-close"
+                                    }
+                                  ></i>
+                                  <span>order Return</span>
+                                </li>
+                                {/* {odata.status_order === "shipped" ? (
                                     <li className="order-track-item active">
                                       <i className="icofont-check"></i>
-                                      <span>order recieved</span>
-                                    </li>
-                                  ) : odata.status_order === "shipped" ? (
-                                    <li className="order-track-item">
-                                      <i className="icofont-close"></i>
                                       <span>order shipped</span>
                                     </li>
-                                  ) : odata.status_order === "delivered" ? (
+                                  ) : odata.status_order === "deliverd" ? (
+                                    <li className="order-track-item">
+                                      <i className="icofont-check"></i>
+                                      <span>order deliverd</span>
+                                    </li>
+                                  ) : odata.status_order === "packed" ? (
+                                    <li className="order-track-item">
+                                      <i className="icofont-check"></i>
+                                      <span>order packed</span>
+                                    </li>
+                                  ) : odata.status_order === "cancel" ? (
                                     <li className="order-track-item">
                                       <i className="icofont-close"></i>
-                                      <span>order delivered</span>
+                                      <span>order Cancel</span>
                                     </li>
-                                  ) : null}
-                                  {/* <li className="order-track-item active">
-                                  <i className="icofont-check"></i>
-                                  <span>order recieved</span>
-                                </li>
-                                <li className="order-track-item">
-                                  <i className="icofont-close"></i>
-                                  <span>order processed</span>
-                                </li> */}
-                                </ul>
-                              </div>
+                                  ) : odata.status_order === "return" ? (
+                                    <li className="order-track-item active">
+                                      <i className="icofont-close"></i>
+                                      <span>order Return</span>
+                                    </li>
+                                  ) : (
+                                    <li className="order-track-item active">
+                                      <i className="icofont-check"></i>
+                                      <span>order Placed</span>
+                                    </li>
+                                  )} */}
+                              </ul>
                             </div>
+                            {/* </div> */}
                           </div>
                           <div
                             className="col-lg-5"
@@ -180,7 +302,7 @@ const Order_list = () => {
                               </li>
                             </ul>
                           </div>
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <div className="orderlist-deliver">
                               <h6>Delivery location</h6>
                               <p>
@@ -188,7 +310,7 @@ const Order_list = () => {
                                 road no-17/A
                               </p>
                             </div>
-                          </div>
+                          </div> */}
                           {/* <div className="col-lg-12">
                             <div className="table-scroll">
                               <table className="table-list">

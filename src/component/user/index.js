@@ -42,11 +42,12 @@ const Index = () => {
         brand: [],
         seo_tag: [],
         vendor_id: [],
+        is_deleted: [0],
       },
       recordsPerPage
     );
     let result = result_all["results"];
-    // console.log("__________________________________user___home___api");
+
     // console.log(result);
     setapicall(false);
     setProductData(result);

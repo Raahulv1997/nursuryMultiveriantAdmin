@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Order_details.css";
 import moment from "moment";
-import { BsTelephoneFill, BsFillEnvelopeFill } from "react-icons/bs";
-import axios from "axios";
-import { AiOutlineFileText } from "react-icons/ai";
-import Form from "react-bootstrap/Form";
-import statusJson from "./json/statusJson";
-import { allOrder, fetchUserData, OrderByNo } from "../api/api";
+
+import { OrderByNo } from "../api/api";
 import Sidebar from "../common/sidebar";
 
 const OrderDetail = () => {
@@ -18,45 +14,6 @@ const OrderDetail = () => {
   useEffect(() => {
     getOrderDetail();
   }, []);
-
-  // let orderid = localStorage.getItem("orderid");
-  // let userid = localStorage.getItem("userid");
-  // let [apicall, setApicall] = useState(false);
-  // const [getuserData, setGetuserData] = useState([]);
-
-  // const [order, setOrder] = useState([]);
-  // const [allorderDetails, setAllorderDetails] = useState([]);
-  // const searchdata = "";
-
-  // useEffect(() => {
-  //   getOrderData();
-  //   UserData();
-  // }, [apicall]);
-
-  // const UserData = async () => {
-  //   const response = await fetchUserData(searchdata, userid);
-  //   console.log("user------" + JSON.stringify(response));
-  //   if (response === []) {
-  //     setGetuserData([]);
-  //   } else {
-  //     setGetuserData(response[0]);
-  //   }
-  // };
-
-  // const getOrderData = async () => {
-  //   const response = await allOrder(orderid);
-  //   console.log("order------" + JSON.stringify(response));
-  //   setAllorderDetails(response.results[0]);
-  //   setOrder(response.results);
-  // };
-
-  var total = 0;
-  var sub_total = 0;
-  var total_tax = 0;
-  let qty = 0;
-
-  let total_tax_with_qty = 0;
-  let total_priceWithout_tax = 0;
 
   const getOrderDetail = async () => {
     const response = await OrderByNo(orderIDD);

@@ -12,7 +12,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiOutlineLogin } from "react-icons/hi";
 import { RiShoppingBasket2Line } from "react-icons/ri";
-import { fetchcartdata, user_cart_api } from "../api/api";
+import { fetchcartdata } from "../api/api";
 
 const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
   let path = window.location.pathname;
@@ -57,8 +57,10 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
 
   const getCart = async () => {
     const response = await fetchcartdata();
+    if (response) {
+      SetCount_cart(response.length);
+    }
 
-    SetCount_cart(response.length);
     setCartQty(false);
   };
 

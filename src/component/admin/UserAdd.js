@@ -132,7 +132,8 @@ const UserAdd = () => {
   //search submit button
   const submitHandler = async () => {
     if (validate()) {
-      const response = await fetchUserData(state.search);
+      const userID = "";
+      const response = await fetchUserData(state.search, userID);
       // console.log("user-----" + JSON.stringify(response));
       setApicall(false);
       setuserTable(response);

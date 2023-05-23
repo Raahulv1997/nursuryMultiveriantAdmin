@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../css-js/images/logo.png";
+import Logo from "../../logo192.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login_api } from "../api/api";
@@ -64,7 +64,7 @@ const Login = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
               <div className="user-form-logo">
-                <Link to="index.html">
+                <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>

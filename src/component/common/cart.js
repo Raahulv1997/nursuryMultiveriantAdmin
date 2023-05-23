@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import CartItem from "./cart_item";
-import { user_cart_api } from "../api/api";
+import { fetchcartdata, user_cart_api } from "../api/api";
 import { useContext } from "react";
 import CartContext from "../helper/cart/index";
 
@@ -16,19 +16,18 @@ const Cart = ({
   const ContextValue = useContext(CartContext);
 
   const [apicall, setapicall] = useState(false);
-  const navigate = useNavigate();
+
   const [cartdata, setCartdata] = useState();
   const user_token = localStorage.getItem("user_token");
   const [ProductqtyError, setProductQtyError] = useState(false);
   const updateQty = ContextValue.updateQty;
 
   async function call_cart_list() {
-    let token_obj;
     if (user_token !== "" && user_token !== null && user_token !== undefined) {
-      token_obj = { headers: { user_token: `${user_token}` } };
-      let result = await user_cart_api(token_obj);
-      // console.log(result);
-      result.length > 9 ? cart_count("9+") : cart_count(result.length);
+      const result = await fetchcartdata();
+      if (result) {
+        result.length > 9 ? cart_count("9+") : cart_count(result.length);
+      }
 
       setCartdata(result);
       setapicall(false);

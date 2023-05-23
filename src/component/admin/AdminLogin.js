@@ -155,7 +155,7 @@ const AdminLogin = () => {
 
                       <p>
                         Forgot your password?
-                        <Link to={"/"}>reset here</Link>
+                        <Link to={""}>reset here</Link>
                       </p>
                     </div>
                   </form>

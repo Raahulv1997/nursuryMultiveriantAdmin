@@ -34,7 +34,7 @@ const UserProductDetails = () => {
         pass_obj = { headers: { user_blank: true } };
       }
       let result = await call_product_detaile_api([productID, pass_obj]);
-
+      console.log("data------" + JSON.stringify(result));
       setProduct_detaile(result.results[0]);
 
       let image_array = result.results[0]["all_images_url"].split(",");
@@ -111,7 +111,6 @@ const UserProductDetails = () => {
         console.log(result);
         if (result.success === true) {
           setReload(Math.floor(Math.random() * 500 + 1));
-          // setReload(false);
         } else {
           alert(result.success);
         }
@@ -158,7 +157,7 @@ const UserProductDetails = () => {
                   <div className="details-label-group">
                     {/* <label className="details-label new">new</label> */}
                     <label className="details-label off">
-                      {product_detaile.discount}%
+                      {product_detaile.discount}% off
                     </label>
                   </div>
                   <ul className="details-preview">
@@ -296,75 +295,90 @@ const UserProductDetails = () => {
                     </li>
                   </ul>
                 </div> */}
-                  {console.log("cart---" + product_detaile.cart_count)}
-                  <div className="details-add-group">
-                    {product_detaile.cart_count !== null &&
-                    product_detaile.cart_count !== "" &&
-                    product_detaile.cart_count !== undefined ? (
-                      <div className="product-action">
+                  {product_detaile.product_stock_quantity <= "0" ? (
+                    <button
+                      // onClick={() => {
+                      //   cart_update_function(
+                      //     product_detaile.cart_count,
+                      //     product_detaile.id
+                      //   );
+                      // }}
+                      className="product-out-of-stock"
+                      title="Out of stock"
+                    >
+                      <span>Out of stock</span>
+                    </button>
+                  ) : (
+                    <div className="details-add-group">
+                      {product_detaile.cart_count !== null &&
+                      product_detaile.cart_count !== "" &&
+                      product_detaile.cart_count !== undefined ? (
+                        <div className="product-action">
+                          <button
+                            onClick={() =>
+                              incrementDecrementCount_function(
+                                "0",
+                                product_detaile.cart_count,
+                                product_detaile.id,
+                                product_detaile.product_stock_quantity
+                              )
+                            }
+                            className="action-minus"
+                            title="Quantity Minus"
+                          >
+                            <i className="icofont-minus"></i>
+                          </button>
+                          <button
+                            className="product-add"
+                            title="Add to Cart"
+                            onClick={() =>
+                              cart_update_function(
+                                product_detaile.cart_count,
+                                product_detaile.id
+                              )
+                            }
+                          >
+                            {/* <i className="fas fa-shopping-basket"></i> */}
+                            <span>{product_detaile.cart_count}</span>
+                          </button>
+                          <button
+                            onClick={() =>
+                              incrementDecrementCount_function(
+                                "1",
+                                product_detaile.cart_count,
+                                product_detaile.id,
+                                product_detaile.product_stock_quantity
+                              )
+                            }
+                            className="action-plus"
+                            title="Quantity Plus"
+                          >
+                            <i className="icofont-plus"></i>
+                          </button>
+                        </div>
+                      ) : (
                         <button
-                          onClick={() =>
-                            incrementDecrementCount_function(
-                              "0",
-                              product_detaile.cart_count,
-                              product_detaile.id,
-                              product_detaile.product_stock_quantity
-                            )
-                          }
-                          className="action-minus"
-                          title="Quantity Minus"
-                        >
-                          <i className="icofont-minus"></i>
-                        </button>
-                        <button
-                          className="product-add"
-                          title="Add to Cart"
-                          onClick={() =>
+                          onClick={() => {
                             cart_update_function(
                               product_detaile.cart_count,
                               product_detaile.id
-                            )
-                          }
+                            );
+                          }}
+                          className="product-add"
+                          title="Add to Cart"
                         >
-                          {/* <i className="fas fa-shopping-basket"></i> */}
-                          <span>{product_detaile.cart_count}</span>
+                          <i className="fas fa-shopping-basket"></i>
+                          <span>add to cart</span>
                         </button>
-                        <button
-                          onClick={() =>
-                            incrementDecrementCount_function(
-                              "1",
-                              product_detaile.cart_count,
-                              product_detaile.id,
-                              product_detaile.product_stock_quantity
-                            )
-                          }
-                          className="action-plus"
-                          title="Quantity Plus"
-                        >
-                          <i className="icofont-plus"></i>
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          cart_update_function(
-                            product_detaile.cart_count,
-                            product_detaile.id
-                          );
-                        }}
-                        className="product-add"
-                        title="Add to Cart"
-                      >
-                        <i className="fas fa-shopping-basket"></i>
-                        <span>add to cart</span>
-                      </button>
-                    )}
-                    {ProductqtyError === "greter than" ? (
-                      <p className="text-danger text-center ">
-                        Cart quantity cannot greater than Stock quantity
-                      </p>
-                    ) : null}
-                  </div>
+                      )}
+                      {ProductqtyError === "greter than" ? (
+                        <p className="text-danger text-center ">
+                          Cart quantity cannot greater than Stock quantity
+                        </p>
+                      ) : null}
+                    </div>
+                  )}
+
                   {/* <div className="details-action-group">
                     <Link
                       className="details-wish wish"
