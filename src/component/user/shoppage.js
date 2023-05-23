@@ -217,6 +217,14 @@ const ShopPage = () => {
   const handleCallback = (childData) => {
     setCartQty(childData);
   };
+  console.log("-----" + JSON.stringify(productData));
+  console.log(typeof productData);
+  if (productData == "") {
+    console.log(true);
+  } else {
+    console.log(false);
+  }
+
   return (
     <div>
       <Header
@@ -248,7 +256,7 @@ const ShopPage = () => {
             <div className="col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
-                  {productData != "" ? (
+                  {productData == "" ? null : (
                     <div className="top-filter">
                       <div className="filter-short">
                         <label className="filter-label">Show :</label>
@@ -291,7 +299,7 @@ const ShopPage = () => {
                       </Link>
                     </div> */}
                     </div>
-                  ) : null}
+                  )}
                 </div>
               </div>
               <div className="row">
