@@ -244,9 +244,11 @@ const DriverRegister = () => {
                             id="driver_name"
                           />
                           {errors.driver_name
-                            ? (errors.driver_name || []).map((error) => {
+                            ? (errors.driver_name || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -272,11 +274,15 @@ const DriverRegister = () => {
                             id="driver_last_name"
                           />
                           {errors.driver_last_name
-                            ? (errors.driver_last_name || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
+                            ? (errors.driver_last_name || []).map(
+                                (error, i) => {
+                                  return (
+                                    <small className="text-danger" key={i}>
+                                      {error}
+                                    </small>
+                                  );
+                                }
+                              )
                             : null}
                         </Form.Group>
                       </div>
@@ -300,9 +306,11 @@ const DriverRegister = () => {
                             id="date_of_birth"
                           />
                           {errors.date_of_birth
-                            ? (errors.date_of_birth || []).map((error) => {
+                            ? (errors.date_of_birth || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -328,9 +336,11 @@ const DriverRegister = () => {
                             id="current_address"
                           />
                           {errors.current_address
-                            ? (errors.current_address || []).map((error) => {
+                            ? (errors.current_address || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -430,9 +440,11 @@ const DriverRegister = () => {
                           />
                         </div>
                         {errors.gender
-                          ? (errors.gender || []).map((error) => {
+                          ? (errors.gender || []).map((error, i) => {
                               return (
-                                <small className="text-danger">{error}</small>
+                                <small className="text-danger" key={i}>
+                                  {error}
+                                </small>
                               );
                             })
                           : null}
@@ -456,9 +468,11 @@ const DriverRegister = () => {
                             id="age"
                           />
                           {errors.age
-                            ? (errors.age || []).map((error) => {
+                            ? (errors.age || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -483,9 +497,11 @@ const DriverRegister = () => {
                             id="contect_no"
                           />
                           {errors.contect_no
-                            ? (errors.contect_no || []).map((error) => {
+                            ? (errors.contect_no || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -593,9 +609,11 @@ const DriverRegister = () => {
                             id="aadhar_no"
                           />
                           {errors.aadhar_no
-                            ? (errors.aadhar_no || []).map((error) => {
+                            ? (errors.aadhar_no || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -621,9 +639,11 @@ const DriverRegister = () => {
                             id="licence_no"
                           />
                           {errors.licence_no
-                            ? (errors.licence_no || []).map((error) => {
+                            ? (errors.licence_no || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -649,11 +669,15 @@ const DriverRegister = () => {
                             id="licence_issue_date"
                           />
                           {errors.licence_issue_date
-                            ? (errors.licence_issue_date || []).map((error) => {
-                                return (
-                                  <small className="text-danger">{error}</small>
-                                );
-                              })
+                            ? (errors.licence_issue_date || []).map(
+                                (error, i) => {
+                                  return (
+                                    <small className="text-danger" key={i}>
+                                      {error}
+                                    </small>
+                                  );
+                                }
+                              )
                             : null}
                         </Form.Group>
                       </div>
@@ -678,9 +702,9 @@ const DriverRegister = () => {
                           />
                           {errors.licence_validity_date
                             ? (errors.licence_validity_date || []).map(
-                                (error) => {
+                                (error, i) => {
                                   return (
-                                    <small className="text-danger">
+                                    <small className="text-danger" key={i}>
                                       {error}
                                     </small>
                                   );

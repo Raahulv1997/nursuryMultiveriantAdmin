@@ -81,8 +81,8 @@ const Order_list = () => {
               {orderData.map((odata, id) => {
                 return (
                   <>
-                    <div className="orderlist">
-                      <div className="orderlist-head">
+                    <div className="orderlist" key={id}>
+                      <div className="orderlist-head" key={id}>
                         <h5>order {id + 1}</h5>
                         {odata.status_order === "shipped" ? (
                           <h5>order Shipped</h5>

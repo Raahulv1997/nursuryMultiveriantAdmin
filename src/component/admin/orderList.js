@@ -223,8 +223,10 @@ const OrderList = () => {
     ],
   };
 
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators);
+  const { state, setState, onInputChange, errors, validate } = useValidation(
+    initialFormState,
+    validators
+  );
 
   //order searchd data useEffect....
   useEffect(() => {
@@ -254,7 +256,7 @@ const OrderList = () => {
   };
 
   const onStatusChange = async (e, order_id, user_id) => {
-    const response = await OrderStatusChange(e.target.value, order_id, user_id);
+    await OrderStatusChange(e.target.value, order_id, user_id);
     // console.log("respo--" + response);
     OrderData();
     setApicall(true);
@@ -293,9 +295,11 @@ const OrderList = () => {
                           />
                         </Form.Group>
                         {errors.order_id
-                          ? (errors.order_id || []).map((error) => {
+                          ? (errors.order_id || []).map((error, i) => {
                               return (
-                                <small className="text-danger">{error}</small>
+                                <small className="text-danger" key={i}>
+                                  {error}
+                                </small>
                               );
                             })
                           : null}

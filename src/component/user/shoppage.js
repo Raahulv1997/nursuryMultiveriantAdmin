@@ -33,10 +33,7 @@ const ShopPage = () => {
 
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
-  const currentRecords = productData.slice(
-    indexOfFirstRecord,
-    indexOfLastRecord
-  );
+  productData.slice(indexOfFirstRecord, indexOfLastRecord);
 
   const nPages = Math.ceil(recordCount / recordsPerPage);
 
@@ -139,7 +136,7 @@ const ShopPage = () => {
       currentPage,
       recordsPerPage
     );
-    console.log("data---" + JSON.stringify(data));
+
     if (data.error === "send only vendor, user, admin token") {
       setProductData([]);
     } else {
@@ -159,7 +156,7 @@ const ShopPage = () => {
       pages.push(i);
     }
     setPage(pages);
-  }, [productData]);
+  }, [productData, nPages]);
 
   const CurrentpageSeting = (item) => {
     // alert(item);
@@ -275,7 +272,7 @@ const ShopPage = () => {
                             onShoringfilter(e);
                           }}
                         >
-                          <option selected>Featured</option>
+                          <option>Featured</option>
                           <option value={1}>Trending</option>
                           <option value={2}>Name wise</option>
                           <option value={3}>Price wise</option>
@@ -346,10 +343,10 @@ const ShopPage = () => {
                             <i className="fas fa-long-arrow-alt-left"></i>
                           </Link>
                         </li>
-                        {page.map((item) => {
+                        {page.map((item, i) => {
                           return (
                             <>
-                              <li className="page-item">
+                              <li className="page-item" key={i}>
                                 <Link
                                   className={`page-link ${
                                     currentPage == item

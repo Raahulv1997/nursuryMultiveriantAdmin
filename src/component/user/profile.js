@@ -744,9 +744,11 @@ const Profile = () => {
                     id="first_name"
                   />
                   {errors.first_name
-                    ? (errors.first_name || []).map((error) => {
+                    ? (errors.first_name || []).map((error, i) => {
                         return (
-                          <small classNameName="text-danger">{error}</small>
+                          <small classNameName="text-danger" key={i}>
+                            {error}
+                          </small>
                         );
                       })
                     : null}
@@ -771,9 +773,11 @@ const Profile = () => {
                     id="last_name"
                   />
                   {errors.last_name
-                    ? (errors.last_name || []).map((error) => {
+                    ? (errors.last_name || []).map((error, i) => {
                         return (
-                          <small classNameName="text-danger">{error}</small>
+                          <small classNameName="text-danger" key={i}>
+                            {error}
+                          </small>
                         );
                       })
                     : null}
@@ -798,9 +802,11 @@ const Profile = () => {
                     id="email"
                   />
                   {errors.email
-                    ? (errors.email || []).map((error) => {
+                    ? (errors.email || []).map((error, i) => {
                         return (
-                          <small classNameName="text-danger">{error}</small>
+                          <small classNameName="text-danger" key={i}>
+                            {error}
+                          </small>
                         );
                       })
                     : null}
@@ -825,9 +831,11 @@ const Profile = () => {
                     id="password"
                   />
                   {errors.password
-                    ? (errors.password || []).map((error) => {
+                    ? (errors.password || []).map((error, i) => {
                         return (
-                          <small classNameName="text-danger">{error}</small>
+                          <small classNameName="text-danger" key={i}>
+                            {error}
+                          </small>
                         );
                       })
                     : null}
@@ -851,9 +859,11 @@ const Profile = () => {
                     id="phone_no"
                   />
                   {errors.phone_no
-                    ? (errors.phone_no || []).map((error) => {
+                    ? (errors.phone_no || []).map((error, i) => {
                         return (
-                          <small classNameName="text-danger">{error}</small>
+                          <small classNameName="text-danger" key={i}>
+                            {error}
+                          </small>
                         );
                       })
                     : null}
@@ -892,9 +902,11 @@ const Profile = () => {
                     id="pincode"
                   />
                   {errors.pincode
-                    ? (errors.pincode || []).map((error) => {
+                    ? (errors.pincode || []).map((error, i) => {
                         return (
-                          <small classNameName="text-danger">{error}</small>
+                          <small classNameName="text-danger" key={i}>
+                            {error}
+                          </small>
                         );
                       })
                     : null}

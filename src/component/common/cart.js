@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import CartItem from "./cart_item";
-import { fetchcartdata, user_cart_api } from "../api/api";
-import { useContext } from "react";
-import CartContext from "../helper/cart/index";
+import { fetchcartdata } from "../api/api";
 
 const Cart = ({
   showCartProp,
@@ -13,32 +11,33 @@ const Cart = ({
   cartapicall,
   setcartapicall,
 }) => {
-  const ContextValue = useContext(CartContext);
-
   const [apicall, setapicall] = useState(false);
 
   const [cartdata, setCartdata] = useState();
   const user_token = localStorage.getItem("user_token");
-  const [ProductqtyError, setProductQtyError] = useState(false);
-  const updateQty = ContextValue.updateQty;
 
-  async function call_cart_list() {
-    if (user_token !== "" && user_token !== null && user_token !== undefined) {
-      const result = await fetchcartdata();
-      if (result) {
-        result.length > 9 ? cart_count("9+") : cart_count(result.length);
-      }
-
-      setCartdata(result);
-      setapicall(false);
-    } else {
-      // alert("please login your account");
-    }
-  }
+  // const updateQty = ContextValue.updateQty;
 
   useEffect(() => {
+    async function call_cart_list() {
+      if (
+        user_token !== "" &&
+        user_token !== null &&
+        user_token !== undefined
+      ) {
+        const result = await fetchcartdata();
+        if (result) {
+          result.length > 9 ? cart_count("9+") : cart_count(result.length);
+        }
+
+        setCartdata(result);
+        setapicall(false);
+      } else {
+        // alert("please login your account");
+      }
+    }
     call_cart_list();
-  }, [apicall, showCartProp]);
+  }, [apicall, showCartProp, cart_count, user_token]);
 
   const handleCallback = (childData) => {
     // setCartQty(childData);
@@ -84,11 +83,6 @@ const Cart = ({
               />
             );
           })}
-          {ProductqtyError === "greter than" ? (
-            <p className="text-danger text-center ">
-              Cart quantity cannot greater than Stock quantity
-            </p>
-          ) : null}
         </ul>
 
         <div className="cart-footer">

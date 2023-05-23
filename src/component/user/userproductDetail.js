@@ -161,9 +161,9 @@ const UserProductDetails = () => {
                     </label>
                   </div>
                   <ul className="details-preview">
-                    {(img_array || []).map((url) => {
+                    {(img_array || []).map((url, i) => {
                       return (
-                        <li>
+                        <li key={i}>
                           <img
                             src={
                               url
@@ -230,11 +230,11 @@ const UserProductDetails = () => {
                   </div>
 
                   <div className="details-rating">
-                    {[1, 2, 3, 4, 5].map((item) => {
+                    {[1, 2, 3, 4, 5].map((item, i) => {
                       return item <= product_detaile.rating ? (
-                        <i className="active icofont-star"></i>
+                        <i className="active icofont-star" key={i}></i>
                       ) : (
-                        <i className="icofont-star"></i>
+                        <i className="icofont-star" key={i}></i>
                       );
                     })}
 

@@ -92,7 +92,7 @@ const CartItem = ({
 
   return (
     <>
-      <li className="cart-item">
+      <li className="cart-item" key={product_id}>
         <div className="cart-media">
           <img
             src={cover_image}

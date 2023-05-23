@@ -180,9 +180,11 @@ const UserAdd = () => {
                           />
                         </Form.Group>
                         {errors.search
-                          ? (errors.search || []).map((error) => {
+                          ? (errors.search || []).map((error, i) => {
                               return (
-                                <small className="text-danger">{error}</small>
+                                <small className="text-danger" key={i}>
+                                  {error}
+                                </small>
                               );
                             })
                           : null}

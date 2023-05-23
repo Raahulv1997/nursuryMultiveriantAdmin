@@ -14,6 +14,7 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import Header from "../common/header";
 import Footer from "../common/footer";
+
 // import CartContext from "../helper/cart";
 
 function Checkout() {
@@ -60,6 +61,7 @@ function Checkout() {
       totalSgst = totalTaxx / 2;
       totalCgst = totalTaxx / 2;
       Grand_Total = totalprice + totalTaxx - totalDiscount;
+      return {};
     });
 
     // console.log("qtyyy--" + JSON.stringify(kk));
@@ -85,6 +87,7 @@ function Checkout() {
         discount_coupon: "12",
         discount_coupon_value: "150",
       });
+      return {};
     });
     // console.log("add order json--" + JSON.stringify(databyID));
     const response = await AddUserOrder(databyID);
@@ -110,8 +113,7 @@ function Checkout() {
 
   function product_full_detaile(product_id) {
     localStorage.setItem("productID", product_id);
-
-    navigate("/product_detaile");
+    navigate("/product_detail");
   }
 
   const handleAlert = (id) => {
@@ -121,8 +123,8 @@ function Checkout() {
   };
 
   const deleteProductAlert = async () => {
-    const responce = await cart_delete_api(cartProductId, cartProductQty);
-    // console.log("delerte respoce--" + JSON.stringify(responce));
+    await cart_delete_api(cartProductId, cartProductQty);
+
     setShowDeleteAlert(false);
     ContextValue.setapicall(true);
   };
@@ -146,10 +148,10 @@ function Checkout() {
           <h2>checkout</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link to="index.html">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to="shop-4column.html">shop grid</Link>
+              <Link to="/shop">shop</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               checkout
@@ -209,7 +211,7 @@ function Checkout() {
                           // Grand_Total = Grand_Total - totalDiscount;
                           return (
                             <>
-                              <tr>
+                              <tr key={id}>
                                 <td className="table-serial">
                                   <h6>{id + 1}</h6>
                                 </td>
@@ -244,18 +246,16 @@ function Checkout() {
                                   </h6>
                                 </td>
                                 <td className="table-action">
-                                  <a
+                                  <button
                                     className="view"
-                                    onClick={product_full_detaile.bind(this, [
-                                      cdata.product_id,
-                                    ])}
-                                    title="Quick View"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#product-view"
+                                    onClick={product_full_detaile.bind(
+                                      this,
+                                      cdata.product_id
+                                    )}
                                   >
                                     <i className="fas fa-eye"></i>
-                                  </a>
-                                  <a
+                                  </button>
+                                  <Link
                                     className="trash"
                                     title="Remove Wishlist"
                                     onClick={handleAlert.bind(this, [
@@ -264,7 +264,7 @@ function Checkout() {
                                     ])}
                                   >
                                     <i className="icofont-trash"></i>
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </>

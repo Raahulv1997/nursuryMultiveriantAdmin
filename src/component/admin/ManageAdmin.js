@@ -453,8 +453,12 @@ const ManageAdmin = () => {
                     id="admin_name"
                   />
                   {errors.admin_name
-                    ? (errors.admin_name || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.admin_name || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -479,8 +483,12 @@ const ManageAdmin = () => {
                     id="admin_phone"
                   />
                   {errors.admin_phone
-                    ? (errors.admin_phone || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.admin_phone || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -506,8 +514,12 @@ const ManageAdmin = () => {
                     id="admin_email"
                   />
                   {errors.admin_email
-                    ? (errors.admin_email || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.admin_email || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -532,8 +544,12 @@ const ManageAdmin = () => {
                     id="admin_password"
                   />
                   {errors.admin_password
-                    ? (errors.admin_password || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.admin_password || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -561,8 +577,12 @@ const ManageAdmin = () => {
                     <option value="super_admin">Super Admin</option>
                   </Form.Select>
                   {errors.admin_type
-                    ? (errors.admin_type || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.admin_type || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>

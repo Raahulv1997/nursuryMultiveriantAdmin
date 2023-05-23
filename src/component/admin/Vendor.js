@@ -281,7 +281,7 @@ const Vendor = () => {
   ];
 
   const onStatusChange = async (e, id) => {
-    const response = await AdminVendorStatusChange(e.target.value, id);
+    await AdminVendorStatusChange(e.target.value, id);
     // console.log("status response--" + JSON.stringify(response));
     setapicall(true);
   };
@@ -333,7 +333,7 @@ const Vendor = () => {
   };
 
   const deleteVendorAlert = async () => {
-    const response = await AdminVendorDelete(Id);
+    await AdminVendorDelete(Id);
 
     setShowDeleteAlert(false);
     setapicall(true);
@@ -510,13 +510,18 @@ const Vendor = () => {
                                   id="owner_name"
                                 />
                                 {errors.owner_name
-                                  ? (errors.owner_name || []).map((error) => {
-                                      return (
-                                        <small className="text-danger">
-                                          {error}
-                                        </small>
-                                      );
-                                    })
+                                  ? (errors.owner_name || []).map(
+                                      (error, i) => {
+                                        return (
+                                          <small
+                                            className="text-danger"
+                                            key={i}
+                                          >
+                                            {error}
+                                          </small>
+                                        );
+                                      }
+                                    )
                                   : null}
                               </Form.Group>
                             </div>
@@ -540,9 +545,9 @@ const Vendor = () => {
                                   id="shop_name"
                                 />
                                 {errors.shop_name
-                                  ? (errors.shop_name || []).map((error) => {
+                                  ? (errors.shop_name || []).map((error, i) => {
                                       return (
-                                        <small className="text-danger">
+                                        <small className="text-danger" key={i}>
                                           {error}
                                         </small>
                                       );
@@ -569,9 +574,9 @@ const Vendor = () => {
                                   id="email"
                                 />
                                 {errors.email
-                                  ? (errors.email || []).map((error) => {
+                                  ? (errors.email || []).map((error, i) => {
                                       return (
-                                        <small className="text-danger">
+                                        <small className="text-danger" key={i}>
                                           {error}
                                         </small>
                                       );
@@ -599,9 +604,9 @@ const Vendor = () => {
                                   id="mobile"
                                 />
                                 {errors.mobile
-                                  ? (errors.mobile || []).map((error) => {
+                                  ? (errors.mobile || []).map((error, i) => {
                                       return (
-                                        <small className="text-danger">
+                                        <small className="text-danger" key={i}>
                                           {error}
                                         </small>
                                       );
@@ -629,13 +634,18 @@ const Vendor = () => {
                                   id="shop_address"
                                 />
                                 {errors.shop_address
-                                  ? (errors.shop_address || []).map((error) => {
-                                      return (
-                                        <small className="text-danger">
-                                          {error}
-                                        </small>
-                                      );
-                                    })
+                                  ? (errors.shop_address || []).map(
+                                      (error, i) => {
+                                        return (
+                                          <small
+                                            className="text-danger"
+                                            key={i}
+                                          >
+                                            {error}
+                                          </small>
+                                        );
+                                      }
+                                    )
                                   : null}
                               </Form.Group>
                             </div>
@@ -658,9 +668,9 @@ const Vendor = () => {
                                   id="gstn"
                                 />
                                 {errors.gstn
-                                  ? (errors.gstn || []).map((error) => {
+                                  ? (errors.gstn || []).map((error, i) => {
                                       return (
-                                        <small className="text-danger">
+                                        <small className="text-danger" key={i}>
                                           {error}
                                         </small>
                                       );
@@ -702,13 +712,18 @@ const Vendor = () => {
                                   id="geolocation"
                                 />
                                 {errors.geolocation
-                                  ? (errors.geolocation || []).map((error) => {
-                                      return (
-                                        <small className="text-danger">
-                                          {error}
-                                        </small>
-                                      );
-                                    })
+                                  ? (errors.geolocation || []).map(
+                                      (error, i) => {
+                                        return (
+                                          <small
+                                            className="text-danger"
+                                            key={i}
+                                          >
+                                            {error}
+                                          </small>
+                                        );
+                                      }
+                                    )
                                   : null}
                               </Form.Group>
                             </div>

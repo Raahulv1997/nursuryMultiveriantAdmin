@@ -159,7 +159,7 @@ const Order = () => {
                     {productData.map((pdata, id) => {
                       return (
                         <>
-                          <tr>
+                          <tr key={id}>
                             <td className="table-serial">
                               <h6>{id + 1}</h6>
                             </td>

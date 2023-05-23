@@ -9,7 +9,7 @@ import cat3 from "../css-js/images/category/fastfoods.jpg";
 import cat4 from "../css-js/images/category/fruits.jpg";
 import cat5 from "../css-js/images/category/groceries.jpg";
 import cat6 from "../css-js/images/category/seafoods.jpg";
-import product from "../css-js/images/blog/01.jpg";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ProductBox from "./productBox";
@@ -26,36 +26,35 @@ const Index = () => {
   const [productData, setProductData] = useState();
   const [apicall, setapicall] = useState(false);
   const navigate = useNavigate();
-  const [recordsPerPage, setRecordPerpage] = useState(10);
-
-  async function call_api() {
-    let result_all = await user_home_api(
-      {
-        price_from: "",
-        price_to: "",
-        price__: "",
-        rating__: "",
-        name__: "",
-        created_on__: "",
-        search: "",
-        category: [""],
-        brand: [],
-        seo_tag: [],
-        vendor_id: [],
-        is_deleted: [0],
-      },
-      recordsPerPage
-    );
-    let result = result_all["results"];
-
-    // console.log(result);
-    setapicall(false);
-    setProductData(result);
-  }
+  const [recordsPerPage] = useState(10);
 
   useEffect(() => {
+    async function call_api() {
+      let result_all = await user_home_api(
+        {
+          price_from: "",
+          price_to: "",
+          price__: "",
+          rating__: "",
+          name__: "",
+          created_on__: "",
+          search: "",
+          category: [""],
+          brand: [],
+          seo_tag: [],
+          vendor_id: [],
+          is_deleted: [0],
+        },
+        recordsPerPage
+      );
+      let result = result_all["results"];
+
+      // console.log(result);
+      setapicall(false);
+      setProductData(result);
+    }
     call_api();
-  }, [apicall]);
+  }, [apicall, recordsPerPage]);
 
   const onCloseAlert = () => {
     return Promise.resolve(setShowAlert(false));
@@ -63,7 +62,7 @@ const Index = () => {
 
   const handleCallback = (childData) => {
     setCartQty(childData);
-    console.log("data from child---" + childData);
+    // console.log("data from child---" + childData);
   };
   return (
     <div>
@@ -93,15 +92,15 @@ const Index = () => {
             infiniteLoop={true}
           >
             <div>
-              <img src={img1} />
+              <img src={img1} alt={img1} />
               {/* <p className="legend">Legend 1</p> */}
             </div>
             <div>
-              <img src={img2} />
+              <img src={img2} alt={img2} />
               {/* <p className="legend">Legend 2</p> */}
             </div>
             <div>
-              <img src={img3} />
+              <img src={img3} alt={img3} />
               {/* <p cla/>ssName="legend">Legend 3</p> */}
             </div>
           </Carousel>

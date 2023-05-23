@@ -173,9 +173,11 @@ const SellerRegister = () => {
                             id="owner_name"
                           />
                           {errors.owner_name
-                            ? (errors.owner_name || []).map((error) => {
+                            ? (errors.owner_name || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -200,9 +202,11 @@ const SellerRegister = () => {
                             id="shop_name"
                           />
                           {errors.shop_name
-                            ? (errors.shop_name || []).map((error) => {
+                            ? (errors.shop_name || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -227,9 +231,11 @@ const SellerRegister = () => {
                             id="email"
                           />
                           {errors.email
-                            ? (errors.email || []).map((error) => {
+                            ? (errors.email || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -254,9 +260,11 @@ const SellerRegister = () => {
                             id="mobile"
                           />
                           {errors.mobile
-                            ? (errors.mobile || []).map((error) => {
+                            ? (errors.mobile || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -282,9 +290,11 @@ const SellerRegister = () => {
                             id="shop_address"
                           />
                           {errors.shop_address
-                            ? (errors.shop_address || []).map((error) => {
+                            ? (errors.shop_address || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -309,9 +319,11 @@ const SellerRegister = () => {
                             id="gstn"
                           />
                           {errors.gstn
-                            ? (errors.gstn || []).map((error) => {
+                            ? (errors.gstn || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}
@@ -350,9 +362,11 @@ const SellerRegister = () => {
                             id="geolocation"
                           />
                           {errors.geolocation
-                            ? (errors.geolocation || []).map((error) => {
+                            ? (errors.geolocation || []).map((error, i) => {
                                 return (
-                                  <small className="text-danger">{error}</small>
+                                  <small className="text-danger" key={i}>
+                                    {error}
+                                  </small>
                                 );
                               })
                             : null}

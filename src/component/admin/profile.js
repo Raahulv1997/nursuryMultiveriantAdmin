@@ -328,8 +328,8 @@ const profile = () => {
               </div>
               <div className="form-group">
                 <label className="form-label">title</label>
-                <select className="form-select">
-                  <option selected>choose title</option>
+                <select className="form-select" value={"primary"}>
+                  <option>choose title</option>
                   <option value="primary">primary</option>
                   <option value="secondary">secondary</option>
                 </select>
@@ -362,7 +362,7 @@ const profile = () => {
               <div className="form-group">
                 <label className="form-label">title</label>
                 <select className="form-select">
-                  <option selected>choose title</option>
+                  <option>choose title</option>
                   <option value="home">home</option>
                   <option value="office">office</option>
                   <option value="Bussiness">Bussiness</option>
@@ -459,9 +459,7 @@ const profile = () => {
               <div className="form-group">
                 <label className="form-label">title</label>
                 <select className="form-select">
-                  <option value="primary" selected>
-                    primary
-                  </option>
+                  <option value="primary">primary</option>
                   <option value="secondary">secondary</option>
                 </select>
               </div>
@@ -493,9 +491,7 @@ const profile = () => {
               <div className="form-group">
                 <label className="form-label">title</label>
                 <select className="form-select">
-                  <option value="home" selected>
-                    home
-                  </option>
+                  <option value="home">home</option>
                   <option value="office">office</option>
                   <option value="Bussiness">Bussiness</option>
                   <option value="academy">academy</option>

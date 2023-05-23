@@ -4,7 +4,6 @@ import { AdminLoginData } from "../api/api";
 import useValidation from "../common/useValidation";
 import Logo from "../css-js/images/logo.png";
 const AdminLogin = () => {
-  let path = window.location.pathname;
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const initialFormState = {
@@ -31,8 +30,10 @@ const AdminLogin = () => {
           : null,
     ],
   };
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators);
+  const { state, onInputChange, errors, validate } = useValidation(
+    initialFormState,
+    validators
+  );
 
   const OnLoginClick = async (e) => {
     e.preventDefault();
@@ -105,9 +106,11 @@ const AdminLogin = () => {
                         onChange={onInputChange}
                       />
                       {errors.email
-                        ? (errors.email || []).map((error) => {
+                        ? (errors.email || []).map((error, i) => {
                             return (
-                              <small className="text-danger">{error}</small>
+                              <small className="text-danger" key={i}>
+                                {error}
+                              </small>
                             );
                           })
                         : null}
@@ -122,9 +125,11 @@ const AdminLogin = () => {
                         onChange={onInputChange}
                       />
                       {errors.password
-                        ? (errors.password || []).map((error) => {
+                        ? (errors.password || []).map((error, i) => {
                             return (
-                              <small className="text-danger">{error}</small>
+                              <small className="text-danger" key={i}>
+                                {error}
+                              </small>
                             );
                           })
                         : null}

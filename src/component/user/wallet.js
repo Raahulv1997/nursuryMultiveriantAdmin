@@ -107,7 +107,7 @@ const Wallet = () => {
                   <div className="filter-short">
                     <label className="filter-label">Short by :</label>
                     <select className="form-select filter-select">
-                      <option selected>default</option>
+                      <option>default</option>
                       <option value="1">paid</option>
                       <option value="2">due</option>
                       <option value="3">cancel</option>

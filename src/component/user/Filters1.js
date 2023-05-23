@@ -83,8 +83,8 @@ const Filters1 = ({ handleClick }) => {
   //   navigate(`/shop`);
   // };
   const onRatingFilterAdd = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    // const value =
+    //   e.target.type === "checkbox" ? e.target.checked : e.target.value;
     if (e.target.checked === true) {
       setratingfilter((ratingfilter, index) => [
         setcheckboxfilter(index, true),
@@ -107,8 +107,8 @@ const Filters1 = ({ handleClick }) => {
   };
 
   const onBrandFilterAdd = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    // const value =
+    //   e.target.type === "checkbox" ? e.target.checked : e.target.value;
     if (e.target.checked === true) {
       setBrandfilter((brandfilter, index) => [
         setBrandCheckboxfilter(index, true),
@@ -130,8 +130,8 @@ const Filters1 = ({ handleClick }) => {
   };
 
   const onCategoryFilterAdd = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    // const value =
+    //   e.target.type === "checkbox" ? e.target.checked : e.target.value;
     if (e.target.checked === true) {
       setCategoryfilter((categoryfilter, index) => [
         setCategoryCheckboxfilter(index, true),
@@ -390,12 +390,13 @@ const Filters1 = ({ handleClick }) => {
               placeholder="Search..."
             />
             <ul className="shop-widget-list shop-widget-scroll">
-              {brandData.map((item) => {
+              {brandData.map((item, i) => {
                 return (
                   <>
-                    <li>
-                      <div className="shop-widget-content">
+                    <li key={i}>
+                      <div className="shop-widget-content" key={i}>
                         <input
+                          key={i}
                           type="checkbox"
                           id="brand1"
                           defaultValue={item.brand}
@@ -425,12 +426,13 @@ const Filters1 = ({ handleClick }) => {
               placeholder="Search..."
             />
             <ul className="shop-widget-list shop-widget-scroll">
-              {categoryData.map((item) => {
+              {categoryData.map((item, i) => {
                 return (
                   <>
-                    <li>
-                      <div className="shop-widget-content">
+                    <li key={i}>
+                      <div className="shop-widget-content" key={i}>
                         <input
+                          key={i}
                           type="checkbox"
                           id="category1"
                           name="category"

@@ -81,10 +81,10 @@ const ProductDetails = () => {
                   {ratingbox.map((rat, i) => {
                     return productData.rating - rat >= 0 ? (
                       <>
-                        <i className="active icofont-star"></i>
+                        <i className="active icofont-star" key={i}></i>
                       </>
                     ) : (
-                      <i className=" icofont-star"></i>
+                      <i className=" icofont-star" key={i}></i>
                     );
                   })}
 

@@ -21,7 +21,6 @@ import {
   DeleteProductImage,
   DeleteProductStatus,
   fetchfilter,
-  filterProductData,
   GetProductImages,
   ProductCoverImageChange,
   UpdateProductData,
@@ -355,6 +354,25 @@ const AddProduct = () => {
   const { state, setState, onInputChange, setErrors, errors, validate } =
     useValidation(initialFormState, validators);
 
+  //  all product data search function
+  const fetchProductData = async () => {
+    const data = await AllproductData(
+      searchdata.id,
+      searchdata.search,
+      searchdata.category,
+      searchdata.price_from,
+      searchdata.price_to,
+      searchdata.rating,
+      searchdata.brand,
+      searchdata.seo_tag,
+      searchdata.vendor_id
+    );
+    setApicall(false);
+    setProductTable(data.results);
+
+    // console.log("all-product-" + JSON.stringify(data.results));
+  };
+
   //product data search data useEffect---
   useEffect(() => {
     fetchProductData();
@@ -376,25 +394,6 @@ const AddProduct = () => {
       cgst: `${cgst}`,
     });
   }, [state.mrp, state.discount, state.gst]);
-
-  //  all product data search function
-
-  const fetchProductData = async () => {
-    const data = await filterProductData(
-      searchdata.search,
-      searchdata.category,
-      searchdata.price_from,
-      searchdata.price_to,
-      searchdata.rating,
-      searchdata.brand,
-      searchdata.seo_tag,
-      searchdata.vendor_id
-    );
-    setApicall(false);
-    setProductTable(data.results);
-
-    // console.log("all-product-" + JSON.stringify(data.results));
-  };
 
   //fetch brand list and category list data---
   const fetchfilterdata = async () => {
@@ -440,6 +439,7 @@ const AddProduct = () => {
     BrandArray = [];
     e.map((item) => {
       BrandArray.push(item.value);
+      return {};
     });
 
     setsearchData({ ...searchdata, brand: BrandArray });
@@ -459,6 +459,7 @@ const AddProduct = () => {
     CategoryArray = [];
     e.map((item) => {
       CategoryArray.push(item.value);
+      return {};
     });
 
     setsearchData({ ...searchdata, category: CategoryArray });
@@ -471,7 +472,8 @@ const AddProduct = () => {
 
   //search submit button
   const submitHandler = () => {
-    setApicall(true);
+    fetchProductData();
+    // setApicall(true);
   };
 
   // reset button
@@ -567,7 +569,7 @@ const AddProduct = () => {
 
   // delete product fuction
   const deleteProductAlert = async () => {
-    const response = await DeleteProductStatus(Id);
+    await DeleteProductStatus(Id);
 
     setShowDeleteAlert(false);
     setApicall(true);
@@ -584,7 +586,7 @@ const AddProduct = () => {
 
   //product status change function----
   const onStatusChange = async (e, id) => {
-    const response = await UpdateProductStatus(e.target.value, id);
+    await UpdateProductStatus(e.target.value, id);
     // console.log("respo--" + response);
     fetchProductData();
     setApicall(true);
@@ -642,7 +644,7 @@ const AddProduct = () => {
         };
         ImgObj.push(imar);
 
-        const response = await AddProductImage(ImgObj);
+        await AddProductImage(ImgObj);
 
         // console.log("iimg add" + JSON.stringify(response));
         ImgObj = [];
@@ -655,11 +657,7 @@ const AddProduct = () => {
   };
 
   const onImgRemove = async (id, product_img_id, product_img_name) => {
-    const response = await DeleteProductImage(
-      id,
-      product_img_id,
-      product_img_name
-    );
+    await DeleteProductImage(id, product_img_id, product_img_name);
     // console.log("delete responce--" + JSON.stringify(response));
     onImgView(id);
   };
@@ -669,12 +667,12 @@ const AddProduct = () => {
     // setimageboxid(id);
 
     const response = await GetProductImages(id);
-
+    // console.log(JSON.stringify(response));
     setnewImageUrls(response);
   };
 
   const onImgCoverEditClick = async (id, product_img_id) => {
-    const response = await ProductCoverImageChange(id, product_img_id);
+    await ProductCoverImageChange(id, product_img_id);
 
     onImgView(id);
   };
@@ -893,8 +891,12 @@ const AddProduct = () => {
                     id="name"
                   />
                   {errors.name
-                    ? (errors.name || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.name || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -933,8 +935,12 @@ const AddProduct = () => {
                     id="mrp"
                   />
                   {errors.mrp
-                    ? (errors.mrp || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.mrp || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -972,8 +978,12 @@ const AddProduct = () => {
                     id="gst"
                   />
                   {errors.gst
-                    ? (errors.gst || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.gst || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -1030,8 +1040,12 @@ const AddProduct = () => {
                     <small className="text-success">{`${state.gst}% tax ₹ ${totalGst} are include in price `}</small>
                   ) : null}
                   {errors.price
-                    ? (errors.price || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.price || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -1066,7 +1080,7 @@ const AddProduct = () => {
                         value={state.unit}
                       >
                         <option value={""}>Select unit</option>
-                        {unitJson.unitjson.map((item, id) => {
+                        {unitJson.unitjson.map((item) => {
                           return (
                             <>
                               <option value={item}>{item}</option>
@@ -1098,8 +1112,12 @@ const AddProduct = () => {
                     id="product_stock_quantity"
                   />
                   {errors.product_stock_quantity
-                    ? (errors.product_stock_quantity || []).map((error) => {
-                        return <small className="text-danger">{error}</small>;
+                    ? (errors.product_stock_quantity || []).map((error, i) => {
+                        return (
+                          <small className="text-danger" key={i}>
+                            {error}
+                          </small>
+                        );
                       })
                     : null}
                 </Form.Group>
@@ -1194,7 +1212,7 @@ const AddProduct = () => {
                         id="category"
                       >
                         <option value={""}>Select Category</option>
-                        {CategoryJson.categoryjson.map((item, id) => {
+                        {CategoryJson.categoryjson.map((item) => {
                           return (
                             <>
                               <option value={item}>{item}</option>
@@ -1203,9 +1221,11 @@ const AddProduct = () => {
                         })}
                       </Form.Select>
                       {errors.category
-                        ? (errors.category || []).map((error) => {
+                        ? (errors.category || []).map((error, i) => {
                             return (
-                              <small className="text-danger">{error}</small>
+                              <small className="text-danger" key={i}>
+                                {error}
+                              </small>
                             );
                           })
                         : null}
@@ -1236,7 +1256,7 @@ const AddProduct = () => {
                         id="brand"
                       >
                         <option value={""}>Select Brand...</option>
-                        {brandJson.brandjson.map((item, id) => {
+                        {brandJson.brandjson.map((item) => {
                           return (
                             <>
                               <option value={item}>{item}</option>
@@ -1245,9 +1265,11 @@ const AddProduct = () => {
                         })}
                       </Form.Select>
                       {errors.brand
-                        ? (errors.brand || []).map((error) => {
+                        ? (errors.brand || []).map((error, i) => {
                             return (
-                              <small className="text-danger">{error}</small>
+                              <small className="text-danger" key={i}>
+                                {error}
+                              </small>
                             );
                           })
                         : null}
