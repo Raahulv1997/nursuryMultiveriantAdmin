@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Button, Col, InputGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+
 import DataTable from "react-data-table-component";
 
 import { fetchUserData } from "../api/api";
@@ -11,22 +11,13 @@ import Sidebar from "../common/sidebar";
 // import useValidation from "../common/useValidation";
 const UserAdd = () => {
   // const token = "admin_master_token=we2code_123456";
-  const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [modalshow, setmodalshow] = useState(false);
 
   const [userTable, setuserTable] = useState([]);
   const [apicall, setApicall] = useState(false);
 
-  const [UserAlert, setUserAlert] = useState(false);
-  const [updateUserAlert, setupdateUserAlert] = useState(false);
-  const [searchdata, setsearchData] = useState({
-    search: "",
-  });
-
   const initialFormState = {
     search: "",
   };
-  const [Id, setId] = useState("");
 
   //user data table column----
   const columns = [
@@ -126,8 +117,10 @@ const UserAdd = () => {
     ],
   };
 
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators);
+  const { state, setState, onInputChange, errors, validate } = useValidation(
+    initialFormState,
+    validators
+  );
 
   //search submit button
   const submitHandler = async () => {
