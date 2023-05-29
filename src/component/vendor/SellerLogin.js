@@ -28,7 +28,7 @@ const SellerLogin = () => {
     setSpinner("spinner");
 
     const response = await VendorLoginFuntion(emailVal, passval);
-    const { token, vendor_detaile } = response;
+    const { vendor_detaile } = response;
 
     if (response.complete_profile === false) {
       setSpinner(false);

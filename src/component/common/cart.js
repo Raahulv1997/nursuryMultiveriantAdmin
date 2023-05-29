@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import CartItem from "./cart_item";
 import { fetchcartdata } from "../api/api";
 
+import SweetAlert from "sweetalert-react";
+
+import "sweetalert/dist/sweetalert.css";
 const Cart = ({
   showCartProp,
   cart_list_hide,
@@ -11,8 +14,9 @@ const Cart = ({
   cartapicall,
   setcartapicall,
 }) => {
+  const [checkoutAlert, setcheckoutAlert] = useState(false);
   const [apicall, setapicall] = useState(false);
-
+  const navigate = useNavigate();
   const [cartdata, setCartdata] = useState();
   const user_token = localStorage.getItem("user_token");
 
@@ -26,6 +30,7 @@ const Cart = ({
         user_token !== undefined
       ) {
         const result = await fetchcartdata();
+
         if (result) {
           result.length > 9 ? cart_count("9+") : cart_count(result.length);
         }
@@ -41,7 +46,17 @@ const Cart = ({
 
   const handleCallback = (childData) => {
     // setCartQty(childData);
-    console.log("data from child---" + childData);
+  };
+  const onCheckoutClick = () => {
+    if (cartdata.length === 0) {
+      setcheckoutAlert(true);
+    } else {
+      navigate("/checkout");
+    }
+  };
+
+  const checkoutAlertClose = () => {
+    setcheckoutAlert(false);
   };
   return (
     <div>
@@ -93,13 +108,26 @@ const Cart = ({
               <span>apply</span>
             </button>
           </form>
-          <Link to={"/checkout"} className="cart-checkout-btn">
+
+          <button className="cart-checkout-btn  px-5">
+            <span className="checkout-label" onClick={onCheckoutClick}>
+              Proceed to Checkout
+            </span>
+            <span className="checkout-price"></span>
+          </button>
+          {/* <Link to={"/checkout"} className="cart-checkout-btn">
             <span className="checkout-label" onClick={cart_list_hide}>
               Proceed to Checkout
             </span>
             <span className="checkout-price"></span>
-          </Link>
+          </Link> */}
         </div>
+        <SweetAlert
+          show={checkoutAlert}
+          title="Add Cart Alert"
+          text={"Please Click Add to cart first"}
+          onConfirm={checkoutAlertClose}
+        />
       </aside>
     </div>
   );

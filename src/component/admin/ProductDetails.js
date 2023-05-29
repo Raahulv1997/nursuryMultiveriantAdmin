@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AllproductData } from "../api/api";
-
+import Loader from "../common/loader";
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
   console.log("id-------------" + productId);
+  const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState([]);
   const initialFormState = {
     search: "",
@@ -15,6 +16,7 @@ const ProductDetails = () => {
     brand: [],
     seo_tag: "",
     vendor_id: "",
+    product_stock_quantity: "",
   };
 
   useEffect(() => {
@@ -22,6 +24,7 @@ const ProductDetails = () => {
   }, []);
 
   const productGEtByid = async () => {
+    setLoading(true);
     const response = await AllproductData(
       productId,
       initialFormState.search,
@@ -31,22 +34,26 @@ const ProductDetails = () => {
       initialFormState.rating,
       initialFormState.brand,
       initialFormState.seo_tag,
-      initialFormState.vendor_id
+      initialFormState.vendor_id,
+      initialFormState.product_stock_quantity
     );
     // console.log("product data--" + JSON.stringify(response));
 
     setProductData(response.results[0]);
+    setLoading(false);
   };
   let ratingbox = [1, 2, 3, 4, 5];
   return (
     <div>
       <section className="inner-section">
         <div className="container">
+          {loading === true ? <Loader /> : null}
           <div className="row">
             <div className="col-lg-6">
               <div className="details-gallery">
                 <div className="details-label-group">
                   <label className="details-label new">new</label>
+
                   <label className="details-label off">
                     {productData.discount}%
                   </label>

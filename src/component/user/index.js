@@ -19,9 +19,11 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import Header from "../common/header";
 import Footer from "../common/footer";
+import Loader from "../common/loader";
 
 const Index = () => {
   const [cartqty, setCartQty] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [ShowAlert, setShowAlert] = useState(false);
   const [productData, setProductData] = useState();
   const [apicall, setapicall] = useState(false);
@@ -30,6 +32,7 @@ const Index = () => {
 
   useEffect(() => {
     async function call_api() {
+      setLoading(true);
       let result_all = await user_home_api(
         {
           price_from: "",
@@ -48,7 +51,7 @@ const Index = () => {
         recordsPerPage
       );
       let result = result_all["results"];
-
+      setLoading(false);
       // console.log(result);
       setapicall(false);
       setProductData(result);
@@ -106,10 +109,11 @@ const Index = () => {
           </Carousel>
         </div>
       </section>
+      {loading === true ? <Loader /> : null}
       <section className="section recent-part">
         <div className="container">
           <div className="row">
-            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-6">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat1} alt="brand" />
@@ -121,7 +125,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-6">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat2} alt="brand" />
@@ -133,7 +137,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-6">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat3} alt="brand" />
@@ -145,7 +149,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-6">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat4} alt="brand" />
@@ -157,7 +161,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-6">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat5} alt="brand" />
@@ -169,7 +173,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-6">
               <div className="brand-wrap">
                 <div className="brand-media">
                   <img src={cat6} alt="brand" />

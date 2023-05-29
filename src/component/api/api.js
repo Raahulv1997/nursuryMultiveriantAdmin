@@ -4,12 +4,11 @@ let user_token = localStorage.getItem("user_token");
 let admin_token = localStorage.getItem("admin_token");
 let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
-// console.log("admin_token--" + admin_token);
-// console.log("vendor_token--" + vendor_token);
 
+let ApnaOrganiceURl = "http://192.168.29.109:8000";
+let ApnaOrganicAdminToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
 export const updateCart = async (product_id, qty) => {
-  // console.log("in update cart fucntion==" + product_id);
-  // console.log("qty==" + qty);
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/cart_update`,
     {
@@ -117,7 +116,8 @@ export const AllproductData = async (
   rating,
   brand,
   seo_tag,
-  vendor_id
+  vendor_id,
+  product_stock_quantity
 ) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -138,7 +138,6 @@ export const AllproductData = async (
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
   }
-
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
     {
@@ -157,6 +156,7 @@ export const AllproductData = async (
       name: [],
       id: [id],
       is_deleted: [0],
+      product_stock_quantity: [product_stock_quantity],
     },
     head
   );
@@ -590,10 +590,15 @@ export const forget_api = async (req_body_obj) => {
   return response.data;
 };
 
-export const change_password_api = async (req_body_obj) => {
+export const change_password_api = async (password) => {
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/change_user_password`,
-    req_body_obj
+    `${process.env.REACT_APP_BASEURL_0}/user_forgate_password_update`,
+    {
+      password: password,
+    },
+    {
+      headers: { user_token: user_token },
+    }
   );
   return response.data;
 };
@@ -751,6 +756,19 @@ export const UserUpdatefunction = async (props, file, filename) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/update_user`,
     formData,
+    {
+      headers: { user_token: user_token },
+    }
+  );
+  return response.data;
+};
+
+export const AlternateAddressUpdateFunction = async (alternateAddress) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_user_address`,
+    {
+      alternate_address: alternateAddress,
+    },
     {
       headers: { user_token: user_token },
     }
@@ -1106,13 +1124,31 @@ export const addAdminFunction = async (props) => {
 };
 
 export const getAdminList = async () => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/admin_search`,
     {
       admin_name: "",
       admin_type: "",
     },
-    { headers: { admin_token: `${admin_token}` } }
+    head
   );
   return response.data;
 };
@@ -1129,19 +1165,37 @@ export const UpdateAdminFunction = async (props) => {
       admin_type: props.admin_type,
       admin_password: props.admin_password,
     },
-    { headers: { admin_token: `${admin_token}` } }
+    { headers: { admin_token: admin_token } }
   );
   return response.data;
 };
 
 export const getAdminfilter = async (name, type) => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/admin_search`,
     {
       admin_name: name,
       admin_type: type,
     },
-    { headers: { admin_token: `${admin_token}` } }
+    head
   );
   return response.data;
 };
@@ -1163,6 +1217,19 @@ export const orderAssignByAdmin = async (
       order_delivery_confirm_code: order_delivery_confirm_code,
     },
     { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+export const GetALLTransactionListByAdmin = async () => {
+  const response = await axios.post(
+    `${ApnaOrganiceURl}/transaction_list`,
+    {
+      order_id: "",
+      method: "",
+      status: "",
+    },
+    { headers: { admin_token: ApnaOrganicAdminToken } }
   );
   return response.data;
 };

@@ -5,7 +5,7 @@ import shop_img from "../css-js/images/promo/shop/01.jpg";
 let selectRatingData = [];
 let selectBrandData = [];
 let selectCategoryData = [];
-const Filters1 = ({ handleClick }) => {
+const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
   const navigate = useNavigate();
   const [brandData, setBrandData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
@@ -16,25 +16,19 @@ const Filters1 = ({ handleClick }) => {
 
   //rating filer state start here
   const [checkboxfilter, setcheckboxfilter] = useState(false);
-
   const [ratingfilter, setratingfilter] = useState([]);
   //rating filer state END here
 
   //brand checkbox state start here
   const [brandCheckboxfilter, setBrandCheckboxfilter] = useState(false);
-
   const [brandfilter, setBrandfilter] = useState([]);
 
   //brand checkbox state end here
-
   // category checkbox state start here
-
   const [categoryCheckboxfilter, setCategoryCheckboxfilter] = useState(false);
-
   const [categoryfilter, setCategoryfilter] = useState([]);
 
   // category checkbox state End here
-
   const filterPriceHandler = (e) => {
     setpricefilter({ ...pricefilter, [e.target.name]: e.target.value });
     // setapicall(false);
@@ -42,6 +36,7 @@ const Filters1 = ({ handleClick }) => {
 
   const priceSubmitHandler = (e) => {
     e.preventDefault();
+    setFilterProps(false);
     navigate(
       `/shop?Fromprice=${pricefilter.from_product_price}&&Toprice=${pricefilter.to_product_price}`
     );
@@ -101,6 +96,7 @@ const Filters1 = ({ handleClick }) => {
         selectRatingData.splice(index, 1); // 2nd parameter means remove one item only
       }
     }
+
     handleClick(selectRatingData, "rating");
     // console.log("rating aray---", selectRatingData);
     navigate(`/shop`);
@@ -188,8 +184,14 @@ const Filters1 = ({ handleClick }) => {
 
   return (
     <>
-      <div className="col-lg-3">
-        <div className="shop-widget-promo">
+      <div
+        className={
+          showFilterProp
+            ? "col-lg-3 shop_filter  shop_filter_show"
+            : "col-lg-3  shop_filter_show "
+        }
+      >
+        <div className="shop-widget-promo shop_filter_img">
           <Link to="#">
             <img src={shop_img} alt="promo" />
           </Link>
@@ -237,7 +239,7 @@ const Filters1 = ({ handleClick }) => {
                     checked={checkboxfilter}
                     onChange={(e) => onRatingFilterAdd(e)}
                   />
-                  <label for="feat1">
+                  <label htmlFor="feat1">
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
@@ -257,7 +259,7 @@ const Filters1 = ({ handleClick }) => {
                     checked={checkboxfilter}
                     onChange={(e) => onRatingFilterAdd(e)}
                   />
-                  <label for="feat2">
+                  <label htmlFor="feat2">
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
@@ -277,7 +279,7 @@ const Filters1 = ({ handleClick }) => {
                     checked={checkboxfilter}
                     onChange={(e) => onRatingFilterAdd(e)}
                   />
-                  <label for="feat3">
+                  <label htmlFor="feat3">
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
@@ -297,7 +299,7 @@ const Filters1 = ({ handleClick }) => {
                     checked={checkboxfilter}
                     onChange={(e) => onRatingFilterAdd(e)}
                   />
-                  <label for="feat4">
+                  <label htmlFor="feat4">
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star"></i>
@@ -317,7 +319,7 @@ const Filters1 = ({ handleClick }) => {
                     checked={checkboxfilter}
                     onChange={(e) => onRatingFilterAdd(e)}
                   />
-                  <label for="feat5">
+                  <label htmlFor="feat5">
                     <i className="fas fa-star active"></i>
                     <i className="fas fa-star"></i>
                     <i className="fas fa-star"></i>
@@ -342,35 +344,35 @@ const Filters1 = ({ handleClick }) => {
               <li>
                 <div className="shop-widget-content">
                   <input type="checkbox" id="tag1" />
-                  <label for="tag1">new items</label>
+                  <label htmlFor="tag1">new items</label>
                 </div>
                 <span className="shop-widget-number">(13)</span>
               </li>
               <li>
                 <div className="shop-widget-content">
                   <input type="checkbox" id="tag2" />
-                  <label for="tag2">sale items</label>
+                  <label htmlFor="tag2">sale items</label>
                 </div>
                 <span className="shop-widget-number">(28)</span>
               </li>
               <li>
                 <div className="shop-widget-content">
                   <input type="checkbox" id="tag3" />
-                  <label for="tag3">rating items</label>
+                  <label htmlFor="tag3">rating items</label>
                 </div>
                 <span className="shop-widget-number">(35)</span>
               </li>
               <li>
                 <div className="shop-widget-content">
                   <input type="checkbox" id="tag4" />
-                  <label for="tag4">feature items</label>
+                  <label htmlFor="tag4">feature items</label>
                 </div>
                 <span className="shop-widget-number">(47)</span>
               </li>
               <li>
                 <div className="shop-widget-content">
                   <input type="checkbox" id="tag5" />
-                  <label for="tag5">discount items</label>
+                  <label htmlFor="tag5">discount items</label>
                 </div>
                 <span className="shop-widget-number">(59)</span>
               </li>
@@ -404,7 +406,7 @@ const Filters1 = ({ handleClick }) => {
                           checked={brandCheckboxfilter}
                           onChange={(e) => onBrandFilterAdd(e)}
                         />
-                        <label for="brand1">{item.brand}</label>
+                        <label htmlFor="brand1">{item.brand}</label>
                       </div>
                     </li>
                   </>
@@ -440,7 +442,7 @@ const Filters1 = ({ handleClick }) => {
                           checked={categoryCheckboxfilter}
                           onChange={(e) => onCategoryFilterAdd(e)}
                         />
-                        <label for="category1">{item.category}</label>
+                        <label htmlFor="category1">{item.category}</label>
                       </div>
                     </li>
                   </>

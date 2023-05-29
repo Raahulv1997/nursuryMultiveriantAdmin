@@ -19,7 +19,7 @@ const SellerRegister = () => {
     image: "",
   };
   const navigate = useNavigate();
-  const [apicall, setapicall] = useState(false);
+
   const [file, setFile] = useState();
   const [filename, setFilename] = useState("");
   const [showmodel, setShowmodel] = useState(false);
@@ -105,7 +105,7 @@ const SellerRegister = () => {
 
   useEffect(() => {
     vendorDetails();
-  }, [apicall]);
+  }, []);
 
   const vendorDetails = async () => {
     const response = await VendorDetailsBytoken();

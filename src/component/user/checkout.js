@@ -3,19 +3,22 @@ import React, { useContext, useEffect, useState } from "react";
 import "../../../src/component/css-js/fonts/icofont/icofont.min.css";
 import {
   AddUserOrder,
+  AlternateAddressUpdateFunction,
   cart_delete_api,
   fetchcartdata,
   userdetails,
 } from "../api/api";
 // import CheckoutItem from "./checkout_item";
-// import payment1 from "../css-js/images/payment/png/01.png";
+import payment1 from "../css-js/images/payment/png/01.png";
 import CartContext from "../helper/cart";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import Header from "../common/header";
 import Footer from "../common/footer";
-
+import Loader from "../common/loader";
+import { Accordion, Button, Col, Form, InputGroup } from "react-bootstrap";
 // import CartContext from "../helper/cart";
+import Modal from "react-bootstrap/Modal";
 
 function Checkout() {
   const databyID = [];
@@ -29,6 +32,9 @@ function Checkout() {
   let totalSgst = 0;
   let totalCgst = 0;
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [onActiveClass, setOnActiveClass] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [apicall, setapicall] = useState(false);
   const [ShowOrderAlert, setShowOrderAlert] = useState(false);
   const [cartqty, setCartQty] = useState(false);
@@ -39,18 +45,22 @@ function Checkout() {
   const [userDetails, setUserDetails] = useState([]);
   const [cartProductId, setCartProductId] = useState("");
   const [cartProductQty, setCartProductQty] = useState("");
-
+  const [orderAddress, setOrderAddres] = useState("");
+  const [paymentMetod, setPaymentMethod] = useState("");
+  const [alternateAddress, setAlternateAddress] = useState("");
+  const [addressErrorMsg, setAddressErrorMsg] = useState(false);
   useEffect(() => {
     cartdatafucntion();
     userdetailsFunction();
   }, [ContextValue.state]);
 
   const cartdatafucntion = async () => {
+    setLoading(true);
     const userData = await fetchcartdata();
 
     setCartData(userData);
     ContextValue.setapicall(false);
-
+    setLoading(false);
     cartData.map((cdata) => {
       total_qty += cdata.cart_product_quantity;
       totalprice += Number(cdata.price) * Number(cdata.cart_product_quantity);
@@ -69,7 +79,20 @@ function Checkout() {
 
   // console.log("qtyyy--" + JSON.stringify(orderadd));
 
+  const OnPaymentChange = (e) => {
+    setPaymentMethod(e.target.value);
+    setAddressErrorMsg(false);
+  };
+
   const addCartInorder = async () => {
+    if (orderAddress === "") {
+      setAddressErrorMsg("addError");
+    } else if (paymentMetod === "") {
+      setAddressErrorMsg("paymentError");
+    }
+
+    console.log("add---" + orderAddress);
+    console.log("pay---" + paymentMetod);
     cartData.map((cdata) => {
       databyID.push({
         product_id: cdata.product_id,
@@ -82,21 +105,21 @@ function Checkout() {
         total_discount: totalDiscount,
         shipping_charges: "0",
         invoice_id: "12345",
-        payment_mode: "cod",
+        payment_mode: paymentMetod,
         payment_ref_id: "refrf",
         discount_coupon: "12",
         discount_coupon_value: "150",
       });
       return {};
     });
-    // console.log("add order json--" + JSON.stringify(databyID));
-    const response = await AddUserOrder(databyID);
+    console.log("add order json--" + JSON.stringify(databyID));
+    // const response = await AddUserOrder(databyID);
     // console.log("order response---" + JSON.stringify(response));
-    if (response.status === "ok") {
-      setShowOrderAlert(true);
-    } else {
-      setShowOrderErrorAlert(true);
-    }
+    // if (response.status === "ok") {
+    //   setShowOrderAlert(true);
+    // } else {
+    //   setShowOrderErrorAlert(true);
+    // }
   };
 
   const OrderPlacedFucntion = () => {
@@ -132,6 +155,38 @@ function Checkout() {
     setShowDeleteAlert(false);
   };
 
+  const OnAddressClick = () => {
+    setOnActiveClass("currentActive");
+    setOrderAddres(userDetails.address);
+    setAddressErrorMsg(false);
+  };
+
+  const OnAlterAddressClick = () => {
+    setOnActiveClass("AlternateActive");
+    setOrderAddres(userDetails.alternate_address);
+    setAddressErrorMsg(false);
+  };
+
+  const onAddressChangeClick = () => {
+    setAlternateAddress(userDetails.alternate_address);
+    setShow(true);
+  };
+
+  const modelCloseFunction = () => {
+    setShow(false);
+  };
+  const onAlternateAddressChange = (e) => {
+    setAlternateAddress(e.target.value);
+  };
+
+  const onAddressSubmit = async (e) => {
+    e.preventDefault();
+    const response = await AlternateAddressUpdateFunction(alternateAddress);
+    console.log(JSON.stringify(response));
+    setapicall(true);
+    setShow(false);
+  };
+
   return (
     <div>
       <Header
@@ -159,6 +214,7 @@ function Checkout() {
           </ol>
         </div>
       </section>
+      {loading === true ? <Loader /> : null}
       <section className="inner-section checkout-part">
         <div className="container">
           <div className="row">
@@ -346,18 +402,17 @@ function Checkout() {
             </div> */}
             <div className="col-lg-12">
               <div className="account-card">
-                {/* <div className="account-title">
+                <div className="account-title">
                   <h4>contact number</h4>
-                  <button data-bs-toggle="modal" data-bs-target="#contact-add">
+                  {/* <button data-bs-toggle="modal" data-bs-target="#contact-add">
                     add contact
-                  </button>
-                </div> */}
+                  </button> */}
+                </div>
                 <div className="account-content">
                   <div className="row">
                     <div className="col-md-6 col-lg-4 alert fade show">
                       <div className="profile-card contact active">
-                        <h6>primary</h6>
-
+                        <h6>Mobile</h6>
                         <p>{userDetails.phone_no}</p>
                         <ul>
                           <li>
@@ -400,8 +455,8 @@ function Checkout() {
                           </li>
                         </ul>
                       </div>
-                    </div> */}
-                    {/* <div className="col-md-6 col-lg-4 alert fade show">
+                    </div>
+                    <div className="col-md-6 col-lg-4 alert fade show">
                       <div className="profile-card contact">
                         <h6>secondary</h6>
                         <p>+8801747875727</p>
@@ -430,21 +485,29 @@ function Checkout() {
             </div>
             <div className="col-lg-12">
               <div className="account-card">
-                {/* <div className="account-title">
+                <div className="account-title">
                   <h4>delivery address</h4>
-                  <button data-bs-toggle="modal" data-bs-target="#address-add">
+                  {/* <button data-bs-toggle="modal" data-bs-target="#address-add">
                     add address
-                  </button>
-                </div> */}
+                  </button> */}
+                </div>
                 <div className="account-content">
                   <div className="row">
                     <div className="col-md-6 col-lg-4 alert fade show">
-                      <div className="profile-card address active">
-                        <h6>Address </h6>
+                      <div
+                        onClick={OnAddressClick}
+                        className={
+                          onActiveClass === "currentActive"
+                            ? "profile-card address active"
+                            : "profile-card address"
+                        }
+                      >
+                        <h6>Home</h6>
                         <p>{userDetails.address}</p>
-                        <ul className="user-action">
+                        {/* <ul className="user-action">
                           <li>
                             <button
+                           
                               className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
@@ -458,29 +521,37 @@ function Checkout() {
                               data-bs-dismiss="alert"
                             ></button>
                           </li>
-                        </ul>
+                        </ul> */}
                       </div>
                     </div>
                     <div className="col-md-6 col-lg-4 alert fade show">
-                      <div className="profile-card address">
+                      <div
+                        onClick={OnAlterAddressClick}
+                        className={
+                          onActiveClass === "AlternateActive"
+                            ? "profile-card address active"
+                            : "profile-card address"
+                        }
+                      >
                         <h6>Alternate Address</h6>
                         <p>{userDetails.alternate_address}</p>
                         <ul className="user-action">
                           <li>
                             <button
+                              onClick={onAddressChangeClick}
                               className="edit icofont-edit"
                               title="Edit This"
                               data-bs-toggle="modal"
                               data-bs-target="#address-edit"
                             ></button>
                           </li>
-                          <li>
+                          {/* <li>
                             <button
                               className="trash icofont-ui-delete"
                               title="Remove This"
                               data-bs-dismiss="alert"
                             ></button>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </div>
@@ -510,91 +581,568 @@ function Checkout() {
                         </ul>
                       </div>
                     </div> */}
+                    {addressErrorMsg === "addError" ? (
+                      <small className="text-danger">
+                        Please select Address
+                      </small>
+                    ) : null}
                   </div>
                 </div>
               </div>
             </div>
             <div className="col-lg-12">
               <div className="account-card mb-0">
-                {/* <div className="account-title">
+                <div className="account-title">
                   <h4>payment option</h4>
-                  <button data-bs-toggle="modal" data-bs-target="#payment-add">
-                    add card
-                  </button>
-                </div> */}
-                {/* <div className="account-content">
+                </div>
+                <div className="account-content">
                   <div className="row">
-                    <div className="col-md-6 col-lg-4 alert fade show">
-                      <div className="payment-card payment active">
-                        <img src={payment1} alt="payment" />
-                        <h4>card number</h4>
-                        <p>
-                          <span>****</span>
-                          <span>****</span>
-                          <span>****</span>
-                          <sup>1876</sup>
-                        </p>
-                        <h5>miron mahmud</h5>
-                        <button
-                          className="trash icofont-ui-delete"
-                          title="Remove This"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </div>
-                    </div>
-                    <div className="col-md-6 col-lg-4 alert fade show">
-                      <div className="payment-card payment">
-                        <img src="images/payment/png/02.png" alt="payment" />
-                        <h4>card number</h4>
-                        <p>
-                          <span>****</span>
-                          <span>****</span>
-                          <span>****</span>
-                          <sup>1876</sup>
-                        </p>
-                        <h5>miron mahmud</h5>
-                        <button
-                          className="trash icofont-ui-delete"
-                          title="Remove This"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </div>
-                    </div>
-                    <div className="col-md-6 col-lg-4 alert fade show">
-                      <div className="payment-card payment">
-                        <img src="images/payment/png/03.png" alt="payment" />
-                        <h4>card number</h4>
-                        <p>
-                          <span>****</span>
-                          <span>****</span>
-                          <span>****</span>
-                          <sup>1876</sup>
-                        </p>
-                        <h5>miron mahmud</h5>
-                        <button
-                          className="trash icofont-ui-delete"
-                          title="Remove This"
-                          data-bs-dismiss="alert"
-                        ></button>
-                      </div>
-                    </div>
-                    <div className="col-md-6 col-lg-4 alert fade show">
-                      <div className="payment-card payment">
-                        <input type="radio" id="checkout-check" />
-                        Case On delivery
+                    <div className=" col-lg-12 order-xxl-1 order-lg-2 order-md-1">
+                      <div
+                        className="accordion accordion-flush custom-accordion"
+                        id="accordionFlushExample"
+                      >
+                        <div className="accordion-item">
+                          <Accordion>
+                            <Accordion.Item eventKey="2">
+                              <Accordion.Header>
+                                <div className="custom-form-check form-check mb-0">
+                                  <label
+                                    className="form-check-label d-flex align-items-center  gap-3"
+                                    htmlFor="credit"
+                                  >
+                                    <input
+                                      className="form-check-input mt-0"
+                                      type="radio"
+                                      value="card"
+                                      onChange={(e) => OnPaymentChange(e)}
+                                      name="payment"
+                                    />
+                                    <span
+                                      className="pe-2"
+                                      style={{ marginRight: "6px" }}
+                                    >
+                                      Credit or Debit Card
+                                    </span>
+                                  </label>
+                                </div>{" "}
+                              </Accordion.Header>
+                              <Accordion.Body>
+                                <div className="row">
+                                  <div className="row d-flex  justify-content-end  my-2">
+                                    {" "}
+                                    <button className="btn btn-success col-2 ">
+                                      add card
+                                    </button>
+                                  </div>
+
+                                  <div className="col-md-6 col-lg-4 alert fade show">
+                                    <div className="payment-card payment active">
+                                      <img src={payment1} alt="payment" />
+                                      <h4>card number</h4>
+                                      <p>
+                                        <span>****</span>
+                                        <span>****</span>
+                                        <span>****</span>
+                                        <sup>1876</sup>
+                                      </p>
+                                      <h5>miron mahmud</h5>
+                                      <button
+                                        className="trash icofont-ui-delete"
+                                        title="Remove This"
+                                        data-bs-dismiss="alert"
+                                      ></button>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6 col-lg-4 alert fade show">
+                                    <div className="payment-card payment active">
+                                      <img src={payment1} alt="payment" />
+                                      <h4>card number</h4>
+                                      <p>
+                                        <span>****</span>
+                                        <span>****</span>
+                                        <span>****</span>
+                                        <sup>1876</sup>
+                                      </p>
+                                      <h5>miron mahmud</h5>
+                                      <button
+                                        className="trash icofont-ui-delete"
+                                        title="Remove This"
+                                        data-bs-dismiss="alert"
+                                      ></button>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6 col-lg-4 alert fade show">
+                                    <div className="payment-card payment active">
+                                      <img src={payment1} alt="payment" />
+                                      <h4>card number</h4>
+                                      <p>
+                                        <span>****</span>
+                                        <span>****</span>
+                                        <span>****</span>
+                                        <sup>1876</sup>
+                                      </p>
+                                      <h5>miron mahmud</h5>
+                                      <button
+                                        className="trash icofont-ui-delete"
+                                        title="Remove This"
+                                        data-bs-dismiss="alert"
+                                      ></button>
+                                    </div>
+                                  </div>
+                                </div>
+                                {/* <div
+                                  id="flush-collapseOne"
+                                  className="accordion-collapse collapse show"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div className="accordion-body">
+                                    <div className="row g-2">
+                                      <div className="col-12">
+                                        <div className="payment-method">
+                                          <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
+                                            <input
+                                              type="text"
+                                              className="form-control"
+                                              id="credit2"
+                                              placeholder="Enter Credit & Debit Card Number"
+                                            />
+                                            <label htmlFor="credit2">
+                                              Enter Credit & Debit Card Number
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="col-xxl-4">
+                                        <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            id="expiry"
+                                            placeholder="Enter Expiry Date"
+                                          />
+                                          <label htmlFor="expiry">
+                                            Expiry Date
+                                          </label>
+                                        </div>
+                                      </div>
+
+                                      <div className="col-xxl-4">
+                                        <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            id="cvv"
+                                            placeholder="Enter CVV Number"
+                                          />
+                                          <label htmlFor="cvv">
+                                            CVV Number
+                                          </label>
+                                        </div>
+                                      </div>
+
+                                      <div className="col-xxl-4">
+                                        <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
+                                          <input
+                                            type="password"
+                                            className="form-control"
+                                            id="password"
+                                            placeholder="Enter Password"
+                                          />
+                                          <label htmlFor="password">
+                                            Password
+                                          </label>
+                                        </div>
+                                      </div>
+
+                                      <div className="button-group mt-0">
+                                        <ul>
+                                          <li>
+                                            <button className="btn btn-light shopping-button">
+                                              Cancel
+                                            </button>
+                                          </li>
+
+                                          <li>
+                                            <button className="btn btn-animation">
+                                              Use This Card
+                                            </button>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> */}
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          </Accordion>
+                        </div>
+
+                        <div className="accordion-item">
+                          <Accordion>
+                            <Accordion.Item eventKey="2">
+                              <Accordion.Header>
+                                {" "}
+                                <div className="custom-form-check form-check mb-0">
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="banking"
+                                  >
+                                    <input
+                                      className="form-check-input mt-0"
+                                      type="radio"
+                                      value="netbanking"
+                                      name="payment"
+                                      onChange={(e) => OnPaymentChange(e)}
+                                    />
+                                    Net Banking
+                                  </label>
+                                </div>
+                              </Accordion.Header>
+                              {/* <Accordion.Body>
+                                    <div className="accordion-body">
+                                      <h5 className="text-uppercase mb-4">
+                                        Select Your Bank
+                                      </h5>
+                                      <div className="row g-2">
+                                        <div className="col-md-6">
+                                          <div className="custom-form-check form-check">
+                                            <input
+                                              className="form-check-input mt-0"
+                                              type="radio"
+                                              value="choice1"
+                                              onChange={func}
+                                              name="button"
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor="bank1"
+                                            >
+                                              Industrial & Commercial Bank
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        <div className="col-md-6">
+                                          <div className="custom-form-check form-check">
+                                            <input
+                                              className="form-check-input mt-0"
+                                              type="radio"
+                                              onChange={func}
+                                              value="choice2"
+                                              name="button"
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor="bank2"
+                                            >
+                                              Agricultural Bank
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        <div className="col-md-6">
+                                          <div className="custom-form-check form-check">
+                                            <input
+                                              className="form-check-input mt-0"
+                                              type="radio"
+                                              value="choice3"
+                                              name="button"
+                                              onChange={func}
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor="bank3"
+                                            >
+                                              Bank of America
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        <div className="col-md-6">
+                                          <div className="custom-form-check form-check">
+                                            <input
+                                              className="form-check-input mt-0"
+                                              type="radio"
+                                              value="choice4"
+                                              onChange={func}
+                                              name="button"
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor="bank4"
+                                            >
+                                              Construction Bank Corp.
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        <div className="col-md-6">
+                                          <div className="custom-form-check form-check">
+                                            <input
+                                              className="form-check-input mt-0"
+                                              type="radio"
+                                              value="choice5"
+                                              name="button"
+                                              onChange={func}
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor="bank5"
+                                            >
+                                              HSBC Holdings
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        <div className="col-md-6">
+                                          <div className="custom-form-check form-check">
+                                            <input
+                                              className="form-check-input mt-0"
+                                              type="radio"
+                                              value="choice6"
+                                              name="button"
+                                              onChange={func}
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor="bank6"
+                                            >
+                                              JPMorgan Chase & Co.
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        <div className="col-12">
+                                          <div className="select-option">
+                                            <div className="form-floating theme-form-floating">
+                                              <select
+                                                className="form-select theme-form-select"
+                                                aria-label="Default select example"
+                                              >
+                                                <option value="hsbc">
+                                                  HSBC Holdings
+                                                </option>
+                                                <option value="loyds">
+                                                  Lloyds Banking Group
+                                                </option>
+                                                <option value="natwest">
+                                                  Nat West Group
+                                                </option>
+                                                <option value="Barclays">
+                                                  Barclays
+                                                </option>
+                                                <option value="other">
+                                                  Others Bank
+                                                </option>
+                                              </select>
+                                              <label>Select Other Bank</label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Accordion.Body> */}
+                            </Accordion.Item>
+                          </Accordion>
+                        </div>
+
+                        <div className="accordion-item">
+                          <Accordion>
+                            <Accordion.Item eventKey="2">
+                              <Accordion.Header>
+                                <div className="custom-form-check form-check mb-0">
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="wallet"
+                                  >
+                                    <input
+                                      className="form-check-input mt-0"
+                                      type="radio"
+                                      value="wallet"
+                                      onChange={(e) => OnPaymentChange(e)}
+                                      name="payment"
+                                    />
+                                    My Wallet
+                                  </label>
+                                </div>
+                              </Accordion.Header>
+                              <Accordion.Body>
+                                <div className="accordion-body">
+                                  <h5 className="text-uppercase mb-4">
+                                    Select Your Wallet
+                                  </h5>
+                                  <div className="row">
+                                    <div className="col-md-6">
+                                      <div className="custom-form-check form-check">
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor="amazon"
+                                        >
+                                          <input
+                                            className="form-check-input mt-0"
+                                            type="radio"
+                                            value="choice10"
+                                            // onChange={func}
+                                            name="button"
+                                          />
+                                          Amazon Pay
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <div className="custom-form-check form-check">
+                                        <input
+                                          className="form-check-input mt-0"
+                                          type="radio"
+                                          // onChange={func}
+                                          value="choice11"
+                                          name="button"
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor="gpay"
+                                        >
+                                          Google Pay
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <div className="custom-form-check form-check">
+                                        <input
+                                          className="form-check-input mt-0"
+                                          type="radio"
+                                          value="choice12"
+                                          // onChange={func}
+                                          name="button"
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor="airtel"
+                                        >
+                                          Airtel Money
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <div className="custom-form-check form-check">
+                                        <input
+                                          className="form-check-input mt-0"
+                                          type="radio"
+                                          value="choice12"
+                                          // onChange={func}
+                                          name="button"
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor="paytm"
+                                        >
+                                          Paytm Pay
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <div className="custom-form-check form-check">
+                                        <input
+                                          className="form-check-input mt-0"
+                                          type="radio"
+                                          value="choice13"
+                                          // onChange={func}
+                                          name="button"
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor="jio"
+                                        >
+                                          JIO Money
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <div className="custom-form-check form-check">
+                                        <input
+                                          className="form-check-input mt-0"
+                                          type="radio"
+                                          value="choice14"
+                                          // onChange={func}
+                                          name="button"
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor="free"
+                                        >
+                                          Freecharge
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          </Accordion>
+                        </div>
+
+                        <div className="accordion-item">
+                          <Accordion>
+                            <Accordion.Item eventKey="2">
+                              <Accordion.Header>
+                                <div className="custom-form-check form-check mb-0">
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="cash"
+                                  >
+                                    <input
+                                      className="form-check-input mt-0"
+                                      type="radio"
+                                      value="cod"
+                                      onChange={(e) => OnPaymentChange(e)}
+                                      name="payment"
+                                    />
+                                    Cash On Delivery
+                                  </label>
+                                </div>
+                              </Accordion.Header>
+                              {/* <Accordion.Body>
+                                <div className="accordion-body">
+                                  <h5 className="cod-review">
+                                    Pay digitally with SMS Pay Link. Cash may
+                                    not be accepted in COVID restricted areas.{" "}
+                                    <Link to="/">Know more.</Link>
+                                  </h5>
+                                </div>
+                              </Accordion.Body> */}
+                            </Accordion.Item>
+                          </Accordion>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div> */}
-                <div className="checkout-check">
-                  <input type="checkbox" id="checkout-check" />
+                  {addressErrorMsg === "paymentError" ? (
+                    <small className="text-danger">
+                      Please select any payment option
+                    </small>
+                  ) : null}
+                </div>
+                {/* <div className="checkout-check">
+                  <input type="checkbox" id="checkout-check" required />
                   <label for="checkout-check">
                     By making this purchase you agree to our{" "}
                     <Link to="">Terms and Conditions</Link>.
                   </label>
-                </div>
+                </div> */}
                 <div className="checkout-proced">
-                  <button className="btn btn-inline " onClick={addCartInorder}>
+                  <button
+                    className="btn btn-outline mt-3"
+                    onClick={addCartInorder}
+                  >
                     proced to checkout
                   </button>
                 </div>
@@ -602,6 +1150,39 @@ function Checkout() {
             </div>
           </div>
         </div>
+
+        <Modal show={show} onHide={modelCloseFunction}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delivery Address Change</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={(e) => onAddressSubmit(e)}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Alternate address</Form.Label>
+                <Col sm="12">
+                  <InputGroup classNameName="">
+                    <Form.Control
+                      rows={5}
+                      as="textarea"
+                      className="h-auto"
+                      name="address"
+                      aria-label="With textarea"
+                      onChange={onAlternateAddressChange}
+                      value={alternateAddress}
+                    />
+                  </InputGroup>
+                </Col>
+              </Form.Group>
+              <Button variant="secondary" onClick={modelCloseFunction}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Save Changes
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer></Modal.Footer>
+        </Modal>
       </section>
       <SweetAlert
         show={ShowDeleteAlert}

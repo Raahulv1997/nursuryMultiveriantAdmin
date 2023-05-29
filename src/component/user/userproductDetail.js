@@ -11,12 +11,13 @@ import Header from "../common/header";
 import Footer from "../common/footer";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
-
+import Loader from "../common/loader";
+import { useLocation } from "react-router-dom";
 const UserProductDetails = () => {
   // console.log("in product details");
   const navigate = useNavigate();
   const [cartqty, setCartQty] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [product_detaile, setProduct_detaile] = useState([]);
   const [ShowAlert, setShowAlert] = useState(false);
   const [reload, setReload] = useState(false);
@@ -26,6 +27,7 @@ const UserProductDetails = () => {
 
   useEffect(() => {
     async function call_product_detaile() {
+      setLoading(true);
       let pass_obj;
       let productID = localStorage.getItem("productID");
       if (token !== "" && token !== null && token !== undefined) {
@@ -34,11 +36,11 @@ const UserProductDetails = () => {
         pass_obj = { headers: { user_blank: true } };
       }
       let result = await call_product_detaile_api([productID, pass_obj]);
-      console.log("data------" + JSON.stringify(result));
+      // console.log("data------" + JSON.stringify(result));
       setProduct_detaile(result.results[0]);
 
       let image_array = result.results[0]["all_images_url"].split(",");
-
+      setLoading(false);
       setImg_array(image_array);
       setReload(false);
     }
@@ -123,6 +125,18 @@ const UserProductDetails = () => {
     return Promise.resolve(setShowAlert(false));
   };
 
+  function GoToTop() {
+    const routePath = useLocation();
+    const onTop = () => {
+      window.scrollTo(0, 0);
+    };
+    useEffect(() => {
+      onTop();
+    }, [routePath]);
+
+    return null;
+  }
+  GoToTop();
   return (
     <div>
       <Header
@@ -147,8 +161,8 @@ const UserProductDetails = () => {
           </ol>
         </div>
       </section>
-
-      {product_detaile != "" ? (
+      {loading === true ? <Loader /> : null}
+      {product_detaile.length !== 0 ? (
         <section className="inner-section">
           <div className="container">
             <div className="row">
@@ -630,15 +644,15 @@ const UserProductDetails = () => {
                       <div className="col-lg-12">
                         <div className="star-rating">
                           <input type="radio" name="rating" id="star-1" />
-                          <label for="star-1"></label>
+                          <label htmlFor="star-1"></label>
                           <input type="radio" name="rating" id="star-2" />
-                          <label for="star-2"></label>
+                          <label htmlFor="star-2"></label>
                           <input type="radio" name="rating" id="star-3" />
-                          <label for="star-3"></label>
+                          <label htmlFor="star-3"></label>
                           <input type="radio" name="rating" id="star-4" />
-                          <label for="star-4"></label>
+                          <label htmlFor="star-4"></label>
                           <input type="radio" name="rating" id="star-5" />
-                          <label for="star-5"></label>
+                          <label htmlFor="star-5"></label>
                         </div>
                       </div>
                       <div className="col-lg-12">

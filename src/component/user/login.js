@@ -4,35 +4,57 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login_api } from "../api/api";
 import SweetAlert from "sweetalert-react";
+import Loader from "../common/loader";
 import "sweetalert/dist/sweetalert.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  let [sign_up_mail, setSign_up_mail] = useState("");
-  let [sign_up_password, setSign_up_passwordl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [emailerror, setemailerror] = useState(false);
+  const [emailVal, setemailVal] = useState("");
+  const [passval, setpassval] = useState("");
 
   const [ShowAlert, setShowAlert] = useState(false);
   const [ShowErrorAlert, setShowErrorAlert] = useState(false);
+
+  const onEmailChange = (e) => {
+    setemailVal(e.target.value);
+    setemailerror(false);
+  };
+
+  const onPasswordChange = (e) => {
+    setpassval(e.target.value);
+    setemailerror(false);
+  };
+
   async function sign_up_btn(event) {
     event.preventDefault();
-
+    setLoading(true);
     let result = await login_api({
-      email: sign_up_mail,
-      password: sign_up_password,
+      email: emailVal,
+      password: passval,
     });
+
     console.log("responxe---" + JSON.stringify(result));
+    setLoading(false);
     const { user_detaile } = result;
 
     if (result.res_code === "001" || result.res_code === "002") {
       localStorage.setItem("user_token", result.token);
       localStorage.setItem("user_type", user_detaile.user_type);
       localStorage.setItem("user_fname", user_detaile.first_name);
-      setSign_up_mail("");
-      setSign_up_passwordl("");
 
       setShowAlert(true);
-    } else {
-      setShowErrorAlert(true);
+    } else if (
+      result.response === "creadintial not match" &&
+      result.status === false
+    ) {
+      setemailerror(result.response);
+    } else if (
+      result.res_code === "003" &&
+      result.response === "please fill all inputs"
+    ) {
+      setemailerror(result.response);
     }
   }
 
@@ -60,6 +82,7 @@ const Login = () => {
         onConfirm={() => setShowErrorAlert(false)}
       />
       <section className="user-form-part">
+        {loading === true ? <Loader /> : null}
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
@@ -99,16 +122,16 @@ const Login = () => {
                   <div className="user-form-divider">
                     <p>or</p>
                   </div>
-                  <form className="user-form">
+                  <form className="user-form" onSubmit={sign_up_btn}>
                     <div className="form-group">
                       <input
                         type="email"
                         className="form-control user_input_class"
-                        value={sign_up_mail}
                         placeholder="Enter your email"
                         onChange={(e) => {
-                          setSign_up_mail(e.target.value);
+                          onEmailChange(e);
                         }}
+                        required
                       />
                     </div>
                     <div className="form-group">
@@ -116,10 +139,8 @@ const Login = () => {
                         type="password"
                         className="form-control user_input_class"
                         placeholder="Enter your password"
-                        value={sign_up_password}
-                        onChange={(e) => {
-                          setSign_up_passwordl(e.target.value);
-                        }}
+                        onChange={(e) => onPasswordChange(e)}
+                        required
                       />
                     </div>
                     <div className="form-check mb-3">
@@ -128,19 +149,25 @@ const Login = () => {
                         type="checkbox"
                         value=""
                         id="check"
+                        required
                       />
-                      <label className="form-check-label" for="check">
+                      <label className="form-check-label" htmlFor="check">
                         Remember Me
                       </label>
                     </div>
+                    {emailerror === "creadintial not match" ? (
+                      <small className=" text-danger">
+                        Credentials Not Match
+                      </small>
+                    ) : null}
+                    {emailerror === "please fill all inputs" ? (
+                      <small className=" text-danger">
+                        Please fill creadintials
+                      </small>
+                    ) : null}
+
                     <div className="form-button">
-                      <button
-                        onClick={(event) => {
-                          sign_up_btn(event);
-                        }}
-                      >
-                        login
-                      </button>
+                      <button type="submit">login</button>
                       <p>
                         Forgot your password?
                         <Link to={"/user_forgate_password"}>reset here</Link>
@@ -155,11 +182,11 @@ const Login = () => {
                   <Link to={"/user_register"}>register here</Link>
                 </p>
               </div>
-              <div className="user-form-footer">
+              {/* <div className="user-form-footer">
                 <p>
                   Greeny | &COPY; Copyright by <Link to="#">Mironcoder</Link>
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

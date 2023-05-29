@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../css-js/images/logo.png";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
-import { DriverLoginFuntion, VendorLoginFuntion } from "../api/api";
+import { DriverLoginFuntion } from "../api/api";
 import { Button } from "react-bootstrap";
 
 const DriverLogin = () => {
@@ -29,7 +29,7 @@ const DriverLogin = () => {
     setSpinner("spinner");
 
     const response = await DriverLoginFuntion(emailVal, passval);
-    const { token, user_detaile } = response;
+    const { user_detaile } = response;
     // console.log("response---" + JSON.stringify(response));
 
     if (response.complete_profile === false) {

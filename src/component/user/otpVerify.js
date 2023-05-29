@@ -1,57 +1,67 @@
 import React from "react";
 import { useState } from "react";
-import Logo from "../css-js/images/logo.png";
+import Logo from "../../logo192.png";
 import { Link, useNavigate } from "react-router-dom";
 import { otp_verify_api } from "../api/api";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
-
+import Spinner from "react-bootstrap/Spinner";
 function Otp_verify() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
-  let [res_result, setRes_result] = useState("");
+
   let [ShowAlert, setShowAlert] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+  const onOtpChange = (e) => {
+    setOtp(e.target.value);
+    setErrorMsg(false);
+  };
+
   async function sign_up_btn(event) {
     let email_ = localStorage.getItem("sign_up_email");
-
+    setSpinner("spinner");
     event.preventDefault();
     let result = await otp_verify_api({ email: email_, otp: otp });
-    if (result.status === true) {
-      // console.log("ok")
-      setOtp("");
-      setRes_result(result.response);
-      setShowAlert(true);
-    } else {
-      setRes_result(result.response);
-      setShowAlert(true);
-    }
+    console.log("Result------" + JSON.stringify(result));
 
-    //    const redirect = ()=>{
-    //     navigate("/login");
-    //     }
+    if (result.response === "not matched, credential issue") {
+      setSpinner(false);
+      setErrorMsg(result.response);
+    } else if (
+      result.response === "successfully created your account" &&
+      result.status === true
+    ) {
+      setSpinner(false);
+      setShowAlert(true);
+    } else if (result.success === true || result.token) {
+      setSpinner(false);
+      localStorage.setItem("user_token", result.token);
+      navigate("/ChangePassword");
+    }
   }
+  const onCloseAlert = () => {
+    return Promise.resolve(setShowAlert(false));
+  };
   return (
     <div>
-      {" "}
-      {res_result === "successfully created your account" ? (
-        navigate("/login")
-      ) : (
-        <SweetAlert
-          show={ShowAlert}
-          title="LogIn message"
-          text={res_result}
-          onConfirm={() => {
-            setShowAlert(false);
-          }}
-          // onCancel={() => { setShowAlert(false) }}
-        />
-      )}
+      <SweetAlert
+        show={ShowAlert}
+        title="Sign Up successfully"
+        text={"Successfully created your account please login"}
+        onConfirm={() =>
+          onCloseAlert().then(() => {
+            navigate("/login");
+          })
+        }
+      />
+
       <section className="user-form-part">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
               <div className="user-form-logo">
-                <Link to="index.html">
+                <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>
@@ -86,33 +96,15 @@ function Otp_verify() {
                   <div className="user-form-divider">
                     <p>or</p>
                   </div>
-                  <form className="user-form">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter your name"
-                        style={{ display: "none" }}
-                      />
-                    </div>
-                    {/* <div className="form-group">
-                                            <input
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="Enter your email"
-                                                onChange={(e) => { setSignupmail(e.target.value) }}
-                                                value={signupmail}
-                                            />
-                                        </div> */}
+                  <form className="user-form" onSubmit={sign_up_btn}>
                     <div className="form-group">
                       <input
                         type="password"
                         className="form-control"
-                        placeholder="Enter your password"
+                        placeholder="Enter One time password"
                         onChange={(e) => {
-                          setOtp(e.target.value);
+                          onOtpChange(e);
                         }}
-                        value={otp}
                       />
                     </div>
                     {/* <div className="form-group">
@@ -134,15 +126,20 @@ function Otp_verify() {
                                                 Accept all the <Link to="#">Terms & Conditions</Link>
                                             </label>
                                         </div> */}
+                    {errorMsg === "not matched, credential issue" ? (
+                      <smail className="text-danger"> Otp not Matched</smail>
+                    ) : null}
                     <div className="form-button">
-                      <button
-                        type="submit"
-                        onClick={(event) => {
-                          sign_up_btn(event);
-                        }}
-                      >
-                        otp verify
-                      </button>
+                      {spinner === "spinner" ? (
+                        <button type="submit">
+                          {" "}
+                          <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Otp Verify</span>
+                          </Spinner>
+                        </button>
+                      ) : (
+                        <button type="submit">Otp Verify</button>
+                      )}
                     </div>
                   </form>
                 </div>
@@ -150,11 +147,6 @@ function Otp_verify() {
               <div className="user-form-remind">
                 <p>
                   Already Have An Account?<Link to={"/login"}>login here</Link>
-                </p>
-              </div>
-              <div className="user-form-footer">
-                <p>
-                  Greeny | &COPY; Copyright by <Link to="#">Mironcoder</Link>
                 </p>
               </div>
             </div>

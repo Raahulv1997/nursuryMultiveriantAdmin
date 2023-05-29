@@ -4,10 +4,7 @@ import Logo from "../css-js/images/logo.png";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import {
-  ForgetpasswordDriverUpdate,
-  getForgetpasswordUpdate,
-} from "../api/api";
+import { ForgetpasswordDriverUpdate } from "../api/api";
 const UpdateDriverForgetPassword = () => {
   const navigate = useNavigate();
   const [passval, setpassval] = useState("");

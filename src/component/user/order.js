@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import { OrderByNo } from "../api/api";
 import Header from "../common/header";
 import Footer from "../common/footer";
-
+import Loader from "../common/loader";
 const Order = () => {
+  const [loading, setLoading] = useState(false);
   const [cartqty, setCartQty] = useState(false);
   const orderIDD = localStorage.getItem("orderId");
   const [apicall, setapicall] = useState(false);
@@ -15,6 +16,7 @@ const Order = () => {
   const [productData, setProductData] = useState([]);
   useEffect(() => {
     const getOrderDetail = async () => {
+      setLoading(true);
       const response = await OrderByNo(orderIDD);
 
       const { order_detaile, order_product_detaile, user_detaile } = response;
@@ -22,6 +24,7 @@ const Order = () => {
       setOrderData(order_detaile[0]);
       setUserData(user_detaile[0]);
       setProductData(order_product_detaile);
+      setLoading(false);
     };
     getOrderDetail();
   }, [orderIDD]);
@@ -40,6 +43,7 @@ const Order = () => {
           <div className="row">
             <div className="col-lg-12">
               <div className="alert-info">
+                {loading === true ? <Loader /> : null}
                 <p>Thank you! We have recieved your order.</p>
               </div>
             </div>

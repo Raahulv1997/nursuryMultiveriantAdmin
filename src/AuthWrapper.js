@@ -5,7 +5,7 @@ const AuthWrapper = () => {
   const location = useLocation(); // current location
 
   const adminLogged = localStorage.getItem("admin_token");
-  const vendorLogged = localStorage.getItem("vendor_token");
+  const userLogged = localStorage.getItem("user_token");
   // console.log("iiii---" + adminLogged);
   //   const VendorLogged = localStorage.getItem("vendor_token");
 
@@ -18,17 +18,16 @@ const AuthWrapper = () => {
       replace
       state={{ from: location }} // <-- pass location in route state
     />
+  ) : userLogged === null ||
+    userLogged === "" ||
+    userLogged === undefined ||
+    !userLogged ? (
+    <Navigate
+      to="/login"
+      replace
+      state={{ from: location }} // <-- pass location in route state
+    />
   ) : (
-    // :
-    //  vendorLogged === null ||
-    //   vendorLogged === "" ||
-    //   vendorLogged === undefined ? (
-    //   <Navigate
-    //     to="/sellerlogin"
-    //     replace
-    //     state={{ from: location }} // <-- pass location in route state
-    //   />
-    // )
     <Outlet />
   );
 };

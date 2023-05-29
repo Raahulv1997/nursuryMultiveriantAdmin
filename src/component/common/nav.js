@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const user_token = localStorage.getItem("user_token");
+
 // console.log("toekn in nav" + user_token);
 
 const nav = () => {

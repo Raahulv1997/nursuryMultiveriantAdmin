@@ -1,5 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GrTransaction } from "react-icons/gr";
+import { RiAdminLine } from "react-icons/ri";
+import { BsShop } from "react-icons/bs";
+import { FiUser, FiLogOut } from "react-icons/fi";
+import { GiPlantRoots } from "react-icons/gi";
+
+import { MdShoppingBag } from "react-icons/md";
 
 const Sidebar = () => {
   const admin_token = localStorage.getItem("admin_token");
@@ -26,7 +33,7 @@ const Sidebar = () => {
         <ul className="banner-category-list vh-100 pt-4">
           <li className="banner-category-item">
             <Link to="/admin/Home">
-              <i className="flaticon-vegetable"></i>
+              <GiPlantRoots />
               <span>Product</span>
             </Link>
             {/* <div className="banner-category-dropdown">
@@ -105,7 +112,7 @@ const Sidebar = () => {
           </li>
           <li className="banner-category-item">
             <Link to="/admin/orderList">
-              <i className="flaticon-groceries"></i>
+              <MdShoppingBag />
               <span>Orders</span>
             </Link>
             {/* <div className="banner-category-dropdown">
@@ -167,7 +174,7 @@ const Sidebar = () => {
           </li>
           <li className="banner-category-item">
             <Link to={"/admin/userList"}>
-              <i className="flaticon-fruit"></i>
+              <FiUser />
               <span>Users</span>
             </Link>
             {/* <div className="banner-category-dropdown">
@@ -212,7 +219,7 @@ const Sidebar = () => {
           </li>
           <li className="banner-category-item">
             <Link to="/admin/vendor">
-              <i className="flaticon-dairy-products"></i>
+              <BsShop />
               <span>Vendor</span>
             </Link>
             {/* <div className="banner-category-dropdown">
@@ -240,7 +247,7 @@ const Sidebar = () => {
           </li>
           <li className="banner-category-item">
             <Link to="/admin/manageAdmin">
-              <i className="flaticon-dairy-products"></i>
+              <RiAdminLine />
               <span>ManageAdmin</span>
             </Link>
             {/* <div className="banner-category-dropdown">
@@ -267,8 +274,37 @@ const Sidebar = () => {
             </div> */}
           </li>
 
+          <li className="banner-category-item">
+            <Link to="/admin/transactionList">
+              <GrTransaction />
+              <span>Transection </span>
+            </Link>
+            {/* <div className="banner-category-dropdown">
+              <h5>dairy items</h5>
+              <div className="banner-sub-category">
+                <ul>
+                  <li>
+                    <Link to="#">Eggs</Link>
+                  </li>
+                  <li>
+                    <Link to="#">milk</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Cheese</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Butter</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Shore</Link>
+                  </li>
+                </ul>
+              </div>
+            </div> */}
+          </li>
+
           <li className="banner-category-item" style={{ cursor: "pointer" }}>
-            <i className="flaticon-dairy-products"></i>
+            <FiLogOut />
             <span onClick={OnLogoutClick}> Logout</span>
           </li>
           {/* <li className="banner-category-item">

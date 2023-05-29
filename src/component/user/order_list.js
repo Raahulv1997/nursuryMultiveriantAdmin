@@ -5,19 +5,21 @@ import { userOrder } from "../api/api";
 
 import Header from "../common/header";
 import Footer from "../common/footer";
-
+import Loader from "../common/loader";
 const Order_list = () => {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const [apicall, setapicall] = useState(false);
   const [cartqty, setCartQty] = useState(false);
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
     const fetchOrderData = async () => {
+      setLoading(true);
       const response = await userOrder(orderID);
 
       // console.log("order data--" + JSON.stringify(response.results));
       setOrderData(response.results);
+      setLoading(false);
     };
 
     fetchOrderData();
@@ -43,6 +45,7 @@ const Order_list = () => {
       >
         <div className="container">
           <h2>Order History</h2>
+          {loading === true ? <Loader /> : null}
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <Link to="/">Home</Link>

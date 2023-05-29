@@ -10,14 +10,15 @@ import DataTable from "react-data-table-component";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import { useNavigate } from "react-router-dom";
-
+import Loader from "../common/loader";
 import useValidation from "../common/useValidation";
 import { allOrder, orderAssignByAdmin, OrderStatusChange } from "../api/api";
 import Sidebar from "../common/sidebar";
+import moment from "moment";
 
 const OrderList = () => {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const [ordertable, setorderTable] = useState([]);
   const [apicall, setApicall] = useState(false);
   const [orderAssignAlert, setorderAssignAlert] = useState(false);
@@ -39,18 +40,14 @@ const OrderList = () => {
         </p>
       ),
       sortable: true,
-      width: "150px",
+      width: "100px",
       center: true,
-      style: {
-        paddingRight: "32px",
-        paddingLeft: "0px",
-      },
     },
     {
-      name: "Order Quantity",
+      name: "Order Qty",
       selector: (row) => row.total_order_product_quantity,
       sortable: true,
-      width: "150px",
+      width: "100px",
       center: true,
       style: {
         paddingRight: "32px",
@@ -62,7 +59,7 @@ const OrderList = () => {
       name: "Total amount",
       selector: (row) => row.total_amount,
       sortable: true,
-      width: "140px",
+      width: "100px",
       center: true,
       style: {
         paddingLeft: "0px",
@@ -73,7 +70,7 @@ const OrderList = () => {
       name: "Total GST",
       selector: (row) => row.total_gst,
       sortable: true,
-      width: "140px",
+      width: "100px",
       center: true,
     },
     {
@@ -96,69 +93,31 @@ const OrderList = () => {
             row.delivery_verify_code
           )}
         >
-          Order Assign for delivery admin
+          Order Assign for delivery
         </span>
       ),
-      width: "200px",
+      width: "220px",
       sortable: true,
+      style: { fontSize: 18 },
     },
     {
       name: "Order date",
-      selector: (row) => row.order_date,
+      selector: (row) => moment(row.order_date).format("DD-MM-YYYY"),
       sortable: true,
       width: "140px",
       center: true,
     },
     {
       name: "Delivery date",
-      selector: (row) => row.delivery_date,
+      selector: (row) => moment(row.delivery_date).format("DD-MM-YYYY"),
       sortable: true,
       width: "140px",
       center: true,
     },
-    {
-      name: "Status",
-      selector: (row) => (
-        <span
-          className={
-            row.status_order === "placed"
-              ? "badge bg-warning"
-              : row.status_order === "pending"
-              ? "badge bg-secondary"
-              : row.status_order === "shipped"
-              ? "badge bg-primary"
-              : row.status_order === "deliverd"
-              ? "badge bg-success"
-              : row.status_order === "packed"
-              ? "badge bg-primary"
-              : row.status_order === "cancel"
-              ? "badge bg-danger"
-              : row.status_order === "approved"
-              ? "badge bg-info"
-              : "badge bg-dark"
-          }
-        >
-          {row.status_order === "placed"
-            ? "placed"
-            : row.status_order === "deliverd"
-            ? "deliverd"
-            : row.status_order === "shipped"
-            ? "shipped"
-            : row.status_order === "packed"
-            ? "packed"
-            : row.status_order === "cancel"
-            ? "cancel"
-            : row.status_order === "approved"
-            ? "approved"
-            : row.status_order === "pending"
-            ? "pending"
-            : "return"}
-        </span>
-      ),
-      sortable: true,
-    },
+
     {
       name: "Change Status",
+      width: "140px",
       selector: (row) => (
         <Form.Select
           aria-label="Search by delivery"
@@ -234,17 +193,21 @@ const OrderList = () => {
   }, [apicall]);
 
   const OrderData = async () => {
+    setLoading(true);
     const response = await allOrder();
 
     setorderTable(response.results);
+    setLoading(false);
   };
   //search submit button
 
   const submitHandler = async () => {
+    setLoading(true);
     if (validate()) {
       const response = await allOrder(state.order_id);
 
       setorderTable(response.results);
+      setLoading(false);
     }
   };
 
@@ -276,6 +239,7 @@ const OrderList = () => {
             >
               <div className="">
                 <div className="page_main_contant">
+                  {loading === true ? <Loader /> : null}
                   <h4>Order List</h4>
                   <div className=" mt-3 p-3">
                     <div className="row pb-3">

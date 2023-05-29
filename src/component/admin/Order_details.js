@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "./Order_details.css";
 import moment from "moment";
-
+import Loader from "../common/loader";
 import { OrderByNo } from "../api/api";
 import Sidebar from "../common/sidebar";
 
 const OrderDetail = () => {
   const orderIDD = localStorage.getItem("orderId");
-
+  const [loading, setLoading] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [productData, setProductData] = useState([]);
   useEffect(() => {
+    const getOrderDetail = async () => {
+      setLoading(true);
+      const response = await OrderByNo(orderIDD);
+
+      const { order_detaile, order_product_detaile, user_detaile } = response;
+      // console.log("user  data----" + JSON.stringify(user_detaile));
+      setOrderData(order_detaile[0]);
+      setUserData(user_detaile[0]);
+      setProductData(order_product_detaile);
+      setLoading(false);
+      // console.log("product  data----" + JSON.stringify(order_product_detaile));
+    };
     getOrderDetail();
-  }, []);
-
-  const getOrderDetail = async () => {
-    const response = await OrderByNo(orderIDD);
-
-    const { order_detaile, order_product_detaile, user_detaile } = response;
-    // console.log("user  data----" + JSON.stringify(user_detaile));
-    setOrderData(order_detaile[0]);
-    setUserData(user_detaile[0]);
-    setProductData(order_product_detaile);
-    // console.log("product  data----" + JSON.stringify(order_product_detaile));
-  };
+  }, [orderIDD]);
 
   return (
     <>
@@ -32,6 +33,7 @@ const OrderDetail = () => {
         <div className="col-lg-3 col-md-3 admin_sidebar">
           <Sidebar />
         </div>
+        {loading === true ? <Loader /> : null}
         <div className="col-lg-9 col-md-9 admin_content_bar">
           <div className="main_content_div">
             <div className="container">

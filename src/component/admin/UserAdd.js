@@ -4,14 +4,14 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 
 import DataTable from "react-data-table-component";
-
+import Loader from "../common/loader";
 import { fetchUserData } from "../api/api";
 import useValidation from "../common/useValidation";
 import Sidebar from "../common/sidebar";
 // import useValidation from "../common/useValidation";
 const UserAdd = () => {
   // const token = "admin_master_token=we2code_123456";
-
+  const [loading, setLoading] = useState(false);
   const [userTable, setuserTable] = useState([]);
   const [apicall, setApicall] = useState(false);
 
@@ -25,7 +25,7 @@ const UserAdd = () => {
       name: "First name",
       selector: (row) => row.first_name,
       sortable: true,
-      width: "150px",
+      width: "120px",
       center: true,
       style: {
         paddingRight: "32px",
@@ -36,7 +36,7 @@ const UserAdd = () => {
       name: "Last name",
       selector: (row) => row.last_name,
       sortable: true,
-      width: "150px",
+      width: "120px",
       center: true,
       style: {
         paddingRight: "32px",
@@ -48,7 +48,7 @@ const UserAdd = () => {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
-      width: "140px",
+      width: "230px",
       center: true,
       style: {
         paddingLeft: "0px",
@@ -59,21 +59,21 @@ const UserAdd = () => {
       name: "Phone no",
       selector: (row) => row.phone_no,
       sortable: true,
-      width: "140px",
+      width: "120px",
       center: true,
     },
     {
       name: "PinCode",
       selector: (row) => row.pincode,
       sortable: true,
-      width: "140px",
+      width: "120px",
       center: true,
     },
     {
       name: "City",
       selector: (row) => row.city,
       sortable: true,
-      width: "140px",
+      width: "120px",
       center: true,
     },
     {
@@ -100,8 +100,10 @@ const UserAdd = () => {
   }, [apicall]);
   const userID = "";
   const getuser = async () => {
+    setLoading(true);
     const response = await fetchUserData(state.search, userID);
     // console.log("user data--" + JSON.stringify(response));
+    setLoading(false);
     setApicall(false);
     setuserTable(response);
   };
@@ -126,8 +128,10 @@ const UserAdd = () => {
   const submitHandler = async () => {
     if (validate()) {
       const userID = "";
+      setLoading(true);
       const response = await fetchUserData(state.search, userID);
       // console.log("user-----" + JSON.stringify(response));
+      setLoading(false);
       setApicall(false);
       setuserTable(response);
     }
@@ -136,7 +140,7 @@ const UserAdd = () => {
   //search submit reset button
   const OnReset = () => {
     setState({ search: "" });
-    getuser();
+    // getuser();
     setApicall(true);
   };
 
@@ -153,6 +157,7 @@ const UserAdd = () => {
               id="dashboard-body"
             >
               <div className="">
+                {loading === true ? <Loader /> : null}
                 <div className="page_main_contant">
                   <h4>User</h4>
                   <div className=" mt-3 p-3">

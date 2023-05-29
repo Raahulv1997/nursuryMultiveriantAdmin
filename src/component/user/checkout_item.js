@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const CheckoutItem = (cdata) => {
   // console.log("id-----" + JSON.stringify(id));
+
   const [cartData, setCartData] = useState(cdata.cdata);
   const [totalqty, settotalqty] = useState(false);
   const [Qty, setQty] = useState(cartData.cart_product_quantity);

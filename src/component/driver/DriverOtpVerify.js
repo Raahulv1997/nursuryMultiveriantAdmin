@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { DriverOtpVerifyFuntion, VendorOtpVerifyFuntion } from "../api/api";
+import { DriverOtpVerifyFuntion } from "../api/api";
 import Logo from "../css-js/images/logo.png";
 import Spinner from "react-bootstrap/Spinner";
 const DriverOtpVerify = () => {

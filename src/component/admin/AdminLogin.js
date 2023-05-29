@@ -1,66 +1,59 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AdminLoginData } from "../api/api";
-import useValidation from "../common/useValidation";
-import Logo from "../css-js/images/logo.png";
+
+import Logo from "../../logo192.png";
+import Loader from "../common/loader";
 const AdminLogin = () => {
   const navigate = useNavigate();
+
+  const [emailVal, setemailVal] = useState("");
+  const [passval, setpassval] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const initialFormState = {
-    email: "",
-    password: "",
+
+  const onEmailChange = (e) => {
+    setemailVal(e.target.value);
+    setErrMsg(false);
+  };
+
+  const onPasswordChange = (e) => {
+    setpassval(e.target.value);
+    setErrMsg(false);
   };
 
   // validation fucntion------
-  const validators = {
-    email: [
-      (value) =>
-        value === "" || value.trim() === ""
-          ? "Email address is required"
-          : !/^\S+@\S+\.\S+$/.test(value)
-          ? "Invalid email address"
-          : null,
-    ],
-    password: [
-      (value) =>
-        value === "" || value.trim() === ""
-          ? "Password is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-  };
-  const { state, onInputChange, errors, validate } = useValidation(
-    initialFormState,
-    validators
-  );
 
   const OnLoginClick = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    if (validate()) {
-      const response = await AdminLoginData(state.email, state.password);
-      // console.log("resultt--" + JSON.stringify(response));
-      localStorage.removeItem("vendor_token");
-      if (response === "password not matched") {
-        setErrMsg("staus is false");
-      } else if (response === "email not found") {
-        setErrMsg("email not found");
-      } else if (response[1].true === true) {
-        localStorage.setItem("admin_token", response[1].token);
-        navigate("/admin/home");
-      }
+    const response = await AdminLoginData(emailVal, passval);
+    // console.log("resultt--" + JSON.stringify(response));
+
+    localStorage.removeItem("vendor_token");
+    if (response === "password not matched") {
+      setErrMsg("staus is false");
+      setLoading(false);
+    } else if (response === "email not found") {
+      setErrMsg("email not found");
+      setLoading(false);
+    } else if (response[1].true === true) {
+      setLoading(false);
+      navigate("/admin/home");
+      localStorage.setItem("admin_token", response[1].token);
     }
   };
 
   return (
     <div>
+      {loading === true ? <Loader /> : null}
       <section className="user-form-part">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
               <div className="user-form-logo">
-                <Link to="index.html">
+                <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>
@@ -95,25 +88,18 @@ const AdminLogin = () => {
                   <div className="user-form-divider">
                     <p>or</p>
                   </div>
-                  <form className="user-form">
+                  <form className="user-form" onSubmit={OnLoginClick}>
                     <div className="form-group">
                       <input
                         type="email"
                         className="form-control user_input_class"
-                        value={state.email}
                         name="email"
                         placeholder="Enter your email"
-                        onChange={onInputChange}
+                        onChange={(e) => {
+                          onEmailChange(e);
+                        }}
+                        required
                       />
-                      {errors.email
-                        ? (errors.email || []).map((error, i) => {
-                            return (
-                              <small className="text-danger" key={i}>
-                                {error}
-                              </small>
-                            );
-                          })
-                        : null}
                     </div>
                     <div className="form-group">
                       <input
@@ -121,18 +107,9 @@ const AdminLogin = () => {
                         className="form-control user_input_class"
                         placeholder="Enter your password"
                         name="password"
-                        value={state.password}
-                        onChange={onInputChange}
+                        onChange={(e) => onPasswordChange(e)}
+                        required
                       />
-                      {errors.password
-                        ? (errors.password || []).map((error, i) => {
-                            return (
-                              <small className="text-danger" key={i}>
-                                {error}
-                              </small>
-                            );
-                          })
-                        : null}
                     </div>
                     <div className="form-check mb-3">
                       <input
@@ -140,8 +117,9 @@ const AdminLogin = () => {
                         type="checkbox"
                         value=""
                         id="check"
+                        required
                       />
-                      <label className="form-check-label" for="check">
+                      <label className="form-check-label" htmlFor="check">
                         Remember Me
                       </label>
                     </div>
@@ -156,7 +134,7 @@ const AdminLogin = () => {
                     ) : null}
 
                     <div className="form-button">
-                      <button onClick={OnLoginClick}>login</button>
+                      <button type="submit">login</button>
 
                       <p>
                         Forgot your password?
@@ -166,17 +144,12 @@ const AdminLogin = () => {
                   </form>
                 </div>
               </div>
-              <div className="user-form-remind">
+              {/* <div className="user-form-remind">
                 <p>
                   Don't have any account?
                   <Link to={"/"}>register here</Link>
                 </p>
-              </div>
-              <div className="user-form-footer">
-                <p>
-                  Greeny | &COPY; Copyright by <Link to="#">Mironcoder</Link>
-                </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -139,6 +139,16 @@ h6 {
   font-size: var(--h6size);
   line-height: var(--h6height);
 }
+.table_body .dILRuI {
+  background-color: rgb(230 230 230) !important;
+}
+.table_body .fjMIrw,
+.table_body .bkmOJE {
+  cursor: inherit !important;
+}
+.table_body .gChBLf {
+  justify-content: start;
+}
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
@@ -3323,6 +3333,14 @@ tbody tr td:last-child {
   .blog-content {
     padding: 15px 8px 0px;
   }
+  .brand-media img {
+    width: 120px;
+    height: 120px;
+  }
+  .brand-media::before {
+    width: 135px;
+    height: 135px;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -3919,6 +3937,9 @@ tbody tr td:last-child {
   font-size: 15px;
   text-transform: capitalize;
 }
+.header_page .shop_filter_show {
+  display: none;
+}
 
 @media (max-width: 575px) {
   .team-card {
@@ -4335,6 +4356,9 @@ tbody tr td:last-child {
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+  }
+  .screen_logo {
+    display: none;
   }
 
   .header-media-group {
@@ -5379,7 +5403,12 @@ tbody tr td:last-child {
 .mobile-menu button:hover span {
   color: var(--primary);
 }
-
+.mobile-menu a:hover svg,
+.mobile-menu button:hover svg {
+  color: var(--primary);
+}
+.mobile-menu a svg,
+.mobile-menu button svg,
 .mobile-menu a i,
 .mobile-menu button i {
   font-size: 15px;
@@ -6514,6 +6543,9 @@ tbody tr td:last-child {
     font-size: 16px;
     line-height: 40px;
   }
+  .shop_filter_show .shop-widget-btn {
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -6537,8 +6569,40 @@ tbody tr td:last-child {
   .blog-widget {
     margin-left: 0px;
   }
-}
+  .shop_filter {
+    position: absolute;
+    right: 0px !important;
+    top: 130px;
+    z-index: 9;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+  }
+  .shop_filter_show {
+    top: 130px;
+    background-color: #fff;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+    z-index: 9;
+  }
 
+  .shop_filter_img {
+    display: none;
+  }
+  .shop_filter_show {
+    display: block;
+    right: -150%;
+    position: absolute;
+  }
+  .header_page .shop_filter_show {
+    display: block;
+  }
+}
 .shop-filter {
   padding: 20px 30px;
   border-radius: 8px;

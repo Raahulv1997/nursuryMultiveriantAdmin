@@ -14,7 +14,7 @@ const CartItem = ({
   product_id,
   cart_product_quantity,
   price,
-  incrementDecrementCount,
+  // incrementDecrementCount,
   product_stock_quantity,
 
   setcartapicall,
@@ -63,7 +63,6 @@ const CartItem = ({
           setcartItemapicall(true);
           setcartapicall(true);
         } else {
-          alert(result.success);
         }
       } else {
         const result = updateQty(product_id, cart_product_quantity);

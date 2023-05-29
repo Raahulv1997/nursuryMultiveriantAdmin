@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../../logo192.png";
 import Profile from "../css-js/images/user.png";
@@ -11,8 +11,11 @@ import "sweetalert/dist/sweetalert.css";
 import { MdAccountCircle } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiOutlineLogin } from "react-icons/hi";
+import { AiTwotoneShop } from "react-icons/ai";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import { fetchcartdata } from "../api/api";
+import { FiFilter } from "react-icons/fi";
+import Filters1 from "../user/Filters1";
 
 const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
   let path = window.location.pathname;
@@ -23,6 +26,7 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
   const [searchbox, setSearchBox] = useState("");
 
   const [showcart, setShowcart] = useState(false);
+  const [showfilter, setShowfilter] = useState(false);
   const [count_cart, SetCount_cart] = useState("");
 
   const navigate = useNavigate();
@@ -82,8 +86,22 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
     setShowAlert(false);
   };
 
+  const onFilterClick = () => {
+    setShowfilter(true);
+
+    if (showfilter === true) {
+      setShowfilter(false);
+    }
+  };
+
+  const handleClick = (num, str) => {
+    console.log("num--" + num);
+    console.log("str--" + str);
+    setShowfilter(false);
+  };
+
   return (
-    <Fragment>
+    <div className="header_page">
       <SweetAlert
         show={ShowAlert}
         title="Logout Message"
@@ -100,7 +118,7 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
       <header className="header-part">
         <div className="container">
           <div className="header-content">
-            <div className="header-media-group">
+            <div className="header-media-group ">
               <button className="header-user">
                 <img src={Profile} alt="user" />
               </button>
@@ -110,9 +128,18 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
               <button className="header-src">
                 <i className="fas fa-search"></i>
               </button>
+
+              <button className="header-src" onClick={onFilterClick}>
+                <FiFilter />
+              </button>
             </div>
             <Link to="/">
-              <img src={Logo} alt="logo" height={"100px"} />
+              <img
+                className="screen_logo"
+                src={Logo}
+                alt="logo"
+                height={"100px"}
+              />
             </Link>
             {/* <img src={Profile} alt="user" /> */}
 
@@ -236,10 +263,15 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
           <i className="fas fa-home"></i>
           <span>Home</span>
         </Link>
-        <button className="cate-btn" title="Category List">
+        <Link to={"/shop"} className="cate-btn" title="Category List">
+          <AiTwotoneShop />
+          <span>Shop</span>
+        </Link>
+        {/* <button className="cate-btn" title="Category List">
           <i className="fas fa-list"></i>
           <span>category</span>
-        </button>
+        </button> */}
+
         <button className="cart-btn" title="Cartlist">
           <i className="">
             <RiShoppingBasket2Line />
@@ -247,6 +279,10 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
           <span>cartlist</span>
           <sup>{count_cart}</sup>
         </button>
+        <Link to={"/profile"} className="cate-btn" title="Category List">
+          <MdAccountCircle />
+          <span>Account</span>
+        </Link>
         {/* <Link to="">
           <i className="fas fa-heart"></i>
           <span>wishlist</span>
@@ -266,7 +302,12 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
         cartapicall={productapicall}
         setcartapicall={setproductapicall}
       />
-    </Fragment>
+      <Filters1
+        showFilterProp={showfilter}
+        setFilterProps={setShowfilter}
+        handleClick={handleClick}
+      />
+    </div>
   );
 };
 

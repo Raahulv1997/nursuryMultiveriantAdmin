@@ -13,6 +13,7 @@ import brandJson from "./json/brandJson";
 // import statusJson from "./json/statusJson";
 import unitJson from "./json/unitJson";
 import SweetAlert from "sweetalert-react";
+
 import "sweetalert/dist/sweetalert.css";
 import {
   AddProductData,
@@ -31,6 +32,7 @@ import useValidation from "../common/useValidation";
 
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../common/sidebar";
+import Loader from "../common/loader";
 let encoded;
 let ImgObj = [];
 
@@ -56,7 +58,7 @@ const AddProduct = () => {
     category: "",
     description: "",
   };
-
+  const [loading, setLoading] = useState(false);
   const [productID, setProductID] = useState("");
   const [vendorID, setVendorID] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -84,6 +86,7 @@ const AddProduct = () => {
     brand: "",
     seo_tag: "",
     vendor_id: "",
+    product_stock_quantity: "",
   });
   const [Id, setId] = useState("");
 
@@ -118,20 +121,21 @@ const AddProduct = () => {
     {
       name: "Product Name",
 
-      selector: (row) => row.name,
+      selector: (row) => (
+        <span>
+          <b>Name:</b>
+          {row.name.charAt(0).toUpperCase() + row.name.slice(1)}
+          <br />
+          <b>Brand : </b>{" "}
+          {row.brand.charAt(0).toUpperCase() + row.brand.slice(1)}
+          <br />
+          <b>Category : </b>{" "}
+          {row.category.charAt(0).toUpperCase() + row.category.slice(1)}
+          <br />
+        </span>
+      ),
       sortable: true,
-      width: "150px",
-      center: true,
-      style: {
-        paddingRight: "32px",
-        paddingLeft: "0px",
-      },
-    },
-    {
-      name: "SEO tag",
-      selector: (row) => row.seo_tag,
-      sortable: true,
-      width: "150px",
+      width: "180px",
       center: true,
       style: {
         paddingRight: "32px",
@@ -141,24 +145,21 @@ const AddProduct = () => {
 
     {
       name: "price ",
-      selector: (row) => row.price,
+      selector: (row) => (
+        <span>
+          <b>Price :</b> {row.price} <br />
+          <b>MRP : </b> {row.mrp}
+          <br />
+        </span>
+      ),
       sortable: true,
-      width: "140px",
+      width: "100px",
       center: true,
       style: {
         paddingLeft: "0px",
       },
     },
-    {
-      name: "MRP ",
-      selector: (row) => row.mrp,
-      sortable: true,
-      width: "140px",
-      center: true,
-      style: {
-        paddingLeft: "0px",
-      },
-    },
+
     {
       name: "Tax",
       selector: (row) => (
@@ -169,62 +170,49 @@ const AddProduct = () => {
         </span>
       ),
       sortable: true,
-      width: "140px",
+      width: "100px",
+      center: true,
+    },
+
+    {
+      name: "unit",
+      selector: (row) => (
+        <span>
+          <b>Unit Qty :</b> {row.quantity} <br />
+          <b>Unit : </b> {row.unit}
+          <br />
+        </span>
+      ),
+      sortable: true,
+      width: "120px",
       center: true,
     },
     {
-      name: "Brand",
-      selector: (row) => row.brand,
+      name: "Stock Qty",
+      selector: (row) => (
+        <span
+          className={
+            row.product_stock_quantity === 0 ? "badge bg-danger" : null
+          }
+        >
+          {row.product_stock_quantity === 0
+            ? "Out of Stock"
+            : row.product_stock_quantity}
+        </span>
+      ),
       sortable: true,
-      width: "140px",
+      width: "120px",
       center: true,
     },
-    {
-      name: "Quantity",
-      selector: (row) => row.quantity,
-      sortable: true,
-      width: "140px",
-      center: true,
-    },
-    {
-      name: "Category",
-      selector: (row) => row.category,
-      sortable: true,
-      width: "140px",
-      center: true,
-    },
+
     {
       name: "Rating",
       selector: (row) => row.rating,
       sortable: true,
-      width: "140px",
+      width: "100px",
       center: true,
     },
-    {
-      name: "Status",
-      selector: (row) => (
-        <span
-          className={
-            row.status === "pending"
-              ? "badge bg-secondary"
-              : row.status === "draft"
-              ? "badge bg-primary"
-              : row.status === "approved"
-              ? "badge bg-info"
-              : "badge bg-dark"
-          }
-        >
-          {row.status === "pending"
-            ? "pending"
-            : row.status === "draft"
-            ? "draft"
-            : row.status === "approved"
-            ? "approved"
-            : "return"}
-        </span>
-      ),
-      sortable: true,
-    },
+
     {
       name: "Change Status",
       selector: (row) => (
@@ -246,29 +234,12 @@ const AddProduct = () => {
         </Form.Select>
       ),
       sortable: true,
-      width: "190px",
+      width: "140px",
     },
-    {
-      name: "Add Images",
-      width: "150px",
-      selector: (row) => (
-        <Button
-          size="xs"
-          onClick={handlevarietyShow.bind(
-            this,
-            row.id,
-            row.vendor_id,
-            row.description
-          )}
-        >
-          Add Images
-        </Button>
-      ),
-      sortable: true,
-    },
+
     {
       name: "Action",
-      width: "110px",
+      width: "360px",
       style: {
         paddingRight: "12px",
         paddingLeft: "0px",
@@ -276,14 +247,31 @@ const AddProduct = () => {
       center: true,
       selector: (row) => (
         <div className={"actioncolimn"}>
-          <BiEdit
-            className=" p-0  mr-1  editiconn text-secondary"
+          <Button
+            size="xs"
+            onClick={handlevarietyShow.bind(
+              this,
+              row.id,
+              row.vendor_id,
+              row.description
+            )}
+          >
+            Add Images
+          </Button>
+          <Button
+            className="btn-warning mx-2"
             onClick={handleEditShow.bind(this, row.id)}
-          />
-          <BsTrash
-            className=" p-0 m-0 editiconn text-danger"
+          >
+            {" "}
+            <BiEdit />
+          </Button>
+          <button
+            type="button"
+            class="btn btn-danger"
             onClick={handleAlert.bind(this, row.id)}
-          />
+          >
+            <BsTrash />
+          </button>
         </div>
       ),
     },
@@ -356,6 +344,7 @@ const AddProduct = () => {
 
   //  all product data search function
   const fetchProductData = async () => {
+    setLoading(true);
     const data = await AllproductData(
       searchdata.id,
       searchdata.search,
@@ -365,12 +354,14 @@ const AddProduct = () => {
       searchdata.rating,
       searchdata.brand,
       searchdata.seo_tag,
-      searchdata.vendor_id
+      searchdata.vendor_id,
+      searchdata.product_stock_quantity
     );
     setApicall(false);
     setProductTable(data.results);
+    setLoading(false);
 
-    // console.log("all-product-" + JSON.stringify(data.results));
+    console.log("all-product-" + JSON.stringify(data.results));
   };
 
   //product data search data useEffect---
@@ -487,8 +478,9 @@ const AddProduct = () => {
       brand: "",
       seo_tag: "",
       vendor_id: "",
+      product_stock_quantity: "",
     });
-    // fetchProductData();
+    fetchProductData();
     setApicall(true);
   };
 
@@ -514,6 +506,7 @@ const AddProduct = () => {
 
   // product edit show
   const handleEditShow = async (id) => {
+    setLoading(true);
     const response = await AllproductData(
       id,
       searchdata.search,
@@ -523,11 +516,13 @@ const AddProduct = () => {
       searchdata.rating,
       searchdata.brand,
       searchdata.seo_tag,
-      searchdata.vendor_id
+      searchdata.vendor_id,
+      searchdata.product_stock_quantity
     );
-
+    console.log("data---" + JSON.stringify(response.results[0]));
     setState(response.results[0]);
     setmodalshow(true);
+    setLoading(false);
   };
 
   const ModelCloseFunction = () => {
@@ -561,6 +556,9 @@ const AddProduct = () => {
     setShowDeleteAlert(false);
   };
 
+  const closeDeletrAlert = () => {
+    setShowDeleteAlert(false);
+  };
   //delete product alert---
   const handleAlert = (id) => {
     setShowDeleteAlert(true);
@@ -586,16 +584,16 @@ const AddProduct = () => {
 
   //product status change function----
   const onStatusChange = async (e, id) => {
+    // setLoading(true);
     await UpdateProductStatus(e.target.value, id);
     // console.log("respo--" + response);
     fetchProductData();
     setApicall(true);
   };
 
-  const handleDocsClose = (e) => {
-    e.preventDefault();
+  const handleDocsClose = () => {
     setDocsShow(false);
-    setApicall(true);
+    // setApicall(true);
   };
 
   // IMAGE UPLOAD SECTION
@@ -649,6 +647,7 @@ const AddProduct = () => {
         // console.log("iimg add" + JSON.stringify(response));
         ImgObj = [];
         onImgView(product_Id);
+
         setcustomValidated("");
       } else {
         setcustomValidated("imgformat");
@@ -690,6 +689,7 @@ const AddProduct = () => {
               className="dashboard-main-container mt-df25 mt-lg-31"
               id="dashboard-body"
             >
+              {loading === true ? <Loader /> : null}
               <div className="">
                 <div className="page_main_contant">
                   <h4>Product</h4>
@@ -708,16 +708,18 @@ const AddProduct = () => {
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
-                          <Form.Control
-                            type="text"
-                            placeholder="Search by SEO Tag"
-                            name="seo_tag"
+                          <Form.Select
+                            aria-label="Search by delivery"
+                            size="sm"
                             onChange={searchValueHandler}
-                            value={searchdata.seo_tag}
-                          />
+                            name="product_stock_quantity"
+                            value={searchdata.product_stock_quantity}
+                          >
+                            <option value="">Search by Stock</option>
+                            <option value="0">Out of stock</option>
+                          </Form.Select>
                         </Form.Group>
                       </div>
-
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
@@ -1332,13 +1334,7 @@ const AddProduct = () => {
 
       {/* Add images model */}
 
-      <Modal
-        size="lg"
-        show={docsshow}
-        onHide={(e) => {
-          handleDocsClose(e);
-        }}
-      >
+      <Modal size="lg" show={docsshow} onHide={handleDocsClose}>
         <Form ref={formRef}>
           <Modal.Header>
             <Modal.Title>Add Images</Modal.Title>
@@ -1447,12 +1443,14 @@ const AddProduct = () => {
             </Table>
           </Modal.Body>
           <Modal.Footer>
-            <button
-              className="button main_outline_button"
-              onClick={(e) => handleDocsClose(e)}
+            <Button
+              variant="outline-danger"
+              className="addcategoryicon"
+              // type="submit"
+              onClick={handleDocsClose}
             >
-              Done
-            </button>
+              Close
+            </Button>
           </Modal.Footer>
         </Form>
       </Modal>
@@ -1481,7 +1479,7 @@ const AddProduct = () => {
         text="Are you Sure you want to delete"
         onConfirm={deleteProductAlert}
         showCancelButton={true}
-        onCancel={closeProductAlert}
+        onCancel={closeDeletrAlert}
       />
     </div>
   );

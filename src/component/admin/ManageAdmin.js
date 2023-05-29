@@ -12,7 +12,7 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 
 import useValidation from "../common/useValidation";
-
+import Loader from "../common/loader";
 import Sidebar from "../common/sidebar";
 import {
   getAdminList,
@@ -30,6 +30,7 @@ const ManageAdmin = () => {
     admin_type: "",
     admin_password: "",
   };
+  const [loading, setLoading] = useState(false);
   const [AdminAssignAlert, setAdminAssignAlert] = useState(false);
   const [apicall, setapicall] = useState(false);
 
@@ -117,8 +118,8 @@ const ManageAdmin = () => {
       center: true,
       selector: (row) => (
         <div className={"actioncolimn"}>
-          <BiEdit
-            className=" p-0  mr-1  editiconn text-secondary"
+          <Button
+            className="btn-warning"
             onClick={handleEditShow.bind(
               this,
               row.id,
@@ -128,7 +129,11 @@ const ManageAdmin = () => {
               row.admin_type,
               row.admin_password
             )}
-          />
+          >
+            {" "}
+            <BiEdit />
+          </Button>
+
           {/* <BsTrash
             className=" p-0 m-0 editiconn text-danger"
             onClick={handleAlert.bind(this, row.id)}
@@ -198,11 +203,13 @@ const ManageAdmin = () => {
 
   //search submit button
   const submitHandler = async () => {
+    setLoading(true);
     const response = await getAdminfilter(
       searchdata.admin_name,
       searchdata.admin_type
     );
     setAdminList(response);
+    setLoading(false);
   };
 
   // reset button
@@ -222,9 +229,11 @@ const ManageAdmin = () => {
 
   // get all Admin list funtion-------------
   const getAllAdminList = async () => {
+    setLoading(true);
     const response = await getAdminList();
 
     setAdminList(response);
+    setLoading(false);
   };
 
   // add Admin submit button---------------
@@ -329,6 +338,7 @@ const ManageAdmin = () => {
             >
               <div className="">
                 <div className="page_main_contant">
+                  {loading === true ? <Loader /> : null}
                   <h4> Admin</h4>
                   <div className=" mt-3 p-3">
                     <div className="row pb-3">

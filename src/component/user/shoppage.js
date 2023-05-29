@@ -7,8 +7,9 @@ import Filters1 from "./Filters1";
 import ProductBox from "./productBox";
 import Header from "../common/header";
 import Footer from "../common/footer";
-
+import Loader from "../common/loader";
 const ShopPage = () => {
+  const [loading, setLoading] = useState(false);
   const [cartqty, setCartQty] = useState(false);
   const [recordCount, setrecordCount] = useState("");
   const [ratingg, setRatingg] = useState("");
@@ -121,6 +122,7 @@ const ShopPage = () => {
   }, [searchbox, searchparams, fromPrice, toPrice]);
 
   const fetchProductData = async () => {
+    setLoading(true);
     const data = await allproduct(
       searchbox,
       fromPrice,
@@ -140,6 +142,7 @@ const ShopPage = () => {
     if (data.error === "send only vendor, user, admin token") {
       setProductData([]);
     } else {
+      setLoading(false);
       const { pagination } = data;
       setrecordCount(pagination.count_rows);
 
@@ -217,17 +220,11 @@ const ShopPage = () => {
   const handleCallback = (childData) => {
     setCartQty(childData);
   };
-  console.log("-----" + JSON.stringify(productData));
-  console.log(typeof productData);
-  if (productData == "") {
-    console.log(true);
-  } else {
-    console.log(false);
-  }
 
   return (
     <div>
       <Header
+        className="shop_header"
         cartqty={cartqty}
         setCartQty={setCartQty}
         productapicall={apicall}
@@ -238,6 +235,7 @@ const ShopPage = () => {
         //   style="background: url(images/single-banner.jpg) no-repeat center"
       >
         <div className="container">
+          {loading === true ? <Loader /> : null}
           <h2>Shop</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
@@ -256,7 +254,7 @@ const ShopPage = () => {
             <div className="col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
-                  {productData == "" ? null : (
+                  {productData.length === 0 ? null : (
                     <div className="top-filter">
                       <div className="filter-short">
                         <label className="filter-label">Show :</label>
@@ -303,7 +301,7 @@ const ShopPage = () => {
                 </div>
               </div>
               <div className="row">
-                {productData != "" ? (
+                {productData.length !== 0 ? (
                   productData.map((product, i) => {
                     return (
                       <>
@@ -338,7 +336,7 @@ const ShopPage = () => {
                   <h1 style={{ textAlign: "center" }}>No record Found</h1>
                 )}
               </div>
-              {productData != "" ? (
+              {productData.length !== 0 ? (
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="bottom-paginate">
@@ -357,7 +355,7 @@ const ShopPage = () => {
                               <li className="page-item" key={i}>
                                 <Link
                                   className={`page-link ${
-                                    currentPage == item
+                                    currentPage === item
                                       ? "active "
                                       : "text-success"
                                   }`}

@@ -14,6 +14,7 @@ import {
   VendorDetailsById,
   VendorListFunction,
 } from "../api/api";
+import Loader from "../common/loader";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import DataTable from "react-data-table-component";
@@ -31,6 +32,7 @@ const Vendor = () => {
     availability: "",
     image: "",
   };
+  const [loading, setLoading] = useState(false);
   const [Id, setId] = useState("");
   const [searchdata, setSearchData] = useState({
     searchName: "",
@@ -146,22 +148,19 @@ const Vendor = () => {
     },
 
     {
-      name: "Owner Name",
+      name: "Name",
 
-      selector: (row) => row.owner_name,
+      selector: (row) => (
+        <span>
+          <b>Owner Name:</b>
+          {row.owner_name}
+          <br />
+          <b>Shop Name:</b>
+          {row.shop_name}
+        </span>
+      ),
       sortable: true,
-      width: "150px",
-      center: true,
-      style: {
-        paddingRight: "32px",
-        paddingLeft: "0px",
-      },
-    },
-    {
-      name: "Shop Name",
-      selector: (row) => row.shop_name,
-      sortable: true,
-      width: "150px",
+      width: "200px",
       center: true,
       style: {
         paddingRight: "32px",
@@ -173,7 +172,7 @@ const Vendor = () => {
       name: "Email ",
       selector: (row) => row.email,
       sortable: true,
-      width: "140px",
+      width: "180px",
       center: true,
       style: {
         paddingLeft: "0px",
@@ -206,35 +205,6 @@ const Vendor = () => {
     },
 
     {
-      name: "Status",
-      selector: (row) => (
-        <span
-          className={
-            row.status === "pending"
-              ? "badge bg-secondary"
-              : row.status === "active"
-              ? "badge bg-primary"
-              : row.status === "approved"
-              ? "badge bg-success"
-              : row.status === "block"
-              ? "badge bg-danger"
-              : "badge bg-dark"
-          }
-        >
-          {row.status === "pending"
-            ? "pending"
-            : row.status === "active"
-            ? "Active"
-            : row.status === "block"
-            ? "Block"
-            : row.status === "approved"
-            ? "Approved"
-            : "return"}
-        </span>
-      ),
-      sortable: true,
-    },
-    {
       name: "Change Status",
       selector: (row) => (
         <Form.Select
@@ -259,7 +229,7 @@ const Vendor = () => {
 
     {
       name: "Action",
-      width: "110px",
+      width: "130px",
       style: {
         paddingRight: "12px",
         paddingLeft: "0px",
@@ -267,14 +237,19 @@ const Vendor = () => {
       center: true,
       selector: (row) => (
         <div className={"actioncolimn"}>
-          <BiEdit
-            className=" p-0  mr-1  editiconn text-secondary"
+          <Button
             onClick={handleEditShow.bind(this, row.vendor_id)}
-          />
-          <BsTrash
-            className=" p-0 m-0 editiconn text-danger"
+            className="btn-warning"
+          >
+            <BiEdit />
+          </Button>
+          <Button
             onClick={handleAlert.bind(this, row.vendor_id)}
-          />
+            className="btn-danger mx-2"
+          >
+            {" "}
+            <BsTrash />
+          </Button>
         </div>
       ),
     },
@@ -293,11 +268,13 @@ const Vendor = () => {
   }, [apicall]);
 
   const VendordataList = async () => {
+    setLoading(true);
     const response = await VendorListFunction(
       searchdata.searchName,
       searchdata.searchShopName
     );
     setVendorListData(response);
+    setLoading(false);
     setapicall(false);
     // setCustomValidation(false);
     // console.log("vendor data--" + JSON.stringify(response));
@@ -339,9 +316,11 @@ const Vendor = () => {
     setapicall(true);
   };
   const handleEditShow = async (id) => {
+    setLoading(true);
     const response = await VendorDetailsById(id);
+    setLoading(false);
     setId(id);
-    // console.log("vendor data---------" + JSON.stringify(response));
+
     setState(response[0]);
     setmodalshow(true);
   };
@@ -381,6 +360,9 @@ const Vendor = () => {
 
     // setShowDeleteAlert(false);
   };
+  const closeDeleteAlert = () => {
+    setShowDeleteAlert(false);
+  };
 
   return (
     <div>
@@ -396,6 +378,7 @@ const Vendor = () => {
             >
               <div className="">
                 <div className="page_main_contant">
+                  {loading === true ? <Loader /> : null}
                   <h4>Vendor </h4>
                   <div className=" mt-3 p-3">
                     <div className="row pb-3">
@@ -822,7 +805,7 @@ const Vendor = () => {
         text="Are you Sure you want to delete"
         onConfirm={deleteVendorAlert}
         showCancelButton={true}
-        onCancel={closeVendorAlert}
+        onCancel={closeDeleteAlert}
       />
     </div>
   );

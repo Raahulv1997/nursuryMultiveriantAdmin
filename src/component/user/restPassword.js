@@ -1,22 +1,36 @@
 import React from "react";
-import Logo from "../css-js/images/logo.png";
+import Logo from "../../logo192.png";
 import { useState } from "react";
 import { forget_api } from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
-
+import Spinner from "react-bootstrap/Spinner";
 const Rest_password = () => {
-  const [email, setEmail] = useState("");
+  const [spinner, setSpinner] = useState(false);
+  const [emailVal, setemailVal] = useState("");
+  const [errorMsg, setErrorMsg] = useState(false);
   const navigate = useNavigate();
+
+  const onEmailChange = (e) => {
+    setemailVal(e.target.value);
+    setErrorMsg(false);
+  };
+
   async function sub_btn(event) {
     event.preventDefault();
-    let result = await forget_api({ email: email });
-    // console.log(result)
-    if (result.status === true) {
-      setEmail("");
+    setSpinner("spinner");
+    let result = await forget_api({ email: emailVal });
+
+    if (
+      result.response ===
+      "email already exist, check your mail or try after sometime"
+    ) {
+      setSpinner(false);
+      setErrorMsg("email already exist, check your mail or try after sometime");
+    } else if (result.response === "send otp on your mail") {
+      setSpinner(false);
+      setErrorMsg("send otp on your mail");
+      localStorage.setItem("sign_up_email", emailVal);
       navigate("/otp_verify");
-      alert(result.response);
-    } else {
-      alert(result.response);
     }
   }
   return (
@@ -27,7 +41,7 @@ const Rest_password = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
               <div className="user-form-logo">
-                <Link to="index.html">
+                <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>
@@ -36,38 +50,50 @@ const Rest_password = () => {
                   <h2>worried?</h2>
                   <p>No Problem! Just Follow The Simple Way</p>
                 </div>
-                <form className="user-form">
+                <form className="user-form" onSubmit={sub_btn}>
                   <div className="form-group">
                     <input
                       type="email"
                       className="form-control"
                       placeholder="Enter your email"
-                      value={email}
                       onChange={(e) => {
-                        setEmail(e.target.value);
+                        onEmailChange(e);
                       }}
                     />
                   </div>
+                  {errorMsg === "send otp on your mail" ? (
+                    <smail className="text-danger">
+                      {" "}
+                      Send OTP on your email
+                    </smail>
+                  ) : null}
+
+                  {errorMsg ===
+                  "email already exist, check your mail or try after sometime" ? (
+                    <smail className="text-danger">
+                      {" "}
+                      Server busy!!!! Please try again after sometime
+                    </smail>
+                  ) : null}
                   <div className="form-button">
-                    <button
-                      type="submit"
-                      onClick={(event) => {
-                        sub_btn(event);
-                      }}
-                    >
-                      get reset link
-                    </button>
+                    {spinner === "spinner" ? (
+                      <button type="submit">
+                        {" "}
+                        <Spinner animation="border" role="status">
+                          <span className="visually-hidden">
+                            Get reset link
+                          </span>
+                        </Spinner>
+                      </button>
+                    ) : (
+                      <button type="submit">Get reset link</button>
+                    )}
                   </div>
                 </form>
               </div>
               <div className="user-form-remind">
                 <p>
                   Go Back To<Link to={"/login"}>login here</Link>
-                </p>
-              </div>
-              <div className="user-form-footer">
-                <p>
-                  Greeny | &COPY; Copyright by <Link to={""}>Mironcoder</Link>
                 </p>
               </div>
             </div>

@@ -8,8 +8,10 @@ import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import Header from "../common/header";
 import Footer from "../common/footer";
+import Loader from "../common/loader";
 /* eslint-disable no-unused-vars */
 const Profile = () => {
+  const [loading, setLoading] = useState(false);
   const [cartqty, setCartQty] = useState(false);
   const [modalshow, setmodalshow] = useState(false);
   const [apicall, setapicall] = useState(false);
@@ -108,11 +110,14 @@ const Profile = () => {
   };
 
   const UserData = async () => {
+    setLoading(true);
     const userData = await userdetails();
     // console.log("user update----" + JSON.stringify(userData));
     setGetuserData(userData[0]);
     setState(userData[0]);
+    setLoading(false);
   };
+
   useEffect(() => {
     if (
       localStorage.getItem("user_token") === "" ||
@@ -153,6 +158,7 @@ const Profile = () => {
         //   style="background: url(images/single-banner.jpg) no-repeat center"
       >
         <div className="container">
+          {loading === true ? <Loader /> : null}
           <h2>my profile</h2>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">

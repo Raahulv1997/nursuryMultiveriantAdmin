@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Logo from "../css-js/images/logo.png";
-import { Button, Col, InputGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import useValidation from "../common/useValidation";
 import Modal from "react-bootstrap/Modal";
 import { getDriverDetails, UpdateDriverByToken } from "../api/api";
@@ -30,7 +30,7 @@ const DriverRegister = () => {
     // current_longitude: "",
   };
   const navigate = useNavigate();
-  const [apicall, setapicall] = useState(false);
+
   const [file, setFile] = useState();
   const [filename, setFilename] = useState("");
   const [showmodel, setShowmodel] = useState(false);
@@ -176,7 +176,7 @@ const DriverRegister = () => {
 
   useEffect(() => {
     DriverDetails();
-  }, [apicall]);
+  }, []);
 
   const DriverDetails = async () => {
     const response = await getDriverDetails();

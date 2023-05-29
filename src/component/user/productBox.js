@@ -127,7 +127,7 @@ const ProductBox = ({
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
-      <div className="col-lg-4 col-sm-6" key={keyprop}>
+      <div className="col-lg-4 col-sm-6 col-6" key={keyprop}>
         <div
           className={
             product_stock_quantity <= "0"

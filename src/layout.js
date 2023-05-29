@@ -10,7 +10,6 @@ import Profile from "./component/user/profile";
 import Wishlist from "./component/user/wishlist";
 // import Shop from "./component/user/shop";
 
-import UserChangePassword from "./component/user/change_password";
 import UserOrderlist from "./component/user/order_list";
 import Wallet from "./component/user/wallet";
 import AddProduct from "./component/admin/Addproduct";
@@ -43,6 +42,10 @@ import UpdateDriverForgetPassword from "./component/driver/UpdateDriverForgetPas
 import DriverRegister from "./component/driver/DriverRegister";
 import ManageAdmin from "./component/admin/ManageAdmin";
 import UserProductDetails from "./component/user/userproductDetail.js";
+// import AuthWrapper from "./AuthWrapper";
+import ChangePassword from "./component/user/ChangePassword";
+import TransactionList from "./component/admin/TransactionList";
+import Filters1 from "./component/user/Filters1";
 
 function Layout() {
   const adminLogged = localStorage.getItem("admin_token");
@@ -51,7 +54,7 @@ function Layout() {
   // console.log(" admin login------" + adminLogged);
 
   return (
-    <div>
+    <>
       <Router>
         <Routes>
           <Route path={"/"} element={<Index />} />
@@ -67,6 +70,8 @@ function Layout() {
           <Route path="/sellerRegister" element={<SellerRegister />} />
           <Route path="/sellerSignup" element={<SellerSignUp />} />
           <Route path="/sellerOtpVerify" element={<SellerOtpVerify />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/filter" element={<Filters1 />} />
           <Route
             path="/sellerforgetpassword"
             element={<SellerForgetPassword />}
@@ -91,8 +96,11 @@ function Layout() {
 
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
-        {adminLogged !== null || vendorLogged !== null ? (
+
+        {/* {console.log("admin token--" + adminLogged)} */}
+        {adminLogged === null || vendorLogged === null ? (
           <Routes>
+            {/* <Route element={<AuthWrapper />}> */}
             <Route path="/admin/home" element={<AddProduct />} />
             <Route path="/admin/orderList" element={<OrderList />} />
             <Route path="/admin/orderDetails" element={<OrderDetail />} />
@@ -100,7 +108,12 @@ function Layout() {
             <Route path="/admin/manageAdmin" element={<ManageAdmin />} />
             <Route path="/admin/vendor" element={<Vendor />} />
             <Route path="/admin/productDetails" element={<ProductDetails />} />
+            <Route
+              path="/admin/transactionList"
+              element={<TransactionList />}
+            />
             <Route path="*" element={<NotFound />} />
+            {/* </Route> */}
           </Routes>
         ) : (
           console.log("in admin else")
@@ -114,12 +127,12 @@ function Layout() {
             <Route path="/order_list" element={<UserOrderlist />} />
             <Route path="/wallet" element={<Wallet />} />
             {/* <Route path="/product_detail" element={<Product_detail />} /> */}
-            <Route path="/change_password" element={<UserChangePassword />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         ) : null}
       </Router>
-    </div>
+    </>
   );
 }
 

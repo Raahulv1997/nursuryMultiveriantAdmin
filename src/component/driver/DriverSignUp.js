@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { DriverSignUpFuntion, VendorSignUpFuntion } from "../api/api";
+import { DriverSignUpFuntion } from "../api/api";
 import Logo from "../css-js/images/logo.png";
 import Spinner from "react-bootstrap/Spinner";
 
