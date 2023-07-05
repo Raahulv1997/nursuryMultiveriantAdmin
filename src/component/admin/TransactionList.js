@@ -67,9 +67,9 @@ const TransactionList = () => {
       },
     },
     {
-      name: "Customer Name",
+      name: "USER ID",
 
-      selector: (row) => row.name,
+      selector: (row) => row.user_id,
       sortable: true,
       width: "150px",
       center: true,
@@ -86,14 +86,14 @@ const TransactionList = () => {
           {" "}
           <b>Ammount:</b>
           {row.amount} <br />
-          <b>Payment ID:</b>
-          {row.payment_id} <br />
+          <b>Transaction ID:</b>
+          {row.transection_id} <br />
           <b>Method:</b>
-          {row.method} <br />
-          <b>Currency:</b>
-          {row.currency} <br />
-          <b>Country:</b>
-          {row.country} <br />
+          {row.payment_method} <br />
+          {/* <b>Status:</b>
+          {row.is_payment_done} <br /> */}
+          {/* <b>Country:</b>
+          {row.country} <br /> */}
         </span>
       ),
       sortable: true,
@@ -104,44 +104,44 @@ const TransactionList = () => {
       },
     },
 
-    {
-      name: "Invoive No",
-      selector: (row) => row.invoice_no,
-      sortable: true,
-      width: "120px",
-      center: true,
-    },
+    // {
+    //   name: "Invoive No",
+    //   selector: (row) => row.invoice_no,
+    //   sortable: true,
+    //   width: "120px",
+    //   center: true,
+    // },
 
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row.is_payment_done,
       sortable: true,
       width: "100px",
       center: true,
     },
 
-    {
-      name: "Card",
-      selector: (row) => (
-        <span>
-          <b>Card No. :</b>
-          {row.c_number}
-          <br />
-          <b>Expire Month:</b>
-          {row.exp_month}
-          <br />
-          <b>Expire Year:</b>
-          {row.exp_year}
-          <br />
-          <b>Card Brand:</b>
-          {row.brand}
-          <br />
-        </span>
-      ),
-      sortable: true,
-      width: "200px",
-      center: true,
-    },
+    // {
+    //   name: "Card",
+    //   selector: (row) => (
+    //     <span>
+    //       <b>Card No. :</b>
+    //       {row.c_number}
+    //       <br />
+    //       <b>Expire Month:</b>
+    //       {row.exp_month}
+    //       <br />
+    //       <b>Expire Year:</b>
+    //       {row.exp_year}
+    //       <br />
+    //       <b>Card Brand:</b>
+    //       {row.brand}
+    //       <br />
+    //     </span>
+    //   ),
+    //   sortable: true,
+    //   width: "200px",
+    //   center: true,
+    // },
 
     {
       name: "Transaction Date",
@@ -274,9 +274,10 @@ const TransactionList = () => {
   const getAllAdminList = async () => {
     // setLoading(true);
     const response = await GetALLTransactionListByAdmin();
-    console.log("data----" + JSON.stringify(response));
-    setAdminList(response);
-    // setLoading(false);
+    console.log("data----" + JSON.stringify(response.response));
+
+    setAdminList(response.response);
+    setLoading(false);
   };
 
   // add Admin submit button---------------

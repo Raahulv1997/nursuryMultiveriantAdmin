@@ -67,6 +67,7 @@ const Index = () => {
     setCartQty(childData);
     // console.log("data from child---" + childData);
   };
+
   return (
     <div>
       <SweetAlert
@@ -82,7 +83,7 @@ const Index = () => {
       <Header
         cartqty={cartqty}
         setCartQty={setCartQty}
-        productapicall={apicall}
+        // productapicall={apicall}
         setproductapicall={setapicall}
       />
 
@@ -201,7 +202,7 @@ const Index = () => {
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
             {(productData || []).map((product, i) => {
               return (
-                <>
+                <React.Fragment key={product.id}>
                   <ProductBox
                     name={product.name}
                     image={
@@ -220,9 +221,9 @@ const Index = () => {
                     productapicall={apicall}
                     setproductapicall={setapicall}
                     parentCallback={handleCallback}
-                    keyprop={i}
+                    // keyprop={i}
                   />
-                </>
+                </React.Fragment>
               );
             })}
           </div>
@@ -258,7 +259,7 @@ const Index = () => {
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
             {(productData || []).map((product, i) => {
               return (
-                <>
+                <React.Fragment key={product.id}>
                   <ProductBox
                     name={product.name}
                     image={
@@ -277,9 +278,9 @@ const Index = () => {
                     productapicall={apicall}
                     setproductapicall={setapicall}
                     parentCallback={handleCallback}
-                    keyprop={i}
+                    // key={i}
                   />
-                </>
+                </React.Fragment>
               );
             })}
           </div>

@@ -17,18 +17,14 @@ const Cart = ({
   const [checkoutAlert, setcheckoutAlert] = useState(false);
   const [apicall, setapicall] = useState(false);
   const navigate = useNavigate();
-  const [cartdata, setCartdata] = useState();
+  const [cartdata, setCartdata] = useState([]);
   const user_token = localStorage.getItem("user_token");
 
   // const updateQty = ContextValue.updateQty;
 
   useEffect(() => {
     async function call_cart_list() {
-      if (
-        user_token !== "" &&
-        user_token !== null &&
-        user_token !== undefined
-      ) {
+      if (user_token !== null) {
         const result = await fetchcartdata();
 
         if (result) {
@@ -38,6 +34,8 @@ const Cart = ({
         setCartdata(result);
         setapicall(false);
       } else {
+        setCartdata([]);
+        cart_count("");
         // alert("please login your account");
       }
     }
@@ -58,6 +56,7 @@ const Cart = ({
   const checkoutAlertClose = () => {
     setcheckoutAlert(false);
   };
+
   return (
     <div>
       <aside
@@ -81,21 +80,23 @@ const Cart = ({
         <ul className="cart-list">
           {(cartdata || []).map((cart_item, cart_no) => {
             return (
-              <CartItem
-                cover_image={cart_item.cover_image}
-                name={cart_item.name}
-                product_id={cart_item.product_id}
-                cart_product_quantity={cart_item.cart_product_quantity}
-                price={cart_item.price}
-                product_stock_quantity={cart_item.product_stock_quantity}
-                // incrementDecrementCount={incrementDecrementCount_function}
-                cart_no={cart_no}
-                cartapicall={apicall}
-                setcartapicall={setapicall}
-                parentCallback={handleCallback}
-                cartItemapicall={cartapicall}
-                setcartItemapicall={setcartapicall}
-              />
+              <React.Fragment key={cart_item.id}>
+                <CartItem
+                  cover_image={cart_item.cover_image}
+                  name={cart_item.name}
+                  product_id={cart_item.product_id}
+                  cart_product_quantity={cart_item.cart_product_quantity}
+                  price={cart_item.price}
+                  product_stock_quantity={cart_item.product_stock_quantity}
+                  // incrementDecrementCount={incrementDecrementCount_function}
+                  cart_no={cart_no}
+                  cartapicall={apicall}
+                  setcartapicall={setapicall}
+                  parentCallback={handleCallback}
+                  cartItemapicall={cartapicall}
+                  setcartItemapicall={setcartapicall}
+                />
+              </React.Fragment>
             );
           })}
         </ul>

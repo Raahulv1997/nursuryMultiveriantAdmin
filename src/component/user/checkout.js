@@ -5,6 +5,7 @@ import {
   AddUserOrder,
   AlternateAddressUpdateFunction,
   cart_delete_api,
+  CreateTransaction,
   fetchcartdata,
   userdetails,
 } from "../api/api";
@@ -22,6 +23,7 @@ import Modal from "react-bootstrap/Modal";
 
 function Checkout() {
   const databyID = [];
+
   let totalprice = 0;
   let discount = 0;
   let totalDiscount = 0;
@@ -49,10 +51,6 @@ function Checkout() {
   const [paymentMetod, setPaymentMethod] = useState("");
   const [alternateAddress, setAlternateAddress] = useState("");
   const [addressErrorMsg, setAddressErrorMsg] = useState(false);
-  useEffect(() => {
-    cartdatafucntion();
-    userdetailsFunction();
-  }, [ContextValue.state]);
 
   const cartdatafucntion = async () => {
     setLoading(true);
@@ -73,11 +71,12 @@ function Checkout() {
       Grand_Total = totalprice + totalTaxx - totalDiscount;
       return {};
     });
-
-    // console.log("qtyyy--" + JSON.stringify(kk));
   };
 
-  // console.log("qtyyy--" + JSON.stringify(orderadd));
+  useEffect(() => {
+    cartdatafucntion();
+    userdetailsFunction();
+  }, [ContextValue.state]);
 
   const OnPaymentChange = (e) => {
     setPaymentMethod(e.target.value);
@@ -89,37 +88,75 @@ function Checkout() {
       setAddressErrorMsg("addError");
     } else if (paymentMetod === "") {
       setAddressErrorMsg("paymentError");
-    }
-
-    console.log("add---" + orderAddress);
-    console.log("pay---" + paymentMetod);
-    cartData.map((cdata) => {
-      databyID.push({
-        product_id: cdata.product_id,
-        vendor_id: cdata.vendor_id,
-        total_order_product_quantity: total_qty,
-        total_amount: Grand_Total,
-        total_gst: totalTaxx,
-        total_cgst: totalCgst,
-        total_sgst: totalSgst,
-        total_discount: totalDiscount,
-        shipping_charges: "0",
-        invoice_id: "12345",
-        payment_mode: paymentMetod,
-        payment_ref_id: "refrf",
-        discount_coupon: "12",
-        discount_coupon_value: "150",
+    } else {
+      console.log("add---" + orderAddress);
+      console.log("pay---" + paymentMetod);
+      cartData.map((cdata) => {
+        databyID.push({
+          product_id: cdata.product_id,
+          vendor_id: cdata.vendor_id,
+          total_order_product_quantity: total_qty,
+          total_amount: Grand_Total,
+          total_gst: totalTaxx,
+          total_cgst: totalCgst,
+          total_sgst: totalSgst,
+          total_discount: totalDiscount,
+          shipping_charges: "0",
+          invoice_id: "12345",
+          payment_mode: paymentMetod,
+          payment_ref_id: "refrf",
+          discount_coupon: "12",
+          discount_coupon_value: "150",
+          current_address: orderAddress,
+        });
+        return {};
       });
-      return {};
-    });
-    console.log("add order json--" + JSON.stringify(databyID));
-    // const response = await AddUserOrder(databyID);
-    // console.log("order response---" + JSON.stringify(response));
-    // if (response.status === "ok") {
-    //   setShowOrderAlert(true);
-    // } else {
-    //   setShowOrderErrorAlert(true);
-    // }
+      console.log("add order json--" + JSON.stringify(databyID));
+      const response = await AddUserOrder(databyID);
+      const { order_id, user_id, status } = response;
+      console.log("order id--" + JSON.stringify(order_id));
+      console.log("userid--" + JSON.stringify(user_id));
+      console.log("status--" + JSON.stringify(status));
+      console.log("order response---" + JSON.stringify(response));
+
+      if (order_id.length > 0) {
+        // setIntialState({
+        //   ...intialState,
+        //   user_id: user_id,
+        //   order_id: order_id,
+        //   amount: Grand_Total,
+        //   payment_method: paymentMetod,
+        //   transection_id: "212123777",
+        //   is_payment_done: "ok-done",
+        // });
+        // // order_id.map((item) => {
+        // //   transationArray.push({
+        // //     user_id: user_id,
+        // //     order_id: item,
+        // //     amount: Grand_Total,
+        // //     payment_method: paymentMetod,
+        // //     transection_id: "212123777",
+        // //     is_payment_done: "ok-done",
+        // //   });
+        // //   return {};
+        // // });
+        // console.log("Transaction---" + JSON.stringify(intialState));
+        const resultTransaction = await CreateTransaction(
+          user_id,
+          order_id,
+          Grand_Total,
+          paymentMetod
+        );
+        console.log("resultTransaction---" + JSON.stringify(resultTransaction));
+        if (resultTransaction.status === true) {
+          setShowOrderAlert(true);
+        } else {
+          setShowOrderErrorAlert(true);
+        }
+      } else {
+        console.log("ordder id not get");
+      }
+    }
   };
 
   const OrderPlacedFucntion = () => {

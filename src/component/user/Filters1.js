@@ -5,7 +5,7 @@ import shop_img from "../css-js/images/promo/shop/01.jpg";
 let selectRatingData = [];
 let selectBrandData = [];
 let selectCategoryData = [];
-const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
+const Filters1 = ({ handleClick, showfilter, setShowfilter }) => {
   const navigate = useNavigate();
   const [brandData, setBrandData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
@@ -36,10 +36,11 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
 
   const priceSubmitHandler = (e) => {
     e.preventDefault();
-    setFilterProps(false);
+
     navigate(
       `/shop?Fromprice=${pricefilter.from_product_price}&&Toprice=${pricefilter.to_product_price}`
     );
+    setShowfilter(false);
   };
 
   const priceReset = (e) => {
@@ -53,6 +54,7 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
     handleClick("true", "Pricereset");
     // console.log("rating aray---", selectRatingData);
     navigate(`/shop`);
+    setShowfilter(false);
   };
 
   // const ratingReset = (e) => {
@@ -100,6 +102,7 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
     handleClick(selectRatingData, "rating");
     // console.log("rating aray---", selectRatingData);
     navigate(`/shop`);
+    setShowfilter(false);
   };
 
   const onBrandFilterAdd = (e) => {
@@ -123,6 +126,7 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
     }
     handleClick(selectBrandData, "brand");
     navigate(`/shop`);
+    setShowfilter(false);
   };
 
   const onCategoryFilterAdd = (e) => {
@@ -148,6 +152,7 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
     }
     handleClick(selectCategoryData, "category");
     navigate(`/shop`);
+    setShowfilter(false);
   };
 
   useEffect(() => {
@@ -186,7 +191,7 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
     <>
       <div
         className={
-          showFilterProp
+          showfilter
             ? "col-lg-3 shop_filter  shop_filter_show"
             : "col-lg-3  shop_filter_show "
         }
@@ -384,13 +389,15 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
           </form>
         </div> */}
         <div className="shop-widget">
-          <h6 className="shop-widget-title">Filter by Brand</h6>
+          <h6 className="shop-widget-title" style={{ marginTop: "-22px" }}>
+            Filter by Brand
+          </h6>
           <form>
-            <input
+            {/* <input
               className="shop-widget-search"
               type="text"
               placeholder="Search..."
-            />
+            /> */}
             <ul className="shop-widget-list shop-widget-scroll">
               {brandData.map((item, i) => {
                 return (
@@ -420,13 +427,15 @@ const Filters1 = ({ handleClick, showFilterProp, setFilterProps }) => {
           </form>
         </div>
         <div className="shop-widget">
-          <h6 className="shop-widget-title">Filter by Category</h6>
+          <h6 className="shop-widget-title" style={{ marginTop: "-80px" }}>
+            Filter by Category
+          </h6>
           <form>
-            <input
+            {/* <input
               className="shop-widget-search"
               type="text"
               placeholder="Search..."
-            />
+            /> */}
             <ul className="shop-widget-list shop-widget-scroll">
               {categoryData.map((item, i) => {
                 return (

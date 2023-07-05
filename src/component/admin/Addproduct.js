@@ -1290,6 +1290,8 @@ const AddProduct = () => {
                     <InputGroup className="">
                       <Form.Control
                         size="lg"
+                        rows={5}
+                        className="h-auto"
                         as="textarea"
                         name="description"
                         aria-label="With textarea"

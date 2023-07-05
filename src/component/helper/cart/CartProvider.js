@@ -3,6 +3,8 @@ import { fetchcartdata, updateCart } from "../../api/api";
 
 import CartContext from "./index";
 const CartProvider = (props) => {
+  const user_token = localStorage.getItem("user_token");
+
   const [apicall, setapicall] = useState(false);
 
   useEffect(() => {
@@ -17,9 +19,12 @@ const CartProvider = (props) => {
   };
 
   const cartdatafucntion = async () => {
-    const userData = await fetchcartdata();
+    if (user_token) {
+      const userData = await fetchcartdata();
 
-    return userData;
+      return userData;
+    } else {
+    }
   };
 
   return (

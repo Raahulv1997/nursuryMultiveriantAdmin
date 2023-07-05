@@ -6,6 +6,7 @@ let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
 
 let ApnaOrganiceURl = "http://192.168.29.109:8000";
+let transactionUrl = "http://192.168.29.108:9999";
 let ApnaOrganicAdminToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
 export const updateCart = async (product_id, qty) => {
@@ -26,13 +27,15 @@ export const updateCart = async (product_id, qty) => {
 };
 
 export const fetchcartdata = async () => {
-  if (user_token !== "" && user_token !== null && user_token !== undefined) {
+  try {
     const response = await axios.get(
       `${process.env.REACT_APP_BASEURL_0}/cart_list`,
 
       { headers: { user_token: `${user_token}` } }
     );
     return response.data;
+  } catch (err) {
+    return [];
   }
 };
 
@@ -75,6 +78,15 @@ export const allproduct = async (
   currentPage,
   recordsPerPage
 ) => {
+  let token = localStorage.getItem("user_token");
+  let token_obj;
+
+  if (token !== "" && token !== null && token !== undefined) {
+    token_obj = { headers: { user_token: `${token}` } };
+  } else {
+    token_obj = { headers: { user_blank: "true" } };
+  }
+
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
     {
@@ -93,9 +105,7 @@ export const allproduct = async (
       is_deleted: ["0"],
     },
 
-    user_token !== null && user_token !== undefined
-      ? { headers: { user_token: user_token } }
-      : { headers: { user_blank: true } }
+    token_obj
   );
   return response.data;
 };
@@ -653,13 +663,6 @@ export const cart_delete_api = async (productID, qty) => {
     {
       headers: { user_token: user_token },
     }
-  );
-  return response.data;
-};
-export const user_cart_api = async (req_body_obj) => {
-  let response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/cart_list`,
-    req_body_obj
   );
   return response.data;
 };
@@ -1222,14 +1225,23 @@ export const orderAssignByAdmin = async (
 };
 
 export const GetALLTransactionListByAdmin = async () => {
-  const response = await axios.post(
-    `${ApnaOrganiceURl}/transaction_list`,
-    {
-      order_id: "",
-      method: "",
-      status: "",
-    },
-    { headers: { admin_token: ApnaOrganicAdminToken } }
-  );
+  const response = await axios.get(`${transactionUrl}/transaction_list`);
+  return response.data;
+};
+
+export const CreateTransaction = async (
+  user_id,
+  order_id,
+  Grand_Total,
+  paymentMetod
+) => {
+  const response = await axios.post(`${transactionUrl}/payment`, {
+    user_id: user_id,
+    order_id: order_id,
+    amount: Grand_Total,
+    payment_method: paymentMetod,
+    transection_id: "212123777",
+    is_payment_done: "ok-done",
+  });
   return response.data;
 };

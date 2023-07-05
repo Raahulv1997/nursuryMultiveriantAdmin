@@ -123,11 +123,11 @@ const ProductBox = ({
   const onCloseAlert = () => {
     return Promise.resolve(setShowAlert(false));
   };
-
+  // console.log("key--" + keyprop);
   return (
     <>
       {/* <div className="row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4"> */}
-      <div className="col-lg-4 col-sm-6 col-6" key={keyprop}>
+      <div className="col-lg-4 col-sm-6 col-6">
         <div
           className={
             product_stock_quantity <= "0"
@@ -152,9 +152,9 @@ const ProductBox = ({
             <div className="product-rating">
               {ratingbox.map((rat, i) => {
                 return rating - rat >= 0 ? (
-                  <>
-                    <i key={i} className="active icofont-star"></i>
-                  </>
+                  <React.Fragment key={i}>
+                    <i className="active icofont-star"></i>
+                  </React.Fragment>
                 ) : (
                   <i className=" icofont-star"></i>
                 );
@@ -173,7 +173,6 @@ const ProductBox = ({
               </h6>
             </div>
 
-            {/* {console.log(cart_count)} */}
             {cart_count !== null &&
             cart_count !== "" &&
             cart_count !== undefined ? (
@@ -192,14 +191,8 @@ const ProductBox = ({
                 >
                   <i className="icofont-minus"></i>
                 </button>
-                <input
-                  className="action-input"
-                  title="Quantity Number"
-                  type="text"
-                  name="quantity"
-                  disabled
-                  value={cart_count}
-                />
+                <button className="qtyBox">{cart_count}</button>
+
                 <button
                   className="action-plus"
                   title="Quantity Plus"

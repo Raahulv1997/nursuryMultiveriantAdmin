@@ -8,7 +8,9 @@ import ProductBox from "./productBox";
 import Header from "../common/header";
 import Footer from "../common/footer";
 import Loader from "../common/loader";
+
 const ShopPage = () => {
+  const [showfilter, setShowfilter] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cartqty, setCartQty] = useState(false);
   const [recordCount, setrecordCount] = useState("");
@@ -143,6 +145,7 @@ const ShopPage = () => {
       setProductData([]);
     } else {
       setLoading(false);
+
       const { pagination } = data;
       setrecordCount(pagination.count_rows);
 
@@ -150,6 +153,7 @@ const ShopPage = () => {
     }
 
     setapicall(false);
+
     // setRating(num);
   };
 
@@ -221,14 +225,22 @@ const ShopPage = () => {
     setCartQty(childData);
   };
 
+  const onFilterClick = () => {
+    setShowfilter(true);
+
+    if (showfilter === true) {
+      setShowfilter(false);
+    }
+  };
+
   return (
     <div>
       <Header
-        className="shop_header"
         cartqty={cartqty}
         setCartQty={setCartQty}
-        productapicall={apicall}
+        // productapicall={apicall}
         setproductapicall={setapicall}
+        onFilterClick={onFilterClick}
       />
       <section
         className="inner-section single-banner"
@@ -247,10 +259,15 @@ const ShopPage = () => {
           </ol>
         </div>
       </section>
+
       <section className="inner-section shop-part">
         <div className="container">
           <div className="row content-reverse">
-            <Filters1 handleClick={handleClick} />
+            <Filters1
+              handleClick={handleClick}
+              showfilter={showfilter}
+              setShowfilter={setShowfilter}
+            />
             <div className="col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
@@ -333,7 +350,7 @@ const ShopPage = () => {
                     );
                   })
                 ) : (
-                  <h1 style={{ textAlign: "center" }}>No record Found</h1>
+                  <h1 className="noRecord">No record Found</h1>
                 )}
               </div>
               {productData.length !== 0 ? (

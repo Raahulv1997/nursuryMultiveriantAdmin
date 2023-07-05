@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GrTransaction } from "react-icons/gr";
 import { RiAdminLine } from "react-icons/ri";
 import { BsShop } from "react-icons/bs";
-import { FiUser, FiLogOut } from "react-icons/fi";
 import { GiPlantRoots } from "react-icons/gi";
-
+import { FiUser, FiLogOut, FiMenu } from "react-icons/fi";
 import { MdShoppingBag } from "react-icons/md";
-
+import Logo from "../../logo192.png";
 const Sidebar = () => {
+  const [onToggele, setOnToggle] = useState(false);
   const admin_token = localStorage.getItem("admin_token");
   const vendor_token = localStorage.getItem("vendor_token");
   const navigate = useNavigate();
@@ -27,10 +27,30 @@ const Sidebar = () => {
       alert("not logout");
     }
   };
+
+  const OnToggleClick = () => {
+    setOnToggle(true);
+    if (onToggele === true) {
+      setOnToggle(false);
+    }
+  };
   return (
     <div>
-      <div className="banner-category">
+      <span className="show_sidebar" onClick={OnToggleClick}>
+        <FiMenu />
+      </span>
+      <div
+        className={
+          onToggele === true
+            ? " banner-category  sidebar_show  "
+            : "banner-category"
+        }
+      >
         <ul className="banner-category-list vh-100 pt-4">
+          <li className="brand_logo">
+            {" "}
+            <img src={Logo} />
+          </li>
           <li className="banner-category-item">
             <Link to="/admin/Home">
               <GiPlantRoots />

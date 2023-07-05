@@ -36,29 +36,30 @@
     transform: rotate(360deg);
   }
 }
-.admin_sidebar, .admin_content_bar{
-  height: 100vh;
+.admin_sidebar,
+.admin_content_bar {
+  /* height: 100vh; */
   overflow: hidden auto;
   margin: 0;
 }
-.admin_sidebar{
+.admin_sidebar {
   overflow: hidden;
 }
-.text-truncate{
+.text-truncate {
   width: 100%;
 }
 .product-card .product-content .product-price .selling_price {
   font-size: 20px;
 }
-.product-rating a{
+.product-rating a {
   line-height: 1;
   font-size: 12px;
   text-decoration: none;
 }
-.cart-info{
+.cart-info {
   margin-bottom: 0;
 }
-.cart-info h6{
+.cart-info h6 {
   line-height: 1.25;
 }
 li.navbar-item.dropdown {

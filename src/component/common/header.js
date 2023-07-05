@@ -15,18 +15,26 @@ import { AiTwotoneShop } from "react-icons/ai";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import { fetchcartdata } from "../api/api";
 import { FiFilter } from "react-icons/fi";
-import Filters1 from "../user/Filters1";
+import { Dropdown } from "react-bootstrap";
 
-const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
+const Header = (
+  props
+  // cartqty,
+  // setCartQty,
+  // productapicall,
+  // setproductapicall,
+  // onFilterClick
+) => {
   let path = window.location.pathname;
 
   const bb = path.includes("/");
-
+  const cc = path.includes("/shop");
+  const [Showtextbox, setShowTextBox] = useState(false);
   const [ShowAlert, setShowAlert] = useState(false);
   const [searchbox, setSearchBox] = useState("");
 
   const [showcart, setShowcart] = useState(false);
-  const [showfilter, setShowfilter] = useState(false);
+
   const [count_cart, SetCount_cart] = useState("");
 
   const navigate = useNavigate();
@@ -54,18 +62,30 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
 
     navigate(`/shop?search=${searchbox}`);
   };
-
+  const showTextBoxHandler = () => {
+    setShowTextBox(true);
+    if (Showtextbox === true && searchbox === "") {
+      setShowTextBox(false);
+    } else if (Showtextbox === true && searchbox !== "") {
+      navigate(`/shop?search=${searchbox}`);
+    }
+  };
   useEffect(() => {
     getCart();
-  }, [cartqty]);
+  }, []);
 
   const getCart = async () => {
-    const response = await fetchcartdata();
-    if (response) {
-      SetCount_cart(response.length);
-    }
+    if (user_token) {
+      const response = await fetchcartdata();
 
-    setCartQty(false);
+      if (response) {
+        SetCount_cart(response.length);
+      }
+
+      props.setCartQty(false);
+    } else {
+      SetCount_cart("");
+    }
   };
 
   function cart_list_hide_fun() {
@@ -79,25 +99,12 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
   }
 
   const onConfirmAlert = () => {
+    // props.setCartQty(true);
     return Promise.resolve(setShowAlert(false));
   };
 
   const onCancelAlert = () => {
     setShowAlert(false);
-  };
-
-  const onFilterClick = () => {
-    setShowfilter(true);
-
-    if (showfilter === true) {
-      setShowfilter(false);
-    }
-  };
-
-  const handleClick = (num, str) => {
-    console.log("num--" + num);
-    console.log("str--" + str);
-    setShowfilter(false);
   };
 
   return (
@@ -108,6 +115,14 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
         text={"Are you sure logout "}
         onConfirm={() =>
           onConfirmAlert().then(() => {
+            props.setproductapicall(true);
+            localStorage.removeItem("sign_up_email");
+            localStorage.removeItem("productID");
+            localStorage.removeItem("user_fname");
+            localStorage.removeItem("orderid");
+            localStorage.removeItem("userid");
+            localStorage.removeItem("orderId");
+            localStorage.removeItem("user_type");
             localStorage.removeItem("user_token");
             navigate("/");
           })
@@ -125,13 +140,27 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
               <Link to="/">
                 <img src={Logo} alt="logo" width={"100px"} />
               </Link>
-              <button className="header-src">
+              {Showtextbox === true ? (
+                <input
+                  type="text"
+                  defaultValue={searchbox}
+                  className="mobile_search_bar"
+                  placeholder="Search anything..."
+                  onChange={SeacrhValueHandler}
+                />
+              ) : null}
+
+              <button className="header-src" onClick={showTextBoxHandler}>
                 <i className="fas fa-search"></i>
               </button>
-
-              <button className="header-src" onClick={onFilterClick}>
-                <FiFilter />
-              </button>
+              {cc === true ? (
+                <button
+                  className="search-filter  "
+                  onClick={props.onFilterClick}
+                >
+                  <FiFilter />
+                </button>
+              ) : null}
             </div>
             <Link to="/">
               <img
@@ -272,17 +301,45 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
           <span>category</span>
         </button> */}
 
-        <button className="cart-btn" title="Cartlist">
-          <i className="">
-            <RiShoppingBasket2Line />
-          </i>
+        <button
+          className="cart-btn"
+          title="Cartlist"
+          onClick={() => {
+            setShowcart(true);
+          }}
+        >
+          <RiShoppingBasket2Line />
+
           <span>cartlist</span>
-          <sup>{count_cart}</sup>
+          {count_cart ? <sup>{count_cart}</sup> : null}
         </button>
-        <Link to={"/profile"} className="cate-btn" title="Category List">
-          <MdAccountCircle />
-          <span>Account</span>
-        </Link>
+
+        {user_token !== null ? null : (
+          <Link to="/login" className="cate-btn" title="login">
+            {" "}
+            <HiOutlineLogin />
+            <span>Login</span>
+          </Link>
+        )}
+        {user_token === null ? null : (
+          <Dropdown className="my-custom-dropdown">
+            <Dropdown.Toggle
+              className="my-custom-toggle"
+              variant="success"
+              id="dropdown-basic"
+            >
+              <MdAccountCircle />
+              <span>Account</span>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="my-custom-menu">
+              <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+              <Dropdown.Item href="/order_list">Your Order</Dropdown.Item>
+              <Dropdown.Item onClick={OnLogoutClick}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+
         {/* <Link to="">
           <i className="fas fa-heart"></i>
           <span>wishlist</span>
@@ -299,13 +356,8 @@ const Header = ({ cartqty, setCartQty, productapicall, setproductapicall }) => {
         showCartProp={showcart}
         cart_list_hide={cart_list_hide_fun}
         cart_count={cart_count_fun}
-        cartapicall={productapicall}
-        setcartapicall={setproductapicall}
-      />
-      <Filters1
-        showFilterProp={showfilter}
-        setFilterProps={setShowfilter}
-        handleClick={handleClick}
+        cartapicall={props.productapicall}
+        setcartapicall={props.setproductapicall}
       />
     </div>
   );

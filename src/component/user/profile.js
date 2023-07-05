@@ -185,7 +185,7 @@ const Profile = () => {
                     data-bs-toggle="modal"
                     data-bs-target="#profile-edit"
                   >
-                    edit profile
+                    <h4>Edit profile</h4>
                   </button>
                 </div>
                 <div className="account-content">

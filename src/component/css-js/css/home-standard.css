@@ -56,6 +56,13 @@
   color: var(--white);
   background: var(--primary);
 }
+
+.brand_logo {
+  text-align: center;
+}
+.brand_logo img {
+  width: 100px;
+}
 @media (max-width: 575px) {
   .header-top p a {
     width: 120px;
@@ -64,6 +71,12 @@
   }
   .header-top button {
     right: 15px;
+  }
+  .brand_logo {
+    text-align: center;
+  }
+  .brand_logo img {
+    width: 70px;
   }
 }
 .navbar-link {
@@ -329,11 +342,48 @@
   width: 100%;
   border-radius: 5px;
 }
+.show_sidebar {
+  display: none;
+}
+.page_main_contant h4 {
+  padding: 15px 0px 0px 16px;
+}
 @media (max-width: 991px) {
   .banner-category {
-    display: none;
+    position: absolute;
+    width: 68%;
+    z-index: 99;
+    left: -100%;
+    transition: all linear 0.3s;
+    -webkit-box-shadow: -15px 0px 25px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: -15px 0px 25px 0px rgba(0, 0, 0, 0.15);
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+  }
+  .banner-category.sidebar_show {
+    left: 0%;
+    transition: all linear 0.3s;
+    -webkit-box-shadow: -15px 0px 25px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: -15px 0px 25px 0px rgba(0, 0, 0, 0.15);
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
   }
 }
+.show_sidebar {
+  display: block;
+  position: absolute;
+  right: 13px;
+  top: 10px;
+}
+.show_sidebar svg {
+  width: 21px;
+  height: 21px;
+}
+
 @media (max-width: 575px) {
   .banner-wrap {
     padding: 30px 30px;
