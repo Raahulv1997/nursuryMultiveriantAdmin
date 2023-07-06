@@ -4,9 +4,14 @@ let user_token = localStorage.getItem("user_token");
 let admin_token = localStorage.getItem("admin_token");
 let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
+<<<<<<< Updated upstream
 
 let ApnaOrganiceURl = "http://192.168.29.109:8000";
 let transactionUrl = "http://192.168.29.108:9999";
+=======
+const ApnaOrganiceURl = "http://192.168.29.108:9999";
+// let ApnaOrganiceURl = "http://192.168.29.109:8000";
+>>>>>>> Stashed changes
 let ApnaOrganicAdminToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
 export const updateCart = async (product_id, qty) => {
