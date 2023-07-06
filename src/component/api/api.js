@@ -4,16 +4,13 @@ let user_token = localStorage.getItem("user_token");
 let admin_token = localStorage.getItem("admin_token");
 let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
-<<<<<<< Updated upstream
 
-let ApnaOrganiceURl = "http://192.168.29.109:8000";
-let transactionUrl = "http://192.168.29.108:9999";
-=======
-const ApnaOrganiceURl = "http://192.168.29.108:9999";
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
->>>>>>> Stashed changes
-let ApnaOrganicAdminToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
+let transactionUrl = "http://192.168.29.108:9999";
+// let ApnaOrganiceURl = "http://192.168.29.109:8000";
+// let ApnaOrganicAdminToken =
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
+
 export const updateCart = async (product_id, qty) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/cart_update`,
@@ -93,21 +90,25 @@ export const allproduct = async (
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
+    `http://192.168.29.108:9999/search?page=${currentPage}&per_page=${recordsPerPage}`,
     {
       price_from: price_from,
       price_to: price_to,
       price__: price,
       rating__: ratingg,
+      id__:"",
       name__: name,
       created_on__: update,
       search: searchbox,
+      id:[],
+      is_verient:"",
       category: category,
       rating: showratingdata,
       brand: brand,
       seo_tag: [],
       vendor_id: [],
       is_deleted: ["0"],
+      
     },
 
     token_obj
@@ -154,15 +155,16 @@ export const AllproductData = async (
   } else {
   }
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
+    `${process.env.REACT_APP_BASEURL_0}/search_vendor_product?page=0&per_page=1000`,
     {
       price_from: price_from,
       price_to: price_to,
       price__: "",
       rating__: "",
+      id__ :"",
       name__: "",
-      created_on__: "",
       search: search,
+      is_verient:"",
       category: category,
       rating: [rating],
       brand: brand,
@@ -216,15 +218,16 @@ export const filterProductData = async (
       price_to: price_to,
       price__: "",
       rating__: "",
+      id__ : "",
       name__: "",
       created_on__: "",
       search: search,
+      is_verient:"",
       category: category,
       rating: [rating],
       brand: brand,
       seo_tag: [seo_tag],
       vendor_id: [vendor_id],
-
       id: [id],
       is_deleted: [0],
     },
@@ -233,6 +236,7 @@ export const filterProductData = async (
   return response.data;
 };
 
+/*Api to add Product */
 export const AddProductData = async (props) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -635,6 +639,7 @@ export const user_home_api = async (req_body_obj, perpage) => {
   return response.data;
 };
 
+/*Api to login as admin */
 export const AdminLoginData = async (email, password) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/admin_login`,
@@ -1248,5 +1253,14 @@ export const CreateTransaction = async (
     transection_id: "212123777",
     is_payment_done: "ok-done",
   });
+  return response.data;
+};
+
+/*Api to add product varient  */
+export const AddProductVerient = async (props) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/add_product_verient`,props,
+    { headers: { admin_token: `${admin_token}` } }
+  );
   return response.data;
 };

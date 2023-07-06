@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AdminLoginData } from "../api/api";
-
 import Logo from "../../logo192.png";
 import Loader from "../common/loader";
 const AdminLogin = () => {
@@ -117,7 +116,6 @@ const AdminLogin = () => {
                         type="checkbox"
                         value=""
                         id="check"
-                        required
                       />
                       <label className="form-check-label" htmlFor="check">
                         Remember Me

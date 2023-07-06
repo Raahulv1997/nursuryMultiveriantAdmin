@@ -33,31 +33,33 @@ import useValidation from "../common/useValidation";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
+import AddProductModal from "./Modal/AddProductModal";
+import AddProductVarientModal from "./Modal/AddProductVarient";
 let encoded;
 let ImgObj = [];
 
 const AddProduct = () => {
   const navigate = useNavigate();
   //product data json
-  const initialFormState = {
-    name: "",
-    vendor_id: "",
-    seo_tag: "",
-    brand: "",
-    quantity: "",
-    unit: "",
-    product_stock_quantity: "",
-    price: "",
-    mrp: "",
-    review: "",
-    discount: "0",
-    gst: "",
-    cgst: "",
-    sgst: "",
-    rating: "",
-    category: "",
-    description: "",
-  };
+  // const initialFormState = {
+  //   name: "",
+  //   vendor_id: "",
+  //   seo_tag: "",
+  //   brand: "",
+  //   quantity: "",
+  //   unit: "",
+  //   product_stock_quantity: "",
+  //   price: "",
+  //   mrp: "",
+  //   review: "",
+  //   discount: "0",
+  //   gst: "",
+  //   cgst: "",
+  //   sgst: "",
+  //   rating: "",
+  //   category: "",
+  //   description: "",
+  // };
   const [loading, setLoading] = useState(false);
   const [productID, setProductID] = useState("");
   const [vendorID, setVendorID] = useState("");
@@ -69,11 +71,15 @@ const AddProduct = () => {
   const [newImageUrls, setnewImageUrls] = useState([]);
   const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
   const [modalshow, setmodalshow] = useState(false);
+  const [varientModalShow, setVarientModalShow] = useState(false);
+  const [modalshowtype, setmodalshowType] = useState(false);
   const [docsshow, setDocsShow] = useState(false);
   const [productTable, setProductTable] = useState([]);
   const [apicall, setApicall] = useState(false);
   const [ProductAlert, setProductAlert] = useState(false);
+  const [ProductVarientAlert, setProductVarientAlert] = useState(false);
   const [updateProductAlert, setupdateProductAlert] = useState(false);
+  const [singleProductData, setSingleProductData] = useState(false);
 
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -117,20 +123,18 @@ const AddProduct = () => {
         </>
       ),
     },
-
     {
       name: "Product Name",
-
       selector: (row) => (
         <span>
-          <b>Name:</b>
-          {row.name.charAt(0).toUpperCase() + row.name.slice(1)}
+          <b>Name:</b>{" "}
+          {row.name ? row.name.charAt(0).toUpperCase() + row.name.slice(1) : ""}
           <br />
-          <b>Brand : </b>{" "}
-          {row.brand.charAt(0).toUpperCase() + row.brand.slice(1)}
+          <b>Brand:</b>{" "}
+          {row.brand ? row.brand.charAt(0).toUpperCase() + row.brand.slice(1) : ""}
           <br />
-          <b>Category : </b>{" "}
-          {row.category.charAt(0).toUpperCase() + row.category.slice(1)}
+          <b>Category:</b>{" "}
+          {row.category ? row.category.charAt(0).toUpperCase() + row.category.slice(1) : ""}
           <br />
         </span>
       ),
@@ -142,7 +146,6 @@ const AddProduct = () => {
         paddingLeft: "0px",
       },
     },
-
     {
       name: "price ",
       selector: (row) => (
@@ -201,7 +204,7 @@ const AddProduct = () => {
         </span>
       ),
       sortable: true,
-      width: "120px",
+      width: "80px",
       center: true,
     },
 
@@ -248,7 +251,7 @@ const AddProduct = () => {
       selector: (row) => (
         <div className={"actioncolimn"}>
           <Button
-            size="xs"
+            size="sm"
             onClick={handlevarietyShow.bind(
               this,
               row.id,
@@ -259,6 +262,17 @@ const AddProduct = () => {
             Add Images
           </Button>
           <Button
+            size="sm"
+            className="btn-info mx-2"
+            onClick={AddVarientModal.bind(
+              this,
+              row.id,
+              row.vendor_id,
+            )}
+          >
+            Add variant
+          </Button>
+          <Button
             className="btn-warning mx-2"
             onClick={handleEditShow.bind(this, row.id)}
           >
@@ -267,7 +281,7 @@ const AddProduct = () => {
           </Button>
           <button
             type="button"
-            class="btn btn-danger"
+            className="btn btn-danger"
             onClick={handleAlert.bind(this, row.id)}
           >
             <BsTrash />
@@ -284,63 +298,63 @@ const AddProduct = () => {
     navigate("/admin/productDetails");
   };
   // validation fucntion------
-  const validators = {
-    name: [
-      (value) =>
-        value === null || value === ""
-          ? "Name is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    brand: [
-      (value) =>
-        value === null || value === ""
-          ? "Brand is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    category: [
-      (value) =>
-        value === null || value === ""
-          ? "Category is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    price: [
-      (value) => (value === null || value === "" ? "Price is required" : null),
-    ],
-    mrp: [
-      (value) =>
-        value === null || value === ""
-          ? "Mrp is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    gst: [
-      (value) =>
-        value === null || value === ""
-          ? "GST is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    product_stock_quantity: [
-      (value) =>
-        value === null || value === ""
-          ? "product stock quantity is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-  };
+  // const validators = {
+  //   name: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Name is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //           ? "Cannot use special character "
+  //           : null,
+  //   ],
+  //   brand: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Brand is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //           ? "Cannot use special character "
+  //           : null,
+  //   ],
+  //   category: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Category is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //           ? "Cannot use special character "
+  //           : null,
+  //   ],
+  //   price: [
+  //     (value) => (value === null || value === "" ? "Price is required" : null),
+  //   ],
+  //   mrp: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Mrp is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //           ? "Cannot use special character "
+  //           : null,
+  //   ],
+  //   gst: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "GST is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //           ? "Cannot use special character "
+  //           : null,
+  //   ],
+  //   product_stock_quantity: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "product stock quantity is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //           ? "Cannot use special character "
+  //           : null,
+  //   ],
+  // };
 
   //import usevalidation and some states and funtions
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators);
+  // const { state, setState, onInputChange, setErrors, errors, validate } =
+  //   useValidation(initialFormState, validators);
 
   //  all product data search function
   const fetchProductData = async () => {
@@ -360,7 +374,17 @@ const AddProduct = () => {
     setApicall(false);
     setProductTable(data.results);
     setLoading(false);
-
+    setsearchData({
+      search: "",
+      category: "",
+      price_from: "",
+      price_to: "",
+      rating: "",
+      brand: "",
+      seo_tag: "",
+      vendor_id: "",
+      product_stock_quantity: "",
+    });
     console.log("all-product-" + JSON.stringify(data.results));
   };
 
@@ -370,21 +394,21 @@ const AddProduct = () => {
     fetchfilterdata();
   }, [apicall]);
 
-  let discountt = (state.mrp * state.discount) / 100;
+  // let discountt = (state.mrp * state.discount) / 100;
 
-  let sgst = state.gst / 2;
-  let cgst = state.gst / 2;
-  let price = state.mrp - discountt;
+  // let sgst = state.gst / 2;
+  // let cgst = state.gst / 2;
+  // let price = state.mrp - discountt;
 
-  let totalGst = (price * state.gst) / 100;
-  useEffect(() => {
-    setState({
-      ...state,
-      price: `${price}`,
-      sgst: `${sgst}`,
-      cgst: `${cgst}`,
-    });
-  }, [state.mrp, state.discount, state.gst]);
+  // let totalGst = (price * state.gst) / 100;
+  // useEffect(() => {
+  //   setState({
+  //     ...state,
+  //     price: `${price}`,
+  //     sgst: `${sgst}`,
+  //     cgst: `${cgst}`,
+  //   });
+  // }, [state.mrp, state.discount, state.gst]);
 
   //fetch brand list and category list data---
   const fetchfilterdata = async () => {
@@ -418,7 +442,8 @@ const AddProduct = () => {
 
   //brand select list show
   const options2 = [
-    brandData.map((item) => ({
+    brandData.map((item,i) => ({
+      key:i,
       value: `${item.brand}`,
       label: `${item.brand}`,
     })),
@@ -438,7 +463,8 @@ const AddProduct = () => {
 
   //category list show fuction
   const options3 = [
-    categoryData.map((item) => ({
+    categoryData.map((item,i) => ({
+      key:i,
       value: `${item.category}`,
       label: `${item.category}`,
     })),
@@ -485,21 +511,22 @@ const AddProduct = () => {
   };
 
   //product add
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    if (validate()) {
-      const response = await AddProductData(state);
-      // console.log("data---" + JSON.stringify(response.message.affectedRows));
-      if (response.message.affectedRows === 1) {
-        setProductAlert(true);
-      }
-    }
-  };
+  // const handleAddProduct = async (e) => {
+  //   e.preventDefault();
+  //   if (validate()) {
+  //     const response = await AddProductData(state);
+  //     // console.log("data---" + JSON.stringify(response.message.affectedRows));
+  //     if (response.message.affectedRows === 1) {
+  //       setProductAlert(true);
+  //     }
+  //   }
+  // };
 
   // product model show
   const handleShow = (e) => {
     if (e === "add") {
-      setmodalshow(e);
+      setmodalshow(true);
+      setmodalshowType(e)
     }
     // setProductData(pdata);
   };
@@ -520,34 +547,34 @@ const AddProduct = () => {
       searchdata.product_stock_quantity
     );
     console.log("data---" + JSON.stringify(response.results[0]));
-    setState(response.results[0]);
+    setSingleProductData(response.results[0]);
     setmodalshow(true);
     setLoading(false);
   };
 
-  const ModelCloseFunction = () => {
-    setmodalshow(false);
-    setErrors({});
-    setState(initialFormState);
-  };
+  // const ModelCloseFunction = () => {
+  //   setmodalshow(false);
+  //   setErrors({});
+  //   setState(initialFormState);
+  // };
 
   //product update fuction--
 
-  const handleUpdateProduct = async (e) => {
-    e.preventDefault();
-    if (validate()) {
-      const response = await UpdateProductData(state);
-      // console.log("data---" + JSON.stringify(response.response.affectedRows));
-      if (response.response.affectedRows === 1) {
-        setupdateProductAlert(true);
-      }
-    }
-  };
+  // const handleUpdateProduct = async (e) => {
+  //   e.preventDefault();
+  //   if (validate()) {
+  //     const response = await UpdateProductData(state);
+  //     // console.log("data---" + JSON.stringify(response.response.affectedRows));
+  //     if (response.response.affectedRows === 1) {
+  //       setupdateProductAlert(true);
+  //     }
+  //   }
+  // };
 
   // all alert close fuction
   const closeProductAlert = () => {
-    setErrors({});
-    setState(initialFormState);
+    // setErrors({});
+    // setState(initialFormState);
     setProductAlert(false);
     setupdateProductAlert(false);
     setmodalshow(false);
@@ -582,6 +609,13 @@ const AddProduct = () => {
     setProductDescription(description);
   };
 
+  /*Function to open add varient modal to add product varient */
+  const AddVarientModal = (id, vendor_id) => {
+    console.log(id, vendor_id)
+    setProductID(id)
+    setVarientModalShow(true)
+    setVendorID(vendor_id)
+  }
   //product status change function----
   const onStatusChange = async (e, id) => {
     // setLoading(true);
@@ -783,9 +817,9 @@ const AddProduct = () => {
                           <option value={""}>Search By Vendor</option>
                           {vendorJson.vendorjson.map((item, id) => {
                             return (
-                              <>
+                              <React.Fragment key={id}>
                                 <option value={id + 1}>{item}</option>
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </Form.Select>
@@ -836,7 +870,7 @@ const AddProduct = () => {
                         </Button>
                       </div>
                     </div>
-
+                    {console.log("Product data =>", productTable)}
                     <DataTable
                       columns={columns}
                       data={productTable}
@@ -853,489 +887,33 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
-
-      <Modal
-        size="lg"
+      {/* Modal for add product */}
+      {modalshow ? <AddProductModal
         show={modalshow}
-        onHide={ModelCloseFunction}
-        aria-labelledby="example-modal-sizes-title-lg"
-      >
-        <Form
-          className="p-2 addproduct_form"
-          onSubmit={
-            modalshow === "add"
-              ? (e) => handleAddProduct(e)
-              : (modalshow) => handleUpdateProduct(modalshow)
-          }
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-lg">
-              {modalshow === "add" ? "Add Product" : "Update Product"}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row">
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Product Name <small className="text-danger">*</small>
-                  </Form.Label>
-                  <Form.Control
-                    className={
-                      errors.name
-                        ? "form-control border border-danger"
-                        : "form-control"
-                    }
-                    type="text"
-                    value={state.name}
-                    name="name"
-                    onChange={onInputChange}
-                    id="name"
-                  />
-                  {errors.name
-                    ? (errors.name || []).map((error, i) => {
-                        return (
-                          <small className="text-danger" key={i}>
-                            {error}
-                          </small>
-                        );
-                      })
-                    : null}
-                </Form.Group>
-              </div>
+        close={() => setmodalshow(false)}
+        type={modalshowtype}
+        setProductAlert={setProductAlert}
+        setupdateProductAlert={setupdateProductAlert}
+      />
+        : null
+      }
 
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    SEO Tag
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={state.seo_tag}
-                    name="seo_tag"
-                    onChange={onInputChange}
-                    id="seo_tag"
-                  />
-                </Form.Group>
-              </div>
+      {/* Modal for add product Varient */}
+      {varientModalShow ?
+        <AddProductVarientModal
+          show={varientModalShow}
+          close={() => setVarientModalShow(false)}
+          type={"add"}
+          setProductAlert={setProductVarientAlert}
+          setupdateProductAlert={setupdateProductAlert}
+          product_id={productID}
+          vendor_id={vendorID}
+        />
+        : null
+      }
 
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    MRP <small className="text-danger">*</small>
-                  </Form.Label>
-                  <Form.Control
-                    className={
-                      errors.mrp
-                        ? "form-control border border-danger"
-                        : "form-control"
-                    }
-                    type="text"
-                    value={state.mrp}
-                    name="mrp"
-                    onChange={onInputChange}
-                    id="mrp"
-                  />
-                  {errors.mrp
-                    ? (errors.mrp || []).map((error, i) => {
-                        return (
-                          <small className="text-danger" key={i}>
-                            {error}
-                          </small>
-                        );
-                      })
-                    : null}
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Discount (%)
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={state.discount}
-                    name="discount"
-                    onChange={onInputChange}
-                    id="discount"
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    GST (%) <small className="text-danger">*</small>
-                  </Form.Label>
-                  <Form.Control
-                    className={
-                      errors.gst
-                        ? "form-control border border-danger"
-                        : "form-control"
-                    }
-                    type="text"
-                    value={state.gst}
-                    name="gst"
-                    onChange={onInputChange}
-                    id="gst"
-                  />
-                  {errors.gst
-                    ? (errors.gst || []).map((error, i) => {
-                        return (
-                          <small className="text-danger" key={i}>
-                            {error}
-                          </small>
-                        );
-                      })
-                    : null}
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    CGST (%)
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={state.cgst}
-                    name="cgst"
-                    onChange={onInputChange}
-                    id="cgst"
-                  />
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    SGST (%)
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={state.sgst}
-                    name="sgst"
-                    onChange={onInputChange}
-                    id="sgst"
-                  />
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Price <small className="text-danger">*</small>
-                  </Form.Label>
-                  <Form.Control
-                    className={
-                      errors.price
-                        ? "form-control border border-danger"
-                        : "form-control"
-                    }
-                    type="text"
-                    value={state.price}
-                    name="price"
-                    onChange={onInputChange}
-                    id="price"
-                  />
-                  {state.gst > 0 ? (
-                    <small className="text-success">{`${state.gst}% tax ₹ ${totalGst} are include in price `}</small>
-                  ) : null}
-                  {errors.price
-                    ? (errors.price || []).map((error, i) => {
-                        return (
-                          <small className="text-danger" key={i}>
-                            {error}
-                          </small>
-                        );
-                      })
-                    : null}
-                </Form.Group>
-              </div>
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Product Unit quantity
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={state.quantity}
-                    name="quantity"
-                    onChange={onInputChange}
-                    id="quantity"
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Unit
-                  </Form.Label>
-                  <Col sm="12">
-                    <InputGroup className="">
-                      <Form.Select
-                        aria-label="Default select example"
-                        className="nice-select w-100"
-                        sm="9"
-                        name="unit"
-                        onChange={onInputChange}
-                        value={state.unit}
-                      >
-                        <option value={""}>Select unit</option>
-                        {unitJson.unitjson.map((item) => {
-                          return (
-                            <>
-                              <option value={item}>{item}</option>
-                            </>
-                          );
-                        })}
-                      </Form.Select>
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Product Stock Quantity{" "}
-                    <small className="text-danger">*</small>
-                  </Form.Label>
-                  <Form.Control
-                    className={
-                      errors.product_stock_quantity
-                        ? "form-control border border-danger"
-                        : "form-control"
-                    }
-                    type="text"
-                    value={state.product_stock_quantity}
-                    name="product_stock_quantity"
-                    onChange={onInputChange}
-                    id="product_stock_quantity"
-                  />
-                  {errors.product_stock_quantity
-                    ? (errors.product_stock_quantity || []).map((error, i) => {
-                        return (
-                          <small className="text-danger" key={i}>
-                            {error}
-                          </small>
-                        );
-                      })
-                    : null}
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    rating
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Search by delivery"
-                    size="sm"
-                    onChange={onInputChange}
-                    name="rating"
-                    value={state.rating}
-                    id="rating"
-                  >
-                    <option value="">Select rating</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </Form.Select>
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Review
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name={"review"}
-                    onChange={onInputChange}
-                    value={state.review}
-                    id="review"
-                  />
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Vendor
-                  </Form.Label>
-                  <Col sm="12">
-                    <InputGroup className="">
-                      <Form.Select
-                        aria-label="Default select example"
-                        className="nice-select w-100"
-                        sm="9"
-                        name="vendor_id"
-                        onChange={onInputChange}
-                        value={state.vendor_id}
-                      >
-                        <option value={""}>Select vendor</option>
-                        {vendorJson.vendorjson.map((item, id) => {
-                          return (
-                            <>
-                              <option value={id + 1}>{item}</option>
-                            </>
-                          );
-                        })}
-                      </Form.Select>
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Category <small className="text-danger">*</small>
-                    {/* <span className="text-danger">*</span> */}
-                  </Form.Label>
-                  <Col sm="12">
-                    <InputGroup className="">
-                      <Form.Select
-                        aria-label="Default select example"
-                        sm="9"
-                        className={
-                          errors.category
-                            ? "form-control border border-danger nice-select w-100"
-                            : "form-control"
-                        }
-                        name="category"
-                        onChange={onInputChange}
-                        value={state.category}
-                        id="category"
-                      >
-                        <option value={""}>Select Category</option>
-                        {CategoryJson.categoryjson.map((item) => {
-                          return (
-                            <>
-                              <option value={item}>{item}</option>
-                            </>
-                          );
-                        })}
-                      </Form.Select>
-                      {errors.category
-                        ? (errors.category || []).map((error, i) => {
-                            return (
-                              <small className="text-danger" key={i}>
-                                {error}
-                              </small>
-                            );
-                          })
-                        : null}
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-              </div>
-
-              <div className="col-md-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="" column sm="12">
-                    Brand
-                    <span className="text-danger">*</span>
-                  </Form.Label>
-                  <Col sm="12">
-                    <InputGroup className="">
-                      <Form.Select
-                        aria-label="Default select example"
-                        className={
-                          errors.category
-                            ? "form-control border border-danger nice-select w-100"
-                            : "form-control"
-                        }
-                        sm="9"
-                        name="brand"
-                        onChange={onInputChange}
-                        value={state.brand}
-                        id="brand"
-                      >
-                        <option value={""}>Select Brand...</option>
-                        {brandJson.brandjson.map((item) => {
-                          return (
-                            <>
-                              <option value={item}>{item}</option>
-                            </>
-                          );
-                        })}
-                      </Form.Select>
-                      {errors.brand
-                        ? (errors.brand || []).map((error, i) => {
-                            return (
-                              <small className="text-danger" key={i}>
-                                {error}
-                              </small>
-                            );
-                          })
-                        : null}
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-              </div>
-
-              <div className="col-md-12">
-                <Form.Group className="mb-3" controlId="validationCustom01">
-                  <Form.Label className="" column sm="12">
-                    Description
-                    {/* <span className="text-danger">*</span> */}
-                  </Form.Label>
-                  <Col sm="12">
-                    <InputGroup className="">
-                      <Form.Control
-                        size="lg"
-                        rows={5}
-                        className="h-auto"
-                        as="textarea"
-                        name="description"
-                        aria-label="With textarea"
-                        onChange={onInputChange}
-                        value={state.description}
-                      />
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-              </div>
-
-              <div className="col-md-3 col-sm-4 p-2 text-center">
-                <div className="manufacture_date addvariety_inputbox">
-                  <Button
-                    variant="outline-success"
-                    className="addcategoryicon w-100"
-                    type={"submit"}
-                  >
-                    {modalshow === "add" ? "Add Product" : "Update product"}
-                  </Button>
-                </div>
-              </div>
-              <div className="col-md-3 col-sm-4 p-2 text-center">
-                <div className="manufacture_date addvariety_inputbox">
-                  <Button
-                    variant="outline-danger"
-                    className="addcategoryicon w-100"
-                    // type="submit"
-                    onClick={ModelCloseFunction}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            {/* <Button onClick={setLgShow(false)}>Close</Button> */}
-          </Modal.Footer>
-        </Form>
-      </Modal>
 
       {/* Add images model */}
-
       <Modal size="lg" show={docsshow} onHide={handleDocsClose}>
         <Form ref={formRef}>
           <Modal.Header>
@@ -1352,15 +930,15 @@ const AddProduct = () => {
                 {newImageUrls ? (
                   <tr
                     className={"d-flex flex-wrap"}
-                    // id={"variantimgbox" + variantdata.id}
+                  // id={"variantimgbox" + variantdata.id}
                   >
                     <td className="" colSpan={"12"}>
                       <div className="image_box d-flex  flex-wrap gap-4">
                         {newImageUrls.map((imgg, i) => {
                           // console.log("img path----" + imgg.product_image_path);
                           return (
-                            <>
-                              <div className="add_Product_Image" key={i}>
+                            <React.Fragment key={i}>
+                              <div className="add_Product_Image">
                                 {imgg.image_position === "cover" ? (
                                   <span className="cover_img">Cover</span>
                                 ) : null}
@@ -1395,7 +973,7 @@ const AddProduct = () => {
                                   &times;
                                 </span>
                               </div>
-                            </>
+                            </React.Fragment>
                           );
                         })}
 
@@ -1462,8 +1040,17 @@ const AddProduct = () => {
         title="Added Successfully"
         text={"Product Added"}
         onConfirm={closeProductAlert}
-        // showCancelButton={}
-        // onCancel={}
+      // showCancelButton={}
+      // onCancel={}
+      />
+      
+      <SweetAlert
+        show={ProductVarientAlert}
+        title="Added Successfully"
+        text={"Varient Added"}
+        onConfirm={() => setVarientModalShow(false)}
+      // showCancelButton={}
+      // onCancel={}
       />
 
       <SweetAlert
@@ -1471,8 +1058,8 @@ const AddProduct = () => {
         title="Updated Successfully"
         text={"Product update"}
         onConfirm={closeProductAlert}
-        // showCancelButton={}
-        // onCancel={}
+      // showCancelButton={}
+      // onCancel={}
       />
 
       <SweetAlert
