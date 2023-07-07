@@ -467,6 +467,7 @@ export const DeleteProductStatus = async (id) => {
   return response.data;
 };
 
+/*Function to get the varient image */
 export const GetProductImages = async (id) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/product_image`,
@@ -478,6 +479,7 @@ export const GetProductImages = async (id) => {
   return response.data;
 };
 
+/*Function to add image */
 export const AddProductImage = async (imgobj) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -1260,6 +1262,14 @@ export const CreateTransaction = async (
 export const AddProductVerient = async (props) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_product_verient`,props,
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+/*Api to Update product varient  */
+export const UpdateProductVerient = async (props) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`,props,
     { headers: { admin_token: `${admin_token}` } }
   );
   return response.data;

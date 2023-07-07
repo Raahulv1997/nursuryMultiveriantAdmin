@@ -35,6 +35,8 @@ import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
 import AddProductModal from "./Modal/AddProductModal";
 import AddProductVarientModal from "./Modal/AddProductVarient";
+import VarientListModal from "./Modal/VarientListModal";
+import AddIVarientImage from "./Modal/AddIVarientImage";
 let encoded;
 let ImgObj = [];
 
@@ -79,7 +81,9 @@ const AddProduct = () => {
   const [ProductAlert, setProductAlert] = useState(false);
   const [ProductVarientAlert, setProductVarientAlert] = useState(false);
   const [updateProductAlert, setupdateProductAlert] = useState(false);
-  const [singleProductData, setSingleProductData] = useState(false);
+  const [updateProducVarientAlert, setupdateProductVarientAlert] = useState(false);
+  const [varientModalListShow, setVarientModalListShow] = useState(false);
+  const [productVarientId, setProductVarientId] = useState(false);
 
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -250,7 +254,7 @@ const AddProduct = () => {
       center: true,
       selector: (row) => (
         <div className={"actioncolimn"}>
-          <Button
+          {/* <Button
             size="sm"
             onClick={handlevarietyShow.bind(
               this,
@@ -260,7 +264,7 @@ const AddProduct = () => {
             )}
           >
             Add Images
-          </Button>
+          </Button> */}
           <Button
             size="sm"
             className="btn-info mx-2"
@@ -274,7 +278,7 @@ const AddProduct = () => {
           </Button>
           <Button
             className="btn-warning mx-2"
-            onClick={handleEditShow.bind(this, row.id)}
+            onClick={handleEditShow.bind(this, row.id, row.vendor_id,)}
           >
             {" "}
             <BiEdit />
@@ -385,7 +389,6 @@ const AddProduct = () => {
       vendor_id: "",
       product_stock_quantity: "",
     });
-    console.log("all-product-" + JSON.stringify(data.results));
   };
 
   //product data search data useEffect---
@@ -393,22 +396,6 @@ const AddProduct = () => {
     fetchProductData();
     fetchfilterdata();
   }, [apicall]);
-
-  // let discountt = (state.mrp * state.discount) / 100;
-
-  // let sgst = state.gst / 2;
-  // let cgst = state.gst / 2;
-  // let price = state.mrp - discountt;
-
-  // let totalGst = (price * state.gst) / 100;
-  // useEffect(() => {
-  //   setState({
-  //     ...state,
-  //     price: `${price}`,
-  //     sgst: `${sgst}`,
-  //     cgst: `${cgst}`,
-  //   });
-  // }, [state.mrp, state.discount, state.gst]);
 
   //fetch brand list and category list data---
   const fetchfilterdata = async () => {
@@ -442,8 +429,8 @@ const AddProduct = () => {
 
   //brand select list show
   const options2 = [
-    brandData.map((item,i) => ({
-      key:i,
+    brandData.map((item, i) => ({
+      key: i,
       value: `${item.brand}`,
       label: `${item.brand}`,
     })),
@@ -463,8 +450,8 @@ const AddProduct = () => {
 
   //category list show fuction
   const options3 = [
-    categoryData.map((item,i) => ({
-      key:i,
+    categoryData.map((item, i) => ({
+      key: i,
       value: `${item.category}`,
       label: `${item.category}`,
     })),
@@ -510,66 +497,24 @@ const AddProduct = () => {
     setApicall(true);
   };
 
-  //product add
-  // const handleAddProduct = async (e) => {
-  //   e.preventDefault();
-  //   if (validate()) {
-  //     const response = await AddProductData(state);
-  //     // console.log("data---" + JSON.stringify(response.message.affectedRows));
-  //     if (response.message.affectedRows === 1) {
-  //       setProductAlert(true);
-  //     }
-  //   }
-  // };
 
   // product model show
   const handleShow = (e) => {
     if (e === "add") {
       setmodalshow(true);
       setmodalshowType(e)
+      setProductID("")
     }
     // setProductData(pdata);
   };
 
   // product edit show
-  const handleEditShow = async (id) => {
-    setLoading(true);
-    const response = await AllproductData(
-      id,
-      searchdata.search,
-      searchdata.category,
-      searchdata.price_from,
-      searchdata.price_to,
-      searchdata.rating,
-      searchdata.brand,
-      searchdata.seo_tag,
-      searchdata.vendor_id,
-      searchdata.product_stock_quantity
-    );
-    console.log("data---" + JSON.stringify(response.results[0]));
-    setSingleProductData(response.results[0]);
+  const handleEditShow = async (id, vendor_id) => {
     setmodalshow(true);
-    setLoading(false);
+    setProductID(id)
+    setVendorID(vendor_id)
+    setmodalshowType("")
   };
-
-  // const ModelCloseFunction = () => {
-  //   setmodalshow(false);
-  //   setErrors({});
-  //   setState(initialFormState);
-  // };
-
-  //product update fuction--
-
-  // const handleUpdateProduct = async (e) => {
-  //   e.preventDefault();
-  //   if (validate()) {
-  //     const response = await UpdateProductData(state);
-  //     // console.log("data---" + JSON.stringify(response.response.affectedRows));
-  //     if (response.response.affectedRows === 1) {
-  //       setupdateProductAlert(true);
-  //     }
-  //   }
-  // };
 
   // all alert close fuction
   const closeProductAlert = () => {
@@ -581,6 +526,7 @@ const AddProduct = () => {
     setApicall(true);
     // setProductData(pdata);
     setShowDeleteAlert(false);
+    setVarientModalListShow(true)
   };
 
   const closeDeletrAlert = () => {
@@ -601,19 +547,19 @@ const AddProduct = () => {
   };
 
   //add imgage model show fuction
-  const handlevarietyShow = (id, vendor_id, description) => {
-    setDocsShow(true);
-    onImgView(id);
-    setProductID(id);
-    setVendorID(vendor_id);
-    setProductDescription(description);
-  };
+  // const handlevarietyShow = (id, vendor_id, description) => {
+  //   setDocsShow(true);
+  //   onImgView(id);
+  //   setProductID(id);
+  //   setVendorID(vendor_id);
+  //   setProductDescription(description);
+  // };
 
   /*Function to open add varient modal to add product varient */
   const AddVarientModal = (id, vendor_id) => {
     console.log(id, vendor_id)
     setProductID(id)
-    setVarientModalShow(true)
+    setVarientModalListShow(true)
     setVendorID(vendor_id)
   }
   //product status change function----
@@ -631,84 +577,84 @@ const AddProduct = () => {
   };
 
   // IMAGE UPLOAD SECTION
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      const { name } = file;
-      fileReader.addEventListener("load", () => {
-        resolve({ name: name, base64: fileReader.result });
-      });
-      fileReader.readAsDataURL(file);
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     const { name } = file;
+  //     fileReader.addEventListener("load", () => {
+  //       resolve({ name: name, base64: fileReader.result });
+  //     });
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
 
-  const imguploadchange = async (e, product_Id, vendor_id, description) => {
-    setcustomValidated("");
-    onImgView(product_Id);
-    for (let i = 0; i < e.target.files.length; i++) {
-      let coverimg;
+  // const imguploadchange = async (e, product_Id, vendor_id, description) => {
+  //   setcustomValidated("");
+  //   onImgView(product_Id);
+  //   for (let i = 0; i < e.target.files.length; i++) {
+  //     let coverimg;
 
-      if (newImageUrls.length === 0 && i === 0) {
-        coverimg = "cover";
-      } else {
-        coverimg = `cover${i}`;
-      }
-      encoded = await convertToBase64(e.target.files[i]);
-      const [first, ...rest] = encoded.base64.split(",");
-      let imgvalidation = first.split("/").pop();
+  //     if (newImageUrls.length === 0 && i === 0) {
+  //       coverimg = "cover";
+  //     } else {
+  //       coverimg = `cover${i}`;
+  //     }
+  //     encoded = await convertToBase64(e.target.files[i]);
+  //     const [first, ...rest] = encoded.base64.split(",");
+  //     let imgvalidation = first.split("/").pop();
 
-      if (
-        imgvalidation === "jpeg;base64" ||
-        imgvalidation === "jpg;base64" ||
-        imgvalidation === "png;base64"
-      ) {
-        const productimg = rest.join("-");
-        let imar = {
-          product_id: `${product_Id}`,
-          product_description: `${description}`,
-          vendor_id: `${vendor_id}`,
-          product_image_name: `${encoded.name}${i}${product_Id}`,
-          image_position: coverimg,
-          img_64: productimg,
-        };
-        ImgObj.push(imar);
+  //     if (
+  //       imgvalidation === "jpeg;base64" ||
+  //       imgvalidation === "jpg;base64" ||
+  //       imgvalidation === "png;base64"
+  //     ) {
+  //       const productimg = rest.join("-");
+  //       let imar = {
+  //         product_id: `${product_Id}`,
+  //         product_description: `${description}`,
+  //         vendor_id: `${vendor_id}`,
+  //         product_image_name: `${encoded.name}${i}${product_Id}`,
+  //         image_position: coverimg,
+  //         img_64: productimg,
+  //       };
+  //       ImgObj.push(imar);
 
-        await AddProductImage(ImgObj);
+  //       await AddProductImage(ImgObj);
 
-        // console.log("iimg add" + JSON.stringify(response));
-        ImgObj = [];
-        onImgView(product_Id);
+  //       // console.log("iimg add" + JSON.stringify(response));
+  //       ImgObj = [];
+  //       onImgView(product_Id);
 
-        setcustomValidated("");
-      } else {
-        setcustomValidated("imgformat");
-      }
-    }
-  };
+  //       setcustomValidated("");
+  //     } else {
+  //       setcustomValidated("imgformat");
+  //     }
+  //   }
+  // };
 
-  const onImgRemove = async (id, product_img_id, product_img_name) => {
-    await DeleteProductImage(id, product_img_id, product_img_name);
-    // console.log("delete responce--" + JSON.stringify(response));
-    onImgView(id);
-  };
+  // const onImgRemove = async (id, product_img_id, product_img_name) => {
+  //   await DeleteProductImage(id, product_img_id, product_img_name);
+  //   // console.log("delete responce--" + JSON.stringify(response));
+  //   onImgView(id);
+  // };
 
-  const onImgView = async (id) => {
-    // setEditButton(false);
-    // setimageboxid(id);
+  // const onImgView = async (id) => {
+  //   // setEditButton(false);
+  //   // setimageboxid(id);
 
-    const response = await GetProductImages(id);
-    // console.log(JSON.stringify(response));
-    setnewImageUrls(response);
-  };
+  //   const response = await GetProductImages(id);
+  //   // console.log(JSON.stringify(response));
+  //   setnewImageUrls(response);
+  // };
 
-  const onImgCoverEditClick = async (id, product_img_id) => {
-    await ProductCoverImageChange(id, product_img_id);
+  // const onImgCoverEditClick = async (id, product_img_id) => {
+  //   await ProductCoverImageChange(id, product_img_id);
 
-    onImgView(id);
-  };
+  //   onImgView(id);
+  // };
   // // END IMAGE UPLOAD SECTION
 
   return (
@@ -888,13 +834,17 @@ const AddProduct = () => {
         </div>
       </div>
       {/* Modal for add product */}
-      {modalshow ? <AddProductModal
-        show={modalshow}
-        close={() => setmodalshow(false)}
-        type={modalshowtype}
-        setProductAlert={setProductAlert}
-        setupdateProductAlert={setupdateProductAlert}
-      />
+      {modalshow ?
+        <AddProductModal
+          show={modalshow}
+          close={() => setmodalshow(false)}
+          type={modalshowtype}
+          setProductAlert={setProductAlert}
+          setupdateProductAlert={setupdateProductAlert}
+          setProductID={setProductID}
+          productID={productID}
+          setVendorID={setVendorID}
+        />
         : null
       }
 
@@ -905,16 +855,29 @@ const AddProduct = () => {
           close={() => setVarientModalShow(false)}
           type={"add"}
           setProductAlert={setProductVarientAlert}
-          setupdateProductAlert={setupdateProductAlert}
+          setupdateProductAlert={setupdateProductVarientAlert}
           product_id={productID}
           vendor_id={vendorID}
+          productVarientId={productVarientId}
+        />
+        : null
+      }
+      {varientModalListShow ?
+        <VarientListModal
+          show={varientModalListShow}
+          close={() => setVarientModalListShow(false)}
+          setVarientModalShow={setVarientModalShow}
+          product_id={productID}
+          setProductID={setProductID}
+          setProductVarientId={setProductVarientId}
+          setDocsShow={setDocsShow}
+          setProductDescription={setProductDescription}
         />
         : null
       }
 
-
       {/* Add images model */}
-      <Modal size="lg" show={docsshow} onHide={handleDocsClose}>
+      {/* <Modal size="lg" show={docsshow} onHide={handleDocsClose}>
         <Form ref={formRef}>
           <Modal.Header>
             <Modal.Title>Add Images</Modal.Title>
@@ -1033,7 +996,13 @@ const AddProduct = () => {
             </Button>
           </Modal.Footer>
         </Form>
-      </Modal>
+      </Modal> */}
+      <AddIVarientImage 
+      show={docsshow} 
+      close={()=>setDocsShow(false)}
+      id={productID}
+      varId={productVarientId}
+      des={productDescription}/>
 
       <SweetAlert
         show={ProductAlert}
@@ -1043,12 +1012,12 @@ const AddProduct = () => {
       // showCancelButton={}
       // onCancel={}
       />
-      
+
       <SweetAlert
         show={ProductVarientAlert}
         title="Added Successfully"
         text={"Varient Added"}
-        onConfirm={() => setVarientModalShow(false)}
+        onConfirm={() => setProductVarientAlert(false)}
       // showCancelButton={}
       // onCancel={}
       />
@@ -1061,7 +1030,14 @@ const AddProduct = () => {
       // showCancelButton={}
       // onCancel={}
       />
-
+      <SweetAlert
+        show={updateProducVarientAlert}
+        title="Updated Successfully"
+        text={"Product update"}
+        onConfirm={() => setupdateProductVarientAlert(false)}
+      // showCancelButton={}
+      // onCancel={}
+      />
       <SweetAlert
         show={ShowDeleteAlert}
         title="Product Name"

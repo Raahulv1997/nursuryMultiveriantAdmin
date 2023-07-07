@@ -2,18 +2,16 @@ import React, { useEffect } from "react";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import CategoryJson from "../json/categoryJson";
-import vendorJson from "../json/vendorJson";
-import brandJson from "../json/brandJson";
 import unitJson from "../json/unitJson";
 import "sweetalert/dist/sweetalert.css";
 import {
     AddProductVerient,
-    UpdateProductData,
+    UpdateProductVerient,
+    AllproductData
 } from "../../api/api";
 import useValidation from "../../common/useValidation";
 
-export default function AddProductVarientModal(props) {console.log(props)
+export default function AddProductVarientModal(props) {
     //product data json
     const initialFormState =
     {
@@ -33,7 +31,6 @@ export default function AddProductVarientModal(props) {console.log(props)
         rating: "",
         verient_description: "",
     }
-
 
     /*Validation function */
     const validators = {
@@ -93,6 +90,34 @@ export default function AddProductVarientModal(props) {console.log(props)
     const { state, setState, onInputChange, setErrors, errors, validate } =
         useValidation(initialFormState, validators);
 
+/*Function to get product Varient data */
+const GetProductData = async () => {
+    const response = await AllproductData(
+        props.productID,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    );
+    if(props.productID === "" || props.productVarientId === undefined || props.productVarientId === "" || props.productVarientId === null){
+        setState(initialFormState)
+    }else{
+        // setState(response.results[0]);
+        setState(response.results.find((vdata) => vdata.product_verient_id === props.productVarientId));
+
+    }
+};
+
+/*Render method to get product Varient data*/
+useEffect(() => {
+    GetProductData()
+}, [props])
+
     /*Discount and Gst calculation */
     let discountt = (state.mrp * state.discount) / 100;
 
@@ -120,6 +145,7 @@ export default function AddProductVarientModal(props) {console.log(props)
             // console.log("data---" + JSON.stringify(response.message.affectedRows));
             if (response.message.affectedRows === 1) {
                 props.setProductAlert(true);
+                ModelCloseFunction()
             }
         }
     };
@@ -132,16 +158,17 @@ export default function AddProductVarientModal(props) {console.log(props)
     };
 
     /*Function to lupdate the Product */
-    // const handleUpdateProduct = async (e) => {
-    //     e.preventDefault();
-    //     if (validate()) {
-    //         const response = await UpdateProductData(state);
-    //         // console.log("data---" + JSON.stringify(response.response.affectedRows));
-    //         if (response.response.affectedRows === 1) {
-    //             props.setupdateProductAlert(true);
-    //         }
-    //     }
-    // };
+    const handleUpdateProduct = async (e) => {
+        e.preventDefault();
+        if (validate()) {
+            const response = await UpdateProductVerient(state);
+            // console.log("data---" + JSON.stringify(response.response.affectedRows));
+            if (response.response.affectedRows === 1) {
+                props.setupdateProductAlert(true);
+                ModelCloseFunction( )
+            }
+        }
+    };
 
     return (
         <Modal
@@ -153,15 +180,14 @@ export default function AddProductVarientModal(props) {console.log(props)
             <Form
                 className="p-2 addproduct_form"
                 onSubmit={
-                    // props.type === "add"
-                        // ?
-                         (e) => handleAddProduct(e)
-                        // : (props) => handleUpdateProduct(props)
+                    props.productVarientId 
+                        ? (props) => handleUpdateProduct(props)
+                        : (e) => handleAddProduct(e)
                 }
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-lg">
-                        {props.type === "add" ? "Add varient" : "Update varient"}
+                        {props.productVarientId  ? "Update varient" : "Add varient" }
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -600,7 +626,7 @@ export default function AddProductVarientModal(props) {console.log(props)
                                     className="addcategoryicon w-100"
                                     type={"submit"}
                                 >
-                                    {props.type === "add" ? "Add Verient" : "Update Verient"}
+                                    {props.productVarientId ? "Update Verient" :"Add varient" }
                                 </Button>
                             </div>
                         </div>

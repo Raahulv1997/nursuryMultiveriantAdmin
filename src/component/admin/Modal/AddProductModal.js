@@ -4,142 +4,121 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import CategoryJson from "../json/categoryJson";
 import vendorJson from "../json/vendorJson";
-import brandJson from "../json/brandJson";
-import unitJson from "../json/unitJson";
 import "sweetalert/dist/sweetalert.css";
 import {
-  AddProductData,
-  UpdateProductData,
+    AddProductData,
+    UpdateProductData,
+    AllproductData
 } from "../../api/api";
 import useValidation from "../../common/useValidation";
 
 export default function AddProductModal(props) {
-      //product data json
-  const initialFormState = {
-    name: "",
-    vendor_id: "",
-    seo_tag: "",
-    brand: "",
-    quantity: "",
-    unit: "",
-    product_stock_quantity: "",
-    price: "",
-    mrp: "",
-    review: "",
-    discount: "0",
-    gst: "",
-    cgst: "",
-    sgst: "",
-    rating: "",
-    category: "",
-    description: "",
-  };
+    //product data json
+    const initialFormState = {
+        name: "",
+        seo_tag: "",
+        description: "",
+        category: "",
+        care_and_Instructions: "",
+        benefits: "",
+        vendor_id: "",
+    };
 
-/*Validation function */
-  const validators = {
-    name: [
-      (value) =>
-        value === null || value === ""
-          ? "Name is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    brand: [
-      (value) =>
-        value === null || value === ""
-          ? "Brand is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    category: [
-      (value) =>
-        value === null || value === ""
-          ? "Category is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    price: [
-      (value) => (value === null || value === "" ? "Price is required" : null),
-    ],
-    mrp: [
-      (value) =>
-        value === null || value === ""
-          ? "Mrp is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    gst: [
-      (value) =>
-        value === null || value === ""
-          ? "GST is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    product_stock_quantity: [
-      (value) =>
-        value === null || value === ""
-          ? "product stock quantity is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-  };
-  /*Validation imported from the validation custom hook */
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-  useValidation(initialFormState, validators);
-  
-  /*Discount and Gst calculation */
-  let discountt = (state.mrp * state.discount) / 100;
+    /*Validation function */
+    const validators = {
+        name: [
+            (value) =>
+                value === null || value === ""
+                    ? "Name is required"
+                    : /[^A-Za-z 0-9]/g.test(value)
+                        ? "Cannot use special character "
+                        : null,
+        ],
+        category: [
+            (value) =>
+                value === null || value === ""
+                    ? "Category is required"
+                    : /[^A-Za-z 0-9]/g.test(value)
+                        ? "Cannot use special character "
+                        : null,
+        ],
+        vendor_id: [
+            (value) => (value === null || value === "" ? "Price is required" : null),
+        ],
+        description: [
+            (value) =>
+                value === null || value === ""
+                    ? "product stock quantity is required"
+                    : /[^A-Za-z 0-9]/g.test(value)
+                        ? "Cannot use special character "
+                        : null,
+        ],
+    };
+    /*Validation imported from the validation custom hook */
+    const { state, setState, onInputChange, setErrors, errors, validate } =
+        useValidation(initialFormState, validators);
 
-  let sgst = state.gst / 2;
-  let cgst = state.gst / 2;
-  let price = state.mrp - discountt;
+    /*Function to get product data */
+    const GetProductData = async () => {
+        const response = await AllproductData(
+            props.productID,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
 
-  let totalGst = (price * state.gst) / 100;
-  useEffect(() => {
-    setState({
-      ...state,
-      price: `${price}`,
-      sgst: `${sgst}`,
-      cgst: `${cgst}`,
-    });
-  }, [state.mrp, state.discount, state.gst]);
+        );
+        console.log("data---" + JSON.stringify(response));
+        if(props.productID === ""){
+            setState(initialFormState)
+        }else{
+            setState(response.results[0]);}
+    };
 
-  //product add
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    if (validate()) {
-      const response = await AddProductData(state);
-      // console.log("data---" + JSON.stringify(response.message.affectedRows));
-      if (response.message.affectedRows === 1) {
-        props.setProductAlert(true);
-      }
-    }
-  };
+    /*Render method to get product data*/
+    useEffect(() => {
+        GetProductData()
+    }, [props])
 
-  /*Function to close the mmodal */
-  const ModelCloseFunction = () => {
-      setErrors({});
-      setState(initialFormState);
-      props.close();
-  };
+    /*Function to add Product */
+    const handleAddProduct = async (e) => {
+        e.preventDefault();
+        if (validate()) {
+            const response = await AddProductData(state);
+            // console.log("data---" + JSON.stringify(response.message.affectedRows));
+            if (response.message.affectedRows === 1) {
+                props.setProductAlert(true);
+                props.setVendorID(state.vendor_id)
+                // props.setProductID(state.vendor_id)
+            }
+        }
+    };
 
-/*Function to lupdate the Product */
-  const handleUpdateProduct = async (e) => {
-    e.preventDefault();
-    if (validate()) {
-      const response = await UpdateProductData(state);
-      // console.log("data---" + JSON.stringify(response.response.affectedRows));
-      if (response.response.affectedRows === 1) {
-        props.setupdateProductAlert(true);
-      }
-    }
-  };
+    /*Function to close the mmodal */
+    const ModelCloseFunction = () => {
+        setErrors({});
+        setState(initialFormState);
+        props.setProductID("")
+        props.setVendorID("")
+        props.close();
+    };
+
+    /*Function to lupdate the Product */
+    const handleUpdateProduct = async (e) => {
+        e.preventDefault();
+        if (validate()) {
+            const response = await UpdateProductData(state);
+            // console.log("data---" + JSON.stringify(response.response.affectedRows));
+            if (response.response.affectedRows === 1) {
+                props.setupdateProductAlert(true);
+            }
+        }
+    };
 
     return (
         <Modal
@@ -206,90 +185,32 @@ export default function AddProductModal(props) {
                                 />
                             </Form.Group>
                         </div>
-
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
-                                    MRP <small className="text-danger">*</small>
+                                    Care and Instructions
                                 </Form.Label>
                                 <Form.Control
-                                    className={
-                                        errors.mrp
-                                            ? "form-control border border-danger"
-                                            : "form-control"
-                                    }
+                                    className="form-control"
                                     type="text"
-                                    value={state.mrp}
-                                    name="mrp"
+                                    value={state.care_and_Instructions}
+                                    name="care_and_Instructions"
                                     onChange={onInputChange}
-                                    id="mrp"
-                                />
-                                {errors.mrp
-                                    ? (errors.mrp || []).map((error, i) => {
-                                        return (
-                                            <small className="text-danger" key={i}>
-                                                {error}
-                                            </small>
-                                        );
-                                    })
-                                    : null}
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Discount (%)
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={state.discount}
-                                    name="discount"
-                                    onChange={onInputChange}
-                                    id="discount"
+                                    id="care_and_Instructions"
                                 />
                             </Form.Group>
                         </div>
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
-                                    GST (%) <small className="text-danger">*</small>
-                                </Form.Label>
-                                <Form.Control
-                                    className={
-                                        errors.gst
-                                            ? "form-control border border-danger"
-                                            : "form-control"
-                                    }
-                                    type="text"
-                                    value={state.gst}
-                                    name="gst"
-                                    onChange={onInputChange}
-                                    id="gst"
-                                />
-                                {errors.gst
-                                    ? (errors.gst || []).map((error, i) => {
-                                        return (
-                                            <small className="text-danger" key={i}>
-                                                {error}
-                                            </small>
-                                        );
-                                    })
-                                    : null}
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    CGST (%)
+                                    Benefits
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    value={state.cgst}
-                                    name="cgst"
+                                    name={"benefits"}
                                     onChange={onInputChange}
-                                    id="cgst"
+                                    value={state.benefits}
+                                    id="benefits"
                                 />
                             </Form.Group>
                         </div>
@@ -297,164 +218,7 @@ export default function AddProductModal(props) {
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
-                                    SGST (%)
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={state.sgst}
-                                    name="sgst"
-                                    onChange={onInputChange}
-                                    id="sgst"
-                                />
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Price <small className="text-danger">*</small>
-                                </Form.Label>
-                                <Form.Control
-                                    className={
-                                        errors.price
-                                            ? "form-control border border-danger"
-                                            : "form-control"
-                                    }
-                                    type="text"
-                                    value={state.price}
-                                    name="price"
-                                    onChange={onInputChange}
-                                    id="price"
-                                />
-                                {state.gst > 0 ? (
-                                    <small className="text-success">{`${state.gst}% tax ₹ ${totalGst} are include in price `}</small>
-                                ) : null}
-                                {errors.price
-                                    ? (errors.price || []).map((error, i) => {
-                                        return (
-                                            <small className="text-danger" key={i}>
-                                                {error}
-                                            </small>
-                                        );
-                                    })
-                                    : null}
-                            </Form.Group>
-                        </div>
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Product Unit quantity
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={state.quantity}
-                                    name="quantity"
-                                    onChange={onInputChange}
-                                    id="quantity"
-                                />
-                            </Form.Group>
-                        </div>
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Unit
-                                </Form.Label>
-                                <Col sm="12">
-                                    <InputGroup className="">
-                                        <Form.Select
-                                            aria-label="Default select example"
-                                            className="nice-select w-100"
-                                            sm="9"
-                                            name="unit"
-                                            onChange={onInputChange}
-                                            value={state.unit}
-                                        >
-                                            <option value={""}>Select unit</option>
-                                            {unitJson.unitjson.map((item) => {
-                                                return (
-                                                    <>
-                                                        <option value={item}>{item}</option>
-                                                    </>
-                                                );
-                                            })}
-                                        </Form.Select>
-                                    </InputGroup>
-                                </Col>
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Product Stock Quantity{" "}
-                                    <small className="text-danger">*</small>
-                                </Form.Label>
-                                <Form.Control
-                                    className={
-                                        errors.product_stock_quantity
-                                            ? "form-control border border-danger"
-                                            : "form-control"
-                                    }
-                                    type="text"
-                                    value={state.product_stock_quantity}
-                                    name="product_stock_quantity"
-                                    onChange={onInputChange}
-                                    id="product_stock_quantity"
-                                />
-                                {errors.product_stock_quantity
-                                    ? (errors.product_stock_quantity || []).map((error, i) => {
-                                        return (
-                                            <small className="text-danger" key={i}>
-                                                {error}
-                                            </small>
-                                        );
-                                    })
-                                    : null}
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    rating
-                                </Form.Label>
-                                <Form.Select
-                                    aria-label="Search by delivery"
-                                    size="sm"
-                                    onChange={onInputChange}
-                                    name="rating"
-                                    value={state.rating}
-                                    id="rating"
-                                >
-                                    <option value="">Select rating</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Review
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name={"review"}
-                                    onChange={onInputChange}
-                                    value={state.review}
-                                    id="review"
-                                />
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Vendor
+                                    Vendor<small className="text-danger">*</small>
                                 </Form.Label>
                                 <Col sm="12">
                                     <InputGroup className="">
@@ -484,7 +248,6 @@ export default function AddProductModal(props) {
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
                                     Category <small className="text-danger">*</small>
-                                    {/* <span className="text-danger">*</span> */}
                                 </Form.Label>
                                 <Col sm="12">
                                     <InputGroup className="">
@@ -512,50 +275,6 @@ export default function AddProductModal(props) {
                                         </Form.Select>
                                         {errors.category
                                             ? (errors.category || []).map((error, i) => {
-                                                return (
-                                                    <small className="text-danger" key={i}>
-                                                        {error}
-                                                    </small>
-                                                );
-                                            })
-                                            : null}
-                                    </InputGroup>
-                                </Col>
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Brand
-                                    <span className="text-danger">*</span>
-                                </Form.Label>
-                                <Col sm="12">
-                                    <InputGroup className="">
-                                        <Form.Select
-                                            aria-label="Default select example"
-                                            className={
-                                                errors.category
-                                                    ? "form-control border border-danger nice-select w-100"
-                                                    : "form-control"
-                                            }
-                                            sm="9"
-                                            name="brand"
-                                            onChange={onInputChange}
-                                            value={state.brand}
-                                            id="brand"
-                                        >
-                                            <option value={""}>Select Brand...</option>
-                                            {brandJson.brandjson.map((item) => {
-                                                return (
-                                                    <>
-                                                        <option value={item}>{item}</option>
-                                                    </>
-                                                );
-                                            })}
-                                        </Form.Select>
-                                        {errors.brand
-                                            ? (errors.brand || []).map((error, i) => {
                                                 return (
                                                     <small className="text-danger" key={i}>
                                                         {error}
