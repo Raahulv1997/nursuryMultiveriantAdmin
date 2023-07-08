@@ -46,6 +46,7 @@ import UserProductDetails from "./component/user/userproductDetail.js";
 import ChangePassword from "./component/user/ChangePassword";
 import TransactionList from "./component/admin/TransactionList";
 import Filters1 from "./component/user/Filters1";
+import Category from "./component/admin/Category";
 
 function Layout() {
   const adminLogged = localStorage.getItem("admin_token");
@@ -102,6 +103,7 @@ function Layout() {
           <Routes>
             {/* <Route element={<AuthWrapper />}> */}
             <Route path="/admin/home" element={<AddProduct />} />
+            <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/orderList" element={<OrderList />} />
             <Route path="/admin/orderDetails" element={<OrderDetail />} />
             <Route path="/admin/userList" element={<UserAdd />} />

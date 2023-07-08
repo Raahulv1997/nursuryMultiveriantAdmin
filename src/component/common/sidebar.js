@@ -6,6 +6,7 @@ import { BsShop } from "react-icons/bs";
 import { GiPlantRoots } from "react-icons/gi";
 import { FiUser, FiLogOut, FiMenu } from "react-icons/fi";
 import { MdShoppingBag } from "react-icons/md";
+import {TbCategory2} from "react-icons/tb"
 import Logo from "../../logo192.png";
 const Sidebar = () => {
   const [onToggele, setOnToggle] = useState(false);
@@ -293,7 +294,12 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
-
+          <li className="banner-category-item">
+            <Link to="/admin/category">
+              <TbCategory2 />
+              <span> Manage Category </span>
+            </Link>
+          </li>
           <li className="banner-category-item">
             <Link to="/admin/transactionList">
               <GrTransaction />

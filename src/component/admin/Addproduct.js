@@ -1,35 +1,21 @@
-import React, { useEffect, useRef } from "react";
-import { Button, Col, InputGroup, Table } from "react-bootstrap";
+import React, { useEffect} from "react";
+import { Button} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import DataTable from "react-data-table-component";
-
 import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
-import CategoryJson from "./json/categoryJson";
 import vendorJson from "./json/vendorJson";
-import brandJson from "./json/brandJson";
 // import statusJson from "./json/statusJson";
-import unitJson from "./json/unitJson";
 import SweetAlert from "sweetalert-react";
-
 import "sweetalert/dist/sweetalert.css";
 import {
-  AddProductData,
-  AddProductImage,
-  AllproductData,
-  DeleteProductImage,
-  DeleteProductStatus,
+  DeleteProduct,
   fetchfilter,
-  GetProductImages,
-  ProductCoverImageChange,
-  UpdateProductData,
   UpdateProductStatus,
+  AllproductData
 } from "../api/api";
 import Select from "react-select";
-import useValidation from "../common/useValidation";
-
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
@@ -37,40 +23,15 @@ import AddProductModal from "./Modal/AddProductModal";
 import AddProductVarientModal from "./Modal/AddProductVarient";
 import VarientListModal from "./Modal/VarientListModal";
 import AddIVarientImage from "./Modal/AddIVarientImage";
-let encoded;
-let ImgObj = [];
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  //product data json
-  // const initialFormState = {
-  //   name: "",
-  //   vendor_id: "",
-  //   seo_tag: "",
-  //   brand: "",
-  //   quantity: "",
-  //   unit: "",
-  //   product_stock_quantity: "",
-  //   price: "",
-  //   mrp: "",
-  //   review: "",
-  //   discount: "0",
-  //   gst: "",
-  //   cgst: "",
-  //   sgst: "",
-  //   rating: "",
-  //   category: "",
-  //   description: "",
-  // };
   const [loading, setLoading] = useState(false);
   const [productID, setProductID] = useState("");
   const [vendorID, setVendorID] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const [customvalidated, setcustomValidated] = useState("");
-  const formRef = useRef();
   const [brandData, setBrandData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
-  const [newImageUrls, setnewImageUrls] = useState([]);
   const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
   const [modalshow, setmodalshow] = useState(false);
   const [varientModalShow, setVarientModalShow] = useState(false);
@@ -220,29 +181,29 @@ const AddProduct = () => {
       center: true,
     },
 
-    {
-      name: "Change Status",
-      selector: (row) => (
-        <Form.Select
-          aria-label="Search by delivery"
-          size="sm"
-          className="w-100"
-          onChange={(e) => onStatusChange(e, row.id)}
-          name="status"
-          value={row.status}
-        >
-          <option value="">Select status</option>
+    // {
+    //   name: "Change Status",
+    //   selector: (row) => (
+    //     <Form.Select
+    //       aria-label="Search by delivery"
+    //       size="sm"
+    //       className="w-100"
+    //       onChange={(e) => onStatusChange(e, row.id)}
+    //       name="status"
+    //       value={row.status}
+    //     >
+    //       <option value="">Select status</option>
 
-          <option value="pending">Pending</option>
+    //       <option value="pending">Pending</option>
 
-          <option value="approved">Approved </option>
+    //       <option value="approved">Approved </option>
 
-          <option value="draft">Draft </option>
-        </Form.Select>
-      ),
-      sortable: true,
-      width: "140px",
-    },
+    //       <option value="draft">Draft </option>
+    //     </Form.Select>
+    //   ),
+    //   sortable: true,
+    //   width: "140px",
+    // },
 
     {
       name: "Action",
@@ -301,64 +262,6 @@ const AddProduct = () => {
 
     navigate("/admin/productDetails");
   };
-  // validation fucntion------
-  // const validators = {
-  //   name: [
-  //     (value) =>
-  //       value === null || value === ""
-  //         ? "Name is required"
-  //         : /[^A-Za-z 0-9]/g.test(value)
-  //           ? "Cannot use special character "
-  //           : null,
-  //   ],
-  //   brand: [
-  //     (value) =>
-  //       value === null || value === ""
-  //         ? "Brand is required"
-  //         : /[^A-Za-z 0-9]/g.test(value)
-  //           ? "Cannot use special character "
-  //           : null,
-  //   ],
-  //   category: [
-  //     (value) =>
-  //       value === null || value === ""
-  //         ? "Category is required"
-  //         : /[^A-Za-z 0-9]/g.test(value)
-  //           ? "Cannot use special character "
-  //           : null,
-  //   ],
-  //   price: [
-  //     (value) => (value === null || value === "" ? "Price is required" : null),
-  //   ],
-  //   mrp: [
-  //     (value) =>
-  //       value === null || value === ""
-  //         ? "Mrp is required"
-  //         : /[^A-Za-z 0-9]/g.test(value)
-  //           ? "Cannot use special character "
-  //           : null,
-  //   ],
-  //   gst: [
-  //     (value) =>
-  //       value === null || value === ""
-  //         ? "GST is required"
-  //         : /[^A-Za-z 0-9]/g.test(value)
-  //           ? "Cannot use special character "
-  //           : null,
-  //   ],
-  //   product_stock_quantity: [
-  //     (value) =>
-  //       value === null || value === ""
-  //         ? "product stock quantity is required"
-  //         : /[^A-Za-z 0-9]/g.test(value)
-  //           ? "Cannot use special character "
-  //           : null,
-  //   ],
-  // };
-
-  //import usevalidation and some states and funtions
-  // const { state, setState, onInputChange, setErrors, errors, validate } =
-  //   useValidation(initialFormState, validators);
 
   //  all product data search function
   const fetchProductData = async () => {
@@ -465,7 +368,6 @@ const AddProduct = () => {
       CategoryArray.push(item.value);
       return {};
     });
-
     setsearchData({ ...searchdata, category: CategoryArray });
   };
 
@@ -496,7 +398,6 @@ const AddProduct = () => {
     fetchProductData();
     setApicall(true);
   };
-
 
   // product model show
   const handleShow = (e) => {
@@ -540,20 +441,11 @@ const AddProduct = () => {
 
   // delete product fuction
   const deleteProductAlert = async () => {
-    await DeleteProductStatus(Id);
+    await DeleteProduct(Id);
 
     setShowDeleteAlert(false);
     setApicall(true);
   };
-
-  //add imgage model show fuction
-  // const handlevarietyShow = (id, vendor_id, description) => {
-  //   setDocsShow(true);
-  //   onImgView(id);
-  //   setProductID(id);
-  //   setVendorID(vendor_id);
-  //   setProductDescription(description);
-  // };
 
   /*Function to open add varient modal to add product varient */
   const AddVarientModal = (id, vendor_id) => {
@@ -563,99 +455,13 @@ const AddProduct = () => {
     setVendorID(vendor_id)
   }
   //product status change function----
-  const onStatusChange = async (e, id) => {
-    // setLoading(true);
-    await UpdateProductStatus(e.target.value, id);
-    // console.log("respo--" + response);
-    fetchProductData();
-    setApicall(true);
-  };
-
-  const handleDocsClose = () => {
-    setDocsShow(false);
-    // setApicall(true);
-  };
-
-  // IMAGE UPLOAD SECTION
-  // const convertToBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     const { name } = file;
-  //     fileReader.addEventListener("load", () => {
-  //       resolve({ name: name, base64: fileReader.result });
-  //     });
-  //     fileReader.readAsDataURL(file);
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
+  // const onStatusChange = async (e, id) => {
+  //   // setLoading(true);
+  //   await UpdateProductStatus(e.target.value, id);
+  //   // console.log("respo--" + response);
+  //   fetchProductData();
+  //   setApicall(true);
   // };
-
-  // const imguploadchange = async (e, product_Id, vendor_id, description) => {
-  //   setcustomValidated("");
-  //   onImgView(product_Id);
-  //   for (let i = 0; i < e.target.files.length; i++) {
-  //     let coverimg;
-
-  //     if (newImageUrls.length === 0 && i === 0) {
-  //       coverimg = "cover";
-  //     } else {
-  //       coverimg = `cover${i}`;
-  //     }
-  //     encoded = await convertToBase64(e.target.files[i]);
-  //     const [first, ...rest] = encoded.base64.split(",");
-  //     let imgvalidation = first.split("/").pop();
-
-  //     if (
-  //       imgvalidation === "jpeg;base64" ||
-  //       imgvalidation === "jpg;base64" ||
-  //       imgvalidation === "png;base64"
-  //     ) {
-  //       const productimg = rest.join("-");
-  //       let imar = {
-  //         product_id: `${product_Id}`,
-  //         product_description: `${description}`,
-  //         vendor_id: `${vendor_id}`,
-  //         product_image_name: `${encoded.name}${i}${product_Id}`,
-  //         image_position: coverimg,
-  //         img_64: productimg,
-  //       };
-  //       ImgObj.push(imar);
-
-  //       await AddProductImage(ImgObj);
-
-  //       // console.log("iimg add" + JSON.stringify(response));
-  //       ImgObj = [];
-  //       onImgView(product_Id);
-
-  //       setcustomValidated("");
-  //     } else {
-  //       setcustomValidated("imgformat");
-  //     }
-  //   }
-  // };
-
-  // const onImgRemove = async (id, product_img_id, product_img_name) => {
-  //   await DeleteProductImage(id, product_img_id, product_img_name);
-  //   // console.log("delete responce--" + JSON.stringify(response));
-  //   onImgView(id);
-  // };
-
-  // const onImgView = async (id) => {
-  //   // setEditButton(false);
-  //   // setimageboxid(id);
-
-  //   const response = await GetProductImages(id);
-  //   // console.log(JSON.stringify(response));
-  //   setnewImageUrls(response);
-  // };
-
-  // const onImgCoverEditClick = async (id, product_img_id) => {
-  //   await ProductCoverImageChange(id, product_img_id);
-
-  //   onImgView(id);
-  // };
-  // // END IMAGE UPLOAD SECTION
 
   return (
     <div>
@@ -816,7 +622,7 @@ const AddProduct = () => {
                         </Button>
                       </div>
                     </div>
-                    {console.log("Product data =>", productTable)}
+                    {/* {console.log("Product data =>", productTable)} */}
                     <DataTable
                       columns={columns}
                       data={productTable}
@@ -877,126 +683,6 @@ const AddProduct = () => {
       }
 
       {/* Add images model */}
-      {/* <Modal size="lg" show={docsshow} onHide={handleDocsClose}>
-        <Form ref={formRef}>
-          <Modal.Header>
-            <Modal.Title>Add Images</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row ">
-              <div className="col-md-6">
-                <Form.Label>Image Upload (In .jpg, .jpeg, .png ) </Form.Label>
-              </div>
-            </div>
-            <Table>
-              <tbody>
-                {newImageUrls ? (
-                  <tr
-                    className={"d-flex flex-wrap"}
-                  // id={"variantimgbox" + variantdata.id}
-                  >
-                    <td className="" colSpan={"12"}>
-                      <div className="image_box d-flex  flex-wrap gap-4">
-                        {newImageUrls.map((imgg, i) => {
-                          // console.log("img path----" + imgg.product_image_path);
-                          return (
-                            <React.Fragment key={i}>
-                              <div className="add_Product_Image">
-                                {imgg.image_position === "cover" ? (
-                                  <span className="cover_img">Cover</span>
-                                ) : null}
-                                <img
-                                  src={imgg.product_image_path}
-                                  key={i}
-                                  alt="apna_organic"
-                                  height={120}
-                                />
-                                <span
-                                  className="cover_icon"
-                                  onClick={() =>
-                                    onImgCoverEditClick(
-                                      imgg.product_id,
-                                      imgg.product_image_id,
-                                      imgg.product_image_name
-                                    )
-                                  }
-                                >
-                                  Set Cover
-                                </span>
-                                <span
-                                  className="cross_icon"
-                                  onClick={() =>
-                                    onImgRemove(
-                                      imgg.product_id,
-                                      imgg.product_image_id,
-                                      imgg.product_image_name
-                                    )
-                                  }
-                                >
-                                  &times;
-                                </span>
-                              </div>
-                            </React.Fragment>
-                          );
-                        })}
-
-                        <div className="imgprivew_box position-relative overflow-hidden">
-                          <img
-                            src={
-                              "https://i2.wp.com/asvs.in/wp-content/uploads/2017/08/dummy.png?fit=399%2C275&ssl=1"
-                            }
-                            // key={i}
-                            alt="apna_organic"
-                            height={120}
-                          />
-                          <Form.Control
-                            multiple
-                            type="file"
-                            sm="9"
-                            className={"img_add_button"}
-                            onChange={(e) =>
-                              imguploadchange(
-                                e,
-                                productID,
-                                vendorID,
-                                productDescription
-                              )
-                            }
-                            name={"img_64"}
-                          />
-                          <span className="plus_icon position-absolute">+</span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ) : null}
-                <tr>
-                  <td colSpan={"12"}>
-                    {customvalidated === "imgformat" ? (
-                      <span
-                        className="mt-2   text-center fs-6 text-danger"
-                        type="invalid"
-                      >
-                        Image Format should be in jpg, jpeg or png
-                      </span>
-                    ) : null}
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="outline-danger"
-              className="addcategoryicon"
-              // type="submit"
-              onClick={handleDocsClose}
-            >
-              Close
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal> */}
       <AddIVarientImage 
       show={docsshow} 
       close={()=>setDocsShow(false)}

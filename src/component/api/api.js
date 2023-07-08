@@ -96,19 +96,19 @@ export const allproduct = async (
       price_to: price_to,
       price__: price,
       rating__: ratingg,
-      id__:"",
+      id__: "",
       name__: name,
       created_on__: update,
       search: searchbox,
-      id:[],
-      is_verient:"",
+      id: [],
+      is_verient: "",
       category: category,
       rating: showratingdata,
       brand: brand,
       seo_tag: [],
       vendor_id: [],
       is_deleted: ["0"],
-      
+
     },
 
     token_obj
@@ -161,10 +161,10 @@ export const AllproductData = async (
       price_to: price_to,
       price__: "",
       rating__: "",
-      id__ :"",
+      id__: "",
       name__: "",
       search: search,
-      is_verient:"",
+      is_verient: "",
       category: category,
       rating: [rating],
       brand: brand,
@@ -218,11 +218,11 @@ export const filterProductData = async (
       price_to: price_to,
       price__: "",
       rating__: "",
-      id__ : "",
+      id__: "",
       name__: "",
       created_on__: "",
       search: search,
-      is_verient:"",
+      is_verient: "",
       category: category,
       rating: [rating],
       brand: brand,
@@ -435,7 +435,8 @@ export const UpdateProductStatus = async (statusValue, id) => {
   return response.data;
 };
 
-export const DeleteProductStatus = async (id) => {
+/*FUnction to delete product */
+export const DeleteProduct = async (id) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
   let admin_token = localStorage.getItem("admin_token");
@@ -457,10 +458,10 @@ export const DeleteProductStatus = async (id) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_product`,
+    `${process.env.REACT_APP_BASEURL_0}/delete_product`,
     {
       id: id,
-      is_deleted: [1],
+      is_deleted: 1,
     },
     head
   );
@@ -503,15 +504,17 @@ export const AddProductImage = async (imgobj) => {
 
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_product_image`,
-    imgobj,
+    [imgobj],
     head
   );
   return response.data;
 };
 
+/*Function to delete product varient image */
 export const DeleteProductImage = async (
   id,
   product_img_id,
+  varId,
   product_image_name
 ) => {
   let head;
@@ -539,6 +542,7 @@ export const DeleteProductImage = async (
     {
       product_image_id: product_img_id,
       product_id: id,
+      product_variant_id: varId,
       product_image_name: product_image_name,
     },
     head
@@ -546,6 +550,7 @@ export const DeleteProductImage = async (
   return response.data;
 };
 
+/*Function to set image as cover */
 export const ProductCoverImageChange = async (id, product_img_id) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -1261,15 +1266,52 @@ export const CreateTransaction = async (
 /*Api to add product varient  */
 export const AddProductVerient = async (props) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_product_verient`,props,
+    `${process.env.REACT_APP_BASEURL_0}/add_product_verient`, props,
     { headers: { admin_token: `${admin_token}` } }
   );
   return response.data;
 };
+
 /*Api to Update product varient  */
 export const UpdateProductVerient = async (props) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`,props,
+    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`, props,
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+/*Api to delete the product Varient */
+export const DeletProductVarient = async (del, id) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/delete_restore_product_verient`, {
+    is_deleted: del,
+    product_verient_id: id
+  },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+/*Api to get Category data */
+export const GetCategoryList = async (props) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/category_list`,
+  );
+  return response.data;
+};
+/*Api to add category */
+export const AddCategory = async (props) => {console.log(props)
+  const formData = new FormData();
+formData.append('parent_id', props.parent_id);
+formData.append('level', props.level ===( "0" || 0) ? 1 : 2);
+formData.append('all_parent_id', props.parent_id);
+formData.append('new_category', props.new_category);
+formData.append('image', props.image);
+formData.append('category_type', props.category_type);
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/add_category`,
+    formData ,
     { headers: { admin_token: `${admin_token}` } }
   );
   return response.data;

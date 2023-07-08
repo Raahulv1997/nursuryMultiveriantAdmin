@@ -1,14 +1,22 @@
 import React, { useState, } from 'react'
 import { useEffect } from 'react';
 import defaultImage from "../../../image/product_demo.png"
-import { GetProductImages ,AddProductImage} from '../../api/api';
-import { Button, Col, InputGroup, Table } from "react-bootstrap";
+import { GetProductImages, AddProductImage, DeleteProductImage } from '../../api/api';
+import { Button, Table } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import useValidation from "../../common/useValidation";
+import SweetAlert from "sweetalert-react";
+import "sweetalert/dist/sweetalert.css";
 
 export default function AddIVarientImage(props) {
     const [newImageUrls, setnewImageUrls] = useState([]);
+    const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
+    const [Id, setId] = useState();
+    const [varId, setVarId] = useState();
+    const [imageId, setImageId] = useState(false);
+    const [imagename, setImagename] = useState("");
+    const [apicall, setApiCall] = useState(false);
     let encoded;
     const initialFormState = {
         product_id: props.id,
@@ -18,7 +26,6 @@ export default function AddIVarientImage(props) {
         image_position: "",
         img_64: ""
     }
-
     /*Validation function */
     const validators = {
         // product_image_name: [
@@ -56,7 +63,6 @@ export default function AddIVarientImage(props) {
     /*Function to get the image list */
     const onImgView = async () => {
         const response = await GetProductImages(props.id);
-        console.log(response);
         if (response.error === 'please fill all inputs') {
             setnewImageUrls([])
         } else {
@@ -67,7 +73,10 @@ export default function AddIVarientImage(props) {
     /*Render method to get the image list */
     useEffect(() => {
         onImgView()
-    }, [props])
+        if (apicall === true) {
+            setApiCall(false)
+        }
+    }, [props, apicall])
 
     /*Function to convert file to base64 */
     const convertToBase64 = (file) => {
@@ -87,7 +96,6 @@ export default function AddIVarientImage(props) {
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
-
         reader.onload = (event) => {
             const img = new Image();
             img.onload = () => {
@@ -95,7 +103,13 @@ export default function AddIVarientImage(props) {
                     //   setImgError("Image size can't be more then 100 kb");
                 } else {
                     //   setImgError("");
-                    setState({ ...state, img_64: event.target.result });
+                    setState({
+                        ...state, img_64: event.target.result,
+                        product_id: props.id,
+                        product_verient_id: props.varId,
+                        product_description: props.des,
+                        product_image_name: file.name
+                    });
                 }
             };
             img.src = event.target.result;
@@ -104,109 +118,146 @@ export default function AddIVarientImage(props) {
         // Read the file as a data URL
         reader.readAsDataURL(file);
         encoded = await convertToBase64(file);
-        let base64Name = encoded.base64;
-        setState({ ...state, img_64: base64Name });
+        let base64Name = encoded.base64.split(",")[1];
+        setState({
+            ...state, img_64: base64Name,
+            product_id: props.id,
+            product_verient_id: props.varId,
+            product_description: props.des,
+        });
     };
 
     /*Function to set varient image */
-    const OnSetVarientImageClick = async (e) =>{
+    const OnSetVarientImageClick = async (e) => {
         // e.preventDefault();
         if (validate()) {
-            let response =  await AddProductImage(state)
-        console.log(response)
+            let response = await AddProductImage(state)
+            if (response.response === "successfully add images") {
+                setApiCall(true)
+                setState(initialFormState)
+            }
+        }
+    }
+
+    /*Function to open the delete alert box */
+    const handleAlert = (id, imgId, varId, name) => {
+        setShowDeleteAlert(true)
+        setId(id)
+        setImageId(imgId)
+        setVarId(varId)
+        setImagename(name)
+    }
+    /*Function to delete image */
+    const OnImageDeleteClick = async () => {
+        let response = await DeleteProductImage(Id, imageId, varId, imagename)
+        if (response.response === "update successfully") {
+            setShowDeleteAlert(false)
+            setApiCall(true)
         }
     }
     return (
-        <Modal size="lg" show={props.show} onHide={props.close} aria-labelledby="example-modal-sizes-title-lg">
-            <Form onSubmit={()=>OnSetVarientImageClick()}>
-                <Modal.Header>
-                    <Modal.Title>Add Images</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="row ">
-                        <div className="col-md-6">
-                            <Form.Label>Image Upload (In .jpg, .jpeg, .png ) </Form.Label>
+        <>
+            <Modal size="lg" show={props.show} onHide={props.close} aria-labelledby="example-modal-sizes-title-lg">
+                <Form >
+                    <Modal.Header>
+                        <Modal.Title>Add Images</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="row ">
+                            <div className="col-md-6">
+                                <Form.Label>Image Upload (In .jpg, .jpeg, .png ) </Form.Label>
+                            </div>
                         </div>
-                    </div>
-                    <Table>
-                        <tbody>
-                            {newImageUrls ? (
-                                <tr
-                                    className={"d-flex flex-wrap"}
-                                // id={"variantimgbox" + variantdata.id}
-                                >
-                                    <td className="" colSpan={"12"}>
-                                        <div className="image_box d-flex  flex-wrap gap-4">
-                                            {newImageUrls.map((imgg, i) => {
-                                                // console.log("img path----" + imgg.product_image_path);
-                                                return (
-                                                    <React.Fragment key={i}>
-                                                        <div className="add_Product_Image">
-                                                            {imgg.image_position === "cover" ? (
-                                                                <span className="cover_img">Cover</span>
-                                                            ) : null}
-                                                            <img
-                                                                src={imgg.product_image_path}
-                                                                alt="apna_organic"
-                                                                height={120}
-                                                            />
-                                                            <span
-                                                                className="cover_icon"
-                                                            //   onClick={() =>
-                                                            //     onImgCoverEditClick(
-                                                            //       imgg.product_id,
-                                                            //       imgg.product_image_id,
-                                                            //       imgg.product_image_name
-                                                            //     )
-                                                            //   }
-                                                            >
-                                                                Set Cover
-                                                            </span>
-                                                            <span
-                                                                className="cross_icon"
-                                                            //   onClick={() =>
-                                                            //     onImgRemove(
-                                                            //       imgg.product_id,
-                                                            //       imgg.product_image_id,
-                                                            //       imgg.product_image_name
-                                                            //     )
-                                                            //   }
-                                                            >
-                                                                &times;
-                                                            </span>
-                                                        </div>
-                                                    </React.Fragment>
-                                                );
-                                            })}
+                        <Table>
+                            <tbody>
+                                {newImageUrls ? (
+                                    <tr
+                                        className={"d-flex flex-wrap"}
+                                    // id={"variantimgbox" + variantdata.id}
+                                    >
+                                        <td className="" colSpan={"12"}>
+                                            <div className="image_box d-flex  flex-wrap gap-4">
+                                                {newImageUrls.map((imgg, i) => {
+                                                    // console.log("img path----" + imgg.product_image_path);
+                                                    return (
+                                                        <React.Fragment key={i}>
+                                                            <div className="add_Product_Image">
+                                                                {imgg.image_position === "cover" ? (
+                                                                    <span className="cover_img">Cover</span>
+                                                                ) : null}
+                                                                <img
+                                                                    src={imgg.product_image_path}
+                                                                    alt="apna_organic"
+                                                                    height={120}
+                                                                />
+                                                                {/* <span
+                                                                    className="cover_icon"
+                                                                //   onClick={() =>
+                                                                //     onImgCoverEditClick(
+                                                                //       imgg.product_id,
+                                                                //       imgg.product_image_id,
+                                                                //       imgg.product_image_name
+                                                                //     )
+                                                                //   }
+                                                                >
+                                                                    Set Cover
+                                                                </span> */}
+                                                                <span
+                                                                    className="cross_icon"
+                                                                    onClick={() =>
+                                                                        handleAlert(
+                                                                            imgg.product_id,
+                                                                            imgg.product_image_id,
+                                                                            imgg.product_verient_id,
+                                                                            imgg.product_image_name
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    &times;
+                                                                </span>
+                                                            </div>
+                                                        </React.Fragment>
+                                                    );
+                                                })}
 
-                                            <div className="imgprivew_box position-relative overflow-hidden">
-                                                <img
-                                                    src={defaultImage}
-                                                    // key={i}
-                                                    alt="apna_organic"
-                                                    height={120}
-                                                />
-                                                <Form.Control
-                                                    multiple
-                                                    type="file"
-                                                    sm="9"
-                                                    className={"img_add_button"}
-                                                    onChange={(e) =>
-                                                      handleFileChange(
-                                                        e
-                                                      )
-                                                    }
-                                                    name={"img_64"}
-                                                />
-                                                <span className="plus_icon position-absolute">+</span>
+                                                <div className="imgprivew_box position-relative overflow-hidden">
+                                                    <img
+                                                        src={defaultImage}
+                                                        // key={i}
+                                                        alt="apna_organic"
+                                                        height={120}
+                                                    />
+                                                    <Form.Control
+                                                        multiple
+                                                        type="file"
+                                                        sm="9"
+                                                        className={"img_add_button"}
+                                                        onChange={(e) => handleFileChange(e)}
+                                                        name={"img_64"}
+                                                    />
+                                                    <span className="plus_icon position-absolute">+</span>
+                                                </div>
+                                                {state.img_64 === "" ? null : <div>
+                                                    <Form.Select className='form-control' value={state.image_position}
+                                                        onChange={onInputChange}
+                                                        name="image_position"
+                                                        id="image_position">
+                                                        <option value="">select image psition</option>
+                                                        <option value="cover">cover</option>
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                    </Form.Select>
+                                                </div>}
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ) : null}
-                            <tr>
-                                <td colSpan={"12"}>
-                                    {/* {customvalidated === "imgformat" ? (
+                                        </td>
+                                    </tr>
+                                ) : null}
+                                <tr>
+                                    <td colSpan={"12"}>
+                                        {/* {customvalidated === "imgformat" ? (
                       <span
                         className="mt-2   text-center fs-6 text-danger"
                         type="invalid"
@@ -214,28 +265,38 @@ export default function AddIVarientImage(props) {
                         Image Format should be in jpg, jpeg or png
                       </span>
                     ) : null} */}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Modal.Body>
-                <Modal.Footer>
-                <Button
-                        className="addcategoryicon"
-                        type="submit"
-                    >
-                        Add Image
-                    </Button>
-                    <Button
-                        variant="outline-danger"
-                        className="addcategoryicon"
-                        // type="submit"
-                        onClick={props.close}
-                    >
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {state.img_64 === "" ? null : <Button
+                            className="addcategoryicon"
+                            type="button"
+                            onClick={OnSetVarientImageClick}
+                        >
+                            Add Image
+                        </Button>}
+                        <Button
+                            variant="outline-danger"
+                            className="addcategoryicon"
+                            // type="submit"
+                            onClick={props.close}
+                        >
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
+            <SweetAlert
+                show={ShowDeleteAlert}
+                title=""
+                text="Are you Sure you want to delete"
+                onConfirm={OnImageDeleteClick}
+                showCancelButton={true}
+                onCancel={() => setShowDeleteAlert(false)}
+            />
+        </>
     )
 }
