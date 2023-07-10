@@ -6,7 +6,7 @@ import { OrderByNo } from "../api/api";
 import Sidebar from "../common/sidebar";
 
 const OrderDetail = () => {
-  const orderIDD = localStorage.getItem("orderId");
+  const orderIDD = localStorage.getItem("orderid");
   const [loading, setLoading] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -30,7 +30,7 @@ const OrderDetail = () => {
   return (
     <>
       <div className="row admin_row mt-3">
-        <div className="col-lg-3 col-md-3 admin_sidebar">
+        <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
           <Sidebar />
         </div>
         {loading === true ? <Loader /> : null}

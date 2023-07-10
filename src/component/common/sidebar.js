@@ -5,9 +5,10 @@ import { RiAdminLine } from "react-icons/ri";
 import { BsShop } from "react-icons/bs";
 import { GiPlantRoots } from "react-icons/gi";
 import { FiUser, FiLogOut, FiMenu } from "react-icons/fi";
-import { MdShoppingBag } from "react-icons/md";
+import { MdShoppingBag ,MdOutlineRateReview} from "react-icons/md";
 import {TbCategory2} from "react-icons/tb"
 import Logo from "../../logo192.png";
+import {GrDocumentUser} from "react-icons/gr"
 const Sidebar = () => {
   const [onToggele, setOnToggle] = useState(false);
   const admin_token = localStorage.getItem("admin_token");
@@ -36,7 +37,7 @@ const Sidebar = () => {
     }
   };
   return (
-    <div>
+    <div >
       <span className="show_sidebar" onClick={OnToggleClick}>
         <FiMenu />
       </span>
@@ -298,6 +299,18 @@ const Sidebar = () => {
             <Link to="/admin/category">
               <TbCategory2 />
               <span> Manage Category </span>
+            </Link>
+          </li>
+          <li className="banner-category-item">
+            <Link to="/admin/reviews">
+              <MdOutlineRateReview />
+              <span> Manage Reviews </span>
+            </Link>
+          </li>
+          <li className="banner-category-item">
+            <Link to="/admin/complain">
+              <GrDocumentUser />
+              <span> Manage complain </span>
             </Link>
           </li>
           <li className="banner-category-item">

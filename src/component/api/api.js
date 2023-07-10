@@ -296,6 +296,7 @@ export const UpdateProductData = async (props) => {
   return response.data;
 };
 
+/*Api to get order list */
 export const allOrder = async (searchdata) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -321,7 +322,7 @@ export const allOrder = async (searchdata) => {
     searchdata = "";
   }
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400`,
+    `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400&group=yes`,
     {
       search: "",
       order_id: searchdata,
@@ -329,6 +330,7 @@ export const allOrder = async (searchdata) => {
       category: "",
       brand: "",
       user_id: "",
+
     },
 
     head
@@ -654,6 +656,14 @@ export const AdminLoginData = async (email, password) => {
   );
   return response.data;
 };
+// export const AdminLoginData = async (email, password) => {
+//   const formData = new FormData();
+//   formData.append("email", email);
+//   formData.append("password", password);
+//   const response = await axios.post("https://apnaorganicstore.in/canjobs/admin_login", formData);
+//   return response.data;
+// };
+
 export const add_to_cart_api = async (req_body_obj) => {
   let response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_to_cart`,
@@ -748,13 +758,34 @@ export const userOrder = async (orderID) => {
   return response.data;
 };
 
+/*Api tp get order detail */
 export const OrderByNo = async (orderID) => {
-  const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/order_details?id=${orderID}`,
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+  let user_token = localStorage.getItem("user_token");
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else if (user_token !== null &&
+    user_token !== undefined &&
+    user_token !== "") {
+    head = { headers: { user_token: `${user_token}` } };
 
-    {
-      headers: { user_token: user_token },
-    }
+  }
+
+  const response = await axios.get(
+    `${process.env.REACT_APP_BASEURL_0}/order_details?id=${orderID}`,head
   );
   return response.data;
 };
@@ -1296,23 +1327,97 @@ export const DeletProductVarient = async (del, id) => {
 /*Api to get Category data */
 export const GetCategoryList = async (props) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/category_list`,
+    `${process.env.REACT_APP_BASEURL_0}/category_list`, {
+    id: props
+  }
   );
   return response.data;
 };
 /*Api to add category */
-export const AddCategory = async (props) => {console.log(props)
+export const AddCategory = async (props) => {
+  console.log(props)
   const formData = new FormData();
-formData.append('parent_id', props.parent_id);
-formData.append('level', props.level ===( "0" || 0) ? 1 : 2);
-formData.append('all_parent_id', props.parent_id);
-formData.append('new_category', props.new_category);
-formData.append('image', props.image);
-formData.append('category_type', props.category_type);
+  formData.append('parent_id', props.parent_id);
+  formData.append('level', props.level === ("0" || 0) ? 1 : 2);
+  formData.append('all_parent_id', props.parent_id);
+  formData.append('category_name', props.category_name);
+  formData.append('image', props.image);
+  formData.append('category_type', "no");
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_category`,
-    formData ,
+    formData,
     { headers: { admin_token: `${admin_token}` } }
   );
   return response.data;
 };
+
+/*Api to add category */
+export const UpdateCategory = async (props) => {
+  console.log(props)
+  const formData = new FormData();
+  formData.append('parent_id', props.parent_id);
+  formData.append('level', props.level === ("0" || 0) ? 0 : 1);
+  formData.append('all_parent_id', props.parent_id);
+  formData.append('category_name', props.category_name);
+  formData.append('image', props.image);
+  formData.append('category_type', "no");
+  formData.append('id', props.id);
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/update_category`,
+    formData,
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+/*APi to get review list */
+export const GetReviewList = async (name, status) => {
+  console.log(name, status)
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/review_list`,
+    {
+      product_id: "",
+      product_name: name ? name : "",
+      status: status ? status : "",
+    }
+  );
+  return response.data;
+};
+
+/*FUnction to update the status of the review */
+export const UpdateReviewStatus = async (status, id) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/review_approved`,
+    {
+      "id": id,
+      "status": status
+    },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+
+/*Api to get the Complaint list  */
+export const GetComplaintList = async (name, status) => {
+  console.log(name, status)
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/complain_search`,
+    {
+      email: "",
+    }, 
+    { headers: { admin_token: `${admin_token}` } }
+      );
+  return response.data;
+};
+/*FUnction to update the status of the review */
+export const UpdateComplainStatus = async (status, id,des) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/complain_update`,
+    { "id":id,
+     "status":status,
+     "resolve_description":des },
+    { headers: { admin_token: `${admin_token}` } }
+  );
+  return response.data;
+};
+

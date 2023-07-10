@@ -466,7 +466,7 @@ const AddProduct = () => {
   return (
     <div>
       <div className="row admin_row">
-        <div className="col-lg-3 col-md-3 admin_sidebar">
+        <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
           <Sidebar />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">

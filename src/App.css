@@ -36,13 +36,13 @@
     transform: rotate(360deg);
   }
 }
-.admin_sidebar,
+.admin_sidebar bg-white,
 .admin_content_bar {
   /* height: 100vh; */
   overflow: hidden auto;
   margin: 0;
 }
-.admin_sidebar {
+.admin_sidebar bg-white {
   overflow: hidden;
 }
 .text-truncate {

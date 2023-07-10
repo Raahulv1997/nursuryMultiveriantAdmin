@@ -1,36 +1,49 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import useValidation from '../../common/useValidation';
 import { Button } from 'react-bootstrap';
-import { AddCategory } from "../../api/api"
+import { AddCategory, UpdateCategory, GetCategoryList } from "../../api/api"
 export default function AddCategoryModal(props) {
     const initialFormState = {
         parent_id: '',
-        new_category: '',
+        category_name: '',
         image: '',
-        category_type: ''
+        id: ""
     };
 
-    /* Validation function */
-    const validators = {
-        parent_id: [
+    /*Close function */
+    function Close(){
+        setState(initialFormState);
+        setErrors("")
+        props.close();
+    }
+    /*Function to get the category data */
+    const GetCateData = async () => {
+        let response = await GetCategoryList(props.id)
+        if (response.status === true && props.id !== undefined) {
+      setState(response.response[0])
+    }
+}
+
+/*Render method to get the category data */
+useEffect(() => {
+    GetCateData()
+}, [props.id])
+
+/* Validation function */
+const validators = {
+    parent_id: [
             value => (value === null || value === '') ? 'Parent Category is required' : null
         ],
-        new_category: [
+        category_name: [
             value => (value === null || value === '') ? 'Category Name is required' : /[^A-Za-z 0-9]/g.test(value) ? 'Cannot use special character' : null
         ],
-        category_type: [
-            value => (value === null || value === '') ? 'Image is required' : null
-        ],
-        // image: [
-        //     value => (value === null || value === '') ? 'Image is required' : null
-        // ]
     };
-
+    
     /* Validation imported from the validation custom hook */
     const { state, setState, onInputChange, setErrors, errors, validate } = useValidation(initialFormState, validators);
-
+    
     /* Function to Add category */
     const OnAddCategoryClick = async () => {
         if (validate()) {
@@ -39,21 +52,35 @@ export default function AddCategoryModal(props) {
                 props.close()
                 props.setApiCall(true)
                 props.setCateAlert(true)
+                setState(initialFormState)
             }
-
+            
         }
     };
-    console.log(state.image)
+    
+    /*Function to update category*/
+    const OnUpdateCategoryClick = async () => {
+        if (validate()) {
+            let response = await UpdateCategory(state)
+            if (response.message === "Succesfully Update Category") {
+                props.close()
+                props.setApiCall(true)
+                props.setCateAlert(true)
+                setState(initialFormState)
+            }
+            
+        }
+    };
     return (
         <>
-            <Modal size="lg" show={props.show} onHide={props.close} aria-labelledby="example-modal-sizes-title-lg">
+            <Modal size="lg" show={props.show} onHide={()=>Close()} aria-labelledby="example-modal-sizes-title-lg">
                 <Form
                     className="p-2 addproduct_form"
                 // onSubmit={
-                //     props.type === 'add' ? e => OnAddCategoryClick(e) : ''
-                //     // (props) => handleUpdateProduct(props)
-                // }
-                >
+                    //     props.type === 'add' ? e => OnAddCategoryClick(e) : ''
+                    //     // (props) => handleUpdateProduct(props)
+                    // }
+                    >
                     <Modal.Header closeButton>
                         <Modal.Title id="example-modal-sizes-title-lg">
                             {props.type === "add" ? "Add Category" : "Update Category"}
@@ -68,6 +95,11 @@ export default function AddCategoryModal(props) {
                                 <Form.Select
                                     value={"" || state.parent_id}
                                     name="parent_id"
+                                    className={
+                                        errors.parent_id
+                                            ? "form-control border border-danger"
+                                            : "form-control"
+                                    }
                                     onChange={onInputChange}
                                     id="parent_id">
                                     <option value="">Select Parent Category</option>
@@ -95,24 +127,27 @@ export default function AddCategoryModal(props) {
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
-                                    {state.parent_id === "0"
+                                    {state.parent_id === ("0" || 0)
                                         ? "Category Name"
                                         : "Sub Category Name"} <small className="text-danger">*</small>
                                 </Form.Label>
                                 <Form.Control
                                     className={
-                                        errors.new_category
+                                        errors.category_name
                                             ? "form-control border border-danger"
                                             : "form-control"
                                     }
                                     type="text"
-                                    value={"" || state.new_category}
-                                    name="new_category"
+                                    placeholder={state.parent_id === ("0" || 0)
+                                    ? "Category Name"
+                                    : "Sub Category Name"}
+                                    value={"" || state.category_name}
+                                    name="category_name"
                                     onChange={onInputChange}
-                                    id="new_category"
+                                    id="category_name"
                                 />
-                                {errors.new_category
-                                    ? (errors.new_category || []).map((error, i) => {
+                                {errors.category_name
+                                    ? (errors.category_name || []).map((error, i) => {
                                         return (
                                             <small className="text-danger" key={i}>
                                                 {error}
@@ -122,31 +157,6 @@ export default function AddCategoryModal(props) {
                                     : null}
                             </Form.Group>
                         </div>
-
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Category Type<small className="text-danger">*</small>
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={"" || state.category_type}
-                                    name="category_type"
-                                    onChange={onInputChange}
-                                    id="category_type"
-                                />
-                                {errors.category_type
-                                    ? (errors.category_type || []).map((error, i) => {
-                                        return (
-                                            <small className="text-danger" key={i}>
-                                                {error}
-                                            </small>
-                                        );
-                                    })
-                                    : null}
-                            </Form.Group>
-                        </div>
-
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
@@ -161,32 +171,35 @@ export default function AddCategoryModal(props) {
                                 />
                             </Form.Group>
                         </div>
-
-                        <div className="col-md-3 col-sm-4 p-2 text-center">
-                            <div className="manufacture_date addvariety_inputbox">
-                                <Button
-                                    variant="outline-success"
-                                    className="addcategoryicon w-100"
-                                    type={"button"}
-                                    onClick={() => OnAddCategoryClick()}>
-                                    {props.type === "add" ?
-                                        "Add Category"
-                                        : "Update Category"}
-                                </Button>
+                        <Modal.Footer>
+                            <div className="col-md-3 col-sm-4 p-2 text-center">
+                                <div className="manufacture_date addvariety_inputbox">
+                                    <Button
+                                        variant="outline-success"
+                                        className="addcategoryicon w-100"
+                                        type={"button"}
+                                        onClick={props.type === "add"
+                                            ? () => OnAddCategoryClick()
+                                            : () => OnUpdateCategoryClick()}>
+                                        {props.type === "add" ?
+                                            "Add Category"
+                                            : "Update Category"}
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="col-md-3 col-sm-4 p-2 text-center">
-                            <div className="manufacture_date addvariety_inputbox">
-                                <Button
-                                    variant="outline-danger"
-                                    className="addcategoryicon w-100"
-                                    // type="submit"
-                                    onClick={props.close}>
-                                    Cancel
-                                </Button>
+                            <div className="col-md-3 col-sm-4 p-2 text-center">
+                                <div className="manufacture_date addvariety_inputbox">
+                                    <Button
+                                        variant="outline-danger"
+                                        className="addcategoryicon w-100"
+                                        // type="submit"
+                                        onClick={props.close}>
+                                        Cancel
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
+                        </Modal.Footer>
                     </div>
                 </Form>
             </Modal>

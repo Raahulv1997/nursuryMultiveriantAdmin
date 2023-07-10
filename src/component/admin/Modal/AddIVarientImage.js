@@ -103,13 +103,13 @@ export default function AddIVarientImage(props) {
                     //   setImgError("Image size can't be more then 100 kb");
                 } else {
                     //   setImgError("");
-                    setState({
-                        ...state, img_64: event.target.result,
-                        product_id: props.id,
-                        product_verient_id: props.varId,
-                        product_description: props.des,
-                        product_image_name: file.name
-                    });
+                    // setState({
+                    //     ...state, img_64: event.target.result,
+                    //     product_id: props.id,
+                    //     product_verient_id: props.varId,
+                    //     product_description: props.des,
+                    //     product_image_name: file.name
+                    // });
                 }
             };
             img.src = event.target.result;
@@ -118,7 +118,9 @@ export default function AddIVarientImage(props) {
         // Read the file as a data URL
         reader.readAsDataURL(file);
         encoded = await convertToBase64(file);
-        let base64Name = encoded.base64.split(",")[1];
+        let imgbase = encoded.base64.split(",");
+        let base64Name = imgbase[1]
+        console.log(imgbase ,base64Name)
         setState({
             ...state, img_64: base64Name,
             product_id: props.id,
@@ -129,6 +131,7 @@ export default function AddIVarientImage(props) {
 
     /*Function to set varient image */
     const OnSetVarientImageClick = async (e) => {
+        console.log(state.img_64)   
         // e.preventDefault();
         if (validate()) {
             let response = await AddProductImage(state)

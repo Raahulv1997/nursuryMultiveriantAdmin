@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-
 import Form from "react-bootstrap/Form";
 import DataTable from "react-data-table-component";
 // import axios from "axios";
 // import { BsTrash } from "react-icons/bs";
 // import { BiEdit } from "react-icons/bi";
-
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import Loader from "../common/loader";
 import useValidation from "../common/useValidation";
 import { allOrder, orderAssignByAdmin, OrderStatusChange } from "../api/api";
@@ -18,11 +16,12 @@ import moment from "moment";
 
 const OrderList = () => {
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [ordertable, setorderTable] = useState([]);
   const [apicall, setApicall] = useState(false);
   const [orderAssignAlert, setorderAssignAlert] = useState(false);
+  const [statuslert, setStatusAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
   const initialFormState = {
     search: "",
     order_id: "",
@@ -149,8 +148,8 @@ const OrderList = () => {
 
     navigate("/admin/orderDetails");
   };
-  //order search data function----
 
+  /*Function to assign the order */
   const onOrderAssignClick = async (
     order_id,
     total_amount,
@@ -163,13 +162,19 @@ const OrderList = () => {
       payment_mode,
       delivery_verify_code
     );
+    if(response.response === 'order not verify by vendor'){
+      setorderAssignAlert(true);
+      setAlertMessage(response.response)
+    }
     if (response.affectedRows === 1) {
       setorderAssignAlert(true);
     }
   };
 
+  /*Function to close assgin alert box */
   const closeAssignAlert = () => {
     setorderAssignAlert(false);
+    setApicall(true)
   };
 
   const validators = {
@@ -188,27 +193,27 @@ const OrderList = () => {
     validators
   );
 
-  //order searchd data useEffect....
+/*Render method to get the order list data */
   useEffect(() => {
     OrderData();
   }, [apicall]);
 
+  /*Function to get the oder list data */
   const OrderData = async () => {
     setLoading(true);
     const response = await allOrder();
-
     setorderTable(response.results);
     setLoading(false);
   };
-  //search submit button
 
+  /*FUnction to search the order by order id */
   const submitHandler = async () => {
     setLoading(true);
     if (validate()) {
       const response = await allOrder(state.order_id);
-
       setorderTable(response.results);
       setLoading(false);
+      setState({...state , order_id : ""})
     }
   };
 
@@ -219,17 +224,22 @@ const OrderList = () => {
     setApicall(true);
   };
 
+  /*Function to change order status */
   const onStatusChange = async (e, order_id, user_id) => {
-    await OrderStatusChange(e.target.value, order_id, user_id);
-    // console.log("respo--" + response);
-    OrderData();
-    setApicall(true);
+    let response = await OrderStatusChange(e.target.value, order_id, user_id);
+    if(response.response === "status updated successfully"){
+      setStatusAlert(true)
+    }
   };
-
+  /*Function o close the order stayus alert */
+  const CloseStaytusAlert = () => {
+    setApicall(true);
+    setStatusAlert(false)
+  }
   return (
     <div>
       <div className="row admin_row">
-        <div className="col-lg-3 col-md-3 admin_sidebar">
+        <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
           <Sidebar />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">
@@ -314,11 +324,17 @@ const OrderList = () => {
           </div>
           <SweetAlert
             show={orderAssignAlert}
-            title="Assigned Successfully"
-            text={"Assign"}
+            title={alertMessage ? alertMessage :"Assigned Successfully"}
+            text={alertMessage ? "Not Verify" :"Assign"}
             onConfirm={closeAssignAlert}
             // showCancelButton={}
             // onCancel={}
+          />
+           <SweetAlert
+            show={statuslert}
+            title={"Status Updated Successfully"}
+            text={"status"}
+            onConfirm={CloseStaytusAlert}
           />
         </div>
       </div>
