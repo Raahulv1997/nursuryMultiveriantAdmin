@@ -71,7 +71,8 @@ const SellerLogin = () => {
 
   const handleClose = () => {
     setShowmodel(false);
-    navigate("/");
+    navigate("/sellerRegister");
+    window.reload()
   };
   return (
     <div>

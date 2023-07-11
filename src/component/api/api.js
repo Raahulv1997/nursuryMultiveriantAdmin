@@ -171,7 +171,7 @@ export const AllproductData = async (
       seo_tag: [seo_tag],
       vendor_id: [vendor_id],
       name: [],
-      id: [id],
+      id: id === null || id ===  undefined || id === "" ?  [""] : [id],
       is_deleted: [0],
       product_stock_quantity: [product_stock_quantity],
     },

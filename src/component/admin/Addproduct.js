@@ -1,5 +1,5 @@
-import React, { useEffect} from "react";
-import { Button} from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
@@ -16,7 +16,7 @@ import {
   AllproductData
 } from "../api/api";
 import Select from "react-select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
 import AddProductModal from "./Modal/AddProductModal";
@@ -45,6 +45,9 @@ const AddProduct = () => {
   const [updateProducVarientAlert, setupdateProductVarientAlert] = useState(false);
   const [varientModalListShow, setVarientModalListShow] = useState(false);
   const [productVarientId, setProductVarientId] = useState(false);
+  const [Id, setId] = useState("");
+  const [columnName, setcolumnName] = useState("")
+  const [sortOrder, setSortOrder] = useState("")
 
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -59,7 +62,6 @@ const AddProduct = () => {
     vendor_id: "",
     product_stock_quantity: "",
   });
-  const [Id, setId] = useState("");
 
   //data table coloumn-----
   const columns = [
@@ -281,24 +283,25 @@ const AddProduct = () => {
     setApicall(false);
     setProductTable(data.results);
     setLoading(false);
-    setsearchData({
-      search: "",
-      category: "",
-      price_from: "",
-      price_to: "",
-      rating: "",
-      brand: "",
-      seo_tag: "",
-      vendor_id: "",
-      product_stock_quantity: "",
-    });
+    // setsearchData({
+    //   search: "",
+    //   category: "",
+    //   price_from: "",
+    //   price_to: "",
+    //   rating: "",
+    //   brand: "",
+    //   seo_tag: "",
+    //   vendor_id: "",
+    //   product_stock_quantity: "",
+    // });
   };
 
+  console.log("Real data list =>", productTable)
   //product data search data useEffect---
   useEffect(() => {
     fetchProductData();
     fetchfilterdata();
-  }, [apicall]);
+  }, [apicall, searchdata]);
 
   //fetch brand list and category list data---
   const fetchfilterdata = async () => {
@@ -352,14 +355,13 @@ const AddProduct = () => {
   };
 
   //category list show fuction
-  const options3 = [
+  let options3 = [
     categoryData.map((item, i) => ({
       key: i,
       value: `${item.category}`,
       label: `${item.category}`,
     })),
   ];
-
   let CategoryArray = [];
 
   const CategoryHanler = (e) => {
@@ -395,8 +397,11 @@ const AddProduct = () => {
       vendor_id: "",
       product_stock_quantity: "",
     });
+    CategoryArray = []
+    options3[0] = []
     fetchProductData();
     setApicall(true);
+    console.log(options3[0])
   };
 
   // product model show
@@ -442,14 +447,12 @@ const AddProduct = () => {
   // delete product fuction
   const deleteProductAlert = async () => {
     await DeleteProduct(Id);
-
     setShowDeleteAlert(false);
     setApicall(true);
   };
 
   /*Function to open add varient modal to add product varient */
   const AddVarientModal = (id, vendor_id) => {
-    console.log(id, vendor_id)
     setProductID(id)
     setVarientModalListShow(true)
     setVendorID(vendor_id)
@@ -463,6 +466,11 @@ const AddProduct = () => {
   //   setApicall(true);
   // };
 
+  /*Sorting Function */
+  const handleSort = (columnName) => {
+    setSortOrder(sortOrder === "DESC" ? "ASC" : "DESC");
+    setcolumnName(columnName);
+  };
   return (
     <div>
       <div className="row admin_row">
@@ -473,8 +481,7 @@ const AddProduct = () => {
           <div className="main_content_div">
             <div
               className="dashboard-main-container mt-df25 mt-lg-31"
-              id="dashboard-body"
-            >
+              id="dashboard-body" >
               {loading === true ? <Loader /> : null}
               <div className="">
                 <div className="page_main_contant">
@@ -499,8 +506,7 @@ const AddProduct = () => {
                             size="sm"
                             onChange={searchValueHandler}
                             name="product_stock_quantity"
-                            value={searchdata.product_stock_quantity}
-                          >
+                            value={searchdata.product_stock_quantity} >
                             <option value="">Search by Stock</option>
                             <option value="0">Out of stock</option>
                           </Form.Select>
@@ -517,7 +523,6 @@ const AddProduct = () => {
                           />
                         </Form.Group>
                       </div>
-
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
@@ -529,7 +534,6 @@ const AddProduct = () => {
                           />
                         </Form.Group>
                       </div>
-
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Select
@@ -537,8 +541,7 @@ const AddProduct = () => {
                             size="sm"
                             onChange={searchValueHandler}
                             name="rating"
-                            value={searchdata.rating}
-                          >
+                            value={searchdata.rating}>
                             <option value="">Search by Rating</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -549,14 +552,30 @@ const AddProduct = () => {
                         </Form.Group>
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
-                        <Select
+                        {/* <Select
                           className=" basic-multi-select"
                           placeholder="Search by category"
                           onChange={CategoryHanler}
                           classNamePrefix="select"
                           isMulti
                           options={options3[0]}
-                        />
+                        /> */}
+                        <Form.Select
+                          className="nice-select w-100"
+                          aria-lcategoryabel="Default select example"
+                          name="category"
+                          value={searchdata.category}
+                          onChange={searchValueHandler}
+                        >
+                          <option value={""}>Search By Category</option>
+                          {categoryData.map((item, i) => {
+                            return (
+                              <React.Fragment key={i}>
+                                <option value={item.category}>{item.category}</option>
+                              </React.Fragment>
+                            );
+                          })}
+                        </Form.Select>
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Select
@@ -567,26 +586,41 @@ const AddProduct = () => {
                           onChange={searchValueHandler}
                         >
                           <option value={""}>Search By Vendor</option>
-                          {vendorJson.vendorjson.map((item, id) => {
+                          {vendorJson.vendorjson.map((item, i) => {
                             return (
-                              <React.Fragment key={id}>
-                                <option value={id + 1}>{item}</option>
+                              <React.Fragment key={i}>
+                                <option value={i + 1}>{item}</option>
                               </React.Fragment>
                             );
                           })}
                         </Form.Select>
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
-                        <Select
+                        {/* <Select
                           className=" basic-multi-select"
                           placeholder="Search by Brand"
                           onChange={BrandHanler}
                           classNamePrefix="select"
                           isMulti
                           options={options2[0]}
-                        />
+                        /> */}
+                        <Form.Select
+                          className="nice-select w-100"
+                          aria-lcategoryabel="Default select example"
+                          name="brand"
+                          value={searchdata.brand}
+                          onChange={searchValueHandler}
+                        >
+                          <option value={""}>Search By Brand</option>
+                          {categoryData.map((item, i) => {
+                            return (
+                              <React.Fragment key={i}>
+                                <option value={i + 1}>{item.brand}</option>
+                              </React.Fragment>
+                            );
+                          })}
+                        </Form.Select>
                       </div>
-
                       <div className="col-md-2 col-sm-6 aos_input mb-2">
                         <div>
                           <Button
@@ -613,7 +647,7 @@ const AddProduct = () => {
                           </Button>
                         </div>
                       </div>
-                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                      <div className="col-md-2 col-sm-6 aos_input mb-2 ">
                         <Button
                           className="button btn-success  main_button w-100"
                           onClick={() => handleShow("add")}
@@ -622,16 +656,146 @@ const AddProduct = () => {
                         </Button>
                       </div>
                     </div>
-                    {/* {console.log("Product data =>", productTable)} */}
-                    <DataTable
+                    {/* <DataTable
                       columns={columns}
                       data={productTable}
+                      keyField={productTable.id}
                       pagination
                       highlightOnHover
                       pointerOnHover
                       className={"table_body product_table"}
-                      subHeader
-                    />
+                      subHeader/> */}
+                    <table class=" table_body product_table">
+                      <thead>
+                        <tr>
+                          <th className="text-white"> #</th>
+                          <th className="text-white"> Image</th>
+                          <th name="sort by Product Name">
+                            <Link className="text-white" to="" onClick={() => handleSort()}> Product Name </Link>
+                          </th>
+                          <th name="sort by Price">
+                            <Link className="text-white" to="" onClick={() => handleSort()}> Price</Link>
+                          </th>
+                          <th name="sort by Tax">
+                            <Link className="text-white" to="" onClick={() => handleSort()}> Tax</Link>
+                          </th>
+                          <th name="sort by Unit">
+                            <Link className="text-white" to="" onClick={() => handleSort()}> Unit</Link>
+                          </th>
+                          <th name="sort by Stock">
+                            <Link className="text-white" to="" onClick={() => handleSort()}> Stock</Link>
+                          </th>
+                          <th name="sort by Rating">
+                            <Link className="text-white" to="" onClick={() => handleSort()}> Rating</Link>
+                          </th>
+                          <th className="text-white"> Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(productTable || []).map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <Link to=""><img
+                                alt={item.seo_tag}
+                                src={
+                                  item.cover_image
+                                    ? item.cover_image
+                                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                                }
+                                style={{
+                                  padding: 10,
+                                  textAlign: "right",
+                                  maxHeight: "100px",
+                                  maxWidth: "100px",
+                                }}
+                              />
+                              </Link>
+                            </td>
+                            <td>
+                              <b>Name:</b>{" "}
+                              {item.name ? item.name.charAt(0).toUpperCase() + item.name.slice(1) : ""}
+                              <br />
+                              <b>Brand:</b>{" "}
+                              {item.brand ? item.brand.charAt(0).toUpperCase() + item.brand.slice(1) : ""}
+                              <br />
+                              <b>Category:</b>{" "}
+                              {item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : ""}
+                            </td>
+                            <td>
+                              <b>Price :</b> {item.price} <br />
+                              <b>MRP : </b> {item.mrp}
+                              <br />
+                            </td>
+                            <td>
+                              <b>GST :</b> {item.gst} % <br />
+                              <b>SGST : </b> {item.sgst}%<br />
+                              <b>CGST : </b> {item.cgst}%
+                            </td>
+                            <td>
+                              <span>
+                                <b>Unit Qty :</b> {item.quantity} <br />
+                                <b>Unit : </b> {item.unit}
+                                <br />
+                              </span>
+                            </td>
+                            <td>
+                              <span
+                                className={
+                                  item.product_stock_quantity === 0 ? "badge bg-danger" : null
+                                }
+                              >
+                                {item.product_stock_quantity === 0
+                                  ? "Out of Stock"
+                                  : item.product_stock_quantity}
+                              </span>
+                            </td>
+                            <td> {item.rating}</td>
+                            <td>
+                              <div className={"actioncolimn"}>
+                                {/* <Button
+            size="sm"
+            onClick={handlevarietyShow.bind(
+              this,
+              item.id,
+              item.vendor_id,
+              item.description
+            )}
+          >
+            Add Images
+          </Button> */}
+                                <Button
+                                  size="sm"
+                                  className="btn-info mx-2"
+                                  onClick={AddVarientModal.bind(
+                                    this,
+                                    item.id,
+                                    item.vendor_id,
+                                  )}
+                                >
+                                  Add variant
+                                </Button>
+                                <Button
+                                  className="btn-warning mx-2"
+                                  onClick={handleEditShow.bind(this, item.id, item.vendor_id,)}
+                                >
+                                  {" "}
+                                  <BiEdit />
+                                </Button>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger"
+                                  onClick={handleAlert.bind(this, item.id)}
+                                >
+                                  <BsTrash />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -683,12 +847,12 @@ const AddProduct = () => {
       }
 
       {/* Add images model */}
-      <AddIVarientImage 
-      show={docsshow} 
-      close={()=>setDocsShow(false)}
-      id={productID}
-      varId={productVarientId}
-      des={productDescription}/>
+      <AddIVarientImage
+        show={docsshow}
+        close={() => setDocsShow(false)}
+        id={productID}
+        varId={productVarientId}
+        des={productDescription} />
 
       <SweetAlert
         show={ProductAlert}

@@ -4,13 +4,10 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import DataTable from "react-data-table-component";
-
 // import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
-
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
-
 import useValidation from "../common/useValidation";
 import Loader from "../common/loader";
 import Sidebar from "../common/sidebar";
@@ -24,36 +21,34 @@ import moment from "moment";
 
 const TransactionList = () => {
   // add Admin data json
-  const initialFormState = {
-    admin_email: "",
-    admin_name: "",
-    admin_phone: "",
-    admin_type: "",
-    admin_password: "",
-  };
+  // const initialFormState = {
+  //   admin_email: "",
+  //   admin_name: "",
+  //   admin_phone: "",
+  //   admin_type: "",
+  //   admin_password: "",
+  // };
   const [loading, setLoading] = useState(false);
-  const [AdminAssignAlert, setAdminAssignAlert] = useState(false);
-  const [apicall, setapicall] = useState(false);
-
+  // const [AdminAssignAlert, setAdminAssignAlert] = useState(false);
+  // const [apicall, setapicall] = useState(false);
   // const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
+  // const [updateAdminAlert, setUpdateAdminAlert] = useState(false);
+  // const [AdminAlert, setAdminAlert] = useState(false);
+  // const [superAdminUpdateAlert, setsuperAdminUpdateAlert] = useState(false);
+  // const [superAdminAddAlert, setsuperAdminAddAlert] = useState(false);
+  // const [AdminErrorAlert, setAdminErrorAlert] = useState(false);
+  const [TransactionList, setTransactionList] = useState([]);
+  // const [showmodel, setShowmodel] = useState(false);
 
-  const [updateAdminAlert, setUpdateAdminAlert] = useState(false);
-  const [AdminAlert, setAdminAlert] = useState(false);
-  const [superAdminUpdateAlert, setsuperAdminUpdateAlert] = useState(false);
-  const [superAdminAddAlert, setsuperAdminAddAlert] = useState(false);
-  const [AdminErrorAlert, setAdminErrorAlert] = useState(false);
-  const [AdminList, setAdminList] = useState([]);
-  const [showmodel, setShowmodel] = useState(false);
-
-  // search state data---------
-  const [searchdata, setsearchData] = useState({
-    admin_name: "",
-    admin_type: "",
-  });
+  // // search state data---------
+  // const [searchdata, setsearchData] = useState({
+  //   admin_name: "",
+  //   admin_type: "",
+  // });
 
   // const [Id, setId] = useState("");
 
-  //Admin data table coloumn-----
+  //Transaction data table coloumn-----
   const columns = [
     {
       name: "Order ID",
@@ -84,11 +79,11 @@ const TransactionList = () => {
       selector: (row) => (
         <span>
           {" "}
-          <b>Ammount:</b>
+          <b>Ammount: </b>
           {row.amount} <br />
-          <b>Transaction ID:</b>
+          <b>Transaction ID: </b>
           {row.transection_id} <br />
-          <b>Method:</b>
+          <b>Method: </b>
           {row.payment_method} <br />
           {/* <b>Status:</b>
           {row.is_payment_done} <br /> */}
@@ -97,7 +92,7 @@ const TransactionList = () => {
         </span>
       ),
       sortable: true,
-      width: "280px",
+      width: "350px",
       center: true,
       style: {
         paddingLeft: "0px",
@@ -151,210 +146,208 @@ const TransactionList = () => {
       center: true,
     },
 
-    {
-      name: "Action",
-      width: "110px",
-      style: {
-        paddingRight: "12px",
-        paddingLeft: "0px",
-      },
-      center: true,
-      selector: (row) => (
-        <div className={"actioncolimn"}>
-          <Button
-            className="btn-warning"
-            onClick={handleEditShow.bind(
-              this,
-              row.id,
-              row.admin_email,
-              row.admin_name,
-              row.admin_phone,
-              row.admin_type,
-              row.admin_password
-            )}
-          >
-            {" "}
-            <BiEdit />
-          </Button>
+    // {
+    //   name: "Action",
+    //   width: "110px",
+    //   style: {
+    //     paddingRight: "12px",
+    //     paddingLeft: "0px",
+    //   },
+    //   center: true,
+    //   selector: (row) => (
+    //     <div className={"actioncolimn"}>
+    //       <Button
+    //         className="btn-warning"
+    //         onClick={handleEditShow.bind(
+    //           this,
+    //           row.id,
+    //           row.admin_email,
+    //           row.admin_name,
+    //           row.admin_phone,
+    //           row.admin_type,
+    //           row.admin_password
+    //         )}
+    //       >
+    //         {" "}
+    //         <BiEdit />
+    //       </Button>
 
-          {/* <BsTrash
-            className=" p-0 m-0 editiconn text-danger"
-            onClick={handleAlert.bind(this, row.id)}
-          /> */}
-        </div>
-      ),
-    },
+    //       {/* <BsTrash
+    //         className=" p-0 m-0 editiconn text-danger"
+    //         onClick={handleAlert.bind(this, row.id)}
+    //       /> */}
+    //     </div>
+    //   ),
+    // },
   ];
 
-  // Admin  validation---------------
-  const validators = {
-    admin_name: [
-      (value) =>
-        value === null || value === ""
-          ? "Admin name is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
-    ],
-    admin_phone: [
-      (value) =>
-        value === null || value === ""
-          ? "Contect number is required"
-          : // : /^(\+\d{1,3}[- ]?)?\d{10}$/g.test(value)
-          // ? "Invalid Mobile number "
-          value.length > 10 || value.length < 10
-          ? "Contect number should be 10 digit"
-          : null,
-    ],
+  // // Admin  validation---------------
+  // const validators = {
+  //   admin_name: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Admin name is required"
+  //         : /[^A-Za-z 0-9]/g.test(value)
+  //         ? "Cannot use special character "
+  //         : null,
+  //   ],
+  //   admin_phone: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Contect number is required"
+  //         : // : /^(\+\d{1,3}[- ]?)?\d{10}$/g.test(value)
+  //         // ? "Invalid Mobile number "
+  //         value.length > 10 || value.length < 10
+  //         ? "Contect number should be 10 digit"
+  //         : null,
+  //   ],
 
-    admin_email: [
-      (value) =>
-        value === null || value === ""
-          ? " Admin  Email required"
-          : !/^\S+@\S+\.\S+$/.test(value)
-          ? "Invalid email address"
-          : null,
-    ],
-    admin_password: [
-      (value) =>
-        value === null || value === ""
-          ? "Admin Password is required"
-          : // : /[^A-Za-z 0-9]/g.test(value)
-            // ? "Cannot use special character "
-            null,
-    ],
-    admin_type: [
-      (value) =>
-        value === null || value === ""
-          ? "Admin Type is required"
-          : // : /[^A-Za-z 0-9]/g.test(value)
-            // ? "Cannot use special character "
-            null,
-    ],
-  };
+  //   admin_email: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? " Admin  Email required"
+  //         : !/^\S+@\S+\.\S+$/.test(value)
+  //         ? "Invalid email address"
+  //         : null,
+  //   ],
+  //   admin_password: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Admin Password is required"
+  //         : // : /[^A-Za-z 0-9]/g.test(value)
+  //           // ? "Cannot use special character "
+  //           null,
+  //   ],
+  //   admin_type: [
+  //     (value) =>
+  //       value === null || value === ""
+  //         ? "Admin Type is required"
+  //         : // : /[^A-Za-z 0-9]/g.test(value)
+  //           // ? "Cannot use special character "
+  //           null,
+  //   ],
+  // };
 
-  //custom validation import--------------
-  const { state, setState, onInputChange, errors, validate } = useValidation(
-    initialFormState,
-    validators
-  );
+  // //custom validation import--------------
+  // const { state, setState, onInputChange, errors, validate } = useValidation(
+  //   initialFormState,
+  //   validators
+  // );
 
-  // search  inputfield onchange
-  const searchValueHandler = (e) => {
-    setsearchData({ ...searchdata, [e.target.name]: e.target.value });
-  };
+  // // search  inputfield onchange
+  // const searchValueHandler = (e) => {
+  //   setsearchData({ ...searchdata, [e.target.name]: e.target.value });
+  // };
 
-  //search submit button
-  const submitHandler = async () => {
-    setLoading(true);
-    const response = await getAdminfilter(
-      searchdata.admin_name,
-      searchdata.admin_type
-    );
-    setAdminList(response);
-    setLoading(false);
-  };
+  // //search submit button
+  // const submitHandler = async () => {
+  //   setLoading(true);
+  //   const response = await getAdminfilter(
+  //     searchdata.admin_name,
+  //     searchdata.admin_type
+  //   );
+  //   setTransactionList(response);
+  //   setLoading(false);
+  // };
 
-  // reset button
-  const OnReset = () => {
-    setsearchData({
-      admin_name: "",
-      admin_type: "",
-    });
-    getAllAdminList();
-    setapicall(true);
-  };
+  // // reset button
+  // const OnReset = () => {
+  //   setsearchData({
+  //     admin_name: "",
+  //     admin_type: "",
+  //   });
+  //   getAllAdminList();
+  //   setapicall(true);
+  // };
 
   //get all Admin list useEffect -----
   useEffect(() => {
     getAllAdminList();
-  }, [apicall]);
+  }, [ ]);
 
   // get all Admin list funtion-------------
   const getAllAdminList = async () => {
     // setLoading(true);
     const response = await GetALLTransactionListByAdmin();
-    console.log("data----" + JSON.stringify(response.response));
-
-    setAdminList(response.response);
+    setTransactionList(response.response);
     setLoading(false);
   };
 
   // add Admin submit button---------------
-  const handleAddAdmin = async (e) => {
-    e.preventDefault();
+  // const handleAddAdmin = async (e) => {
+  //   e.preventDefault();
 
-    if (validate()) {
-      const response = await addAdminFunction(state);
-      if (response.affectedRows === 1) {
-        setAdminAlert(true);
-      }
-      if (response.response === "only add by super admin") {
-        setsuperAdminAddAlert(true);
-      }
-    }
-  };
+  //   if (validate()) {
+  //     const response = await addAdminFunction(state);
+  //     if (response.affectedRows === 1) {
+  //       setAdminAlert(true);
+  //     }
+  //     if (response.response === "only add by super admin") {
+  //       setsuperAdminAddAlert(true);
+  //     }
+  //   }
+  // };
 
   // Admin model show
-  const handleShow = (e) => {
-    if (e === "add") {
-      setShowmodel(e);
-    }
-  };
+  // const handleShow = (e) => {
+  //   if (e === "add") {
+  //     setShowmodel(e);
+  //   }
+  // };
 
-  // Admin update  edit show--------------------
-  const handleEditShow = async (id, email, name, phone, type, password) => {
-    setState({
-      id: id,
-      admin_email: email,
-      admin_name: name,
-      admin_phone: phone,
-      admin_type: type,
-      admin_password: password,
-    });
-    setShowmodel(true);
-  };
+  // // Admin update  edit show--------------------
+  // const handleEditShow = async (id, email, name, phone, type, password) => {
+  //   setState({
+  //     id: id,
+  //     admin_email: email,
+  //     admin_name: name,
+  //     admin_phone: phone,
+  //     admin_type: type,
+  //     admin_password: password,
+  //   });
+  //   setShowmodel(true);
+  // };
 
-  //Admin registraion model close function-----------------
-  const ModelCloseFunction = () => {
-    setShowmodel(false);
+  // //Admin registraion model close function-----------------
+  // const ModelCloseFunction = () => {
+  //   setShowmodel(false);
 
-    setState(initialFormState);
-  };
+  //   setState(initialFormState);
+  // };
 
-  //Admin update fuction--
-  const handleUpdateDriver = async (e) => {
-    e.preventDefault();
-    if (validate()) {
-      const response = await UpdateAdminFunction(state);
-      if (response.affectedRows === 1) {
-        setUpdateAdminAlert(true);
-      }
-      if (response.message === "only admin can do change") {
-        setsuperAdminUpdateAlert(true);
-      }
-    }
-  };
+  // //Admin update fuction--
+  // const handleUpdateDriver = async (e) => {
+  //   e.preventDefault();
+  //   if (validate()) {
+  //     const response = await UpdateAdminFunction(state);
+  //     if (response.affectedRows === 1) {
+  //       setUpdateAdminAlert(true);
+  //     }
+  //     if (response.message === "only admin can do change") {
+  //       setsuperAdminUpdateAlert(true);
+  //     }
+  //   }
+  // };
 
-  // all alert close fuction
-  const closeAdminAlert = () => {
-    getAllAdminList();
-    setState(initialFormState);
-    setAdminAlert(false);
-    setUpdateAdminAlert(false);
-    setsuperAdminUpdateAlert(false);
-    setsuperAdminAddAlert(false);
-    setAdminErrorAlert(false);
-    setShowmodel(false);
-    setapicall(true);
+  // // all alert close fuction
+  // const closeAdminAlert = () => {
+  //   getAllAdminList();
+  //   setState(initialFormState);
+  //   setAdminAlert(false);
+  //   setUpdateAdminAlert(false);
+  //   setsuperAdminUpdateAlert(false);
+  //   setsuperAdminAddAlert(false);
+  //   setAdminErrorAlert(false);
+  //   setShowmodel(false);
+  //   setapicall(true);
 
-    // setShowDeleteAlert(false);
-  };
+  //   // setShowDeleteAlert(false);
+  // };
 
-  const closeAssignAlert = () => {
-    setAdminAssignAlert(false);
-    // setDriverListView(false);
-  };
+  // const closeAssignAlert = () => {
+  //   setAdminAssignAlert(false);
+  //   // setDriverListView(false);
+  // };
   //delete Admin alert---
   // const handleAlert = (id) => {
   //   setShowDeleteAlert(true);
@@ -385,7 +378,7 @@ const TransactionList = () => {
                   {loading === true ? <Loader /> : null}
                   <h4> Transaction List </h4>
                   <div className=" mt-3 p-3">
-                    <div className="row pb-3">
+                    {/* <div className="row pb-3">
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
@@ -449,11 +442,11 @@ const TransactionList = () => {
                           Add admin
                         </Button>
                       </div>
-                    </div>
+                    </div> */}
 
                     <DataTable
                       columns={columns}
-                      data={AdminList}
+                      data={TransactionList}
                       pagination
                       highlightOnHover
                       pointerOnHover
@@ -468,7 +461,7 @@ const TransactionList = () => {
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         size="lg"
         show={showmodel}
         onHide={ModelCloseFunction}
@@ -657,14 +650,14 @@ const TransactionList = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            {/* <Button onClick={setLgShow(false)}>Close</Button> */}
+            <Button onClick={setLgShow(false)}>Close</Button> 
           </Modal.Footer>
         </Form>
-      </Modal>
+      </Modal> */}
 
       {/* Add images model */}
 
-      <SweetAlert
+      {/* <SweetAlert
         show={AdminAlert}
         title="Added Successfully"
         text={"Admin Added"}
@@ -713,7 +706,7 @@ const TransactionList = () => {
         onConfirm={closeAssignAlert}
         // showCancelButton={}
         // onCancel={}
-      />
+      /> */}
 
       {/* <SweetAlert
         show={ShowDeleteAlert}

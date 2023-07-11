@@ -3,7 +3,7 @@ import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
 import { Button } from "react-bootstrap";
 import { GetCategoryList } from "../api/api"
-import { BsTrash } from "react-icons/bs";
+// import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
 import DataTable from "react-data-table-component";
 import AddCategoryModal from './Modal/AddCategoryModal';
@@ -121,21 +121,21 @@ export default function Category() {
             {" "}
             <BiEdit />
           </Button>
-          <button
+          {/* <button
             type="button"
             className="btn btn-danger"
             onClick={HandelDeletAlert.bind(this, row.id)}
           >
             <BsTrash />
-          </button>
+          </button> */}
         </div>
       ),
     },
   ];
   /*Function to open delete alert */
-  const HandelDeletAlert = () => {
+  // const HandelDeletAlert = () => {
 
-  }
+  // }
   /*Function to Edit Category */
   const EditCategoryModal = (id) => {
     setCateId(id)
@@ -295,7 +295,7 @@ export default function Category() {
                           </Button>
                         </div>
                       </div> */}
-                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                      <div className="col-md-2 col-sm-6 aos_input mb-2 ">
                         <Button
                           className="button btn-success  main_button w-100"
                           onClick={() => OpenAddCategoryModal("add")}

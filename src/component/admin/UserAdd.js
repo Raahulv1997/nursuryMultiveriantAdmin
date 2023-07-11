@@ -119,7 +119,7 @@ const UserAdd = () => {
     ],
   };
 
-  const { state, setState, onInputChange, errors, validate } = useValidation(
+  const { state, setState, onInputChange, setErrors , errors, validate } = useValidation(
     initialFormState,
     validators
   );
@@ -141,6 +141,7 @@ const UserAdd = () => {
   const OnReset = () => {
     setState({ search: "" });
     // getuser();
+    setErrors([""])
     setApicall(true);
   };
 

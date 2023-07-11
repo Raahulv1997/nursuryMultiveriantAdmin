@@ -31,7 +31,7 @@ const SellerOtpVerify = () => {
     if (response.success === true) {
       setSpinner(false);
       localStorage.setItem("vendor_token", response.token);
-      navigate(`/updatesellerforgetpassword?email=${email}`);
+      navigate(`/sellerlogin`);
     }
   };
   return (

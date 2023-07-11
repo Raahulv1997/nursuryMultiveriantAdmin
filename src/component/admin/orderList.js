@@ -156,6 +156,7 @@ const OrderList = () => {
     payment_mode,
     delivery_verify_code
   ) => {
+    setErrors("")
     const response = await orderAssignByAdmin(
       order_id,
       total_amount,
@@ -181,14 +182,14 @@ const OrderList = () => {
     order_id: [
       (value) =>
         value === null || value === ""
-          ? "Please Fill...."
+          ? "This feild is requried"
           : /[^A-Za-z 0-9]/g.test(value)
           ? "Cannot use special character "
           : null,
     ],
   };
 
-  const { state, setState, onInputChange, errors, validate } = useValidation(
+  const { state, setState, onInputChange,setErrors, errors, validate } = useValidation(
     initialFormState,
     validators
   );
@@ -214,18 +215,22 @@ const OrderList = () => {
       setorderTable(response.results);
       setLoading(false);
       setState({...state , order_id : ""})
+    }else{
+      setLoading(false)
     }
   };
 
   //search submit reset button
   const OnReset = () => {
     setState({ order_id: "" });
+    setErrors("")
     OrderData();
     setApicall(true);
   };
 
   /*Function to change order status */
   const onStatusChange = async (e, order_id, user_id) => {
+    setErrors("")
     let response = await OrderStatusChange(e.target.value, order_id, user_id);
     if(response.response === "status updated successfully"){
       setStatusAlert(true)
@@ -235,6 +240,7 @@ const OrderList = () => {
   const CloseStaytusAlert = () => {
     setApicall(true);
     setStatusAlert(false)
+    
   }
   return (
     <div>
