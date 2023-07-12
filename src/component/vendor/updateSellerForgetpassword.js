@@ -28,7 +28,7 @@ const UpdateSellerForgetPassword = () => {
   };
 
   const handleClose = () => {
-    localStorage.removeItem("vendor_token");
+    localStorage.clear();
     setShowmodel(false);
     navigate("/");
   };
@@ -52,7 +52,7 @@ const UpdateSellerForgetPassword = () => {
                   className="user-form"
                   onSubmit={(e) => onchangePassword(e)}
                 >
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <input
                       type="email"
                       className="form-control"
@@ -60,7 +60,7 @@ const UpdateSellerForgetPassword = () => {
                       value={email}
                       readOnly
                     />
-                  </div>
+                  </div> */}
 
                   <div className="form-group">
                     <input

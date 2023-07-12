@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../css-js/images/logo.png";
+import Logo from "../../logo192.png";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { VendorLoginFuntion } from "../api/api";
@@ -60,7 +60,9 @@ const SellerLogin = () => {
       setSpinner(false);
       localStorage.removeItem("admin_token");
       localStorage.setItem("vendor_token", response.token);
-      navigate("/admin/Home");
+      localStorage.setItem("user_type", "vendor");
+      localStorage.setItem("vendor_id", response.vendor_detaile.vendor_id);
+      navigate("/home");
       // setShowmodel(true);
     }
   };
@@ -72,7 +74,7 @@ const SellerLogin = () => {
   const handleClose = () => {
     setShowmodel(false);
     navigate("/sellerRegister");
-    window.reload()
+    window.location.reload()
   };
   return (
     <div>
@@ -80,8 +82,8 @@ const SellerLogin = () => {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
-              <div className="user-form-logo">
-                <Link to="index.html">
+            <div className="user-form-logo">
+                <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>
@@ -189,6 +191,10 @@ const SellerLogin = () => {
                 <p>
                   Don't have any account?
                   <Link to={"/sellerSignup"}>register here</Link>
+                </p>
+                <p>
+                 Admin login
+                  <Link to={"/admin"}>Admin</Link>
                 </p>
               </div>
             </div>

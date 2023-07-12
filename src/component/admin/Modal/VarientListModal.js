@@ -12,9 +12,10 @@ export default function VarientListModal(props) {
     const [proData, setProData] = useState("")
     const [proVarientData, setVarientProData] = useState([])
     const [varId, setVarId] = useState()
-    const [productId] = useState(props.product_id)
     const [deleteAlert, setDeleteAlter] = useState(false)
     const [apicall, setApiCall] = useState(false)
+    const productIdFromLocalStorage = localStorage.getItem("produtc_id")
+    let productId = props.product_id ? props.product_id :productIdFromLocalStorage
     /*Function to get product data */
     const GetProductData = async () => {
         if (productId === "") {

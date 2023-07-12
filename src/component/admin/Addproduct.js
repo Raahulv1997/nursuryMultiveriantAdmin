@@ -262,7 +262,7 @@ const AddProduct = () => {
     // console.log("idddd--" + id);
     localStorage.setItem("productID", id);
 
-    navigate("/admin/productDetails");
+    navigate("/productDetails");
   };
 
   //  all product data search function

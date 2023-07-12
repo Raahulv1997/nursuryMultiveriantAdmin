@@ -146,7 +146,7 @@ const OrderList = () => {
     localStorage.setItem("orderid", id[0]);
     localStorage.setItem("userid", id[1]);
 
-    navigate("/admin/orderDetails");
+    navigate("/orderDetails");
   };
 
   /*Function to assign the order */

@@ -13,6 +13,8 @@ import {
 import useValidation from "../../common/useValidation";
 
 export default function AddProductModal(props) {
+    let vendor_id = localStorage.getItem("vendor_id")
+    let userType = localStorage.getItem("user_type")
     //product data json
     const initialFormState = {
         name: "",
@@ -21,7 +23,7 @@ export default function AddProductModal(props) {
         category: "",
         care_and_Instructions: "",
         benefits: "",
-        vendor_id: "",
+        vendor_id: userType === "vendor" ? vendor_id : "",
     };
 
     /*Validation function */
@@ -49,8 +51,8 @@ export default function AddProductModal(props) {
             (value) =>
                 value === null || value === ""
                     ? "product stock quantity is required"
-                    : /[^A-Za-z 0-9]/g.test(value)
-                        ? "Cannot use special character "
+                    // : /[^A-Za-z 0-9]/g.test(value)
+                    //     ? "Cannot use special character "
                         : null,
         ],
     };
@@ -73,7 +75,6 @@ export default function AddProductModal(props) {
             "",
 
         );
-        console.log("data---" + JSON.stringify(response));
         if(props.productID === ""){
             setState(initialFormState)
         }else{
@@ -90,10 +91,11 @@ export default function AddProductModal(props) {
         e.preventDefault();
         if (validate()) {
             const response = await AddProductData(state);
-            // console.log("data---" + JSON.stringify(response.message.affectedRows));
+            console.log("data---" , response);
             if (response.message.affectedRows === 1) {
                 props.setProductAlert(true);
                 props.setVendorID(state.vendor_id)
+                localStorage.setItem("produtc_id" , response.message.insertId)
                 // props.setProductID(state.vendor_id)
             }
         }
@@ -108,7 +110,7 @@ export default function AddProductModal(props) {
         props.close();
     };
 
-    /*Function to lupdate the Product */
+    /*Function to update the Product */
     const handleUpdateProduct = async (e) => {
         e.preventDefault();
         if (validate()) {
@@ -215,6 +217,7 @@ export default function AddProductModal(props) {
                             </Form.Group>
                         </div>
 
+                        {userType === "vendor" ? null :
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
@@ -242,7 +245,7 @@ export default function AddProductModal(props) {
                                     </InputGroup>
                                 </Col>
                             </Form.Group>
-                        </div>
+                        </div>}
 
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
@@ -298,7 +301,8 @@ export default function AddProductModal(props) {
                                         <Form.Control
                                             size="lg"
                                             rows={5}
-                                            className="h-auto"
+                                            className={errors.description ? "border border-danger h-auto":
+                                            "h-auto"}
                                             as="textarea"
                                             name="description"
                                             aria-label="With textarea"
@@ -306,6 +310,15 @@ export default function AddProductModal(props) {
                                             value={state.description}
                                         />
                                     </InputGroup>
+                                        {errors.description
+                                            ? (errors.description || []).map((error, i) => {
+                                                return (
+                                                    <small className="text-danger" key={i}>
+                                                        {error}
+                                                    </small>
+                                                );
+                                            })
+                                            : null}
                                 </Col>
                             </Form.Group>
                         </div>

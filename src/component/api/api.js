@@ -4,6 +4,8 @@ let user_token = localStorage.getItem("user_token");
 let admin_token = localStorage.getItem("admin_token");
 let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
+let admin_id = localStorage.getItem("admin_id");
+let UserType = localStorage.getItem("user_type");
 
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 let transactionUrl = "http://192.168.29.108:9999";
@@ -299,6 +301,8 @@ export const UpdateProductData = async (props) => {
 /*Api to get order list */
 export const allOrder = async (searchdata) => {
   let head;
+  let URL;
+
   // let user_token = localStorage.getItem("user_token");
   let admin_token = localStorage.getItem("admin_token");
   let vendor_token = localStorage.getItem("vendor_token");
@@ -307,22 +311,23 @@ export const allOrder = async (searchdata) => {
     vendor_token !== null &&
     vendor_token !== undefined &&
     vendor_token !== ""
-  ) {
+  ) {    
     head = { headers: { vendor_token: `${vendor_token}` } };
+    URL =`${process.env.REACT_APP_BASEURL_0}/vendor_order_search?page=0&per_page=400&group=yes`
   } else if (
     admin_token !== null &&
     admin_token !== undefined &&
     admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
+    URL =`${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400&group=yes`
   } else {
   }
-
   if (searchdata === undefined) {
     searchdata = "";
   }
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400&group=yes`,
+    URL,
     {
       search: "",
       order_id: searchdata,
@@ -544,8 +549,8 @@ export const DeleteProductImage = async (
     {
       product_image_id: product_img_id,
       product_id: id,
-      product_variant_id: varId,
-      product_image_name: product_image_name,
+      product_verient_id: varId,
+      // product_image_name: product_image_name,
     },
     head
   );
@@ -836,10 +841,11 @@ export const AddVendorfunction = async (props, file, filename) => {
   formData.append("mobile", props.mobile);
   formData.append("shop_address", props.shop_address);
   formData.append("gstn", props.gstn);
-  formData.append("image", file);
-  formData.append("filename", filename);
+  formData.append("shop_logo", file);
+  // formData.append("filename", filename);
   formData.append("geolocation", props.geolocation);
   formData.append("availability", props.availability);
+  formData.append("created_by_id", admin_id);
 
   let head;
   // let user_token = localStorage.getItem("user_token");
@@ -1169,8 +1175,9 @@ export const addAdminFunction = async (props) => {
       admin_type: props.admin_type,
       admin_password: props.admin_password,
     },
-    { headers: { admin_token: `${admin_token}` } }
-  );
+UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
@@ -1267,8 +1274,9 @@ export const orderAssignByAdmin = async (
       payment_method: payment_method,
       order_delivery_confirm_code: order_delivery_confirm_code,
     },
-    { headers: { admin_token: `${admin_token}` } }
-  );
+UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
@@ -1298,8 +1306,9 @@ export const CreateTransaction = async (
 export const AddProductVerient = async (props) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_product_verient`, props,
-    { headers: { admin_token: `${admin_token}` } }
-  );
+    UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
@@ -1307,8 +1316,9 @@ export const AddProductVerient = async (props) => {
 export const UpdateProductVerient = async (props) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`, props,
-    { headers: { admin_token: `${admin_token}` } }
-  );
+    UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
@@ -1319,8 +1329,9 @@ export const DeletProductVarient = async (del, id) => {
     is_deleted: del,
     product_verient_id: id
   },
-    { headers: { admin_token: `${admin_token}` } }
-  );
+UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
@@ -1346,14 +1357,14 @@ export const AddCategory = async (props) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_category`,
     formData,
-    { headers: { admin_token: `${admin_token}` } }
-  );
+UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
-/*Api to add category */
+/*Api to UPdate category */
 export const UpdateCategory = async (props) => {
-  console.log(props)
   const formData = new FormData();
   formData.append('parent_id', props.parent_id);
   formData.append('level', props.level === ("0" || 0) ? 0 : 1);
@@ -1365,8 +1376,9 @@ export const UpdateCategory = async (props) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/update_category`,
     formData,
-    { headers: { admin_token: `${admin_token}` } }
-  );
+UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}  );
   return response.data;
 };
 
@@ -1392,7 +1404,9 @@ export const UpdateReviewStatus = async (status, id) => {
       "id": id,
       "status": status
     },
-    { headers: { admin_token: `${admin_token}` } }
+    UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}
   );
   return response.data;
 };
@@ -1405,7 +1419,9 @@ export const GetComplaintList = async (name, status) => {
     {
       email: "",
     }, 
-    { headers: { admin_token: `${admin_token}` } }
+    UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}
       );
   return response.data;
 };
@@ -1416,7 +1432,9 @@ export const UpdateComplainStatus = async (status, id,des) => {
     { "id":id,
      "status":status,
      "resolve_description":des },
-    { headers: { admin_token: `${admin_token}` } }
+     UserType === "admin" ?
+    { headers: { admin_token: `${admin_token}` } } :
+    { headers: { vendor_token: `${vendor_token}` }}
   );
   return response.data;
 };

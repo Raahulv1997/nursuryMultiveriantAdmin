@@ -22,16 +22,16 @@ const SellerOtpVerify = () => {
     console.log("response---" + JSON.stringify(response));
     if (response.response === "successfully created your account") {
       setSpinner(false);
-      navigate("/sellerlogin");
+      navigate("/");
     }
     if (response.response === "not matched, credential issue") {
       setSpinner(false);
       setOtpError("otpnotMatche");
     }
-    if (response.success === true) {
+    if (response.success === true && response.token) {
       setSpinner(false);
       localStorage.setItem("vendor_token", response.token);
-      navigate(`/sellerlogin`);
+      navigate(`/updatesellerforgetpassword`);
     }
   };
   return (

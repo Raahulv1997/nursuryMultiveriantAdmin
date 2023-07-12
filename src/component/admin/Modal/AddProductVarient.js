@@ -137,7 +137,6 @@ useEffect(() => {
 
     /*Function to add product varient */
     const handleAddProduct = async (e) => {
-        console.log(state)
         
         e.preventDefault();
         if (validate()) {

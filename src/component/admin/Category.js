@@ -30,6 +30,9 @@ export default function Category() {
   /*Render method to get the category list */
   useEffect(() => {
     GetCateData()
+    if(apicall === true) {
+      setApiCall(false)
+    }
   }, [apicall])
 
   /*Function to get the data just by parent */

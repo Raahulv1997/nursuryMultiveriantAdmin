@@ -15,13 +15,19 @@ const OrderDetail = () => {
     const getOrderDetail = async () => {
       setLoading(true);
       const response = await OrderByNo(orderIDD);
+      if (response.response === "not found") {
+        setOrderData([]);
+        setUserData([]);
+        setProductData([]);
+        setLoading(false);
+      } else {
+        const { order_detaile, order_product_detaile, user_detaile } = response;
+        setOrderData(order_detaile[0]);
+        setUserData(user_detaile[0]);
+        setProductData(order_product_detaile);
+        setLoading(false);
+      }
 
-      const { order_detaile, order_product_detaile, user_detaile } = response;
-      console.log("data----" + JSON.stringify(order_detaile), order_product_detaile, user_detaile);
-      setOrderData(order_detaile[0]);
-      setUserData(user_detaile[0]);
-      setProductData(order_product_detaile);
-      setLoading(false);
       // console.log("product  data----" + JSON.stringify(order_product_detaile));
     };
     getOrderDetail();
@@ -72,7 +78,6 @@ const OrderDetail = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-lg-12">
                   <div className="account-card">
                     <div className="account-title">
@@ -110,7 +115,6 @@ const OrderDetail = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-lg-12">
                   <div className="table-scroll mb-4">
                     <table className="table-list">

@@ -39,8 +39,9 @@ const AdminLogin = () => {
       setLoading(false);
     } else if (response[1].true === true) {
       setLoading(false);
-      navigate("/admin/home");
+      navigate("/home");
       localStorage.setItem("admin_token", response[1].token);
+      localStorage.setItem("user_type", "admin");
     }
   };
 
@@ -142,12 +143,12 @@ const AdminLogin = () => {
                   </form>
                 </div>
               </div>
-              {/* <div className="user-form-remind">
+              <div className="user-form-remind">
                 <p>
-                  Don't have any account?
-                  <Link to={"/"}>register here</Link>
+                  Vendor Login
+                  <Link to={"/"}>Vendor</Link>
                 </p>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

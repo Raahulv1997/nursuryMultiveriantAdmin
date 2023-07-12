@@ -13,18 +13,18 @@ const Sidebar = () => {
   const [onToggele, setOnToggle] = useState(false);
   const admin_token = localStorage.getItem("admin_token");
   const vendor_token = localStorage.getItem("vendor_token");
+  let UserType = localStorage.getItem("user_type")
   const navigate = useNavigate();
+  /*function for Vendor login */
   const OnLogoutClick = () => {
-    if (admin_token !== null) {
+    if (admin_token) {
       // console.log("in admin token");
-
-      localStorage.removeItem("admin_token");
+      localStorage.clear();
       navigate("/admin");
-    } else if (vendor_token !== null) {
+    } else if (vendor_token) {
       // console.log("in vendor token");
-
-      localStorage.removeItem("vendor_token");
-      navigate("/sellerlogin");
+      localStorage.clear();
+      navigate("/");
     } else {
       alert("not logout");
     }
@@ -54,7 +54,7 @@ const Sidebar = () => {
             <img src={Logo} />
           </li>
           <li className="banner-category-item">
-            <Link to="/admin/Home">
+            <Link to="/home">
               <GiPlantRoots />
               <span>Product</span>
             </Link>
@@ -133,7 +133,7 @@ const Sidebar = () => {
             </div> */}
           </li>
           <li className="banner-category-item">
-            <Link to="/admin/orderList">
+            <Link to="/orderList">
               <MdShoppingBag />
               <span>Orders</span>
             </Link>
@@ -195,7 +195,7 @@ const Sidebar = () => {
             </div> */}
           </li>
           <li className="banner-category-item">
-            <Link to={"/admin/userList"}>
+            <Link to={"/userList"}>
               <FiUser />
               <span>Users</span>
             </Link>
@@ -239,8 +239,8 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
-          <li className="banner-category-item">
-            <Link to="/admin/vendor">
+         {UserType === "admin" ? <><li className="banner-category-item">
+            <Link to="/vendor">
               <BsShop />
               <span>Vendor</span>
             </Link>
@@ -268,7 +268,7 @@ const Sidebar = () => {
             </div> */}
           </li>
           <li className="banner-category-item">
-            <Link to="/admin/manageAdmin">
+            <Link to="/manageAdmin">
               <RiAdminLine />
               <span>ManageAdmin</span>
             </Link>
@@ -295,26 +295,28 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
+          </> :
+          null}
           <li className="banner-category-item">
-            <Link to="/admin/category">
+            <Link to="/category">
               <TbCategory2 />
               <span> Manage Category </span>
             </Link>
           </li>
           <li className="banner-category-item">
-            <Link to="/admin/reviews">
+            <Link to="/reviews">
               <MdOutlineRateReview />
               <span> Manage Reviews </span>
             </Link>
           </li>
           <li className="banner-category-item">
-            <Link to="/admin/complain">
+            <Link to="/complain">
               <GrDocumentUser />
               <span> Manage complain </span>
             </Link>
           </li>
           <li className="banner-category-item">
-            <Link to="/admin/transactionList">
+            <Link to="/transactionList">
               <GrTransaction />
               <span>Transection </span>
             </Link>

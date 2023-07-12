@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import Logo from "../css-js/images/logo.png";
+import Logo from "../../logo192.png";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import useValidation from "../common/useValidation";
 import Modal from "react-bootstrap/Modal";
@@ -19,7 +19,7 @@ const SellerRegister = () => {
     image: "",
   };
   const navigate = useNavigate();
-
+  const vendor_Token = localStorage.getItem("vendor_token");
   const [file, setFile] = useState();
   const [filename, setFilename] = useState("");
   const [showmodel, setShowmodel] = useState(false);
@@ -108,9 +108,13 @@ const SellerRegister = () => {
   }, []);
 
   const vendorDetails = async () => {
-    const response = await VendorDetailsBytoken();
     // console.log("response---" + JSON.stringify(response));
-    setState(response[0]);
+    if(vendor_Token){
+      const response = await VendorDetailsBytoken();
+      setState(response[0]);
+    }else{
+      setState(initialFormState)
+    }
   };
 
   const handleUpdateVendor = async (e) => {

@@ -51,8 +51,8 @@ export default function AddIVarientImage(props) {
             (value) =>
                 value === null || value === ""
                     ? "product stock quantity is required"
-                    : /[^A-Za-z 0-9]/g.test(value)
-                        ? "Cannot use special character "
+                    // : /[^A-Za-z 0-9]/g.test(value)
+                    //     ? "Cannot use special character "
                         : null,
         ],
     };
@@ -131,7 +131,7 @@ export default function AddIVarientImage(props) {
 
     /*Function to set varient image */
     const OnSetVarientImageClick = async (e) => {
-        console.log(state.img_64)   
+        console.log(state)   
         // e.preventDefault();
         if (validate()) {
             let response = await AddProductImage(state)
@@ -153,7 +153,7 @@ export default function AddIVarientImage(props) {
     /*Function to delete image */
     const OnImageDeleteClick = async () => {
         let response = await DeleteProductImage(Id, imageId, varId, imagename)
-        if (response.response === "update successfully") {
+        if (response.affectedRows === 1) {
             setShowDeleteAlert(false)
             setApiCall(true)
         }
