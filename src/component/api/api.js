@@ -910,7 +910,8 @@ export const AdminVendorStatusChange = async (status, id) => {
   return response.data;
 };
 
-export const UpdateVendorfunction = async (props, file, filename, id) => {
+/*Function to update vendor profile with vendor and user */
+export const UpdateVendorfunction = async (props, file, id) => {
   const formData = new FormData();
   formData.append("vendor_id", id);
   formData.append("owner_name", props.owner_name);
@@ -919,8 +920,8 @@ export const UpdateVendorfunction = async (props, file, filename, id) => {
   formData.append("mobile", props.mobile);
   formData.append("shop_address", props.shop_address);
   formData.append("gstn", props.gstn);
-  formData.append("image", file);
-  formData.append("filename", filename);
+  formData.append("shop_logo", file);
+  // formData.append("filename", filename);
   formData.append("geolocation", props.geolocation);
   formData.append("availability", props.availability);
 
@@ -1006,29 +1007,6 @@ export const VendorDetailsBytoken = async () => {
   return response.data;
 };
 
-export const UpdateVendorByToken = async (props, file, filename) => {
-  const formData = new FormData();
-  // formData.append("vendor_id", id);
-  formData.append("owner_name", props.owner_name);
-  formData.append("shop_name", props.shop_name);
-  formData.append("email", props.email);
-  formData.append("mobile", props.mobile);
-  formData.append("shop_address", props.shop_address);
-  formData.append("gstn", props.gstn);
-  formData.append("image", file);
-  formData.append("filename", filename);
-  formData.append("geolocation", props.geolocation);
-  formData.append("availability", props.availability);
-
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/update_vendor_profile`,
-    formData,
-    {
-      headers: { vendor_token: vendor_token },
-    }
-  );
-  return response.data;
-};
 
 export const Vendorotp = async (email, otp) => {
   const response = await axios.post(
@@ -1314,8 +1292,11 @@ export const AddProductVerient = async (props) => {
 
 /*Api to Update product varient  */
 export const UpdateProductVerient = async (props) => {
+  let data = props
+  delete data["care_and_Instructions"]
+  delete data["benefits"]
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`, props,
+    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`, data,
     UserType === "admin" ?
     { headers: { admin_token: `${admin_token}` } } :
     { headers: { vendor_token: `${vendor_token}` }}  );

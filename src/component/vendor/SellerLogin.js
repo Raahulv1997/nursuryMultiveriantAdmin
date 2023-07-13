@@ -26,10 +26,8 @@ const SellerLogin = () => {
   const LoginVendor = async (e) => {
     e.preventDefault();
     setSpinner("spinner");
-
     const response = await VendorLoginFuntion(emailVal, passval);
     const { vendor_detaile } = response;
-
     if (response.complete_profile === false) {
       setSpinner(false);
       setemailerror("incomplete");
@@ -44,15 +42,14 @@ const SellerLogin = () => {
       setSpinner(false);
       setemailerror("credetialnotmatch");
     }
-
     if (
       response.response === "successfully login" &&
       vendor_detaile.status === "pending"
     ) {
+      localStorage.setItem("vendor_token", response.token);
       setSpinner(false);
       setShowmodel(true);
     }
-
     if (
       response.response === "successfully login" &&
       vendor_detaile.status === "approved"

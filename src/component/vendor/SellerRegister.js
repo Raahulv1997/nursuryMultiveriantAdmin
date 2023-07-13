@@ -4,7 +4,7 @@ import Logo from "../../logo192.png";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import useValidation from "../common/useValidation";
 import Modal from "react-bootstrap/Modal";
-import { UpdateVendorByToken, VendorDetailsBytoken } from "../api/api";
+import { UpdateVendorfunction, VendorDetailsBytoken } from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
 const SellerRegister = () => {
   const initialFormState = {
@@ -20,8 +20,9 @@ const SellerRegister = () => {
   };
   const navigate = useNavigate();
   const vendor_Token = localStorage.getItem("vendor_token");
+  const vendor_id = localStorage.getItem("vendor_id");
   const [file, setFile] = useState();
-  const [filename, setFilename] = useState("");
+  // const [filename, setFilename] = useState("");
   const [showmodel, setShowmodel] = useState(false);
 
   const validators = {
@@ -100,7 +101,7 @@ const SellerRegister = () => {
 
   const OnFileUpload = (e) => {
     setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
+    // setFilename(e.target.files[0].name);
   };
 
   useEffect(() => {
@@ -108,6 +109,8 @@ const SellerRegister = () => {
   }, []);
 
   const vendorDetails = async () => {
+    console.log("ppppp",vendor_Token);
+
     // console.log("response---" + JSON.stringify(response));
     if(vendor_Token){
       const response = await VendorDetailsBytoken();
@@ -120,7 +123,7 @@ const SellerRegister = () => {
   const handleUpdateVendor = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const response = await UpdateVendorByToken(state, file, filename);
+      const response = await UpdateVendorfunction(state, file, vendor_id);
       const { message, vendor_detaile } = response;
       // console.log("vendor update" + JSON.stringify(response));
       if (
