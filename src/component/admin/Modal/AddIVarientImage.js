@@ -62,7 +62,7 @@ export default function AddIVarientImage(props) {
 
     /*Function to get the image list */
     const onImgView = async () => {
-        const response = await GetProductImages(props.id);
+        const response = await GetProductImages(props.id , props.varId);
         if (response.error === 'please fill all inputs') {
             setnewImageUrls([])
         } else {

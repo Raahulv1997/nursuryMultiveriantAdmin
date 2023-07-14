@@ -1,18 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState } from "react";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import CategoryJson from "../json/categoryJson";
+// import CategoryJson from "../json/categoryJson";
 import vendorJson from "../json/vendorJson";
 import "sweetalert/dist/sweetalert.css";
 import {
     AddProductData,
     UpdateProductData,
-    AllproductData
+    AllproductData,
+    GetCategoryList
 } from "../../api/api";
 import useValidation from "../../common/useValidation";
 
 export default function AddProductModal(props) {
+    const [catData, setCatData] = useState([]);
+    const [cateErr, setCateErr] = useState(false)
+    let [category, setCategory] = useState({
+        main: "",
+        sub: ""
+    })
+
+    /*Function to Get Category list */
+  const GetCateList = async () => {
+    let response = await GetCategoryList();
+    if(response.status === true){
+        setCatData(response.response);
+    }else{
+        setCatData([])
+    }
+  };
+
+  /*Function to get the data just by parent */
+  const parentCategories = catData.filter(
+    (category) => category.parent_id === 0
+  );
     let vendor_id = localStorage.getItem("vendor_id")
     let userType = localStorage.getItem("user_type")
     //product data json
@@ -36,14 +58,14 @@ export default function AddProductModal(props) {
                         ? "Cannot use special character "
                         : null,
         ],
-        category: [
-            (value) =>
-                value === null || value === ""
-                    ? "Category is required"
-                    : /[^A-Za-z 0-9]/g.test(value)
-                        ? "Cannot use special character "
-                        : null,
-        ],
+        // category: [
+        //     (value) =>
+        //         value === null || value === ""
+        //             ? "Category is required"
+        //             : /[^A-Za-z 0-9]/g.test(value)
+        //                 ? "Cannot use special character "
+        //                 : null,
+        // ],
         vendor_id: [
             (value) => (value === null || value === "" ? "Price is required" : null),
         ],
@@ -60,6 +82,13 @@ export default function AddProductModal(props) {
     const { state, setState, onInputChange, setErrors, errors, validate } =
         useValidation(initialFormState, validators);
 
+        console.log(category)
+        useEffect(() => {
+            setState({
+                ...state,
+                category : category.main + "," +category.sub
+            });
+        }, [category]);
     /*Function to get product data */
     const GetProductData = async () => {
         const response = await AllproductData(
@@ -84,6 +113,7 @@ export default function AddProductModal(props) {
     /*Render method to get product data*/
     useEffect(() => {
         GetProductData()
+        GetCateList()
     }, [props])
 
     /*Function to add Product */
@@ -258,35 +288,56 @@ export default function AddProductModal(props) {
                                             aria-label="Default select example"
                                             sm="9"
                                             className={
-                                                errors.category
+                                                cateErr 
                                                     ? "form-control border border-danger nice-select w-100"
                                                     : "form-control"
                                             }
                                             name="category"
-                                            onChange={onInputChange}
-                                            value={state.category}
+                                            onChange={(e) => setCategory({ ...category, main: e.target.value })}
+                                            value={category.main}
                                             id="category"
                                         >
                                             <option value={""}>Select Category</option>
-                                            {CategoryJson.categoryjson.map((item) => {
+                                            {(parentCategories || []).map((item,i) => {
                                                 return (
-                                                    <>
-                                                        <option value={item}>{item}</option>
-                                                    </>
+                                                    <React.Fragment key={i}>
+                                                        <option value={item.category_name}>
+                                                            {item.category_name}
+                                                        </option>
+                                                    </React.Fragment>
                                                 );
                                             })}
                                         </Form.Select>
-                                        {errors.category
-                                            ? (errors.category || []).map((error, i) => {
-                                                return (
-                                                    <small className="text-danger" key={i}>
-                                                        {error}
-                                                    </small>
-                                                );
-                                            })
-                                            : null}
+                                        {cateErr === "" ?
+                                            <small className="text-danger">
+                                                Category is required
+                                            </small> : null}
+
                                     </InputGroup>
                                 </Col>
+                            </Form.Group>
+                        </div>
+                        <div className="col-md-6">
+                            <Form.Group className="mb-3">
+                                <Form.Label className="" column sm="12">
+                                    Sub Category
+                                </Form.Label>
+                                <Form.Select
+                                    type="text"
+                                    name={"sub_category"}
+                                    onChange={(e) => setCategory({ ...category, sub: e.target.value })}
+                                    value={category.sub}
+                                    id="sub_category"
+                                ><option value={""}>Select Sub Category</option>
+                               {catData.length === 0 ? null :
+                               (catData
+                                    .filter(
+                                      (child) => child.parent_id !== 0
+                                    )
+                                    .map((child ,i) => (
+                                       <option key={i} value={child.category_name}>{ child.category_name}</option>                                        
+                                    )))}
+                                </Form.Select>
                             </Form.Group>
                         </div>
 

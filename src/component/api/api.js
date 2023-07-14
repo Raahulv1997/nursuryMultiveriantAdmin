@@ -476,12 +476,12 @@ export const DeleteProduct = async (id) => {
 };
 
 /*Function to get the varient image */
-export const GetProductImages = async (id) => {
+export const GetProductImages = async (id,varId) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/product_image`,
     {
       product_id: id,
-      product_image_id: "",
+      product_verient_id: varId,
     }
   );
   return response.data;

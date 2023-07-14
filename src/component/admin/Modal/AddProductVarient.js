@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,23 +7,24 @@ import "sweetalert/dist/sweetalert.css";
 import {
     AddProductVerient,
     UpdateProductVerient,
-    AllproductData
+    AllproductData,
 } from "../../api/api";
 import useValidation from "../../common/useValidation";
 
 export default function AddProductVarientModal(props) {
+    let product_id = localStorage.getItem("produtc_id")
+
     //product data json
     const initialFormState =
     {
-        product_id: props.product_id,
-        vendor_id:props.vendor_id,
+        product_id: props.product_id ? props.product_id:product_id,
+        vendor_id: props.vendor_id,
         verient_name: "",
         quantity: "",
         unit: "",
         product_stock_quantity: "",
         price: "",
         mrp: "",
-        review: "",
         discount: "",
         gst: "",
         cgst: "",
@@ -90,37 +91,36 @@ export default function AddProductVarientModal(props) {
     const { state, setState, onInputChange, setErrors, errors, validate } =
         useValidation(initialFormState, validators);
 
-/*Function to get product Varient data */
-const GetProductData = async () => {
-    const response = await AllproductData(
-        props.productID,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-    );
-    if(props.productID === "" || props.productVarientId === undefined || props.productVarientId === "" || props.productVarientId === null){
-        setState(initialFormState)
-    }else{
-        // setState(response.results[0]);
-        setState(response.results.find((vdata) => vdata.product_verient_id === props.productVarientId));
+    /*Function to get product Varient data */
+    const GetProductData = async () => {
+        const response = await AllproductData(
+            props.productID,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+        );
+        if (props.productID === "" || props.productVarientId === undefined || props.productVarientId === "" || props.productVarientId === null) {
+            setState(initialFormState)
+        } else {
+            // setState(response.results[0]);
+            setState(response.results.find((vdata) => vdata.product_verient_id === props.productVarientId));
 
-    }
-};
+        }
+    };
 
-/*Render method to get product Varient data*/
-useEffect(() => {
-    GetProductData()
-}, [props])
+    /*Render method to get product Varient data*/
+    useEffect(() => {
+        GetProductData()
+    }, [props])
 
     /*Discount and Gst calculation */
     let discountt = (state.mrp * state.discount) / 100;
-
     let sgst = state.gst / 2;
     let cgst = state.gst / 2;
     let price = state.mrp - discountt;
@@ -157,14 +157,14 @@ useEffect(() => {
     };
 
     /*Function to lupdate the Product */
-    const handleUpdateProduct = async (e) => {
+    const handleUpdateProduct = async (e) => {        
         e.preventDefault();
         if (validate()) {
             const response = await UpdateProductVerient(state);
             // console.log("data---" + JSON.stringify(response.response.affectedRows));
             if (response.response.affectedRows === 1) {
                 props.setupdateProductAlert(true);
-                ModelCloseFunction( )
+                ModelCloseFunction()
             }
         }
     };
@@ -179,14 +179,14 @@ useEffect(() => {
             <Form
                 className="p-2 addproduct_form"
                 onSubmit={
-                    props.productVarientId 
+                    props.productVarientId
                         ? (props) => handleUpdateProduct(props)
                         : (e) => handleAddProduct(e)
                 }
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-lg">
-                        {props.productVarientId  ? "Update varient" : "Add varient" }
+                        {props.productVarientId ? "Update varient" : "Add varient"}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -194,7 +194,7 @@ useEffect(() => {
                         <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
-                                Verient Name <small className="text-danger">*</small>
+                                    Verient Name <small className="text-danger">*</small>
                                 </Form.Label>
                                 <Form.Control
                                     className={
@@ -464,21 +464,6 @@ useEffect(() => {
                             </Form.Group>
                         </div>
 
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Review
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name={"review"}
-                                    onChange={onInputChange}
-                                    value={state.review}
-                                    id="review"
-                                />
-                            </Form.Group>
-                        </div>
-
                         {/* <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
@@ -508,49 +493,7 @@ useEffect(() => {
                             </Form.Group>
                         </div> */}
 
-                        {/* <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    Category <small className="text-danger">*</small>
-                                </Form.Label>
-                                <Col sm="12">
-                                    <InputGroup className="">
-                                        <Form.Select
-                                            aria-label="Default select example"
-                                            sm="9"
-                                            className={
-                                                errors.category
-                                                    ? "form-control border border-danger nice-select w-100"
-                                                    : "form-control"
-                                            }
-                                            name="category"
-                                            onChange={onInputChange}
-                                            value={state.category}
-                                            id="category"
-                                        >
-                                            <option value={""}>Select Category</option>
-                                            {CategoryJson.categoryjson.map((item) => {
-                                                return (
-                                                    <>
-                                                        <option value={item}>{item}</option>
-                                                    </>
-                                                );
-                                            })}
-                                        </Form.Select>
-                                        {errors.category
-                                            ? (errors.category || []).map((error, i) => {
-                                                return (
-                                                    <small className="text-danger" key={i}>
-                                                        {error}
-                                                    </small>
-                                                );
-                                            })
-                                            : null}
-                                    </InputGroup>
-                                </Col>
-                            </Form.Group>
-                        </div> */}
-
+                
                         {/* <div className="col-md-6">
                             <Form.Group className="mb-3">
                                 <Form.Label className="" column sm="12">
@@ -625,7 +568,7 @@ useEffect(() => {
                                     className="addcategoryicon w-100"
                                     type={"submit"}
                                 >
-                                    {props.productVarientId ? "Update Verient" :"Add varient" }
+                                    {props.productVarientId ? "Update Verient" : "Add varient"}
                                 </Button>
                             </div>
                         </div>

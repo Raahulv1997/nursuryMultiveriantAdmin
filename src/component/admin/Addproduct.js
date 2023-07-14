@@ -97,9 +97,9 @@ const AddProduct = () => {
           <b>Name:</b>{" "}
           {row.name ? row.name.charAt(0).toUpperCase() + row.name.slice(1) : ""}
           <br />
-          <b>Brand:</b>{" "}
+          {/* <b>Brand:</b>{" "}
           {row.brand ? row.brand.charAt(0).toUpperCase() + row.brand.slice(1) : ""}
-          <br />
+          <br /> */}
           <b>Category:</b>{" "}
           {row.category ? row.category.charAt(0).toUpperCase() + row.category.slice(1) : ""}
           <br />
@@ -656,7 +656,7 @@ const AddProduct = () => {
                         </Button>
                       </div>
                     </div>
-                    {/* <DataTable
+                    <DataTable
                       columns={columns}
                       data={productTable}
                       keyField={productTable.id}
@@ -664,8 +664,8 @@ const AddProduct = () => {
                       highlightOnHover
                       pointerOnHover
                       className={"table_body product_table"}
-                      subHeader/> */}
-                    <table class=" table_body product_table">
+                      subHeader/>
+                    {/* <table class=" table_body product_table">
                       <thead>
                         <tr>
                           <th className="text-white"> #</th>
@@ -753,7 +753,7 @@ const AddProduct = () => {
                             <td> {item.rating}</td>
                             <td>
                               <div className={"actioncolimn"}>
-                                {/* <Button
+                                <Button
             size="sm"
             onClick={handlevarietyShow.bind(
               this,
@@ -763,7 +763,7 @@ const AddProduct = () => {
             )}
           >
             Add Images
-          </Button> */}
+          </Button>
                                 <Button
                                   size="sm"
                                   className="btn-info mx-2"
@@ -795,7 +795,7 @@ const AddProduct = () => {
                         ))}
 
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
                 </div>
               </div>

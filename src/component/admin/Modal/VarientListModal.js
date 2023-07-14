@@ -101,9 +101,9 @@ export default function VarientListModal(props) {
                     <Container>
                         <Row>
                             <Col xs={6} md={6}>
-                                <Image src={proData.all_images_url ? ` ${proData.all_images_url}/171x180` : `${defaultImg}/171x180`}
+                                <Image src={proData.cover_image ? ` ${proData.cover_image}` : `${defaultImg}`}
                                     alt={proData.seo_tag}
-                                    fluid roundedCircle />
+                                    fluid />
                             </Col>
                             <Col xs={6} md={6}>
                                 <h3> {proData.name}</h3>
@@ -121,10 +121,9 @@ export default function VarientListModal(props) {
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Img</th>
                                             <th>Name</th>
-                                            <th>Brand</th>
                                             <th>Category</th>
-                                            <th>Review</th>
                                             <th>MRP</th>
                                             <th>Price</th>
                                             <th>Discount</th>
@@ -138,10 +137,9 @@ export default function VarientListModal(props) {
                                             item.verient_is_deleted === 1 ? null :
                                                 <tr key={item.id}>
                                                     <td>{index + 1}</td>
+                                                    <td> <img src={item.cover_image} width={"auto"} height={"100px"}/></td>
                                                     <td>{item.verient_name}</td>
-                                                    <td>{item.brand}</td>
                                                     <td>{item.category}</td>
-                                                    <td>{item.review}</td>
                                                     <td>{item.mrp}</td>
                                                     <td>{item.price}</td>
                                                     <td>{item.discount}</td>
