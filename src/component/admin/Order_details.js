@@ -4,7 +4,7 @@ import moment from "moment";
 import Loader from "../common/loader";
 import { OrderByNo } from "../api/api";
 import Sidebar from "../common/sidebar";
-
+import productImg from "../../image/product_demo.png"
 const OrderDetail = () => {
   const orderIDD = localStorage.getItem("orderid");
   const [loading, setLoading] = useState(false);
@@ -33,6 +33,11 @@ const OrderDetail = () => {
     getOrderDetail();
   }, [orderIDD]);
 
+  /*FUnction to get the image from tht muliple image with dpouble commas */
+  const CoverImg = (img) => {
+    const result = img.replace(/,+/g, ',');
+    return result.split(",")[0];
+  };
   return (
     <>
       <div className="row admin_row mt-3">
@@ -137,7 +142,10 @@ const OrderDetail = () => {
                                   <h6>{id + 1}</h6>
                                 </td>
                                 <td className="table-image">
-                                  <img src={pdata.cover_image} alt="product" />
+                                  <img src={pdata.cover_image === null
+                                    || pdata.cover_image === undefined
+                                    || pdata.cover_image === "undefined"
+                                    ? productImg : CoverImg(pdata.cover_image)} alt="product" />
                                 </td>
                                 <td className="table-name">
                                   <h6>{pdata.name}</h6>

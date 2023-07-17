@@ -130,10 +130,11 @@ const Vendor = () => {
           <p>
             <img
               alt={"apna_organic"}
-              src={
-                row.shop_logo
-                  ? row.shop_logo
-                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              src={row.shop_logo === null
+                || row.shop_logo === undefined
+                || row.shop_logo === "undefined"
+                ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                : row.shop_logo
               }
               style={{
                 padding: 10,
@@ -151,14 +152,15 @@ const Vendor = () => {
       name: "Name",
 
       selector: (row) => (
+        
         <span>
-          <b>Owner Name:</b>
-          {row.owner_name}
+          <b>Owner Name: </b>
+          {row.owner_name|| <b>unavailable</b>} 
           <br />
-          <b>Shop Name:</b>
-          {row.shop_name}
-        </span>
-      ),
+          <b>Shop Name: </b>
+          {row.shop_name || <b>unavailable</b>}
+        </span> 
+      ) ,
       sortable: true,
       width: "200px",
       center: true,
@@ -170,7 +172,7 @@ const Vendor = () => {
 
     {
       name: "Email ",
-      selector: (row) => row.email,
+      selector: (row) => row.email ||<b> unavailable</b>,
       sortable: true,
       width: "180px",
       center: true,
@@ -180,7 +182,7 @@ const Vendor = () => {
     },
     {
       name: "Mobile ",
-      selector: (row) => row.mobile,
+      selector: (row) => row.mobile ||<b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
@@ -191,14 +193,14 @@ const Vendor = () => {
 
     {
       name: "Shop Address",
-      selector: (row) => row.shop_address,
+      selector: (row) => row.shop_address ||<b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
     },
     {
       name: "GSTN",
-      selector: (row) => row.gstn,
+      selector: (row) => row.gstn ||<b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,

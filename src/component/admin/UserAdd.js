@@ -23,7 +23,7 @@ const UserAdd = () => {
   const columns = [
     {
       name: "First name",
-      selector: (row) => row.first_name,
+      selector: (row) => row.first_name ||<b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
@@ -34,7 +34,7 @@ const UserAdd = () => {
     },
     {
       name: "Last name",
-      selector: (row) => row.last_name,
+      selector: (row) => row.last_name ||<b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
@@ -46,7 +46,7 @@ const UserAdd = () => {
 
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row.email ||<b> unavailable</b>,
       sortable: true,
       width: "230px",
       center: true,
@@ -57,35 +57,35 @@ const UserAdd = () => {
 
     {
       name: "Phone no",
-      selector: (row) => row.phone_no,
+      selector: (row) => row.phone_no ||<b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
     },
     {
       name: "PinCode",
-      selector: (row) => row.pincode,
+      selector: (row) => row.pincode ||<b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
     },
     {
       name: "City",
-      selector: (row) => row.city,
+      selector: (row) => row.city ||<b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
     },
     {
       name: "Address",
-      selector: (row) => row.address,
+      selector: (row) => row.address ||<b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
     },
     {
       name: "Alternate Address",
-      selector: (row) => row.alternate_address,
+      selector: (row) => row.alternate_address ||<b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,

@@ -7,6 +7,7 @@ import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import productImg from "../../../image/product_demo.png";
 
 export default function VarientListModal(props) {
     const [proData, setProData] = useState("")
@@ -15,7 +16,7 @@ export default function VarientListModal(props) {
     const [deleteAlert, setDeleteAlter] = useState(false)
     const [apicall, setApiCall] = useState(false)
     const productIdFromLocalStorage = localStorage.getItem("produtc_id")
-    let productId = props.product_id ? props.product_id :productIdFromLocalStorage
+    let productId = props.product_id ? props.product_id : productIdFromLocalStorage
     /*Function to get product data */
     const GetProductData = async () => {
         if (productId === "") {
@@ -41,6 +42,7 @@ export default function VarientListModal(props) {
             }
         }
     };
+
     /*Render method to get product data*/
     useEffect(() => {
         GetProductData();
@@ -85,6 +87,11 @@ export default function VarientListModal(props) {
             setDeleteAlter(false)
         }
     }
+    /*FUnction to get the image from tht muliple image with dpouble commas */
+    const CoverImg = (img) => {
+        const result = img.replace(/,+/g, ',');
+        return result.split(",")[0];
+    };
     return (
         <>
             <Modal
@@ -137,7 +144,10 @@ export default function VarientListModal(props) {
                                             item.verient_is_deleted === 1 ? null :
                                                 <tr key={item.id}>
                                                     <td>{index + 1}</td>
-                                                    <td> <img src={item.cover_image} width={"auto"} height={"100px"}/></td>
+                                                    <td> <img src={item.cover_image === null
+                                                        || item.cover_image === undefined
+                                                        || item.cover_image === "undefined"
+                                                        ? productImg : CoverImg(item.cover_image)} width={"auto"} height={"100px"} /></td>
                                                     <td>{item.verient_name}</td>
                                                     <td>{item.category}</td>
                                                     <td>{item.mrp}</td>

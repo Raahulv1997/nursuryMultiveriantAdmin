@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AllproductData } from "../api/api";
 import Loader from "../common/loader";
+import ProductImage from "../../image/product_demo.png"
+
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
-  console.log("id-------------" + productId);
+  // console.log("id-------------" + productId);
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState([]);
   const initialFormState = {
@@ -43,6 +45,11 @@ const ProductDetails = () => {
     setLoading(false);
   };
   let ratingbox = [1, 2, 3, 4, 5];
+   /*FUnction to get the image from tht muliple image with dpouble commas */
+ const CoverImg = (img) => {
+  const result = img.replace(/,+/g, ',');
+  return result.split(",")[0];
+};
   return (
     <div>
       <section className="inner-section">
@@ -63,8 +70,8 @@ const ProductDetails = () => {
                     <img
                       src={
                         productData.cover_image
-                          ? productData.cover_image
-                          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                          ? CoverImg(productData.cover_image)
+                          : ProductImage
                       }
                       alt="product"
                     />
@@ -74,13 +81,13 @@ const ProductDetails = () => {
             </div>
             <div className="col-lg-6">
               <div className="details-content">
-                <h3 className="details-name">{productData.name}</h3>
+                <h3 className="details-name">{productData.name || <b>unavailable</b>}</h3>
                 <div className="details-meta">
                   <p>
-                    ID:<span>{productData.id}</span>
+                    ID:<span>{productData.id || <b>unavailable</b>}</span>
                   </p>
                   <p>
-                    BRAND:<span>{productData.brand}</span>
+                    BRAND:<span>{productData.brand || <b>unavailable</b>}</span>
                   </p>
                 </div>
 
@@ -95,7 +102,7 @@ const ProductDetails = () => {
                     );
                   })}
 
-                  <Link to="#">({productData.rating} reviews)</Link>
+                  <Link to="#">({productData.rating} reviews )</Link>
                 </div>
                 <h3 className="details-price">
                   <del> ₹{Number(productData.mrp).toFixed(2)}</del>
@@ -119,7 +126,7 @@ const ProductDetails = () => {
                   <label className="details-list-title">Stock Quantity:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.product_stock_quantity}</Link>
+                      <Link>{productData.product_stock_quantity || <b>unavailable</b>}</Link>
                     </li>
                   </ul>
                 </div>
@@ -127,7 +134,7 @@ const ProductDetails = () => {
                   <label className="details-list-title"> Quantity:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.quantity}</Link>
+                      <Link>{productData.quantity || <b>unavailable</b>}</Link>
                     </li>
                   </ul>
                 </div>
@@ -135,7 +142,7 @@ const ProductDetails = () => {
                   <label className="details-list-title">Unit:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.unit}</Link>
+                      <Link>{productData.unit || <b>unavailable</b>}</Link>
                     </li>
                   </ul>
                 </div>
@@ -143,13 +150,13 @@ const ProductDetails = () => {
                   <label className="details-list-title">Tax:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>GST: {productData.gst} %</Link>
+                      <Link>GST: {productData.gst + "%" || <b>unavailable</b>} </Link>
                     </li>
                     <li>
-                      <Link>SGST: {productData.sgst} %</Link>
+                      <Link>SGST: {productData.sgst + "%" || <b>unavailable</b>} </Link>
                     </li>
                     <li>
-                      <Link>CGST: {productData.cgst} %</Link>
+                      <Link>CGST: {productData.cgst + "%"   } </Link>
                     </li>
                   </ul>
                 </div>

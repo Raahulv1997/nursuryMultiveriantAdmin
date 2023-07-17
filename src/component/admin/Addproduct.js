@@ -12,10 +12,10 @@ import "sweetalert/dist/sweetalert.css";
 import {
   DeleteProduct,
   fetchfilter,
-  UpdateProductStatus,
+  // UpdateProductStatus,
   AllproductData
 } from "../api/api";
-import Select from "react-select";
+// import Select from "react-select";
 import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
@@ -23,7 +23,7 @@ import AddProductModal from "./Modal/AddProductModal";
 import AddProductVarientModal from "./Modal/AddProductVarient";
 import VarientListModal from "./Modal/VarientListModal";
 import AddIVarientImage from "./Modal/AddIVarientImage";
-
+import ProductImage from "../../image/product_demo.png"
 const AddProduct = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -62,7 +62,11 @@ const AddProduct = () => {
     vendor_id: "",
     product_stock_quantity: "",
   });
-
+ /*FUnction to get the image from tht muliple image with dpouble commas */
+ const CoverImg = (img) => {
+  const result = img.replace(/,+/g, ',');
+  return result.split(",")[0];
+};
   //data table coloumn-----
   const columns = [
     {
@@ -76,8 +80,8 @@ const AddProduct = () => {
               alt={"apna_organic"}
               src={
                 row.cover_image
-                  ? row.cover_image
-                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                  ? CoverImg(row.cover_image)
+                  : ProductImage
               }
               style={{
                 padding: 10,
@@ -296,7 +300,7 @@ const AddProduct = () => {
     // });
   };
 
-  console.log("Real data list =>", productTable)
+  // console.log("Real data list =>", productTable)
   //product data search data useEffect---
   useEffect(() => {
     fetchProductData();
@@ -342,17 +346,17 @@ const AddProduct = () => {
     })),
   ];
 
-  let BrandArray = [];
+  // let BrandArray = [];
 
-  const BrandHanler = (e) => {
-    BrandArray = [];
-    e.map((item) => {
-      BrandArray.push(item.value);
-      return {};
-    });
+  // const BrandHanler = (e) => {
+  //   BrandArray = [];
+  //   e.map((item) => {
+  //     BrandArray.push(item.value);
+  //     return {};
+  //   });
 
-    setsearchData({ ...searchdata, brand: BrandArray });
-  };
+  //   setsearchData({ ...searchdata, brand: BrandArray });
+  // };
 
   //category list show fuction
   let options3 = [
@@ -595,15 +599,15 @@ const AddProduct = () => {
                           })}
                         </Form.Select>
                       </div>
-                      <div className="col-md-3 col-sm-6 aos_input mb-2">
-                        {/* <Select
+                      {/* <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Select
                           className=" basic-multi-select"
                           placeholder="Search by Brand"
                           onChange={BrandHanler}
                           classNamePrefix="select"
                           isMulti
                           options={options2[0]}
-                        /> */}
+                        />
                         <Form.Select
                           className="nice-select w-100"
                           aria-lcategoryabel="Default select example"
@@ -620,7 +624,7 @@ const AddProduct = () => {
                             );
                           })}
                         </Form.Select>
-                      </div>
+                      </div> */}
                       <div className="col-md-2 col-sm-6 aos_input mb-2">
                         <div>
                           <Button

@@ -1,20 +1,19 @@
-import React, { useEffect } from "react";
-import { Button } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import React, { useEffect ,useState} from "react";
+// import { Button } from "react-bootstrap";
+// import Form from "react-bootstrap/Form";
+// import Modal from "react-bootstrap/Modal";
 import DataTable from "react-data-table-component";
 // import { BsTrash } from "react-icons/bs";
-import { BiEdit } from "react-icons/bi";
-import SweetAlert from "sweetalert-react";
-import "sweetalert/dist/sweetalert.css";
-import useValidation from "../common/useValidation";
+// import { BiEdit } from "react-icons/bi";
+// import SweetAlert from "sweetalert-react";
+// import "sweetalert/dist/sweetalert.css";
+// import useValidation from "../common/useValidation";
 import Loader from "../common/loader";
 import Sidebar from "../common/sidebar";
 import {
-  addAdminFunction,
-  UpdateAdminFunction,
-  getAdminfilter,
+  // addAdminFunction,
+  // UpdateAdminFunction,
+  // getAdminfilter,
   GetALLTransactionListByAdmin,
 } from "../api/api";
 import moment from "moment";
@@ -52,7 +51,7 @@ const TransactionList = () => {
   const columns = [
     {
       name: "Order ID",
-      selector: (row) => row.order_id,
+      selector: (row) => row.order_id || <b>unavailable</b>,
       sortable: true,
       width: "150px",
       center: true,
@@ -64,7 +63,7 @@ const TransactionList = () => {
     {
       name: "USER ID",
 
-      selector: (row) => row.user_id,
+      selector: (row) => row.user_id || <b>unavailable</b>,
       sortable: true,
       width: "150px",
       center: true,
@@ -80,11 +79,11 @@ const TransactionList = () => {
         <span>
           {" "}
           <b>Ammount: </b>
-          {row.amount} <br />
+          {row.amount || <b>unavailable</b>} <br />
           <b>Transaction ID: </b>
-          {row.transection_id} <br />
+          {row.transection_id || <b>unavailable</b>} <br />
           <b>Method: </b>
-          {row.payment_method} <br />
+          {row.payment_method || <b>unavailable</b>} <br />
           {/* <b>Status:</b>
           {row.is_payment_done} <br /> */}
           {/* <b>Country:</b>
@@ -109,7 +108,7 @@ const TransactionList = () => {
 
     {
       name: "Status",
-      selector: (row) => row.is_payment_done,
+      selector: (row) => row.is_payment_done || <b>unavailable</b>,
       sortable: true,
       width: "100px",
       center: true,
@@ -140,7 +139,7 @@ const TransactionList = () => {
 
     {
       name: "Transaction Date",
-      selector: (row) => moment(row.transaction_date).format("DD-MM-YYYY"),
+      selector: (row) => moment(row.transaction_date).format("DD-MM-YYYY") || <b>unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../css-js/images/logo.png";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
@@ -9,9 +9,9 @@ const UpdateSellerForgetPassword = () => {
   const navigate = useNavigate();
   const [passval, setpassval] = useState("");
   const [spinner, setSpinner] = useState(false);
-  const [searchparams] = useSearchParams();
+  // const [searchparams] = useSearchParams();
   const [showmodel, setShowmodel] = useState(false);
-  const email = searchparams.get("email");
+  // const email = searchparams.get("email");
   const onPasswordChange = (e) => {
     setpassval(e.target.value);
     // setemailerror(false);

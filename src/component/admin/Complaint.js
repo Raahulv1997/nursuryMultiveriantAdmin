@@ -79,7 +79,7 @@ export default function Complaint() {
         },
         {
             name: "User Name",
-            selector: (row) => row.first_name + row.last_name,
+            selector: (row) => row.first_name + row.last_name || <b>unavailable</b>,
             sortable: true,
             width: "100px",
             center: true,
@@ -93,8 +93,8 @@ export default function Complaint() {
             name: "Email",
             selector: (row) => (
                 <p>
-                    {row.email}
-                    <br />{row.contect_no}
+                    {row.email || <b>unavailable</b>} 
+                    <br />{row.contect_no || <b>unavailable</b>}
                 </p>
             ),
             sortable: true,
@@ -107,28 +107,28 @@ export default function Complaint() {
 
         {
             name: "Complain",
-            selector: (row) => row.for_complain,
+            selector: (row) => row.for_complain || <b>unavailable</b>,
             sortable: true,
             width: "100px",
             center: true,
         },
         {
             name: "Subject",
-            selector: (row) =>row.subject,
+            selector: (row) =>row.subject || <b>unavailable</b>,
             sortable: true,
             width: "150px",
             center: true,
         },
         {
             name: "Description",
-            selector: (row) => row.description,
+            selector: (row) => row.description || <b>unavailable</b>,
             sortable: true,
             width: "200px",
             center: true,
         },
          {
             name: "Complaint date",
-            selector: (row) => moment(row.created_on).format("DD-MM-YYYY"),
+            selector: (row) => moment(row.created_on).format("DD-MM-YYYY") || <b>unavailable</b>,
             sortable: true,
             width: "150px",
             center: true,

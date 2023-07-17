@@ -77,7 +77,7 @@ export default function Review() {
         },
         {
             name: "User Name",
-            selector: (row) => row.user_name,
+            selector: (row) => row.user_name || <b>unavailable</b>,
             sortable: true,
             width: "120px",
             center: true,
@@ -89,7 +89,7 @@ export default function Review() {
 
         {
             name: "Product Name",
-            selector: (row) => row.product_name,
+            selector: (row) => row.product_name || <b>unavailable</b>,
             sortable: true,
             width: "120px",
             center: true,
@@ -100,21 +100,21 @@ export default function Review() {
 
         {
             name: "Rating",
-            selector: (row) => row.review_rating,
+            selector: (row) => row.review_rating || <b>unavailable</b>,
             sortable: true,
             width: "120px",
             center: true,
         },
         {
             name: "Reviews",
-            selector: (row) => row.comment,
+            selector: (row) => row.comment || <b>unavailable</b>,
             sortable: true,
             width: "200px",
             center: true,
         },
         {
             name: "Review date",
-            selector: (row) => moment(row.review_date).format("DD-MM-YYYY"),
+            selector: (row) => moment(row.review_date).format("DD-MM-YYYY") || <b>unavailable</b>,
             sortable: true,
             width: "200px",
             center: true,

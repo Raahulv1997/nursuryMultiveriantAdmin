@@ -7,7 +7,7 @@ import DataTable from "react-data-table-component";
 // import { BiEdit } from "react-icons/bi";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "../common/loader";
 import useValidation from "../common/useValidation";
 import { allOrder, orderAssignByAdmin, OrderStatusChange } from "../api/api";
@@ -45,7 +45,7 @@ const OrderList = () => {
     },
     {
       name: "Order Qty",
-      selector: (row) => row.total_order_product_quantity,
+      selector: (row) => row.total_order_product_quantity || <b>unavailable</b>,
       sortable: true,
       width: "100px",
       center: true,
@@ -57,7 +57,7 @@ const OrderList = () => {
 
     {
       name: "Total amount",
-      selector: (row) => row.total_amount,
+      selector: (row) => row.total_amount || <b>unavailable</b>,
       sortable: true,
       width: "100px",
       center: true,
@@ -68,14 +68,14 @@ const OrderList = () => {
 
     {
       name: "Total GST",
-      selector: (row) => row.total_gst,
+      selector: (row) => row.total_gst || <b>unavailable</b>,
       sortable: true,
       width: "100px",
       center: true,
     },
     {
       name: "Payment mode",
-      selector: (row) => row.payment_mode,
+      selector: (row) => row.payment_mode || <b>unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
@@ -102,14 +102,14 @@ const OrderList = () => {
     },
     {
       name: "Order date",
-      selector: (row) => moment(row.order_date).format("DD-MM-YYYY"),
+      selector: (row) => moment(row.order_date).format("DD-MM-YYYY") || <b>unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
     },
     {
       name: "Delivery date",
-      selector: (row) => moment(row.delivery_date).format("DD-MM-YYYY"),
+      selector: (row) => moment(row.delivery_date).format("DD-MM-YYYY") || <b>unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,

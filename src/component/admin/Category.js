@@ -9,6 +9,7 @@ import DataTable from "react-data-table-component";
 import AddCategoryModal from './Modal/AddCategoryModal';
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import productImg from "../../image/product_demo.png";
 
 export default function Category() {
   const [loading, setLoading] = useState(true)
@@ -35,6 +36,11 @@ export default function Category() {
     }
   }, [apicall])
 
+   /*FUnction to get the image from tht muliple image with dpouble commas */
+   const CoverImg = (img) => {
+    const result = img.replace(/,+/g, ',');
+    return result.split(",")[0];
+};
   /*Function to get the data just by parent */
   const parentCategories = CateData.filter(
     (category) => category.parent_id === 0
@@ -50,10 +56,10 @@ export default function Category() {
           {/* <p onClick={onProductClick.bind(this, [row.id])}> */}
           <img
             alt={"apna_organic"}
-            src={
-              row.image
-                ? row.image
-                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            src={row.cover_image === null
+              || row.cover_image === undefined
+              || row.cover_image === "undefined"
+              ? productImg : CoverImg(row.cover_image)
             }
             style={{
               padding: 10,
@@ -70,7 +76,7 @@ export default function Category() {
       name: "Category Name",
       selector: (row) => (
         <span>
-          {row.category_name ? row.category_name.charAt(0).toUpperCase() + row.category_name.slice(1) : ""}
+          {row.category_name ? row.category_name.charAt(0).toUpperCase() + row.category_name.slice(1) : "unavailable"}
         </span>
       ),
       sortable: true,
@@ -85,7 +91,7 @@ export default function Category() {
       name: "Category Type ",
       selector: (row) => (
         <span>
-          {row.category_type ? row.category_type.charAt(0).toUpperCase() + row.category_type.slice(1) : ""}        </span>
+          {row.category_type ? row.category_type.charAt(0).toUpperCase() + row.category_type.slice(1) : "unavailable"}        </span>
       ),
       sortable: true,
       width: "180px",
@@ -100,7 +106,7 @@ export default function Category() {
       name: "level",
       selector: (row) => (
         <span>
-          {row.level}
+          {row.level || <b>unavailable</b>}
         </span>
       ),
       sortable: true,

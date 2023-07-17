@@ -1,10 +1,8 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import Index from "./component/user";
-import Checkout from "./component/user/checkout";
-
+// import Index from "./component/user";
+// import Checkout from "./component/user/checkout";
 // import Product_detail from "./component/user/product_detail";
 // import Profile from "./component/user/profile";
 // import Wishlist from "./component/user/wishlist";
@@ -41,7 +39,7 @@ import NotFound from "./component/common/notfound";
 import ManageAdmin from "./component/admin/ManageAdmin";
 // import UserProductDetails from "./component/user/userproductDetail.js";
 // import AuthWrapper from "./AuthWrapper";
-import ChangePassword from "./component/user/ChangePassword";
+// import ChangePassword from "./component/user/ChangePassword";
 import TransactionList from "./component/admin/TransactionList";
 // import Filters1 from "./component/user/Filters1";
 import Category from "./component/admin/Category";

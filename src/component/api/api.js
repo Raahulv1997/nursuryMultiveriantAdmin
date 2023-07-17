@@ -166,7 +166,7 @@ export const AllproductData = async (
       id__: "",
       name__: "",
       search: search,
-      is_verient: "",
+      is_verient: "yes",
       category: category,
       rating: [rating],
       brand: brand,
