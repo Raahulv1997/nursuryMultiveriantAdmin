@@ -105,7 +105,7 @@ const AddProduct = () => {
           {row.brand ? row.brand.charAt(0).toUpperCase() + row.brand.slice(1) : ""}
           <br /> */}
           <b>Category:</b>{" "}
-          {row.category ? row.category.charAt(0).toUpperCase() + row.category.slice(1) : ""}
+          {row.category_name ? row.category_name.charAt(0).toUpperCase() + row.category_name.slice(1) : ""}
           <br />
         </span>
       ),

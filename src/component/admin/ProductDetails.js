@@ -84,11 +84,11 @@ const ProductDetails = () => {
                 <h3 className="details-name">{productData.name || <b>unavailable</b>}</h3>
                 <div className="details-meta">
                   <p>
-                    ID:<span>{productData.id || <b>unavailable</b>}</span>
+                    <span>{productData.verient_name || <b>unavailable</b>}</span>
                   </p>
-                  <p>
+                  {/* <p>
                     BRAND:<span>{productData.brand || <b>unavailable</b>}</span>
-                  </p>
+                  </p> */}
                 </div>
 
                 <div className="details-rating">
