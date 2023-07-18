@@ -35,7 +35,7 @@ export default function VarientListModal(props) {
                 "",
             );
             setProData(response.results[0]);
-            if (response.results[0].product_verient_id === null) {
+            if (response.results[0].product_verient_id === null || response.results.length === 0) {
                 setVarientProData([])
             } else {
                 setVarientProData(response.results)
