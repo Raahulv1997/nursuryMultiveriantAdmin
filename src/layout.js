@@ -30,12 +30,12 @@ import SellerSignUp from "./component/vendor/SellerSignUp";
 import SellerOtpVerify from "./component/vendor/SellerOtpVerify";
 import UpdateSellerForgetPassword from "./component/vendor/updateSellerForgetpassword";
 import NotFound from "./component/common/notfound";
-// import DriverSignUp from "./component/driver/DriverSignUp";
-// import DriverLogin from "./component/driver/DriverLogin";
-// import DriverOtpVerify from "./component/driver/DriverOtpVerify";
-// import DriverForgetPassword from "./component/driver/DriverForgetPassword";
-// import UpdateDriverForgetPassword from "./component/driver/UpdateDriverForgetPassword";
-// import DriverRegister from "./component/driver/DriverRegister";
+import DriverSignUp from "./component/driver/DriverSignUp";
+import DriverLogin from "./component/driver/DriverLogin";
+import DriverOtpVerify from "./component/driver/DriverOtpVerify";
+import DriverForgetPassword from "./component/driver/DriverForgetPassword";
+import UpdateDriverForgetPassword from "./component/driver/UpdateDriverForgetPassword";
+import DriverRegister from "./component/driver/DriverRegister";
 import ManageAdmin from "./component/admin/ManageAdmin";
 // import UserProductDetails from "./component/user/userproductDetail.js";
 // import AuthWrapper from "./AuthWrapper";
@@ -80,7 +80,7 @@ function Layout() {
             element={<UpdateSellerForgetPassword />}
           />
 
-          {/* <Route path="/DriverSignup" element={<DriverSignUp />} />
+          <Route path="/DriverSignup" element={<DriverSignUp />} />
           <Route path="/DriverRegister" element={<DriverRegister />} />
           <Route path="/DriverLogin" element={<DriverLogin />} />
           <Route path="/Driverotpverify" element={<DriverOtpVerify />} />
@@ -91,7 +91,7 @@ function Layout() {
           <Route
             path="/updateDriverForgetpassword"
             element={<UpdateDriverForgetPassword />}
-          /> */}
+          />
 
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
@@ -108,11 +108,13 @@ function Layout() {
             <Route path="/reviews" element={<Review />} />
             <Route path="/complain" element={<Complaint />} />
             <Route path="/productDetails" element={<ProductDetails />} />
-            <Route path="/transactionList"element={<TransactionList />}/>
-           {UserType === "admin" ?
-            <><Route path="/manageAdmin" element={<ManageAdmin />} />
-            <Route path="/vendor" element={<Vendor />} /></>
-            : null}
+            <Route path="/transactionList" element={<TransactionList />} />
+            {UserType === "admin" ? (
+              <>
+                <Route path="/manageAdmin" element={<ManageAdmin />} />
+                <Route path="/vendor" element={<Vendor />} />
+              </>
+            ) : null}
             <Route path="*" element={<NotFound />} />
             {/* </Route> */}
           </Routes>

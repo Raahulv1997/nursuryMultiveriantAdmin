@@ -17,7 +17,7 @@ import {
   CategoryList,
 } from "../api/api";
 // import Select from "react-select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
 import AddProductModal from "./Modal/AddProductModal";
@@ -25,7 +25,7 @@ import AddProductVarientModal from "./Modal/AddProductVarient";
 import VarientListModal from "./Modal/VarientListModal";
 import AddIVarientImage from "./Modal/AddIVarientImage";
 import ProductImage from "../../image/product_demo.png";
-import Select from "react-select";
+
 const AddProduct = () => {
   const navigate = useNavigate();
   const [expandedRows, setExpandedRows] = useState([]);
@@ -50,6 +50,8 @@ const AddProduct = () => {
   const [varientModalListShow, setVarientModalListShow] = useState(false);
   const [productVarientId, setProductVarientId] = useState(false);
   const [Id, setId] = useState("");
+  const [columnName, setcolumnName] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -69,60 +71,53 @@ const AddProduct = () => {
     const result = img.replace(/,+/g, ",");
     return result.split(",")[0];
   };
-  const toggleExpand = (rowId) => {
-    if (expandedRows.includes(rowId)) {
-      setExpandedRows(expandedRows.filter((id) => id !== rowId));
+  const TruncatedCell = ({ value }) => (
+    <div
+      style={{
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        maxWidth: "50px", // Adjust the maximum width as needed
+      }}
+    >
+      {value}
+    </div>
+  );
+  const toggleExpand = (row) => {
+    if (expandedRows.includes(row.id)) {
+      setExpandedRows(expandedRows.filter((id) => id !== row.id));
     } else {
-      setExpandedRows([...expandedRows, rowId]);
+      setExpandedRows([...expandedRows, row.id]);
     }
   };
-  // const TruncatedCell = ({ value }) => (
-  //   <div
-  //     style={{
-  //       whiteSpace: "nowrap",
-  //       overflow: "hidden",
-  //       textOverflow: "ellipsis",
-  //       maxWidth: "50px", // Adjust the maximum width as needed
-  //     }}
-  //   >
-  //     {value}
-  //   </div>
-  // );
-  // const toggleExpand = (row) => {
-  //   if (expandedRows.includes(row.id)) {
-  //     setExpandedRows(expandedRows.filter((id) => id !== row.id));
-  //   } else {
-  //     setExpandedRows([...expandedRows, row.id]);
-  //   }
-  // };
   //data table coloumn-----
-  // const nestedTableColumns = [
-  //   {
-  //     name: "Name",
-  //     selector: "verient_name",
-  //     sortable: true,
-  //     style: {
-  //       marginTop: "-20px",
-  //     },
-  //     cell: (row) => <TruncatedCell value={row.verient_name} />,
-  //   },
-  //   {
-  //     name: "Price",
-  //     selector: "price",
-  //     style: {
-  //       marginTop: "-20px",
-  //     },
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "Stock",
-  //     selector: "product_stock_quantity",
-  //     style: {
-  //       marginTop: "-20px",
-  //     },
-  //     sortable: true,
-  //   },
-  // ];
+  const nestedTableColumns = [
+    {
+      name: "Name",
+      selector: "verient_name",
+      sortable: true,
+      style: {
+        marginTop: "-20px",
+      },
+      cell: (row) => <TruncatedCell value={row.verient_name} />,
+    },
+    {
+      name: "Price",
+      selector: "price",
+      style: {
+        marginTop: "-20px",
+      },
+      sortable: true,
+    },
+    {
+      name: "Stock",
+      selector: "product_stock_quantity",
+      style: {
+        marginTop: "-20px",
+      },
+      sortable: true,
+    },
+  ];
 
   const columns = [
     {
@@ -191,69 +186,61 @@ const AddProduct = () => {
     },
 
     {
-      name: "Variant",
-      selector: (row) => (
-        <span>
-          {row.verients && row.verients.length > 0 ? (
-            <div>
-              <table className="veriantTable">
-                {/* Table header */}
-                <thead className="tableVerientHeader">
-                  <tr>
-                    <th className="tableHeaderVarientName">Name</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                  </tr>
-                </thead>
-                {/* Table body */}
-                <tbody className="tableVerientBody">
-                  {/* Render a subset of verients based on expanded state */}
-                  {row.verients
-                    .slice(
-                      0,
-                      expandedRows.includes(row.id) ? row.verients.length : 2
-                    )
-                    .map((item) => (
-                      <tr key={item.id}>
-                        <td
-                          className="truncateText nameCell"
-                          style={{
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            maxWidth: "50px",
-                          }}
-                        >
-                          {item.verient_name}
-                        </td>
-                        <td>{item.price}</td>
-                        <td>{item.product_stock_quantity}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-              {/* Show More / Show Less button */}
-              {row.verients.length > 2 && (
-                <button
-                  onClick={() => toggleExpand(row.id)}
-                  style={{
-                    color: expandedRows.includes(row.id) ? "red" : "green",
-                    fontWeight: "bolder",
-                  }}
-                >
-                  {expandedRows.includes(row.id) ? "Show Less" : "Show More"}
-                </button>
-              )}
-            </div>
-          ) : (
-            "No variant"
-          )}
-        </span>
-      ),
+      name: "Varient ",
+      cell: (row) => {
+        const isExpanded = expandedRows.includes(row.id);
+
+        return (
+          <span
+            style={{
+              // backgroundColor: "red",
+              minHeight: "30px",
+              padding: "-99px",
+            }}
+            className="rahul"
+          >
+            {row.verients && row.verients.length > 0 ? (
+              <>
+                <DataTable
+                  columns={nestedTableColumns}
+                  data={row.verients.slice(
+                    0,
+                    isExpanded ? row.verients.length : 1
+                  )}
+                  noHeader
+                  defaultSortField="id"
+                  pagination={false}
+                />
+                {row.verients.length > 1 && (
+                  <button
+                    onClick={() => toggleExpand(row)}
+                    style={{
+                      color: isExpanded ? "red" : "green",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    {isExpanded ? "Show Less" : "Show More"}
+                  </button>
+                )}
+              </>
+            ) : (
+              "No variants available"
+            )}
+          </span>
+        );
+      },
       sortable: true,
-      width: "300px",
+      width: "200px",
+
       center: true,
+      style: {
+        Height: "50px",
+        marginTop: "10px",
+        marginRight: "0px",
+        marginLeft: "25px",
+      },
     },
+
     {
       name: "Tax",
       selector: (row) => (
@@ -264,7 +251,7 @@ const AddProduct = () => {
         </span>
       ),
       sortable: true,
-      width: "120px",
+      width: "200px",
       center: true,
       // style: {
       //   marginTop: "px",
@@ -428,14 +415,13 @@ const AddProduct = () => {
   useEffect(() => {
     fetchProductData();
     fetchfilterdata();
-    // eslint-disable-next-line
-  }, [apicall]);
+  }, [apicall, searchdata]);
 
   //fetch brand list and category list data---
   const fetchfilterdata = async () => {
     const jsonResponse = await CategoryList();
     const responseArray = jsonResponse.data.response;
-
+    console.log("data of catagory--" + JSON.stringify(responseArray));
     setCategoryData(responseArray);
 
     // console.log("data of catagory--" + JSON.stringify(status));
@@ -467,7 +453,7 @@ const AddProduct = () => {
 
   //category list show fuction
   let options3 = [
-    (categoryData || []).map((item, i) => ({
+    categoryData.map((item, i) => ({
       key: i,
       value: `${item.id}`,
       label: `${item.category_name}`,
@@ -477,34 +463,14 @@ const AddProduct = () => {
 
   const CategoryHanler = (e) => {
     CategoryArray = [];
-    e.map((item) => {
+    categoryData.map((item) => {
       CategoryArray.push(item.value);
       return {};
     });
-    // setBrandName(arrr);
     setsearchData({ ...searchdata, category: CategoryArray });
   };
 
-  const options4 = [
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-    { value: "4", label: "4" },
-    { value: "5", label: "5" },
-  ];
-
-  let RatingArray = [];
-
-  const RatingHanler = (e) => {
-    RatingArray = [];
-    e.map((item) => {
-      RatingArray.push(item.value);
-      return {};
-    });
-    // setBrandName(arrr);
-    setsearchData({ ...searchdata, rating: RatingArray });
-  };
-
+  // search  inputfield onchange
   const searchValueHandler = (e) => {
     setsearchData({ ...searchdata, [e.target.name]: e.target.value });
   };
@@ -596,6 +562,11 @@ const AddProduct = () => {
   //   setApicall(true);
   // };
 
+  /*Sorting Function */
+  const handleSort = (columnName) => {
+    setSortOrder(sortOrder === "DESC" ? "ASC" : "DESC");
+    setcolumnName(columnName);
+  };
   return (
     <div>
       <div className="row admin_row">
@@ -663,25 +634,49 @@ const AddProduct = () => {
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
-                          <Select
-                            className=" basic-multi-select"
-                            placeholder="Search by Rating"
-                            onChange={RatingHanler}
-                            classNamePrefix="select"
-                            isMulti
-                            options={options4}
-                          />
+                          <Form.Select
+                            aria-label="Search by delivery"
+                            size="sm"
+                            onChange={searchValueHandler}
+                            name="rating"
+                            value={searchdata.rating}
+                          >
+                            <option value="">Search by Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </Form.Select>
                         </Form.Group>
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
-                        <Select
+                        {/* <Select
                           className=" basic-multi-select"
-                          placeholder="Search by Category"
+                          placeholder="Search by category"
                           onChange={CategoryHanler}
                           classNamePrefix="select"
                           isMulti
                           options={options3[0]}
-                        />
+                        /> */}
+                        <Form.Select
+                          className="nice-select w-100"
+                          // aria-lcategoryabel="Default select example"
+                          name="category"
+                          value={searchdata.category}
+                          onChange={(e) => CategoryHanler(e)}
+                        >
+                          <option value={""}>Search By Category</option>
+                          {categoryData.map((item, i) => {
+                            return (
+                              <React.Fragment key={i}>
+                                <option value={item.id}>
+                                  {item.category_name}
+                                </option>
+                              </React.Fragment>
+                            );
+                          })}
+                        </Form.Select>
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Select
