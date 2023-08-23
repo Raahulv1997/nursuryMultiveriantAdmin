@@ -190,30 +190,28 @@ const ManageAdmin = () => {
   };
 
   //custom validation import--------------
-  const { state, setState, onInputChange ,setErrors , errors, validate } = useValidation(
-    initialFormState,
-    validators
-  );
+  const { state, setState, onInputChange, setErrors, errors, validate } =
+    useValidation(initialFormState, validators);
 
   // search  inputfield onchange
   const searchValueHandler = (e) => {
-    setSearchErr(false)
+    setSearchErr(false);
     setsearchData({ ...searchdata, [e.target.name]: e.target.value });
   };
 
   //search submit button
   const submitHandler = async () => {
     setLoading(true);
-    if(searchdata.admin_name === "" && searchdata.admin_type === ""){
-      setSearchErr(true)
-setLoading(false)
-    }else
-    {const response = await getAdminfilter(
-      searchdata.admin_name,
-      searchdata.admin_type
-    );
-    setAdminList(response);
-    setLoading(false);
+    if (searchdata.admin_name === "" && searchdata.admin_type === "") {
+      setSearchErr(true);
+      setLoading(false);
+    } else {
+      const response = await getAdminfilter(
+        searchdata.admin_name,
+        searchdata.admin_type
+      );
+      setAdminList(response);
+      setLoading(false);
     }
   };
 
@@ -223,7 +221,7 @@ setLoading(false)
       admin_name: "",
       admin_type: "",
     });
-    setSearchErr(false)
+    setSearchErr(false);
     setapicall(true);
   };
 
@@ -238,11 +236,12 @@ setLoading(false)
     const response = await getAdminList();
     setAdminList(response);
     setLoading(false);
+    setapicall(false);
   };
 
   // add Admin submit button---------------
   const handleAddAdmin = async (e) => {
-    setSearchErr(false)
+    setSearchErr(false);
     e.preventDefault();
     if (validate()) {
       const response = await addAdminFunction(state);
@@ -264,7 +263,7 @@ setLoading(false)
 
   // Admin update  edit show--------------------
   const handleEditShow = async (id, email, name, phone, type, password) => {
-    setSearchErr(false)
+    setSearchErr(false);
     setState({
       id: id,
       admin_email: email,
@@ -279,13 +278,13 @@ setLoading(false)
   //Admin registraion model close function-----------------
   const ModelCloseFunction = () => {
     setShowmodel(false);
-    setErrors("")
+    setErrors("");
     setState(initialFormState);
   };
 
   //Admin update fuction--
   const handleUpdateDriver = async (e) => {
-    setSearchErr(false)
+    setSearchErr(false);
     e.preventDefault();
     if (validate()) {
       const response = await UpdateAdminFunction(state);
@@ -334,7 +333,7 @@ setLoading(false)
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar />
+          <Sidebar style={{ message: "manageAdmin" }} />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar mt-5">
           <div className="main_content_div">
@@ -356,13 +355,13 @@ setLoading(false)
                             name="admin_name"
                             onChange={searchValueHandler}
                             value={searchdata.admin_name}
-                            className={searchErr ? 
-                              "border border-danger" :
-                          ""}
+                            className={searchErr ? "border border-danger" : ""}
                           />
-                          {searchErr ?
-                            <small className="text-danger">This feild is requried</small>
-                            : null}
+                          {searchErr ? (
+                            <small className="text-danger">
+                              This feild is requried
+                            </small>
+                          ) : null}
                         </Form.Group>
                       </div>
 

@@ -88,3 +88,7 @@ li.navbar-item.dropdown {
 .pagination .page-item {
   margin-left: 0px;
 }
+.complain_table .llFCKr,
+.complain_table .ehrSWb {
+  justify-content: start;
+}

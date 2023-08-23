@@ -5,15 +5,15 @@ import { RiAdminLine } from "react-icons/ri";
 import { BsShop } from "react-icons/bs";
 import { GiPlantRoots } from "react-icons/gi";
 import { FiUser, FiLogOut, FiMenu } from "react-icons/fi";
-import { MdShoppingBag ,MdOutlineRateReview} from "react-icons/md";
-import {TbCategory2} from "react-icons/tb"
+import { MdShoppingBag, MdOutlineRateReview } from "react-icons/md";
+import { TbCategory2 } from "react-icons/tb";
 import Logo from "../../logo192.png";
-import {GrDocumentUser} from "react-icons/gr"
-const Sidebar = () => {
+import { GrDocumentUser } from "react-icons/gr";
+const Sidebar = (props) => {
   const [onToggele, setOnToggle] = useState(false);
   const admin_token = localStorage.getItem("admin_token");
   const vendor_token = localStorage.getItem("vendor_token");
-  let UserType = localStorage.getItem("user_type")
+  let UserType = localStorage.getItem("user_type");
   const navigate = useNavigate();
   /*function for Vendor login */
   const OnLogoutClick = () => {
@@ -37,7 +37,7 @@ const Sidebar = () => {
     }
   };
   return (
-    <div >
+    <div>
       <span className="show_sidebar" onClick={OnToggleClick}>
         <FiMenu />
       </span>
@@ -51,9 +51,15 @@ const Sidebar = () => {
         <ul className="banner-category-list vh-100 pt-4">
           <li className="brand_logo">
             {" "}
-            <img src={Logo} />
+            <img src={Logo} alt="logoImage" />
           </li>
-          <li className="banner-category-item">
+          <li
+            className={
+              props.style.message === "product"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
             <Link to="/home">
               <GiPlantRoots />
               <span>Product</span>
@@ -132,7 +138,13 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
-          <li className="banner-category-item">
+          <li
+            className={
+              props.style.message === "customerOrder"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
             <Link to="/orderList">
               <MdShoppingBag />
               <span>Orders</span>
@@ -194,8 +206,14 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
-          <li className="banner-category-item">
-            <Link to={"/userList"}>
+          <li
+            className={
+              props.style.message === "users"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
+            <Link to="/userList">
               <FiUser />
               <span>Users</span>
             </Link>
@@ -239,12 +257,20 @@ const Sidebar = () => {
               </div>
             </div> */}
           </li>
-         {UserType === "admin" ? <><li className="banner-category-item">
-            <Link to="/vendor">
-              <BsShop />
-              <span>Vendor</span>
-            </Link>
-            {/* <div className="banner-category-dropdown">
+          {UserType === "admin" ? (
+            <>
+              <li
+                className={
+                  props.style.message === "vendor"
+                    ? "banner-category-item active"
+                    : "banner-category-item "
+                }
+              >
+                <Link to="/vendor">
+                  <BsShop />
+                  <span>Vendor</span>
+                </Link>
+                {/* <div className="banner-category-dropdown">
               <h5>dairy items</h5>
               <div className="banner-sub-category">
                 <ul>
@@ -266,13 +292,19 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div> */}
-          </li>
-          <li className="banner-category-item">
-            <Link to="/manageAdmin">
-              <RiAdminLine />
-              <span>ManageAdmin</span>
-            </Link>
-            {/* <div className="banner-category-dropdown">
+              </li>
+              <li
+                className={
+                  props.style.message === "manageAdmin"
+                    ? "banner-category-item active"
+                    : "banner-category-item "
+                }
+              >
+                <Link to="/manageAdmin">
+                  <RiAdminLine />
+                  <span>ManageAdmin</span>
+                </Link>
+                {/* <div className="banner-category-dropdown">
               <h5>dairy items</h5>
               <div className="banner-sub-category">
                 <ul>
@@ -294,28 +326,52 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div> */}
-          </li>
-          </> :
-          null}
-          <li className="banner-category-item">
+              </li>
+            </>
+          ) : null}
+          <li
+            className={
+              props.style.message === "category"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
             <Link to="/category">
               <TbCategory2 />
               <span> Manage Category </span>
             </Link>
           </li>
-          <li className="banner-category-item">
+          <li
+            className={
+              props.style.message === "review"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
             <Link to="/reviews">
               <MdOutlineRateReview />
               <span> Manage Reviews </span>
             </Link>
           </li>
-          <li className="banner-category-item">
+          <li
+            className={
+              props.style.message === "complaint"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
             <Link to="/complain">
               <GrDocumentUser />
               <span> Manage complain </span>
             </Link>
           </li>
-          <li className="banner-category-item">
+          <li
+            className={
+              props.style.message === "transaction"
+                ? "banner-category-item active"
+                : "banner-category-item "
+            }
+          >
             <Link to="/transactionList">
               <GrTransaction />
               <span>Transection </span>

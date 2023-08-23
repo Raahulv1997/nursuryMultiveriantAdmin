@@ -197,6 +197,7 @@
 .banner-category-item a {
   width: 100%;
   font-size: 15px;
+  text-decoration: none;
   color: var(--text);
   padding: 10px 10px;
   text-transform: capitalize;
@@ -216,7 +217,7 @@
   -ms-transition: all linear 0.3s;
   -o-transition: all linear 0.3s;
 }
-.banner-category-item a:hover {
+.banner-category-item.active a {
   border-radius: 5px;
   color: var(--primary);
   background: var(--chalk);
@@ -572,6 +573,21 @@
 .blog-slider .dandik,
 .blog-slider .bamdik {
   top: 43%;
+}
+
+.review_table .eHQnWn,
+.review_table .fXWgEP {
+  justify-content: start;
+}
+.multi_select_input .css-1fdsijx-ValueContainer {
+  padding: 0.3rem 2.25rem 0.3rem 0.75rem;
+}
+.multi_select_input .css-13cymwt-control {
+  border-color: #dee2e6;
+}
+.multi_select_input .css-1jqq78o-placeholder {
+  color: #000;
+  font-size: 15px;
 }
 @media (max-width: 767px) {
   .blog-slider .blog-card {

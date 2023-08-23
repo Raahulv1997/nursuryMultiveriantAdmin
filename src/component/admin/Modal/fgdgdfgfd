@@ -1,0 +1,123 @@
+{
+    "id": 3,
+    "vendor_id": 17,
+    "name": "new test",
+    "seo_tag": "My_SEO",
+    "brand": "test",
+    "category": "Climbers",
+    "is_deleted": 0,
+    "status": "active",
+    "review": "it is good Product",
+    "rating": 5,
+    "description": "new test test test test test test test test test test",
+    "is_active": 1,
+    "created_by": "undefined",
+    "created_by_id": "17",
+    "created_on": "2023-06-30T15:14:44.000Z",
+    "updated_on": "2023-06-30T15:14:44.000Z",
+    "product_verient_id": 53,
+    "product_id": 3,
+    "verient_name": "I am very very Good Varient",
+    "quantity": 50,
+    "unit": "piece",
+    "product_stock_quantity": 15,
+    "price": "950",
+    "mrp": "1000",
+    "gst": 5,
+    "sgst": "2.5",
+    "cgst": "2.5",
+    "verient_is_deleted": 0,
+    "verient_status": "active",
+    "discount": 5,
+    "verient_description": "I am very very Good Variant I am very very Good Variant I am very very Good Variant ",
+    "verient_is_active": 1,
+    "verient_created_on": "2023-07-13T07:06:26.000Z",
+    "verient_updated_on": "2023-07-13T07:06:26.000Z",
+    "product_height": "undefined",
+    "product_width": "undefined",
+    "product_Weight": "undefined",
+    "all_images_url": null,
+    "cover_image": null
+}
+
+
+
+
+
+
+
+
+
+
+
+================================================================
+
+
+
+
+{
+    "id": 34,
+    "product_id": 34,
+    "name": "roseeday",
+    "seo_tag": "roseDay seo",
+    "brand": null,
+    "category": "Plant,fruit_plant",
+    "is_deleted": 0,
+    "status": "active",
+    "review": null,
+    "rating": "3",
+    "description": "fsfadfdaasfadvcvx",
+    "is_active": 1,
+    "created_by": "undefined",
+    "created_by_id": "17",
+    "created_on": "2023-08-16T22:52:16.000Z",
+    "updated_on": "2023-08-16T22:52:16.000Z",
+    "product_verient_id": 61,
+    "verient_name": "rosse day ver 2",
+    "quantity": 1000,
+    "unit": "kilogram",
+    "product_stock_quantity": 100,
+    "price": 480,
+    "mrp": 500,
+    "gst": 10,
+    "sgst": 5,
+    "cgst": 5,
+    "verient_is_deleted": 0,
+    "verient_status": "active",
+    "discount": 10,
+    "verient_description": "fsdfasdfads",
+    "verient_is_active": 1,
+    "verient_created_on": "2023-08-17T16:20:16.000Z",
+    "verient_updated_on": "2023-08-17T16:20:16.000Z",
+    "product_height": "undefined",
+    "product_width": "undefined",
+    "product_Weight": "undefined",
+    "all_images_url": null,
+    "cover_image": null,
+    "verients": [
+        {
+            "product_verient_id": 61,
+            "verient_name": "rosse day ver 2",
+            "quantity": 1000,
+            "unit": "kilogram",
+            "product_stock_quantity": 100,
+            "price": 480,
+            "mrp": 500,
+            "gst": 10,
+            "sgst": 5,
+            "cgst": 5,
+            "verient_is_deleted": 0,
+            "verient_status": "active",
+            "discount": 10,
+            "verient_description": "fsdfasdfads",
+            "verient_is_active": 1,
+            "verient_created_on": "2023-08-17T16:20:16.000Z",
+            "verient_updated_on": "2023-08-17T16:20:16.000Z",
+            "product_height": "undefined",
+            "product_width": "undefined",
+            "product_Weight": "undefined",
+            "all_images_url": null,
+            "cover_image": null
+        }
+    ]
+}

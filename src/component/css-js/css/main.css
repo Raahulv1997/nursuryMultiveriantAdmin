@@ -1294,12 +1294,33 @@ button:focus {
 .table-list {
   width: 100%;
 }
-
-thead tr {
-  background: var(--primary);
+.tableVerientHeader th {
+  border: 1px solid lightgrey;
+  padding: 2px;
+  text-align: center;
+  font-size: 12px;
+}
+.tableVerientBody tr td {
+  border: 1px solid lightgrey;
+  padding: 2px;
+  text-align: center;
+  font-size: 10px;
+}
+.veriantTable {
+  min-width: 250px;
+}
+.tableHeaderVarientName {
+  width: 150px;
+}
+.tableVerientBody .nameCell {
+  width: 150px;
 }
 
-thead tr th {
+/* thead tr {
+  background: var(--primary);
+} */
+
+/* thead tr th {
   font-size: 17px;
   font-weight: 500;
   white-space: nowrap;
@@ -1308,30 +1329,30 @@ thead tr th {
   padding: 12px 20px;
   color: var(--white);
   border-right: 1px solid var(--border);
-}
+} */
 
-thead tr th:first-child {
+/* thead tr th:first-child {
   border-radius: 6px 0px 0px 6px;
-}
+} */
 
-thead tr th:last-child {
+/* thead tr th:last-child {
   border-right: none;
   border-radius: 0px 6px 6px 0px;
-}
+} */
 
-tbody tr {
+/* tbody tr {
   border-bottom: 1px solid var(--border);
-}
+} */
 
-tbody tr td {
+/* tbody tr td {
   padding: 12px 20px;
   text-align: center;
   border-right: 1px solid var(--border);
-}
+} */
 
-tbody tr td:last-child {
+/* tbody tr td:last-child {
   border-right: none;
-}
+} */
 
 .table-name {
   white-space: nowrap;
@@ -1631,7 +1652,7 @@ tbody tr td:last-child {
     display: -ms-flexbox;
     display: flex;
     width: 727px;
-  
+
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;

@@ -110,7 +110,6 @@ export const allproduct = async (
       seo_tag: [],
       vendor_id: [],
       is_deleted: ["0"],
-
     },
 
     token_obj
@@ -123,6 +122,14 @@ export const fetchfilter = async () => {
     `${process.env.REACT_APP_BASEURL_0}/filter_list`
   );
   return response.data;
+};
+export const CategoryList = async () => {
+  // console.log(props)
+  const response = axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/category_list`,
+    {}
+  );
+  return response;
 };
 
 export const AllproductData = async (
@@ -156,6 +163,7 @@ export const AllproductData = async (
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
   }
+
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/search_vendor_product?page=0&per_page=1000`,
     {
@@ -166,18 +174,60 @@ export const AllproductData = async (
       id__: "",
       name__: "",
       search: search,
-      is_verient: "yes",
+      is_verient: "",
       category: category,
-      rating: [rating],
+      rating: "",
       brand: brand,
       seo_tag: [seo_tag],
-      vendor_id: [vendor_id],
+      "product.vendor_id": [vendor_id],
       name: [],
-      id: id === null || id ===  undefined || id === "" ?  [""] : [id],
+      id: id === null || id === undefined || id === "" ? [""] : [id],
       is_deleted: [0],
       product_stock_quantity: [product_stock_quantity],
+      avgRatings: rating,
     },
     head
+  );
+  return response.data;
+};
+
+export const AllproductDatawithVarient = async (product_verient_id) => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    // eslint-disable-next-line
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
+    {
+      price_from: "",
+      price_to: "",
+      price__: "",
+      is_active__: "",
+      id__: "",
+      created_on__: "",
+      search: "",
+      order_by: "",
+      is_trending: [],
+      discount_upto: "",
+      product_id: [],
+      product_verient_id: [product_verient_id],
+    }
   );
   return response.data;
 };
@@ -291,7 +341,28 @@ export const UpdateProductData = async (props) => {
 
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/update_product`,
-    props,
+    {
+      id: props.id,
+      product_id: props.product_id,
+      seo_tag: props.seo_tag,
+      description: props.description,
+      benefits: props.benefits,
+      care_and_Instructions: props.care_and_Instructions,
+      name: props.name,
+      brand: props.brand,
+      quantity: props.quantity,
+      unit: props.unit,
+      product_stock_quantity: props.product_stock_quantity,
+      price: props.price,
+      mrp: props.mrp,
+      review: props.review,
+      discount: props.discount,
+      gst: props.gst,
+      cgst: props.cgst,
+      sgst: props.sgst,
+      rating: props.rating,
+      category: props.category,
+    },
 
     head
   );
@@ -311,16 +382,16 @@ export const allOrder = async (searchdata) => {
     vendor_token !== null &&
     vendor_token !== undefined &&
     vendor_token !== ""
-  ) {    
+  ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
-    URL =`${process.env.REACT_APP_BASEURL_0}/vendor_order_search?page=0&per_page=400&group=yes`
+    URL = `${process.env.REACT_APP_BASEURL_0}/vendor_order_search?page=0&per_page=400&group=yes`;
   } else if (
     admin_token !== null &&
     admin_token !== undefined &&
     admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
-    URL =`${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400&group=yes`
+    URL = `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400&group=yes`;
   } else {
   }
   if (searchdata === undefined) {
@@ -335,7 +406,6 @@ export const allOrder = async (searchdata) => {
       category: "",
       brand: "",
       user_id: "",
-
     },
 
     head
@@ -343,7 +413,7 @@ export const allOrder = async (searchdata) => {
   return response.data;
 };
 
-export const OrderStatusChange = async (stautsValue, orderID, userId) => {
+export const OrderVendorChange = async (stautsValue, orderID) => {
   let head;
   // let user_token = localStorage.getItem("user_token");
   let admin_token = localStorage.getItem("admin_token");
@@ -365,11 +435,44 @@ export const OrderStatusChange = async (stautsValue, orderID, userId) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/order_status_update`,
+    `${process.env.REACT_APP_BASEURL_0}/order_verify_by_vendor`,
     {
       order_id: orderID,
-      status_order: stautsValue,
-      user_id: userId,
+      order_verify: stautsValue,
+    },
+
+    head
+  );
+  return response.data;
+};
+
+export const OrderStatusChange = async (orderID) => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASEURL_0}/vendor_update_delivery_boy_pickuped_order`,
+    {
+      order_id: orderID,
+
+      pickuped: "yes",
     },
 
     head
@@ -476,7 +579,7 @@ export const DeleteProduct = async (id) => {
 };
 
 /*Function to get the varient image */
-export const GetProductImages = async (id,varId) => {
+export const GetProductImages = async (id, varId) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/product_image`,
     {
@@ -782,15 +885,17 @@ export const OrderByNo = async (orderID) => {
     admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
-  } else if (user_token !== null &&
+  } else if (
+    user_token !== null &&
     user_token !== undefined &&
-    user_token !== "") {
+    user_token !== ""
+  ) {
     head = { headers: { user_token: `${user_token}` } };
-
   }
 
   const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/order_details?id=${orderID}`,head
+    `${process.env.REACT_APP_BASEURL_0}/order_details?id=${orderID}`,
+    head
   );
   return response.data;
 };
@@ -1007,7 +1112,6 @@ export const VendorDetailsBytoken = async () => {
   return response.data;
 };
 
-
 export const Vendorotp = async (email, otp) => {
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/vendor_otp_verify`,
@@ -1153,9 +1257,10 @@ export const addAdminFunction = async (props) => {
       admin_type: props.admin_type,
       admin_password: props.admin_password,
     },
-UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
@@ -1252,9 +1357,10 @@ export const orderAssignByAdmin = async (
       payment_method: payment_method,
       order_delivery_confirm_code: order_delivery_confirm_code,
     },
-UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
@@ -1283,89 +1389,99 @@ export const CreateTransaction = async (
 /*Api to add product varient  */
 export const AddProductVerient = async (props) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_product_verient`, props,
-    UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    `${process.env.REACT_APP_BASEURL_0}/add_product_verient`,
+    props,
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
 /*Api to Update product varient  */
 export const UpdateProductVerient = async (props) => {
-  let data = props
-  delete data["care_and_Instructions"]
-  delete data["benefits"]
+  let data = props;
+  delete data["care_and_Instructions"];
+  delete data["benefits"];
+  delete data["is_trending"];
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`, data,
-    UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`,
+    data,
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
 /*Api to delete the product Varient */
 export const DeletProductVarient = async (del, id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/delete_restore_product_verient`, {
-    is_deleted: del,
-    product_verient_id: id
-  },
-UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    `${process.env.REACT_APP_BASEURL_0}/delete_restore_product_verient`,
+    {
+      is_deleted: del,
+      product_verient_id: id,
+    },
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
 /*Api to get Category data */
 export const GetCategoryList = async (props) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/category_list`, {
-    id: props
-  }
+    `${process.env.REACT_APP_BASEURL_0}/category_list`,
+    {
+      id: props,
+    }
   );
   return response.data;
 };
 /*Api to add category */
 export const AddCategory = async (props) => {
-  console.log(props)
+  console.log(props);
   const formData = new FormData();
-  formData.append('parent_id', props.parent_id);
-  formData.append('level', props.level === ("0" || 0) ? 1 : 2);
-  formData.append('all_parent_id', props.parent_id);
-  formData.append('category_name', props.category_name);
-  formData.append('image', props.image);
-  formData.append('category_type', "no");
+  formData.append("parent_id", props.parent_id);
+  formData.append("level", props.level === ("0" || 0) ? 1 : 2);
+  formData.append("all_parent_id", props.parent_id);
+  formData.append("category_name", props.category_name);
+  formData.append("image", props.image);
+  formData.append("category_type", "no");
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/add_category`,
     formData,
-UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
 /*Api to UPdate category */
 export const UpdateCategory = async (props) => {
   const formData = new FormData();
-  formData.append('parent_id', props.parent_id);
-  formData.append('level', props.level === ("0" || 0) ? 0 : 1);
-  formData.append('all_parent_id', props.parent_id);
-  formData.append('category_name', props.category_name);
-  formData.append('image', props.image);
-  formData.append('category_type', "no");
-  formData.append('id', props.id);
+  formData.append("parent_id", props.parent_id);
+  formData.append("level", props.level === ("0" || 0) ? 0 : 1);
+  formData.append("all_parent_id", props.parent_id);
+  formData.append("category_name", props.category_name);
+  formData.append("image", props.image);
+  formData.append("category_type", "no");
+  formData.append("id", props.id);
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/update_category`,
     formData,
-UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}  );
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 
 /*APi to get review list */
 export const GetReviewList = async (name, status) => {
-  console.log(name, status)
+  console.log(name, status);
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/review_list`,
     {
@@ -1382,41 +1498,64 @@ export const UpdateReviewStatus = async (status, id) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/review_approved`,
     {
-      "id": id,
-      "status": status
+      id: id,
+      status: status,
     },
-    UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
   );
   return response.data;
 };
 
 /*Api to get the Complaint list  */
 export const GetComplaintList = async (name, status) => {
-  console.log(name, status)
+  console.log(name, status);
   const response = await axios.post(
     `${process.env.REACT_APP_BASEURL_0}/complain_search`,
     {
-      email: "",
-    }, 
-    UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}
-      );
+      status_: status,
+    },
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
   return response.data;
 };
 /*FUnction to update the status of the review */
-export const UpdateComplainStatus = async (status, id,des) => {
+export const UpdateComplainStatus = async (status, id, des) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/complain_update`,
-    { "id":id,
-     "status":status,
-     "resolve_description":des },
-     UserType === "admin" ?
-    { headers: { admin_token: `${admin_token}` } } :
-    { headers: { vendor_token: `${vendor_token}` }}
+    { id: id, status: status, resolve_description: des },
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
   );
   return response.data;
 };
 
+export const AssginToVendor = async (vendor_id, id) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/complain_update`,
+    { id: id, assigned_to: vendor_id, status: "asigned_to_vendor" },
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
+  return response.data;
+};
+
+export const UpdateComplaintFromVendor = async (props) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASEURL_0}/complain_update`,
+    {
+      id: props.id,
+      status: props.status,
+      resolve_description: props.resolve_description,
+    },
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } }
+  );
+  return response.data;
+};

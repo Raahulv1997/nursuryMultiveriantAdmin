@@ -53,24 +53,24 @@ const Vendor = () => {
         value === null || value === ""
           ? "Owner name is required"
           : /[^A-Za-z 0-9]/g.test(value)
-            ? "Cannot use special character "
-            : null,
+          ? "Cannot use special character "
+          : null,
     ],
     shop_name: [
       (value) =>
         value === null || value === ""
           ? "shop name is required"
           : /[^A-Za-z 0-9]/g.test(value)
-            ? "Cannot use special character "
-            : null,
+          ? "Cannot use special character "
+          : null,
     ],
     email: [
       (value) =>
         value === null || value === ""
           ? "Email address is required"
           : !/^\S+@\S+\.\S+$/.test(value)
-            ? "Invalid email address"
-            : null,
+          ? "Invalid email address"
+          : null,
     ],
     mobile: [
       (value) =>
@@ -79,40 +79,40 @@ const Vendor = () => {
           : // : /^(\+\d{1,3}[- ]?)?\d{10}$/g.test(value)
           // ? "Invalid Mobile number "
           value.length > 10 || value.length < 10
-            ? "Mobile number should be 10 digit"
-            : null,
+          ? "Mobile number should be 10 digit"
+          : null,
     ],
     shop_address: [
       (value) =>
         value === null || value === ""
           ? "shop name is required"
           : /[^A-Za-z 0-9]/g.test(value)
-            ? "Cannot use special character "
-            : null,
+          ? "Cannot use special character "
+          : null,
     ],
     gstn: [
       (value) =>
         value === null || value === ""
           ? "GSTN is required"
           : /[^A-Za-z 0-9]/g.test(value)
-            ? "Cannot use special character "
-            : null,
+          ? "Cannot use special character "
+          : null,
     ],
     geolocation: [
       (value) =>
         value === null || value === ""
           ? "Geolocation is required"
           : /[^A-Za-z 0-9]/g.test(value)
-            ? "Cannot use special character "
-            : null,
+          ? "Cannot use special character "
+          : null,
     ],
     availability: [
       (value) =>
         value === null || value === ""
           ? "Availabilty is required"
           : /[^A-Za-z 0-9]/g.test(value)
-            ? "Cannot use special character "
-            : null,
+          ? "Cannot use special character "
+          : null,
     ],
   };
 
@@ -130,11 +130,12 @@ const Vendor = () => {
           <p>
             <img
               alt={"apna_organic"}
-              src={row.shop_logo === null
-                || row.shop_logo === undefined
-                || row.shop_logo === "undefined"
-                ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                : row.shop_logo
+              src={
+                row.shop_logo === null ||
+                row.shop_logo === undefined ||
+                row.shop_logo === "undefined"
+                  ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                  : row.shop_logo
               }
               style={{
                 padding: 10,
@@ -152,15 +153,14 @@ const Vendor = () => {
       name: "Name",
 
       selector: (row) => (
-        
         <span>
           <b>Owner Name: </b>
-          {row.owner_name|| <b>unavailable</b>} 
+          {row.owner_name || <b>unavailable</b>}
           <br />
           <b>Shop Name: </b>
           {row.shop_name || <b>unavailable</b>}
-        </span> 
-      ) ,
+        </span>
+      ),
       sortable: true,
       width: "200px",
       center: true,
@@ -172,7 +172,7 @@ const Vendor = () => {
 
     {
       name: "Email ",
-      selector: (row) => row.email ||<b> unavailable</b>,
+      selector: (row) => row.email || <b> unavailable</b>,
       sortable: true,
       width: "180px",
       center: true,
@@ -182,7 +182,7 @@ const Vendor = () => {
     },
     {
       name: "Mobile ",
-      selector: (row) => row.mobile ||<b> unavailable</b>,
+      selector: (row) => row.mobile || <b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
@@ -193,14 +193,14 @@ const Vendor = () => {
 
     {
       name: "Shop Address",
-      selector: (row) => row.shop_address ||<b> unavailable</b>,
+      selector: (row) => row.shop_address || <b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
     },
     {
       name: "GSTN",
-      selector: (row) => row.gstn ||<b> unavailable</b>,
+      selector: (row) => row.gstn || <b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
@@ -258,17 +258,18 @@ const Vendor = () => {
   ];
 
   const onStatusChange = async (e, id) => {
-    setSearchErr(false)
+    setSearchErr(false);
     await AdminVendorStatusChange(e.target.value, id);
     // console.log("status response--" + JSON.stringify(response));
     setapicall(true);
   };
   const SearchOnChange = (e) => {
-    setSearchErr(false)
+    setSearchErr(false);
     setSearchData({ ...searchdata, [e.target.name]: e.target.value });
   };
   useEffect(() => {
     VendordataList();
+    // eslint-disable-next-line
   }, [apicall]);
 
   const VendordataList = async () => {
@@ -286,14 +287,14 @@ const Vendor = () => {
 
   const submitHandler = async () => {
     if (searchdata.searchName === "" && searchdata.searchShopName === "") {
-      setSearchErr(true)
+      setSearchErr(true);
     }
     setapicall(true);
   };
 
   const OnReset = () => {
     setSearchData({ searchName: "", searchShopName: "" });
-    setSearchErr(false)
+    setSearchErr(false);
     setapicall(true);
   };
   const OnFileUpload = (e) => {
@@ -302,7 +303,7 @@ const Vendor = () => {
   };
 
   const handleAddVendor = async (e) => {
-    setSearchErr(false)
+    setSearchErr(false);
     e.preventDefault();
     if (validate()) {
       const response = await AddVendorfunction(state, file, filename);
@@ -314,7 +315,7 @@ const Vendor = () => {
   };
 
   const handleAlert = (id) => {
-    setSearchErr(false)
+    setSearchErr(false);
     setShowDeleteAlert(true);
     setId(id);
   };
@@ -325,7 +326,7 @@ const Vendor = () => {
     setapicall(true);
   };
   const handleEditShow = async (id) => {
-    setSearchErr(false)
+    setSearchErr(false);
     setLoading(true);
     const response = await VendorDetailsById(id);
     setLoading(false);
@@ -343,7 +344,7 @@ const Vendor = () => {
   };
 
   const handleUpdateVendor = async (e) => {
-    setSearchErr(false)
+    setSearchErr(false);
     e.preventDefault();
     if (validate()) {
       const response = await UpdateVendorfunction(state, file, filename, Id);
@@ -379,7 +380,7 @@ const Vendor = () => {
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar />
+          <Sidebar style={{ message: "vendor" }} />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">
           <div className="main_content_div">
@@ -397,17 +398,21 @@ const Vendor = () => {
                         <Form.Group className="mb-3">
                           <Form.Control
                             type="text"
-                            className={searchErr ?
-                              "form-control border border-danger" :
-                              "form-control"}
+                            className={
+                              searchErr
+                                ? "form-control border border-danger"
+                                : "form-control"
+                            }
                             placeholder="Search by Owner name"
                             name="searchName"
                             onChange={SearchOnChange}
                             value={searchdata.searchName}
                           />
-                          {searchErr ?
-                            <small className="text-danger">This feild is requried</small>
-                            : null}
+                          {searchErr ? (
+                            <small className="text-danger">
+                              This feild is requried
+                            </small>
+                          ) : null}
                         </Form.Group>
                       </div>
 
@@ -510,17 +515,17 @@ const Vendor = () => {
                                 />
                                 {errors.owner_name
                                   ? (errors.owner_name || []).map(
-                                    (error, i) => {
-                                      return (
-                                        <small
-                                          className="text-danger"
-                                          key={i}
-                                        >
-                                          {error}
-                                        </small>
-                                      );
-                                    }
-                                  )
+                                      (error, i) => {
+                                        return (
+                                          <small
+                                            className="text-danger"
+                                            key={i}
+                                          >
+                                            {error}
+                                          </small>
+                                        );
+                                      }
+                                    )
                                   : null}
                               </Form.Group>
                             </div>
@@ -545,12 +550,12 @@ const Vendor = () => {
                                 />
                                 {errors.shop_name
                                   ? (errors.shop_name || []).map((error, i) => {
-                                    return (
-                                      <small className="text-danger" key={i}>
-                                        {error}
-                                      </small>
-                                    );
-                                  })
+                                      return (
+                                        <small className="text-danger" key={i}>
+                                          {error}
+                                        </small>
+                                      );
+                                    })
                                   : null}
                               </Form.Group>
                             </div>
@@ -574,12 +579,12 @@ const Vendor = () => {
                                 />
                                 {errors.email
                                   ? (errors.email || []).map((error, i) => {
-                                    return (
-                                      <small className="text-danger" key={i}>
-                                        {error}
-                                      </small>
-                                    );
-                                  })
+                                      return (
+                                        <small className="text-danger" key={i}>
+                                          {error}
+                                        </small>
+                                      );
+                                    })
                                   : null}
                               </Form.Group>
                             </div>
@@ -604,12 +609,12 @@ const Vendor = () => {
                                 />
                                 {errors.mobile
                                   ? (errors.mobile || []).map((error, i) => {
-                                    return (
-                                      <small className="text-danger" key={i}>
-                                        {error}
-                                      </small>
-                                    );
-                                  })
+                                      return (
+                                        <small className="text-danger" key={i}>
+                                          {error}
+                                        </small>
+                                      );
+                                    })
                                   : null}
                               </Form.Group>
                             </div>
@@ -634,17 +639,17 @@ const Vendor = () => {
                                 />
                                 {errors.shop_address
                                   ? (errors.shop_address || []).map(
-                                    (error, i) => {
-                                      return (
-                                        <small
-                                          className="text-danger"
-                                          key={i}
-                                        >
-                                          {error}
-                                        </small>
-                                      );
-                                    }
-                                  )
+                                      (error, i) => {
+                                        return (
+                                          <small
+                                            className="text-danger"
+                                            key={i}
+                                          >
+                                            {error}
+                                          </small>
+                                        );
+                                      }
+                                    )
                                   : null}
                               </Form.Group>
                             </div>
@@ -668,12 +673,12 @@ const Vendor = () => {
                                 />
                                 {errors.gstn
                                   ? (errors.gstn || []).map((error, i) => {
-                                    return (
-                                      <small className="text-danger" key={i}>
-                                        {error}
-                                      </small>
-                                    );
-                                  })
+                                      return (
+                                        <small className="text-danger" key={i}>
+                                          {error}
+                                        </small>
+                                      );
+                                    })
                                   : null}
                               </Form.Group>
                             </div>
@@ -712,17 +717,17 @@ const Vendor = () => {
                                 />
                                 {errors.geolocation
                                   ? (errors.geolocation || []).map(
-                                    (error, i) => {
-                                      return (
-                                        <small
-                                          className="text-danger"
-                                          key={i}
-                                        >
-                                          {error}
-                                        </small>
-                                      );
-                                    }
-                                  )
+                                      (error, i) => {
+                                        return (
+                                          <small
+                                            className="text-danger"
+                                            key={i}
+                                          >
+                                            {error}
+                                          </small>
+                                        );
+                                      }
+                                    )
                                   : null}
                               </Form.Group>
                             </div>
@@ -803,8 +808,8 @@ const Vendor = () => {
         title="Added Successfully"
         text={"Vendor Added"}
         onConfirm={closeVendorAlert}
-      // showCancelButton={}
-      // onCancel={}
+        // showCancelButton={}
+        // onCancel={}
       />
 
       <SweetAlert
@@ -812,8 +817,8 @@ const Vendor = () => {
         title="Updated Successfully"
         text={"Vendor update"}
         onConfirm={closeVendorAlert}
-      // showCancelButton={}
-      // onCancel={}
+        // showCancelButton={}
+        // onCancel={}
       />
       <SweetAlert
         show={ShowDeleteAlert}

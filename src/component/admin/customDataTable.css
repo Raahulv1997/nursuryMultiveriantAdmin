@@ -1,0 +1,18 @@
+/* Reduce padding for table cells */
+.react-data-table-component td {
+  padding: 4px 8px; /* Adjust the values as needed */
+}
+
+/* Reduce padding for table headers */
+.react-data-table-component th {
+  padding: 200px; /* Adjust the values as needed */
+}
+.varient_change {
+  width: 350px;
+}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Adjust the maximum width as needed */
+}

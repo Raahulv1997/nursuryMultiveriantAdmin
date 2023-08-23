@@ -5,7 +5,8 @@ import { useState } from "react";
 import DataTable from "react-data-table-component";
 import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
-
+import vendorJson from "./json/vendorJson";
+// import statusJson from "./json/statusJson";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import {
@@ -14,10 +15,9 @@ import {
   // UpdateProductStatus,
   AllproductData,
   CategoryList,
-  VendorListFunction,
 } from "../api/api";
 // import Select from "react-select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
 import AddProductModal from "./Modal/AddProductModal";
@@ -25,7 +25,7 @@ import AddProductVarientModal from "./Modal/AddProductVarient";
 import VarientListModal from "./Modal/VarientListModal";
 import AddIVarientImage from "./Modal/AddIVarientImage";
 import ProductImage from "../../image/product_demo.png";
-import Select from "react-select";
+
 const AddProduct = () => {
   const navigate = useNavigate();
   const [expandedRows, setExpandedRows] = useState([]);
@@ -33,7 +33,7 @@ const AddProduct = () => {
   const [productID, setProductID] = useState("");
   const [vendorID, setVendorID] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const [vendorData, setVendorData] = useState([]);
+
   const [categoryData, setCategoryData] = useState([]);
   const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
   const [modalshow, setmodalshow] = useState(false);
@@ -50,8 +50,9 @@ const AddProduct = () => {
   const [varientModalListShow, setVarientModalListShow] = useState(false);
   const [productVarientId, setProductVarientId] = useState(false);
   const [Id, setId] = useState("");
-  const [submitError, setSubmitError] = useState(false);
-  let userType = localStorage.getItem("user_type");
+  const [columnName, setcolumnName] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
     id: "",
@@ -70,60 +71,53 @@ const AddProduct = () => {
     const result = img.replace(/,+/g, ",");
     return result.split(",")[0];
   };
-  const toggleExpand = (rowId) => {
-    if (expandedRows.includes(rowId)) {
-      setExpandedRows(expandedRows.filter((id) => id !== rowId));
+  const TruncatedCell = ({ value }) => (
+    <div
+      style={{
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        maxWidth: "50px", // Adjust the maximum width as needed
+      }}
+    >
+      {value}
+    </div>
+  );
+  const toggleExpand = (row) => {
+    if (expandedRows.includes(row.id)) {
+      setExpandedRows(expandedRows.filter((id) => id !== row.id));
     } else {
-      setExpandedRows([...expandedRows, rowId]);
+      setExpandedRows([...expandedRows, row.id]);
     }
   };
-  // const TruncatedCell = ({ value }) => (
-  //   <div
-  //     style={{
-  //       whiteSpace: "nowrap",
-  //       overflow: "hidden",
-  //       textOverflow: "ellipsis",
-  //       maxWidth: "50px", // Adjust the maximum width as needed
-  //     }}
-  //   >
-  //     {value}
-  //   </div>
-  // );
-  // const toggleExpand = (row) => {
-  //   if (expandedRows.includes(row.id)) {
-  //     setExpandedRows(expandedRows.filter((id) => id !== row.id));
-  //   } else {
-  //     setExpandedRows([...expandedRows, row.id]);
-  //   }
-  // };
   //data table coloumn-----
-  // const nestedTableColumns = [
-  //   {
-  //     name: "Name",
-  //     selector: "verient_name",
-  //     sortable: true,
-  //     style: {
-  //       marginTop: "-20px",
-  //     },
-  //     cell: (row) => <TruncatedCell value={row.verient_name} />,
-  //   },
-  //   {
-  //     name: "Price",
-  //     selector: "price",
-  //     style: {
-  //       marginTop: "-20px",
-  //     },
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "Stock",
-  //     selector: "product_stock_quantity",
-  //     style: {
-  //       marginTop: "-20px",
-  //     },
-  //     sortable: true,
-  //   },
-  // ];
+  const nestedTableColumns = [
+    {
+      name: "Name",
+      selector: "verient_name",
+      sortable: true,
+      style: {
+        marginTop: "-20px",
+      },
+      cell: (row) => <TruncatedCell value={row.verient_name} />,
+    },
+    {
+      name: "Price",
+      selector: "price",
+      style: {
+        marginTop: "-20px",
+      },
+      sortable: true,
+    },
+    {
+      name: "Stock",
+      selector: "product_stock_quantity",
+      style: {
+        marginTop: "-20px",
+      },
+      sortable: true,
+    },
+  ];
 
   const columns = [
     {
@@ -192,69 +186,61 @@ const AddProduct = () => {
     },
 
     {
-      name: "Variant",
-      selector: (row) => (
-        <span>
-          {row.verients && row.verients.length > 0 ? (
-            <div>
-              <table className="veriantTable">
-                {/* Table header */}
-                <thead className="tableVerientHeader">
-                  <tr>
-                    <th className="tableHeaderVarientName">Name</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                  </tr>
-                </thead>
-                {/* Table body */}
-                <tbody className="tableVerientBody">
-                  {/* Render a subset of verients based on expanded state */}
-                  {row.verients
-                    .slice(
-                      0,
-                      expandedRows.includes(row.id) ? row.verients.length : 2
-                    )
-                    .map((item) => (
-                      <tr key={item.id}>
-                        <td
-                          className="truncateText nameCell"
-                          style={{
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            maxWidth: "50px",
-                          }}
-                        >
-                          {item.verient_name}
-                        </td>
-                        <td>{item.price}</td>
-                        <td>{item.product_stock_quantity}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-              {/* Show More / Show Less button */}
-              {row.verients.length > 2 && (
-                <button
-                  onClick={() => toggleExpand(row.id)}
-                  style={{
-                    color: expandedRows.includes(row.id) ? "red" : "green",
-                    fontWeight: "bolder",
-                  }}
-                >
-                  {expandedRows.includes(row.id) ? "Show Less" : "Show More"}
-                </button>
-              )}
-            </div>
-          ) : (
-            "No variant"
-          )}
-        </span>
-      ),
+      name: "Varient ",
+      cell: (row) => {
+        const isExpanded = expandedRows.includes(row.id);
+
+        return (
+          <span
+            style={{
+              // backgroundColor: "red",
+              minHeight: "30px",
+              padding: "-99px",
+            }}
+            className="rahul"
+          >
+            {row.verients && row.verients.length > 0 ? (
+              <>
+                <DataTable
+                  columns={nestedTableColumns}
+                  data={row.verients.slice(
+                    0,
+                    isExpanded ? row.verients.length : 1
+                  )}
+                  noHeader
+                  defaultSortField="id"
+                  pagination={false}
+                />
+                {row.verients.length > 1 && (
+                  <button
+                    onClick={() => toggleExpand(row)}
+                    style={{
+                      color: isExpanded ? "red" : "green",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    {isExpanded ? "Show Less" : "Show More"}
+                  </button>
+                )}
+              </>
+            ) : (
+              "No variants available"
+            )}
+          </span>
+        );
+      },
       sortable: true,
-      width: "300px",
+      width: "200px",
+
       center: true,
+      style: {
+        Height: "50px",
+        marginTop: "10px",
+        marginRight: "0px",
+        marginLeft: "25px",
+      },
     },
+
     {
       name: "Tax",
       selector: (row) => (
@@ -265,7 +251,7 @@ const AddProduct = () => {
         </span>
       ),
       sortable: true,
-      width: "120px",
+      width: "200px",
       center: true,
       // style: {
       //   marginTop: "px",
@@ -307,7 +293,7 @@ const AddProduct = () => {
 
     {
       name: "Rating",
-      selector: (row) => row.avgRatings,
+      selector: (row) => row.rating,
       sortable: true,
       width: "100px",
       center: true,
@@ -394,14 +380,13 @@ const AddProduct = () => {
   //  all product data search function
   const fetchProductData = async () => {
     setLoading(true);
-
     const data = await AllproductData(
       searchdata.id,
       searchdata.search,
       searchdata.category,
       searchdata.price_from,
       searchdata.price_to,
-      searchdata.rating ?? [],
+      searchdata.rating,
       searchdata.brand,
       searchdata.seo_tag,
       searchdata.vendor_id,
@@ -411,37 +396,34 @@ const AddProduct = () => {
 
     setProductTable(data.results);
     setLoading(false);
+
+    // setsearchData({
+    //   search: "",
+    //   category: "",
+    //   price_from: "",
+    //   price_to: "",
+    //   rating: "",
+    //   brand: "",
+    //   seo_tag: "",
+    //   vendor_id: "",
+    //   product_stock_quantity: "",
+    // });
   };
 
-  const GetVendorList = async () => {
-    let response = await VendorListFunction();
-    if (response) {
-      // Filter out objects where owner_name is not null
-      var filtered = response.filter(function (el) {
-        return el.owner_name !== null;
-      });
-
-      setVendorData(filtered);
-    } else {
-      setVendorData([]);
-    }
-  };
   // console.log("Real data list =>", productTable)
   //product data search data useEffect---
   useEffect(() => {
     fetchProductData();
     fetchfilterdata();
-    GetVendorList();
-    // eslint-disable-next-line
-  }, [apicall]);
+  }, [apicall, searchdata]);
 
   //fetch brand list and category list data---
   const fetchfilterdata = async () => {
     const jsonResponse = await CategoryList();
     const responseArray = jsonResponse.data.response;
-
+    console.log("data of catagory--" + JSON.stringify(responseArray));
     setCategoryData(responseArray);
-    setApicall(false);
+
     // console.log("data of catagory--" + JSON.stringify(status));
     // setCategoryData(data.response);
 
@@ -470,82 +452,32 @@ const AddProduct = () => {
   // };
 
   //category list show fuction
-
   let options3 = [
-    (categoryData || []).map((item, i) => ({
+    categoryData.map((item, i) => ({
       key: i,
       value: `${item.id}`,
       label: `${item.category_name}`,
     })),
   ];
+  let CategoryArray = [];
 
-  const [CategoryArray, setCategoryArray] = useState([]);
   const CategoryHanler = (e) => {
-    e.map((item) => {
-      setCategoryArray([...CategoryArray, item.value]);
+    CategoryArray = [];
+    categoryData.map((item) => {
+      CategoryArray.push(item.value);
       return {};
     });
-    // setBrandName(arrr);
+    setsearchData({ ...searchdata, category: CategoryArray });
   };
 
-  let RatingDataArray = [
-    { id: "1.0", ratingVal: "1" },
-    { id: "2.0", ratingVal: "2" },
-    { id: "3.0", ratingVal: "3" },
-    { id: "4.0", ratingVal: "4" },
-    { id: "5.0", ratingVal: "5" },
-  ];
-  let options4 = [
-    (RatingDataArray || []).map((item, i) => ({
-      key: i,
-      value: `${item.id}`,
-      label: `${item.ratingVal}`,
-    })),
-  ];
-
-  const [RatingArray, setRatingArray] = useState([]);
-  const RatingHanler = (e) => {
-    e.map((item) => {
-      if (RatingArray == null) {
-        setRatingArray([]);
-      }
-      setRatingArray([...RatingArray, item.value]);
-
-      return {};
-    });
-  };
-
+  // search  inputfield onchange
   const searchValueHandler = (e) => {
     setsearchData({ ...searchdata, [e.target.name]: e.target.value });
-
-    setSubmitError(false);
   };
-
-  useEffect(() => {
-    setsearchData({
-      ...searchdata,
-      rating: RatingArray,
-      category: CategoryArray,
-    });
-    // eslint-disable-next-line
-  }, [RatingArray, CategoryArray]);
 
   //search submit button
   const submitHandler = () => {
-    if (
-      searchdata.search === "" &&
-      searchdata.category === "" &&
-      searchdata.price_from === "" &&
-      searchdata.price_to === "" &&
-      searchdata.product_stock_quantity === "" &&
-      searchdata.rating === "" &&
-      searchdata.vendor_id === ""
-    ) {
-      setSubmitError("empty");
-    } else {
-      fetchProductData();
-    }
-
+    fetchProductData();
     // setApicall(true);
   };
 
@@ -562,13 +494,10 @@ const AddProduct = () => {
       vendor_id: "",
       product_stock_quantity: "",
     });
-
-    setCategoryArray([]);
-
+    CategoryArray = [];
+    options3[0] = [];
     fetchProductData();
     setApicall(true);
-    setSubmitError(false);
-    setRatingArray([]);
   };
 
   // product model show
@@ -632,12 +561,17 @@ const AddProduct = () => {
   //   fetchProductData();
   //   setApicall(true);
   // };
-  console.log("lll--" + RatingArray);
+
+  /*Sorting Function */
+  const handleSort = (columnName) => {
+    setSortOrder(sortOrder === "DESC" ? "ASC" : "DESC");
+    setcolumnName(columnName);
+  };
   return (
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar style={{ message: "product" }} />
+          <Sidebar />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">
           <div className="main_content_div">
@@ -646,7 +580,6 @@ const AddProduct = () => {
               id="dashboard-body"
             >
               {loading === true ? <Loader /> : null}
-              {/* <Loader /> */}
               <div className="">
                 <div className="page_main_contant">
                   <h4>Product</h4>
@@ -672,7 +605,7 @@ const AddProduct = () => {
                             name="product_stock_quantity"
                             value={searchdata.product_stock_quantity}
                           >
-                            <option>Search by Stock</option>
+                            <option value="">Search by Stock</option>
                             <option value="0">Out of stock</option>
                           </Form.Select>
                         </Form.Group>
@@ -699,58 +632,70 @@ const AddProduct = () => {
                           />
                         </Form.Group>
                       </div>
-                      <div className="col-md-3 col-sm-6 aos_input mb-2 multi_select_input">
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
-                          <Select
-                            id="RatingSelect"
-                            value={
-                              RatingArray.length > 0 ? RatingArray.value : []
-                            }
-                            className=" basic-multi-select"
-                            placeholder="Search by Rating"
-                            onChange={RatingHanler}
-                            classNamePrefix="select"
-                            isMulti
-                            options={options4[0]}
-                          />
+                          <Form.Select
+                            aria-label="Search by delivery"
+                            size="sm"
+                            onChange={searchValueHandler}
+                            name="rating"
+                            value={searchdata.rating}
+                          >
+                            <option value="">Search by Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </Form.Select>
                         </Form.Group>
                       </div>
-                      <div className="col-md-3 col-sm-6 aos_input mb-2 multi_select_input">
-                        <Select
-                          value={
-                            CategoryArray.length > 0 ? CategoryArray.value : []
-                          }
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        {/* <Select
                           className=" basic-multi-select"
-                          placeholder="Search by Category"
+                          placeholder="Search by category"
                           onChange={CategoryHanler}
                           classNamePrefix="select"
                           isMulti
                           options={options3[0]}
-                        />
+                        /> */}
+                        <Form.Select
+                          className="nice-select w-100"
+                          // aria-lcategoryabel="Default select example"
+                          name="category"
+                          value={searchdata.category}
+                          onChange={(e) => CategoryHanler(e)}
+                        >
+                          <option value={""}>Search By Category</option>
+                          {categoryData.map((item, i) => {
+                            return (
+                              <React.Fragment key={i}>
+                                <option value={item.id}>
+                                  {item.category_name}
+                                </option>
+                              </React.Fragment>
+                            );
+                          })}
+                        </Form.Select>
                       </div>
-                      {userType === "vendor" ? null : (
-                        <div className="col-md-3 col-sm-6 aos_input mb-2">
-                          <Form.Select
-                            className="nice-select w-100"
-                            aria-label="Default select example"
-                            name="vendor_id"
-                            value={searchdata.vendor_id}
-                            onChange={searchValueHandler}
-                          >
-                            <option>Search By Vendor</option>
-                            {vendorData.map((item, i) => {
-                              return (
-                                <React.Fragment key={i}>
-                                  <option value={item.vendor_id}>
-                                    {item.owner_name}
-                                  </option>
-                                </React.Fragment>
-                              );
-                            })}
-                          </Form.Select>
-                        </div>
-                      )}
-
+                      <div className="col-md-3 col-sm-6 aos_input mb-2">
+                        <Form.Select
+                          className="nice-select w-100"
+                          aria-label="Default select example"
+                          name="vendor_id"
+                          value={searchdata.vendor_id}
+                          onChange={searchValueHandler}
+                        >
+                          <option value={""}>Search By Vendor</option>
+                          {vendorJson.vendorjson.map((item, i) => {
+                            return (
+                              <React.Fragment key={i}>
+                                <option value={i + 1}>{item}</option>
+                              </React.Fragment>
+                            );
+                          })}
+                        </Form.Select>
+                      </div>
                       {/* <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Select
                           className=" basic-multi-select"
@@ -790,11 +735,6 @@ const AddProduct = () => {
                           </Button>
                         </div>
                       </div>
-                      {submitError === "empty" ? (
-                        <span className="text-danger">
-                          Please search any field
-                        </span>
-                      ) : null}
                       <div className="col-md-2 col-sm-6 aos_input mb-2">
                         <div>
                           <Button
@@ -1010,10 +950,6 @@ const AddProduct = () => {
       <AddIVarientImage
         show={docsshow}
         close={() => setDocsShow(false)}
-        ok={() => {
-          setApicall(true);
-          setDocsShow(false);
-        }}
         id={productID}
         varId={productVarientId}
         des={productDescription}
@@ -1032,10 +968,7 @@ const AddProduct = () => {
         show={ProductVarientAlert}
         title="Added Successfully"
         text={"Varient Added"}
-        onConfirm={() => {
-          setProductVarientAlert(false);
-          setApicall(true);
-        }}
+        onConfirm={() => setProductVarientAlert(false)}
         // showCancelButton={}
         // onCancel={}
       />
@@ -1052,10 +985,7 @@ const AddProduct = () => {
         show={updateProducVarientAlert}
         title="Updated Successfully"
         text={"Product update"}
-        onConfirm={() => {
-          setupdateProductVarientAlert(false);
-          setApicall(true);
-        }}
+        onConfirm={() => setupdateProductVarientAlert(false)}
         // showCancelButton={}
         // onCancel={}
       />

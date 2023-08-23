@@ -1,46 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Sidebar from "../common/sidebar";
 import Loader from "../common/loader";
 import { Button } from "react-bootstrap";
-import { GetCategoryList } from "../api/api"
+import { GetCategoryList } from "../api/api";
 // import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
 import DataTable from "react-data-table-component";
-import AddCategoryModal from './Modal/AddCategoryModal';
+import AddCategoryModal from "./Modal/AddCategoryModal";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
 import productImg from "../../image/product_demo.png";
 
 export default function Category() {
-  const [loading, setLoading] = useState(true)
-  const [CateData, setCateData] = useState([])
-  const [apicall, setApiCall] = useState(false)
-  const [showCateModal, setShowCateModal] = useState(false)
-  const [cateType, setCateType] = useState(false)
-  const [CateAlert, setCateAlert] = useState(false)
-  const [CateId, setCateId] = useState()
+  const [loading, setLoading] = useState(true);
+  const [CateData, setCateData] = useState([]);
+  const [apicall, setApiCall] = useState(false);
+  const [showCateModal, setShowCateModal] = useState(false);
+  const [cateType, setCateType] = useState(false);
+  const [CateAlert, setCateAlert] = useState(false);
+  const [CateId, setCateId] = useState();
   /*Function to get the category list */
   const GetCateData = async () => {
-    let response = await GetCategoryList()
+    let response = await GetCategoryList();
 
     if (response.status === true) {
-      setCateData(response.response)
-      setLoading(false)
+      setCateData(response.response);
+      setLoading(false);
     }
-  }
+  };
   /*Render method to get the category list */
   useEffect(() => {
-    GetCateData()
-    if(apicall === true) {
-      setApiCall(false)
+    GetCateData();
+    if (apicall === true) {
+      setApiCall(false);
     }
-  }, [apicall])
+  }, [apicall]);
 
-   /*FUnction to get the image from tht muliple image with dpouble commas */
-   const CoverImg = (img) => {
-    const result = img.replace(/,+/g, ',');
+  /*FUnction to get the image from tht muliple image with dpouble commas */
+  const CoverImg = (img) => {
+    const result = img.replace(/,+/g, ",");
     return result.split(",")[0];
-};
+  };
   /*Function to get the data just by parent */
   const parentCategories = CateData.filter(
     (category) => category.parent_id === 0
@@ -56,10 +56,12 @@ export default function Category() {
           {/* <p onClick={onProductClick.bind(this, [row.id])}> */}
           <img
             alt={"apna_organic"}
-            src={row.cover_image === null
-              || row.cover_image === undefined
-              || row.cover_image === "undefined"
-              ? productImg : CoverImg(row.cover_image)
+            src={
+              row.image === null ||
+              row.image === undefined ||
+              row.image === "undefined"
+                ? productImg
+                : CoverImg(row.image)
             }
             style={{
               padding: 10,
@@ -76,7 +78,10 @@ export default function Category() {
       name: "Category Name",
       selector: (row) => (
         <span>
-          {row.category_name ? row.category_name.charAt(0).toUpperCase() + row.category_name.slice(1) : "unavailable"}
+          {row.category_name
+            ? row.category_name.charAt(0).toUpperCase() +
+              row.category_name.slice(1)
+            : "unavailable"}
         </span>
       ),
       sortable: true,
@@ -91,7 +96,11 @@ export default function Category() {
       name: "Category Type ",
       selector: (row) => (
         <span>
-          {row.category_type ? row.category_type.charAt(0).toUpperCase() + row.category_type.slice(1) : "unavailable"}        </span>
+          {row.category_type
+            ? row.category_type.charAt(0).toUpperCase() +
+              row.category_type.slice(1)
+            : "unavailable"}{" "}
+        </span>
       ),
       sortable: true,
       width: "180px",
@@ -104,11 +113,7 @@ export default function Category() {
 
     {
       name: "level",
-      selector: (row) => (
-        <span>
-          {row.level || <b>unavailable</b>}
-        </span>
-      ),
+      selector: (row) => <span>{row.level || <b>unavailable</b>}</span>,
       sortable: true,
       width: "100px",
       center: true,
@@ -125,7 +130,7 @@ export default function Category() {
         <div className={"actioncolimn"}>
           <Button
             className="btn-warning mx-2"
-            onClick={EditCategoryModal.bind(this, row.id,)}
+            onClick={EditCategoryModal.bind(this, row.id)}
           >
             {" "}
             <BiEdit />
@@ -147,21 +152,21 @@ export default function Category() {
   // }
   /*Function to Edit Category */
   const EditCategoryModal = (id) => {
-    setCateId(id)
-    setShowCateModal(true)
-    setCateType("")
-  }
+    setCateId(id);
+    setShowCateModal(true);
+    setCateType("");
+  };
   /*Function to add category */
   const OpenAddCategoryModal = () => {
-    setShowCateModal(true)
-    setCateType("add")
-    setCateId()
-  }
+    setShowCateModal(true);
+    setCateType("add");
+    setCateId();
+  };
   return (
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar />
+          <Sidebar style={{ message: "category" }} />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">
           <div className="main_content_div">
@@ -329,20 +334,25 @@ export default function Category() {
           </div>
         </div>
       </div>
-      {showCateModal ? <AddCategoryModal
-        show={showCateModal}
-        close={() => setShowCateModal(false)}
-        type={cateType}
-        Parent={parentCategories}
-        setApiCall={setApiCall}
-        setCateAlert={setCateAlert}
-        id={CateId} />
-        : null}
+      {showCateModal ? (
+        <AddCategoryModal
+          show={showCateModal}
+          close={() => setShowCateModal(false)}
+          type={cateType}
+          Parent={parentCategories}
+          setApiCall={setApiCall}
+          setCateAlert={setCateAlert}
+          id={CateId}
+        />
+      ) : null}
       <SweetAlert
         show={CateAlert}
-        title={cateType === "add" ? "Added Successfully" : "Updated Successfully"}
+        title={
+          cateType === "add" ? "Added Successfully" : "Updated Successfully"
+        }
         text={cateType === "add" ? "Category Added" : "Category Update"}
-        onConfirm={() => setCateAlert(false)} />
+        onConfirm={() => setCateAlert(false)}
+      />
     </div>
-  )
+  );
 }

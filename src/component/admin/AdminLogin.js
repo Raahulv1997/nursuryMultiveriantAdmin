@@ -48,6 +48,7 @@ const AdminLogin = () => {
   return (
     <div>
       {loading === true ? <Loader /> : null}
+
       <section className="user-form-part">
         <div className="container">
           <div className="row justify-content-center">

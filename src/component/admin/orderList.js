@@ -10,7 +10,7 @@ import "sweetalert/dist/sweetalert.css";
 import { useNavigate } from "react-router-dom";
 import Loader from "../common/loader";
 import useValidation from "../common/useValidation";
-import { allOrder, orderAssignByAdmin, OrderStatusChange } from "../api/api";
+import { allOrder, OrderStatusChange, OrderVendorChange } from "../api/api";
 import Sidebar from "../common/sidebar";
 import moment from "moment";
 
@@ -19,9 +19,9 @@ const OrderList = () => {
   const [loading, setLoading] = useState(false);
   const [ordertable, setorderTable] = useState([]);
   const [apicall, setApicall] = useState(false);
-  const [orderAssignAlert, setorderAssignAlert] = useState(false);
+
   const [statuslert, setStatusAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);
+
   const initialFormState = {
     search: "",
     order_id: "",
@@ -40,14 +40,14 @@ const OrderList = () => {
         </p>
       ),
       sortable: true,
-      width: "100px",
+      width: "140px",
       center: true,
     },
     {
       name: "Order Qty",
       selector: (row) => row.total_order_product_quantity || <b>unavailable</b>,
       sortable: true,
-      width: "100px",
+      width: "140px",
       center: true,
       style: {
         paddingRight: "32px",
@@ -57,9 +57,29 @@ const OrderList = () => {
 
     {
       name: "Total amount",
-      selector: (row) => row.total_amount || <b>unavailable</b>,
+      selector: (row) => (
+        <span>
+          <span>
+            {" "}
+            <b>Total Amount:</b>
+            {row.total_amount || <b>unavailable</b>}
+          </span>
+          <br />
+          <span>
+            {" "}
+            <b>Total GST:</b>
+            {row.total_gst || <b>unavailable</b>}
+          </span>
+          <br />
+          <span>
+            {" "}
+            <b>Payment mode:</b>
+            {row.payment_mode || <b>unavailable</b>}
+          </span>
+        </span>
+      ),
       sortable: true,
-      width: "100px",
+      width: "160px",
       center: true,
       style: {
         paddingLeft: "0px",
@@ -67,77 +87,122 @@ const OrderList = () => {
     },
 
     {
-      name: "Total GST",
-      selector: (row) => row.total_gst || <b>unavailable</b>,
-      sortable: true,
-      width: "100px",
-      center: true,
-    },
-    {
-      name: "Payment mode",
-      selector: (row) => row.payment_mode || <b>unavailable</b>,
-      sortable: true,
-      width: "140px",
-      center: true,
-    },
-    {
-      name: "Order assign",
+      name: "Date",
       selector: (row) => (
-        <span
-          className={"badge bg-primary"}
-          onClick={onOrderAssignClick.bind(
-            this,
-            row.order_id,
-            row.total_amount,
-            row.payment_mode,
-            row.delivery_verify_code
-          )}
-        >
-          Order Assign for delivery
+        <span>
+          <span>
+            {" "}
+            <b>Order Date:</b>
+            {moment(row.order_date).format("DD-MM-YYYY") || <b>unavailable</b>}
+          </span>
+          <br />
+          <span>
+            {" "}
+            <b>Delivery Date:</b>
+            {moment(row.delivery_date).format("DD-MM-YYYY") || (
+              <b>unavailable</b>
+            )}
+          </span>
         </span>
       ),
-      width: "220px",
-      sortable: true,
-      style: { fontSize: 18 },
-    },
-    {
-      name: "Order date",
-      selector: (row) => moment(row.order_date).format("DD-MM-YYYY") || <b>unavailable</b>,
-      sortable: true,
-      width: "140px",
-      center: true,
-    },
-    {
-      name: "Delivery date",
-      selector: (row) => moment(row.delivery_date).format("DD-MM-YYYY") || <b>unavailable</b>,
-      sortable: true,
-      width: "140px",
-      center: true,
-    },
 
+      sortable: true,
+      width: "200px",
+      center: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => (
+        <span
+          className={
+            row.status_order === "approved"
+              ? "badge bg-warning"
+              : row.status_order === "pending"
+              ? "badge bg-secondary"
+              : row.status_order === "accepted_by_vendor"
+              ? "badge bg-primary"
+              : row.status_order === "Pickuped"
+              ? "badge bg-success"
+              : row.status_order === "ready_to_pickup"
+              ? "badge bg-primary"
+              : row.status_order === "Delivered"
+              ? "badge bg-success"
+              : row.status_order === "rejected_by_vendor"
+              ? "badge bg-danger"
+              : row.status_order === "Failed_Delivery_Attempts"
+              ? "badge bg-dark"
+              : row.status_order === "cancel"
+              ? "badge bg-dark"
+              : row.status_order === "Rejected_by_customer"
+              ? "badge bg-info"
+              : "badge bg-dark"
+          }
+        >
+          {row.status_order === "placed"
+            ? "placed"
+            : row.status_order === "accepted_by_vendor"
+            ? "Accepted by vendor"
+            : row.status_order === "Pickuped"
+            ? "Pickuped"
+            : row.status_order === "ready_to_pickup"
+            ? "Ready to pickup"
+            : row.status_order === "Delivered"
+            ? "Delivered"
+            : row.status_order === "rejected_by_vendor"
+            ? "Rejected by vendor"
+            : row.status_order === "Failed_Delivery_Attempts"
+            ? "Failed Delivery Attempts"
+            : row.status_order === "cancel"
+            ? "Cancel"
+            : row.status_order === "Rejected_by_customer"
+            ? "Rejected by customer"
+            : row.status_order === "pending"
+            ? "pending"
+            : "return"}
+        </span>
+      ),
+      sortable: true,
+    },
     {
       name: "Change Status",
       width: "140px",
-      selector: (row) => (
-        <Form.Select
-          aria-label="Search by delivery"
-          size="sm"
-          className="w-100"
-          onChange={(e) => onStatusChange(e, row.order_id, row.user_id)}
-          name="status_order"
-          value={row.status_order}
-        >
-          <option value="">Select status</option>
-          <option value="placed">Placed</option>
-          <option value="pending">Pending</option>
-          <option value="shipped">Shipped</option>
-          <option value="deliverd">Delivered</option>
-          <option value="packed">Packed</option>
-          <option value="cancel">Cancel</option>
-          <option value="approved">Approved </option>
-          <option value="return">Return </option>
-        </Form.Select>
-      ),
+      selector: (row) => {
+        if (row.status_order === "Delivered") {
+        } else {
+          if (row.status_order === "pending") {
+            return (
+              <Form.Select
+                aria-label="Search by delivery"
+                size="sm"
+                className="w-100"
+                onChange={(e) => onVendorChange(e, row.order_id)}
+                name="status_order"
+                value={row.status_order}
+              >
+                <option>Status</option>
+                <option value="accepted">Accepted </option>
+                <option value="rejected">Rejected </option>
+              </Form.Select>
+            );
+          } else if (row.status_order !== "Pickuped") {
+            return (
+              <Form.Select
+                aria-label="Search by delivery"
+                size="sm"
+                className="w-100"
+                onChange={(e) => onStatusChange(row.order_id)}
+                name="status_order"
+                value={row.status_order}
+              >
+                <option>Status</option>
+                <option value="Pickuped">Pickuped</option>
+              </Form.Select>
+            );
+          } else {
+          }
+        }
+      },
+
       sortable: true,
     },
   ];
@@ -149,34 +214,7 @@ const OrderList = () => {
     navigate("/orderDetails");
   };
 
-  /*Function to assign the order */
-  const onOrderAssignClick = async (
-    order_id,
-    total_amount,
-    payment_mode,
-    delivery_verify_code
-  ) => {
-    setErrors("")
-    const response = await orderAssignByAdmin(
-      order_id,
-      total_amount,
-      payment_mode,
-      delivery_verify_code
-    );
-    if(response.response === 'order not verify by vendor'){
-      setorderAssignAlert(true);
-      setAlertMessage(response.response)
-    }
-    if (response.affectedRows === 1) {
-      setorderAssignAlert(true);
-    }
-  };
-
   /*Function to close assgin alert box */
-  const closeAssignAlert = () => {
-    setorderAssignAlert(false);
-    setApicall(true)
-  };
 
   const validators = {
     order_id: [
@@ -189,12 +227,10 @@ const OrderList = () => {
     ],
   };
 
-  const { state, setState, onInputChange,setErrors, errors, validate } = useValidation(
-    initialFormState,
-    validators
-  );
+  const { state, setState, onInputChange, setErrors, errors, validate } =
+    useValidation(initialFormState, validators);
 
-/*Render method to get the order list data */
+  /*Render method to get the order list data */
   useEffect(() => {
     OrderData();
   }, [apicall]);
@@ -204,6 +240,7 @@ const OrderList = () => {
     setLoading(true);
     const response = await allOrder();
     setorderTable(response.results);
+    setApicall(false);
     setLoading(false);
   };
 
@@ -214,39 +251,50 @@ const OrderList = () => {
       const response = await allOrder(state.order_id);
       setorderTable(response.results);
       setLoading(false);
-      setState({...state , order_id : ""})
-    }else{
-      setLoading(false)
+      setState({ ...state, order_id: "" });
+    } else {
+      setLoading(false);
     }
   };
 
   //search submit reset button
   const OnReset = () => {
     setState({ order_id: "" });
-    setErrors("")
+    setErrors("");
     OrderData();
     setApicall(true);
   };
 
   /*Function to change order status */
-  const onStatusChange = async (e, order_id, user_id) => {
-    setErrors("")
-    let response = await OrderStatusChange(e.target.value, order_id, user_id);
-    if(response.response === "status updated successfully"){
-      setStatusAlert(true)
+  const onVendorChange = async (e, order_id) => {
+    setErrors("");
+    let response = await OrderVendorChange(e.target.value, order_id);
+    console.log("vendor acted- response-" + JSON.stringify(response));
+    if (response.response === "order accepted successfull") {
+      setStatusAlert(true);
     }
   };
+
+  const onStatusChange = async (order_id) => {
+    setErrors("");
+    let response = await OrderStatusChange(order_id);
+    console.log("vendor acted- response-" + JSON.stringify(response));
+    // setStatusAlert(true);
+    if (response.response === "order status updated successfull") {
+      setStatusAlert(true);
+    }
+  };
+
   /*Function o close the order stayus alert */
   const CloseStaytusAlert = () => {
     setApicall(true);
-    setStatusAlert(false)
-    
-  }
+    setStatusAlert(false);
+  };
   return (
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar />
+          <Sidebar style={{ message: "customerOrder" }} />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">
           <div className="main_content_div">
@@ -328,15 +376,8 @@ const OrderList = () => {
               </div>
             </div>
           </div>
+
           <SweetAlert
-            show={orderAssignAlert}
-            title={alertMessage ? alertMessage :"Assigned Successfully"}
-            text={alertMessage ? "Not Verify" :"Assign"}
-            onConfirm={closeAssignAlert}
-            // showCancelButton={}
-            // onCancel={}
-          />
-           <SweetAlert
             show={statuslert}
             title={"Status Updated Successfully"}
             text={"status"}

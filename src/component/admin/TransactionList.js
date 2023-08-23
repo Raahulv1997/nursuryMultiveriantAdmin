@@ -1,4 +1,4 @@
-import React, { useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 // import { Button } from "react-bootstrap";
 // import Form from "react-bootstrap/Form";
 // import Modal from "react-bootstrap/Modal";
@@ -139,7 +139,8 @@ const TransactionList = () => {
 
     {
       name: "Transaction Date",
-      selector: (row) => moment(row.transaction_date).format("DD-MM-YYYY") || <b>unavailable</b>,
+      selector: (row) =>
+        moment(row.transaction_date).format("DD-MM-YYYY") || <b>unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
@@ -262,7 +263,7 @@ const TransactionList = () => {
   //get all Admin list useEffect -----
   useEffect(() => {
     getAllAdminList();
-  }, [ ]);
+  }, []);
 
   // get all Admin list funtion-------------
   const getAllAdminList = async () => {
@@ -364,7 +365,7 @@ const TransactionList = () => {
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar />
+          <Sidebar style={{ message: "transaction" }} />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar mt-5">
           <div className="main_content_div">

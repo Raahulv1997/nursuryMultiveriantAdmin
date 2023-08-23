@@ -23,7 +23,7 @@ const UserAdd = () => {
   const columns = [
     {
       name: "First name",
-      selector: (row) => row.first_name ||<b> unavailable</b>,
+      selector: (row) => row.first_name || <b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
@@ -34,7 +34,7 @@ const UserAdd = () => {
     },
     {
       name: "Last name",
-      selector: (row) => row.last_name ||<b> unavailable</b>,
+      selector: (row) => row.last_name || <b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
@@ -46,7 +46,7 @@ const UserAdd = () => {
 
     {
       name: "Email",
-      selector: (row) => row.email ||<b> unavailable</b>,
+      selector: (row) => row.email || <b> unavailable</b>,
       sortable: true,
       width: "230px",
       center: true,
@@ -57,35 +57,35 @@ const UserAdd = () => {
 
     {
       name: "Phone no",
-      selector: (row) => row.phone_no ||<b> unavailable</b>,
+      selector: (row) => row.phone_no || <b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
     },
     {
       name: "PinCode",
-      selector: (row) => row.pincode ||<b> unavailable</b>,
+      selector: (row) => row.pincode || <b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
     },
     {
       name: "City",
-      selector: (row) => row.city ||<b> unavailable</b>,
+      selector: (row) => row.city || <b> unavailable</b>,
       sortable: true,
       width: "120px",
       center: true,
     },
     {
       name: "Address",
-      selector: (row) => row.address ||<b> unavailable</b>,
+      selector: (row) => row.address || <b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
     },
     {
       name: "Alternate Address",
-      selector: (row) => row.alternate_address ||<b> unavailable</b>,
+      selector: (row) => row.alternate_address || <b> unavailable</b>,
       sortable: true,
       width: "140px",
       center: true,
@@ -97,6 +97,7 @@ const UserAdd = () => {
   //user searchd data useEffect....
   useEffect(() => {
     getuser();
+    // eslint-disable-next-line
   }, [apicall]);
   const userID = "";
   const getuser = async () => {
@@ -119,10 +120,8 @@ const UserAdd = () => {
     ],
   };
 
-  const { state, setState, onInputChange, setErrors , errors, validate } = useValidation(
-    initialFormState,
-    validators
-  );
+  const { state, setState, onInputChange, setErrors, errors, validate } =
+    useValidation(initialFormState, validators);
 
   //search submit button
   const submitHandler = async () => {
@@ -141,7 +140,7 @@ const UserAdd = () => {
   const OnReset = () => {
     setState({ search: "" });
     // getuser();
-    setErrors([""])
+    setErrors([""]);
     setApicall(true);
   };
 
@@ -149,7 +148,7 @@ const UserAdd = () => {
     <div>
       <div className="row admin_row">
         <div className="col-lg-3 col-md-3 admin_sidebar bg-white">
-          <Sidebar />
+          <Sidebar style={{ message: "users" }} />
         </div>
         <div className="col-lg-9 col-md-9 admin_content_bar">
           <div className="main_content_div">
