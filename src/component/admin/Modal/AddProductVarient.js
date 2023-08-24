@@ -104,7 +104,6 @@ export default function AddProductVarientModal(props) {
     ) {
       setState(initialFormState);
     } else {
-      console.log("dddkkkdjd---" + JSON.stringify(response));
       setState(response.results[0]);
       // setState(
       //   response.results.find(

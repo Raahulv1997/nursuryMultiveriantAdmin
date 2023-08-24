@@ -12,15 +12,16 @@ const UpdateSellerForgetPassword = () => {
   // const [searchparams] = useSearchParams();
   const [showmodel, setShowmodel] = useState(false);
   // const email = searchparams.get("email");
+  let vendor_token = localStorage.getItem("vendor_token");
   const onPasswordChange = (e) => {
     setpassval(e.target.value);
     // setemailerror(false);
   };
-
+  let head = { headers: { vendor_token: vendor_token } };
   const onchangePassword = async (e) => {
     e.preventDefault();
     setSpinner("spinner");
-    const response = await getForgetpasswordUpdate(passval);
+    const response = await getForgetpasswordUpdate(passval, head);
     if (response.response === "update your password successfully") {
       setShowmodel(true);
     }

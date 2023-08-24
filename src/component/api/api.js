@@ -7,6 +7,7 @@ let driver_token = localStorage.getItem("driver_token");
 let admin_id = localStorage.getItem("admin_id");
 let UserType = localStorage.getItem("user_type");
 
+console.log("vendor--" + vendor_token);
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 let transactionUrl = "http://192.168.29.108:9999";
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
@@ -92,7 +93,7 @@ export const allproduct = async (
   }
 
   const response = await axios.post(
-    `http://192.168.29.108:9999/search?page=${currentPage}&per_page=${recordsPerPage}`,
+    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
     {
       price_from: price_from,
       price_to: price_to,
@@ -1133,17 +1134,13 @@ export const getForgetOtpVendor = async (email) => {
   return response.data;
 };
 
-export const getForgetpasswordUpdate = async (password) => {
+export const getForgetpasswordUpdate = async (password, head) => {
   const response = await axios.put(
     `${process.env.REACT_APP_BASEURL_0}/vendor_forgate_password_update`,
     {
       password: password,
     },
-    {
-      headers: {
-        vendor_token: vendor_token,
-      },
-    }
+    head
   );
   return response.data;
 };

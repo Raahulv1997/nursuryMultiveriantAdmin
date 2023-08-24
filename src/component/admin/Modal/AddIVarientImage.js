@@ -22,6 +22,8 @@ export default function AddIVarientImage(props) {
   const [imagename, setImagename] = useState("");
   const [apicall, setApiCall] = useState(false);
   let encoded;
+
+  console.log("prodlut id----" + props.id);
   const initialFormState = {
     product_id: props.id,
     product_verient_id: props.varId,
@@ -70,6 +72,7 @@ export default function AddIVarientImage(props) {
     if (response.error === "please fill all inputs") {
       setnewImageUrls([]);
     } else {
+      console.log("image----" + JSON.stringify(response));
       setnewImageUrls(response);
     }
   };
@@ -124,7 +127,7 @@ export default function AddIVarientImage(props) {
     encoded = await convertToBase64(file);
     let imgbase = encoded.base64.split(",");
     let base64Name = imgbase[1];
-    console.log(imgbase, base64Name);
+    // console.log(imgbase, base64Name);
     setState({
       ...state,
       img_64: base64Name,
@@ -136,9 +139,12 @@ export default function AddIVarientImage(props) {
 
   /*Function to set varient image */
   const OnSetVarientImageClick = async (e) => {
+    console.log("ID", props.id);
     console.log(state);
     // e.preventDefault();
     if (validate()) {
+      console.log("imnage add ---" + JSON.stringify(state));
+
       let response = await AddProductImage(state);
       if (response.response === "successfully add images") {
         setApiCall(true);
@@ -293,7 +299,7 @@ export default function AddIVarientImage(props) {
               <Button
                 className="addcategoryicon"
                 type="button"
-                onClick={OnSetVarientImageClick}
+                onClick={() => OnSetVarientImageClick()}
               >
                 Add Image
               </Button>

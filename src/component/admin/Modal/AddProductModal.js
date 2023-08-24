@@ -148,6 +148,7 @@ export default function AddProductModal(props) {
   const GetCateList = async () => {
     let response = await GetCategoryList();
     if (response.status === true) {
+      console.log("dddd--" + JSON.stringify(response.response));
       setCatData(response.response);
     } else {
       setCatData([]);
@@ -376,7 +377,7 @@ export default function AddProductModal(props) {
                       {(parentCategories || []).map((item, i) => {
                         return (
                           <React.Fragment key={i}>
-                            <option value={item.category_name}>
+                            <option value={item.id}>
                               {item.category_name}
                             </option>
                           </React.Fragment>
@@ -413,7 +414,7 @@ export default function AddProductModal(props) {
                     : catData
                         .filter((child) => child.parent_id !== 0)
                         .map((child, i) => (
-                          <option key={i} value={child.category_name}>
+                          <option key={i} value={child.id}>
                             {child.category_name}
                           </option>
                         ))}

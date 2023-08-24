@@ -109,12 +109,9 @@ function Layout() {
             <Route path="/complain" element={<Complaint />} />
             <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/transactionList" element={<TransactionList />} />
-            {UserType === "admin" ? (
-              <>
-                <Route path="/manageAdmin" element={<ManageAdmin />} />
-                <Route path="/vendor" element={<Vendor />} />
-              </>
-            ) : null}
+            <Route path="/manageAdmin" element={<ManageAdmin />} />
+            <Route path="/vendor" element={<Vendor />} />
+
             <Route path="*" element={<NotFound />} />
             {/* </Route> */}
           </Routes>
