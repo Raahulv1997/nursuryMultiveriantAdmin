@@ -620,19 +620,12 @@ const AddProduct = () => {
 
   /*Function to open add varient modal to add product varient */
   const AddVarientModal = (id, vendor_id) => {
+    console.log("vendor id-----" + vendor_id);
     setProductID(id);
     setVarientModalListShow(true);
     setVendorID(vendor_id);
   };
-  //product status change function----
-  // const onStatusChange = async (e, id) => {
-  //   // setLoading(true);
-  //   await UpdateProductStatus(e.target.value, id);
-  //   // console.log("respo--" + response);
-  //   fetchProductData();
-  //   setApicall(true);
-  // };
-  console.log("lll--" + RatingArray);
+
   return (
     <div>
       <div className="row admin_row">
@@ -1017,6 +1010,7 @@ const AddProduct = () => {
         id={productID}
         varId={productVarientId}
         des={productDescription}
+        vendor_id={vendorID}
       />
 
       <SweetAlert

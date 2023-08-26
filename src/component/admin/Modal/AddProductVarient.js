@@ -14,8 +14,6 @@ import useValidation from "../../common/useValidation";
 export default function AddProductVarientModal(props) {
   let product_id = localStorage.getItem("produtc_id");
 
-  console.log("product 0-----id--" + props.product_id);
-  console.log("product varient id--" + props.productVarientId);
   //product data json
   const initialFormState = {
     product_id: props.product_id ? props.product_id : product_id,

@@ -22,12 +22,12 @@ export default function AddIVarientImage(props) {
   const [imagename, setImagename] = useState("");
   const [apicall, setApiCall] = useState(false);
   let encoded;
-
-  console.log("prodlut id----" + props.id);
+  console.log("-------------" + props.vendor_id);
   const initialFormState = {
     product_id: props.id,
     product_verient_id: props.varId,
     product_description: props.des,
+    product_vendor_id: props.vendor_id,
     product_image_name: "",
     image_position: "",
     img_64: "",
@@ -63,8 +63,10 @@ export default function AddIVarientImage(props) {
     ],
   };
   /*Validation imported from the validation custom hook */
-  const { state, setState, onInputChange, setErrors, errors, validate } =
-    useValidation(initialFormState, validators);
+  const { state, setState, onInputChange, validate } = useValidation(
+    initialFormState,
+    validators
+  );
 
   /*Function to get the image list */
   const onImgView = async () => {
@@ -72,7 +74,6 @@ export default function AddIVarientImage(props) {
     if (response.error === "please fill all inputs") {
       setnewImageUrls([]);
     } else {
-      console.log("image----" + JSON.stringify(response));
       setnewImageUrls(response);
     }
   };
@@ -83,7 +84,7 @@ export default function AddIVarientImage(props) {
     if (apicall === true) {
       setApiCall(false);
     }
-  }, [props, apicall]);
+  }, [props.show, apicall]);
 
   /*Function to convert file to base64 */
   const convertToBase64 = (file) => {
@@ -134,17 +135,14 @@ export default function AddIVarientImage(props) {
       product_id: props.id,
       product_verient_id: props.varId,
       product_description: props.des,
+      product_vendor_id: props.vendor_id,
     });
   };
 
   /*Function to set varient image */
   const OnSetVarientImageClick = async (e) => {
-    console.log("ID", props.id);
-    console.log(state);
     // e.preventDefault();
     if (validate()) {
-      console.log("imnage add ---" + JSON.stringify(state));
-
       let response = await AddProductImage(state);
       if (response.response === "successfully add images") {
         setApiCall(true);
@@ -169,6 +167,7 @@ export default function AddIVarientImage(props) {
       setApiCall(true);
     }
   };
+  console.log("add veriant image------------" + JSON.stringify(state));
   return (
     <>
       <Modal

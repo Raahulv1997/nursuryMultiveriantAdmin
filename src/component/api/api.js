@@ -6,8 +6,9 @@ let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
 let admin_id = localStorage.getItem("admin_id");
 let UserType = localStorage.getItem("user_type");
+let API_CALL = "http://indiakinursery.com:9999";
+// let API_CALL = "http://192.168.29.108:9999";
 
-console.log("vendor--" + vendor_token);
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 let transactionUrl = "http://192.168.29.108:9999";
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
@@ -16,7 +17,7 @@ let transactionUrl = "http://192.168.29.108:9999";
 
 export const updateCart = async (product_id, qty) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/cart_update`,
+    `${API_CALL}/cart_update`,
     {
       product_id: product_id,
       cart_product_quantity: qty,
@@ -34,7 +35,7 @@ export const updateCart = async (product_id, qty) => {
 export const fetchcartdata = async () => {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BASEURL_0}/cart_list`,
+      `${API_CALL}/cart_list`,
 
       { headers: { user_token: `${user_token}` } }
     );
@@ -46,7 +47,7 @@ export const fetchcartdata = async () => {
 
 export const deleteCart = async (id, user_id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/cart_delete`,
+    `${API_CALL}/cart_delete`,
     {
       user_id: user_id,
       id: id,
@@ -60,7 +61,7 @@ export const deleteCart = async (id, user_id) => {
 
 export const userdetails = async () => {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/user_details`,
+    `${API_CALL}/user_details`,
 
     {
       headers: { user_token },
@@ -93,7 +94,7 @@ export const allproduct = async (
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=${currentPage}&per_page=${recordsPerPage}`,
+    `${API_CALL}/search?page=${currentPage}&per_page=${recordsPerPage}`,
     {
       price_from: price_from,
       price_to: price_to,
@@ -119,17 +120,12 @@ export const allproduct = async (
 };
 
 export const fetchfilter = async () => {
-  const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/filter_list`
-  );
+  const response = await axios.get(`${API_CALL}/filter_list`);
   return response.data;
 };
 export const CategoryList = async () => {
   // console.log(props)
-  const response = axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/category_list`,
-    {}
-  );
+  const response = axios.post(`${API_CALL}/category_list`, {});
   return response;
 };
 
@@ -166,7 +162,7 @@ export const AllproductData = async (
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search_vendor_product?page=0&per_page=1000`,
+    `${API_CALL}/search_vendor_product?page=0&per_page=1000`,
     {
       price_from: price_from,
       price_to: price_to,
@@ -213,23 +209,20 @@ export const AllproductDatawithVarient = async (product_verient_id) => {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
   }
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
-    {
-      price_from: "",
-      price_to: "",
-      price__: "",
-      is_active__: "",
-      id__: "",
-      created_on__: "",
-      search: "",
-      order_by: "",
-      is_trending: [],
-      discount_upto: "",
-      product_id: [],
-      product_verient_id: [product_verient_id],
-    }
-  );
+  const response = await axios.post(`${API_CALL}/search?page=0&per_page=1000`, {
+    price_from: "",
+    price_to: "",
+    price__: "",
+    is_active__: "",
+    id__: "",
+    created_on__: "",
+    search: "",
+    order_by: "",
+    is_trending: [],
+    discount_upto: "",
+    product_id: [],
+    product_verient_id: [product_verient_id],
+  });
   return response.data;
 };
 
@@ -265,7 +258,7 @@ export const filterProductData = async (
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=1000`,
+    `${API_CALL}/search?page=0&per_page=1000`,
     {
       price_from: price_from,
       price_to: price_to,
@@ -311,11 +304,7 @@ export const AddProductData = async (props) => {
   } else {
   }
 
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/addproduct`,
-    props,
-    head
-  );
+  const response = await axios.post(`${API_CALL}/addproduct`, props, head);
   return response.data;
 };
 
@@ -341,7 +330,7 @@ export const UpdateProductData = async (props) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_product`,
+    `${API_CALL}/update_product`,
     {
       id: props.id,
       product_id: props.product_id,
@@ -385,14 +374,14 @@ export const allOrder = async (searchdata) => {
     vendor_token !== ""
   ) {
     head = { headers: { vendor_token: `${vendor_token}` } };
-    URL = `${process.env.REACT_APP_BASEURL_0}/vendor_order_search?page=0&per_page=400&group=yes`;
+    URL = `${API_CALL}/vendor_order_search?page=0&per_page=400&group=yes`;
   } else if (
     admin_token !== null &&
     admin_token !== undefined &&
     admin_token !== ""
   ) {
     head = { headers: { admin_token: `${admin_token}` } };
-    URL = `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400&group=yes`;
+    URL = `${API_CALL}/order_search?page=0&per_page=400&group=yes`;
   } else {
   }
   if (searchdata === undefined) {
@@ -436,7 +425,7 @@ export const OrderVendorChange = async (stautsValue, orderID) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/order_verify_by_vendor`,
+    `${API_CALL}/order_verify_by_vendor`,
     {
       order_id: orderID,
       order_verify: stautsValue,
@@ -469,7 +458,7 @@ export const OrderStatusChange = async (orderID) => {
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_update_delivery_boy_pickuped_order`,
+    `${API_CALL}/vendor_update_delivery_boy_pickuped_order`,
     {
       order_id: orderID,
 
@@ -503,7 +492,7 @@ export const fetchUserData = async (searchData, id) => {
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/user_search`,
+    `${API_CALL}/user_search`,
     {
       search: searchData,
       id: id,
@@ -535,7 +524,7 @@ export const UpdateProductStatus = async (statusValue, id) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_product`,
+    `${API_CALL}/update_product`,
     {
       id: id,
       status: statusValue,
@@ -569,7 +558,7 @@ export const DeleteProduct = async (id) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/delete_product`,
+    `${API_CALL}/delete_product`,
     {
       id: id,
       is_deleted: 1,
@@ -581,13 +570,10 @@ export const DeleteProduct = async (id) => {
 
 /*Function to get the varient image */
 export const GetProductImages = async (id, varId) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/product_image`,
-    {
-      product_id: id,
-      product_verient_id: varId,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/product_image`, {
+    product_id: id,
+    product_verient_id: varId,
+  });
   return response.data;
 };
 
@@ -614,7 +600,7 @@ export const AddProductImage = async (imgobj) => {
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_product_image`,
+    `${API_CALL}/add_product_image`,
     [imgobj],
     head
   );
@@ -649,7 +635,7 @@ export const DeleteProductImage = async (
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/product_image_delete`,
+    `${API_CALL}/product_image_delete`,
     {
       product_image_id: product_img_id,
       product_id: id,
@@ -684,7 +670,7 @@ export const ProductCoverImageChange = async (id, product_img_id) => {
   }
 
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/add_remove_cover_image`,
+    `${API_CALL}/add_remove_cover_image`,
     {
       product_image_id: product_img_id,
       product_id: id,
@@ -696,32 +682,23 @@ export const ProductCoverImageChange = async (id, product_img_id) => {
 };
 
 export const sigup_api = async (req_body_obj) => {
-  let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/user_signup`,
-    req_body_obj
-  );
+  let response = await axios.post(`${API_CALL}/user_signup`, req_body_obj);
   return response.data;
 };
 
 export const otp_verify_api = async (req_body_obj) => {
-  let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/user_otp_verify`,
-    req_body_obj
-  );
+  let response = await axios.post(`${API_CALL}/user_otp_verify`, req_body_obj);
   return response.data;
 };
 
 export const login_api = async (req_body_obj) => {
-  let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/user_login`,
-    req_body_obj
-  );
+  let response = await axios.post(`${API_CALL}/user_login`, req_body_obj);
   return response.data;
 };
 
 export const forget_api = async (req_body_obj) => {
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/user_forgate_password`,
+    `${API_CALL}/user_forgate_password`,
     req_body_obj
   );
   return response.data;
@@ -729,7 +706,7 @@ export const forget_api = async (req_body_obj) => {
 
 export const change_password_api = async (password) => {
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/user_forgate_password_update`,
+    `${API_CALL}/user_forgate_password_update`,
     {
       password: password,
     },
@@ -750,7 +727,7 @@ export const user_home_api = async (req_body_obj, perpage) => {
     token_obj = { headers: { user_blank: "true" } };
   }
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=${perpage}`,
+    `${API_CALL}/search?page=0&per_page=${perpage}`,
     req_body_obj,
     token_obj
   );
@@ -759,23 +736,16 @@ export const user_home_api = async (req_body_obj, perpage) => {
 
 /*Api to login as admin */
 export const AdminLoginData = async (email, password) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/admin_login`,
-    { admin_email: email, admin_password: password }
-  );
+  const response = await axios.post(`${API_CALL}/admin_login`, {
+    admin_email: email,
+    admin_password: password,
+  });
   return response.data;
 };
-// export const AdminLoginData = async (email, password) => {
-//   const formData = new FormData();
-//   formData.append("email", email);
-//   formData.append("password", password);
-//   const response = await axios.post("https://apnaorganicstore.in/canjobs/admin_login", formData);
-//   return response.data;
-// };
 
 export const add_to_cart_api = async (req_body_obj) => {
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_to_cart`,
+    `${API_CALL}/add_to_cart`,
     req_body_obj[0],
     req_body_obj[1]
   );
@@ -783,7 +753,7 @@ export const add_to_cart_api = async (req_body_obj) => {
 };
 export const update_to_cart_api = async (req_body_obj) => {
   let response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/cart_update`,
+    `${API_CALL}/cart_update`,
     req_body_obj[0],
     req_body_obj[1]
   );
@@ -791,7 +761,7 @@ export const update_to_cart_api = async (req_body_obj) => {
 };
 export const cart_delete_api = async (productID, qty) => {
   let response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/cart_delete`,
+    `${API_CALL}/cart_delete`,
     {
       product_id: productID,
       cart_product_quantity: qty,
@@ -805,7 +775,7 @@ export const cart_delete_api = async (productID, qty) => {
 
 export const call_product_detaile_api = async (req_body_obj) => {
   let response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/search?page=0&per_page=12`,
+    `${API_CALL}/search?page=0&per_page=12`,
     {
       price_from: "",
       price_to: "",
@@ -824,7 +794,7 @@ export const call_product_detaile_api = async (req_body_obj) => {
 
 export const UserSideDeleteProduct = async (id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_product`,
+    `${API_CALL}/update_product`,
     {
       id: id,
       is_deleted: [1],
@@ -838,19 +808,15 @@ export const UserSideDeleteProduct = async (id) => {
 };
 
 export const AddUserOrder = async (props) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_order`,
-    props,
-    {
-      headers: { user_token: user_token },
-    }
-  );
+  const response = await axios.post(`${API_CALL}/add_order`, props, {
+    headers: { user_token: user_token },
+  });
   return response.data;
 };
 
 export const userOrder = async (orderID) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/order_search?page=0&per_page=400`,
+    `${API_CALL}/order_search?page=0&per_page=400`,
     {
       search: "",
       order_id: orderID,
@@ -895,7 +861,7 @@ export const OrderByNo = async (orderID) => {
   }
 
   const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/order_details?id=${orderID}`,
+    `${API_CALL}/order_details?id=${orderID}`,
     head
   );
   return response.data;
@@ -915,19 +881,15 @@ export const UserUpdatefunction = async (props, file, filename) => {
   formData.append("address", props.address);
   formData.append("alternate_address", props.alternate_address);
 
-  const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_user`,
-    formData,
-    {
-      headers: { user_token: user_token },
-    }
-  );
+  const response = await axios.put(`${API_CALL}/update_user`, formData, {
+    headers: { user_token: user_token },
+  });
   return response.data;
 };
 
 export const AlternateAddressUpdateFunction = async (alternateAddress) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_user_address`,
+    `${API_CALL}/update_user_address`,
     {
       alternate_address: alternateAddress,
     },
@@ -974,7 +936,7 @@ export const AddVendorfunction = async (props, file, filename) => {
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/admin_add_vendor`,
+    `${API_CALL}/admin_add_vendor`,
     formData,
     head
   );
@@ -982,37 +944,28 @@ export const AddVendorfunction = async (props, file, filename) => {
 };
 
 export const VendorListFunction = async (search, shopname) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_list`,
-    {
-      search: search,
-      shop_name: shopname,
-      is_active: "1",
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_list`, {
+    search: search,
+    shop_name: shopname,
+    is_active: "1",
+  });
   return response.data;
 };
 
 export const VendorDetailsById = async (id) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_list`,
-    {
-      search: "",
-      shop_name: "",
-      vendor_id: id,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_list`, {
+    search: "",
+    shop_name: "",
+    vendor_id: id,
+  });
   return response.data;
 };
 
 export const AdminVendorStatusChange = async (status, id) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/admin_change_vendor_status`,
-    {
-      vendor_id: id,
-      status: status,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/admin_change_vendor_status`, {
+    vendor_id: id,
+    status: status,
+  });
   return response.data;
 };
 
@@ -1052,7 +1005,7 @@ export const UpdateVendorfunction = async (props, file, id) => {
   }
 
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/update_vendor_profile`,
+    `${API_CALL}/update_vendor_profile`,
     formData,
     head
   );
@@ -1060,83 +1013,62 @@ export const UpdateVendorfunction = async (props, file, id) => {
 };
 
 export const AdminVendorDelete = async (id) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/admin_change_vendor_status`,
-    {
-      vendor_id: id,
-      is_active: "0",
-    }
-  );
+  const response = await axios.post(`${API_CALL}/admin_change_vendor_status`, {
+    vendor_id: id,
+    is_active: "0",
+  });
   return response.data;
 };
 
 export const VendorSignUpFuntion = async (email, password) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_signup`,
-    {
-      email: email,
-      password: password,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_signup`, {
+    email: email,
+    password: password,
+  });
   return response.data;
 };
 
 export const VendorOtpVerifyFuntion = async (email, otp) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_otp_verify`,
-    {
-      email: email,
-      otp: otp,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_otp_verify`, {
+    email: email,
+    otp: otp,
+  });
   return response.data;
 };
 
 export const VendorLoginFuntion = async (email, password) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_login`,
-    {
-      email: email,
-      password: password,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_login`, {
+    email: email,
+    password: password,
+  });
   return response.data;
 };
 
 export const VendorDetailsBytoken = async () => {
-  const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_details`,
-    {
-      headers: { vendor_token: vendor_token },
-    }
-  );
+  const response = await axios.get(`${API_CALL}/vendor_details`, {
+    headers: { vendor_token: vendor_token },
+  });
   return response.data;
 };
 
 export const Vendorotp = async (email, otp) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_otp_verify`,
-    {
-      email: email,
-      otp: otp,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_otp_verify`, {
+    email: email,
+    otp: otp,
+  });
   return response.data;
 };
 
 export const getForgetOtpVendor = async (email) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_forgate_password`,
-    {
-      email: email,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/vendor_forgate_password`, {
+    email: email,
+  });
   return response.data;
 };
 
 export const getForgetpasswordUpdate = async (password, head) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/vendor_forgate_password_update`,
+    `${API_CALL}/vendor_forgate_password_update`,
     {
       password: password,
     },
@@ -1146,51 +1078,39 @@ export const getForgetpasswordUpdate = async (password, head) => {
 };
 
 export const DriverSignUpFuntion = async (email, password) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/sign_by_driver`,
-    {
-      email: email,
-      password: password,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/sign_by_driver`, {
+    email: email,
+    password: password,
+  });
   return response.data;
 };
 
 export const DriverOtpVerifyFuntion = async (email, otp) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/driver_otp_verify`,
-    {
-      email: email,
-      otp: otp,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/driver_otp_verify`, {
+    email: email,
+    otp: otp,
+  });
   return response.data;
 };
 
 export const DriverLoginFuntion = async (email, password) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/driver_login`,
-    {
-      email: email,
-      password: password,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/driver_login`, {
+    email: email,
+    password: password,
+  });
   return response.data;
 };
 
 export const getForgetOtpDriver = async (email) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/driver_forgate_password`,
-    {
-      email: email,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/driver_forgate_password`, {
+    email: email,
+  });
   return response.data;
 };
 
 export const ForgetpasswordDriverUpdate = async (password) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/driver_forgate_password_update`,
+    `${API_CALL}/driver_forgate_password_update`,
     {
       password: password,
     },
@@ -1205,7 +1125,7 @@ export const ForgetpasswordDriverUpdate = async (password) => {
 
 export const getDriverDetails = async () => {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASEURL_0}/driver_details`,
+    `${API_CALL}/driver_details`,
 
     {
       headers: {
@@ -1232,21 +1152,17 @@ export const UpdateDriverByToken = async (props, file, filename) => {
   formData.append("licence_no", props.licence_no);
   formData.append("licence_issue_date", props.licence_issue_date);
   formData.append("licence_validity_date", props.licence_validity_date);
-  const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_driver`,
-    formData,
-    {
-      headers: {
-        driver_token: driver_token,
-      },
-    }
-  );
+  const response = await axios.put(`${API_CALL}/update_driver`, formData, {
+    headers: {
+      driver_token: driver_token,
+    },
+  });
   return response.data;
 };
 
 export const addAdminFunction = async (props) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_admin`,
+    `${API_CALL}/add_admin`,
     {
       admin_email: props.admin_email,
       admin_name: props.admin_name,
@@ -1281,7 +1197,7 @@ export const getAdminList = async () => {
   } else {
   }
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/admin_search`,
+    `${API_CALL}/admin_search`,
     {
       admin_name: "",
       admin_type: "",
@@ -1294,7 +1210,7 @@ export const getAdminList = async () => {
 export const UpdateAdminFunction = async (props) => {
   // console.log("props data--" + JSON.stringify(props));
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_admin`,
+    `${API_CALL}/update_admin`,
     {
       id: props.id,
       admin_email: props.admin_email,
@@ -1328,7 +1244,7 @@ export const getAdminfilter = async (name, type) => {
   } else {
   }
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/admin_search`,
+    `${API_CALL}/admin_search`,
     {
       admin_name: name,
       admin_type: type,
@@ -1345,7 +1261,7 @@ export const orderAssignByAdmin = async (
   order_delivery_confirm_code
 ) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/order_asign`,
+    `${API_CALL}/order_asign`,
     {
       order_id: orderID,
 
@@ -1386,7 +1302,7 @@ export const CreateTransaction = async (
 /*Api to add product varient  */
 export const AddProductVerient = async (props) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_product_verient`,
+    `${API_CALL}/add_product_verient`,
     props,
     UserType === "admin"
       ? { headers: { admin_token: `${admin_token}` } }
@@ -1402,7 +1318,7 @@ export const UpdateProductVerient = async (props) => {
   delete data["benefits"];
   delete data["is_trending"];
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_Product_verient`,
+    `${API_CALL}/update_Product_verient`,
     data,
     UserType === "admin"
       ? { headers: { admin_token: `${admin_token}` } }
@@ -1414,7 +1330,7 @@ export const UpdateProductVerient = async (props) => {
 /*Api to delete the product Varient */
 export const DeletProductVarient = async (del, id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/delete_restore_product_verient`,
+    `${API_CALL}/delete_restore_product_verient`,
     {
       is_deleted: del,
       product_verient_id: id,
@@ -1428,12 +1344,9 @@ export const DeletProductVarient = async (del, id) => {
 
 /*Api to get Category data */
 export const GetCategoryList = async (props) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/category_list`,
-    {
-      id: props,
-    }
-  );
+  const response = await axios.post(`${API_CALL}/category_list`, {
+    id: props,
+  });
   return response.data;
 };
 /*Api to add category */
@@ -1447,7 +1360,7 @@ export const AddCategory = async (props) => {
   formData.append("image", props.image);
   formData.append("category_type", "no");
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/add_category`,
+    `${API_CALL}/add_category`,
     formData,
     UserType === "admin"
       ? { headers: { admin_token: `${admin_token}` } }
@@ -1467,7 +1380,7 @@ export const UpdateCategory = async (props) => {
   formData.append("category_type", "no");
   formData.append("id", props.id);
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/update_category`,
+    `${API_CALL}/update_category`,
     formData,
     UserType === "admin"
       ? { headers: { admin_token: `${admin_token}` } }
@@ -1479,21 +1392,18 @@ export const UpdateCategory = async (props) => {
 /*APi to get review list */
 export const GetReviewList = async (name, status) => {
   console.log(name, status);
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/review_list`,
-    {
-      product_id: "",
-      product_name: name ? name : "",
-      status: status ? status : "",
-    }
-  );
+  const response = await axios.post(`${API_CALL}/review_list`, {
+    product_id: "",
+    product_name: name ? name : "",
+    status: status ? status : "",
+  });
   return response.data;
 };
 
 /*FUnction to update the status of the review */
 export const UpdateReviewStatus = async (status, id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/review_approved`,
+    `${API_CALL}/review_approved`,
     {
       id: id,
       status: status,
@@ -1509,7 +1419,7 @@ export const UpdateReviewStatus = async (status, id) => {
 export const GetComplaintList = async (name, status) => {
   console.log(name, status);
   const response = await axios.post(
-    `${process.env.REACT_APP_BASEURL_0}/complain_search`,
+    `${API_CALL}/complain_search`,
     {
       status_: status,
     },
@@ -1522,7 +1432,7 @@ export const GetComplaintList = async (name, status) => {
 /*FUnction to update the status of the review */
 export const UpdateComplainStatus = async (status, id, des) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/complain_update`,
+    `${API_CALL}/complain_update`,
     { id: id, status: status, resolve_description: des },
     UserType === "admin"
       ? { headers: { admin_token: `${admin_token}` } }
@@ -1533,7 +1443,7 @@ export const UpdateComplainStatus = async (status, id, des) => {
 
 export const AssginToVendor = async (vendor_id, id) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/complain_update`,
+    `${API_CALL}/complain_update`,
     { id: id, assigned_to: vendor_id, status: "asigned_to_vendor" },
     UserType === "admin"
       ? { headers: { admin_token: `${admin_token}` } }
@@ -1544,7 +1454,7 @@ export const AssginToVendor = async (vendor_id, id) => {
 
 export const UpdateComplaintFromVendor = async (props) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BASEURL_0}/complain_update`,
+    `${API_CALL}/complain_update`,
     {
       id: props.id,
       status: props.status,

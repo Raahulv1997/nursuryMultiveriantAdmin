@@ -20,6 +20,7 @@ export default function VarientListModal(props) {
     ? props.product_id
     : productIdFromLocalStorage;
   /*Function to get product data */
+  console.log("product id from verrint list model--" + props.product_id);
   const GetProductData = async () => {
     if (productId === "") {
       setProData([]);
@@ -67,9 +68,6 @@ export default function VarientListModal(props) {
 
   /*Function to edit Product Varient */
   const EditVarient = (id, varId) => {
-    console.log("id--" + id);
-    console.log("var id--" + varId);
-
     props.setProductID(id);
     props.setProductVarientId(varId);
     props.setVarientModalShow(true);
@@ -78,7 +76,7 @@ export default function VarientListModal(props) {
 
   /*Funtion to Add Varient Image */
   const AddImage = (id, varId, des) => {
-    props.setProductID(id);
+    props.setProductID(props.product_id);
     props.setProductVarientId(varId);
     props.setProductDescription(des);
     props.setDocsShow(true);
