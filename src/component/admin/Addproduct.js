@@ -51,6 +51,8 @@ const AddProduct = () => {
   const [productVarientId, setProductVarientId] = useState(false);
   const [Id, setId] = useState("");
   const [submitError, setSubmitError] = useState(false);
+  const [priceError, setpriceError] = useState(false);
+
   let userType = localStorage.getItem("user_type");
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -67,9 +69,20 @@ const AddProduct = () => {
   });
   /*FUnction to get the image from tht muliple image with dpouble commas */
   const CoverImg = (img) => {
+    if (
+      img === null ||
+      img === "null" ||
+      img === undefined ||
+      img === "undefined"
+    ) {
+      return ProductImage;
+    }
+
     const result = img.replace(/,+/g, ",");
+
     return result.split(",")[0];
   };
+
   const toggleExpand = (rowId) => {
     if (expandedRows.includes(rowId)) {
       setExpandedRows(expandedRows.filter((id) => id !== rowId));
@@ -135,7 +148,19 @@ const AddProduct = () => {
           <p onClick={onProductClick.bind(this, [row.id])}>
             <img
               alt={"apna_organic"}
-              src={row.cover_image ? CoverImg(row.cover_image) : ProductImage}
+              src={
+                row.cover_image !== null ||
+                row.cover_image !== "null" ||
+                row.cover_image !== undefined ||
+                row.cover_image !== "undefined"
+                  ? CoverImg(row.all_images_url)
+                  : row.all_images_url !== null ||
+                    row.all_images_url !== "null" ||
+                    row.all_images_url !== undefined ||
+                    row.all_images_url !== "undefined"
+                  ? CoverImg(row.cover_image)
+                  : ProductImage
+              }
               style={{
                 padding: 10,
                 textAlign: "right",
@@ -481,10 +506,15 @@ const AddProduct = () => {
 
   const [CategoryArray, setCategoryArray] = useState([]);
   const CategoryHanler = (e) => {
+    const newCatValue = [];
     e.map((item) => {
-      setCategoryArray([...CategoryArray, item.value]);
+      if (CategoryArray == null) {
+        setCategoryArray([]);
+      }
+      newCatValue.push(item.value);
       return {};
     });
+    setCategoryArray(newCatValue);
     // setBrandName(arrr);
   };
 
@@ -505,20 +535,25 @@ const AddProduct = () => {
 
   const [RatingArray, setRatingArray] = useState([]);
   const RatingHanler = (e) => {
+    console.log(" on rating handler" + JSON.stringify(e));
+    // setRatingArray([]);
+    const newvalue = [];
     e.map((item) => {
       if (RatingArray == null) {
         setRatingArray([]);
       }
-      setRatingArray([...RatingArray, item.value]);
+      newvalue.push(item.value);
 
       return {};
     });
+    setRatingArray(newvalue);
   };
 
   const searchValueHandler = (e) => {
     setsearchData({ ...searchdata, [e.target.name]: e.target.value });
 
     setSubmitError(false);
+    setpriceError(false);
   };
 
   useEffect(() => {
@@ -534,15 +569,37 @@ const AddProduct = () => {
   const submitHandler = () => {
     if (
       searchdata.search === "" &&
-      searchdata.category === "" &&
+      searchdata.category.length === 0 &&
       searchdata.price_from === "" &&
       searchdata.price_to === "" &&
       searchdata.product_stock_quantity === "" &&
-      searchdata.rating === "" &&
+      searchdata.rating.length === 0 &&
       searchdata.vendor_id === ""
     ) {
       setSubmitError("empty");
+    } else if (
+      searchdata.price_from !== "" &&
+      Number(searchdata.price_to) <= 0 &&
+      searchdata.price_to !== "" &&
+      Number(searchdata.price_from) <= 0
+    ) {
+      setpriceError("both price is negative");
+    } else if (
+      searchdata.price_from !== "" &&
+      Number(searchdata.price_from) <= 0
+    ) {
+      setpriceError("from price is negative");
+    } else if (searchdata.price_to !== "" && Number(searchdata.price_to) <= 0) {
+      setpriceError("to price is negative");
+    } else if (Number(searchdata.price_from) && Number(searchdata.price_to)) {
+      if (Number(searchdata.price_from) >= Number(searchdata.price_to)) {
+        console.log("maximum value must be greater than minimum value");
+        setpriceError("maximum value must be greater than minimum value");
+      } else {
+        fetchProductData();
+      }
     } else {
+      // console.log("in api call");
       fetchProductData();
     }
 
@@ -569,6 +626,7 @@ const AddProduct = () => {
     setApicall(true);
     setSubmitError(false);
     setRatingArray([]);
+    setpriceError(false);
   };
 
   // product model show
@@ -620,7 +678,6 @@ const AddProduct = () => {
 
   /*Function to open add varient modal to add product varient */
   const AddVarientModal = (id, vendor_id) => {
-    console.log("vendor id-----" + vendor_id);
     setProductID(id);
     setVarientModalListShow(true);
     setVendorID(vendor_id);
@@ -665,7 +722,7 @@ const AddProduct = () => {
                             name="product_stock_quantity"
                             value={searchdata.product_stock_quantity}
                           >
-                            <option>Search by Stock</option>
+                            <option value={""}>Search by Stock</option>
                             <option value="0">Out of stock</option>
                           </Form.Select>
                         </Form.Group>
@@ -673,24 +730,47 @@ const AddProduct = () => {
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
-                            type="text"
-                            placeholder="Price from"
+                            type="number"
+                            placeholder="Minimun price"
                             name="price_from"
                             onChange={searchValueHandler}
                             value={searchdata.price_from}
                           />
                         </Form.Group>
+                        {priceError === "from price is negative" ? (
+                          <span className="text-danger">
+                            Minimum price should be positive and greater than 0
+                          </span>
+                        ) : null}
+
+                        {priceError === "both price is negative" ? (
+                          <span className="text-danger">
+                            Minimum price and Maximun price should be positive
+                            and greater than 0
+                          </span>
+                        ) : null}
+                        {priceError ===
+                        "maximum value must be greater than minimum value" ? (
+                          <span className="text-danger">
+                            Minimun price must be less than Maximun price
+                          </span>
+                        ) : null}
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
-                            type="text"
-                            placeholder="Price to"
+                            type="number"
+                            placeholder="Maximum price"
                             name="price_to"
                             onChange={searchValueHandler}
                             value={searchdata.price_to}
                           />
                         </Form.Group>
+                        {priceError === "to price is negative" ? (
+                          <span className="text-danger">
+                            Maximum price should be positive and greater than 0
+                          </span>
+                        ) : null}
                       </div>
                       <div className="col-md-3 col-sm-6 aos_input mb-2 multi_select_input">
                         <Form.Group className="mb-3">
@@ -1002,10 +1082,14 @@ const AddProduct = () => {
       {/* Add images model */}
       <AddIVarientImage
         show={docsshow}
-        close={() => setDocsShow(false)}
+        close={() => {
+          setDocsShow(false);
+          setVarientModalListShow(true);
+        }}
         ok={() => {
           setApicall(true);
           setDocsShow(false);
+          setVarientModalListShow(true);
         }}
         id={productID}
         varId={productVarientId}

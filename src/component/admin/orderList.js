@@ -251,7 +251,7 @@ const OrderList = () => {
       const response = await allOrder(state.order_id);
       setorderTable(response.results);
       setLoading(false);
-      setState({ ...state, order_id: "" });
+      // setState({ ...state, order_id: "" });
     } else {
       setLoading(false);
     }

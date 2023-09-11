@@ -20,7 +20,7 @@ export default function VarientListModal(props) {
     ? props.product_id
     : productIdFromLocalStorage;
   /*Function to get product data */
-  console.log("product id from verrint list model--" + props.product_id);
+
   const GetProductData = async () => {
     if (productId === "") {
       setProData([]);
@@ -37,7 +37,7 @@ export default function VarientListModal(props) {
         "",
         ""
       );
-
+      // console.log("Pro data--" + JSON.stringify(response.results));
       setProData(response.results[0]);
       if (
         response.results[0].product_verient_id === null ||
@@ -97,6 +97,28 @@ export default function VarientListModal(props) {
   };
   /*FUnction to get the image from tht muliple image with dpouble commas */
   const CoverImg = (img) => {
+    if (
+      img === null ||
+      img === "null" ||
+      img === undefined ||
+      img === "undefined"
+    ) {
+      return defaultImg;
+    }
+    const result = img.replace(/,+/g, ",");
+    return result.split(",")[0];
+  };
+
+  const CoverImgForProduct = (img) => {
+    console.log(" image- product---" + img);
+    if (
+      img === null ||
+      img === "null" ||
+      img === undefined ||
+      img === "undefined"
+    ) {
+      return defaultImg;
+    }
     const result = img.replace(/,+/g, ",");
     return result.split(",")[0];
   };
@@ -119,20 +141,49 @@ export default function VarientListModal(props) {
               <Col xs={6} md={6}>
                 <Image
                   src={
-                    proData.cover_image
-                      ? ` ${proData.cover_image}`
-                      : `${defaultImg}`
+                    proData.cover_image !== null ||
+                    proData.cover_image !== "null" ||
+                    proData.cover_image !== undefined ||
+                    proData.cover_image !== "undefined"
+                      ? CoverImgForProduct(proData.all_images_url)
+                      : proData.all_images_url !== null ||
+                        proData.all_images_url !== "null" ||
+                        proData.all_images_url !== undefined ||
+                        proData.all_images_url !== "undefined"
+                      ? CoverImgForProduct(proData.cover_image)
+                      : productImg
                   }
+                  // src={
+                  //   proData.cover_image
+                  //     ? ` ${proData.cover_image}`
+                  //     : `${defaultImg}`
+                  // }
                   alt={proData.seo_tag}
                   fluid
                 />
               </Col>
               <Col xs={6} md={6}>
                 <h3> {proData.name}</h3>
-                <p>{proData.description}</p>
-                <p>{proData.category}</p>
-                <p>{proData.benefits}</p>
-                <p>{proData.care_and_Instructions}</p>
+                <p>
+                  {" "}
+                  <b>Product description:</b>{" "}
+                  {proData.description === undefined ||
+                  proData.description === "undefined"
+                    ? "Not Available"
+                    : proData.description}
+                </p>
+                <p>
+                  {" "}
+                  <b>Category:</b> {proData.category_name}
+                </p>
+                <p>
+                  {" "}
+                  <b>Benefits :</b> {proData.benefits}
+                </p>
+                <p>
+                  {" "}
+                  <b>Care and Instructions :</b> {proData.care_and_Instructions}
+                </p>
               </Col>
             </Row>
           </Container>
@@ -163,12 +214,25 @@ export default function VarientListModal(props) {
                             {" "}
                             <img
                               src={
-                                item.cover_image === null ||
-                                item.cover_image === undefined ||
-                                item.cover_image === "undefined"
-                                  ? productImg
-                                  : CoverImg(item.cover_image)
+                                item.cover_image !== null ||
+                                item.cover_image !== "null" ||
+                                item.cover_image !== undefined ||
+                                item.cover_image !== "undefined"
+                                  ? CoverImg(item.all_images_url)
+                                  : item.all_images_url !== null ||
+                                    item.all_images_url !== "null" ||
+                                    item.all_images_url !== undefined ||
+                                    item.all_images_url !== "undefined"
+                                  ? CoverImg(item.cover_image)
+                                  : productImg
                               }
+                              // src={
+                              //   item.cover_image === null ||
+                              //   item.cover_image === undefined ||
+                              //   item.cover_image === "undefined"
+                              //     ? productImg
+                              //     : CoverImg(item.cover_image)
+                              // }
                               width={"auto"}
                               height={"100px"}
                               alt={"varient imageff"}

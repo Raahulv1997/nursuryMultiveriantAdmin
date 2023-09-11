@@ -84,11 +84,7 @@ const Vendor = () => {
     ],
     shop_address: [
       (value) =>
-        value === null || value === ""
-          ? "shop name is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+        value === null || value === "" ? "shop name is required" : null,
     ],
     gstn: [
       (value) =>

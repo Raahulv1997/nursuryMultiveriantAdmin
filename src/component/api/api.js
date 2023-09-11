@@ -6,8 +6,8 @@ let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
 let admin_id = localStorage.getItem("admin_id");
 let UserType = localStorage.getItem("user_type");
-let API_CALL = "http://indiakinursery.com:9999";
-// let API_CALL = "http://192.168.29.108:9999";
+// let API_CALL = "http://indiakinursery.com:9999";
+let API_CALL = "http://192.168.29.108:9999";
 
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 let transactionUrl = "http://192.168.29.108:9999";
@@ -1317,6 +1317,7 @@ export const UpdateProductVerient = async (props) => {
   delete data["care_and_Instructions"];
   delete data["benefits"];
   delete data["is_trending"];
+  delete data["category_name"];
   const response = await axios.put(
     `${API_CALL}/update_Product_verient`,
     data,

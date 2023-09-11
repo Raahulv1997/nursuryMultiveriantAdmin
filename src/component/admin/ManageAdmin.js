@@ -492,7 +492,7 @@ const ManageAdmin = () => {
                     <small className="text-danger">*</small>
                   </Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     className={
                       errors.admin_phone
                         ? "form-control border border-danger"
@@ -500,7 +500,11 @@ const ManageAdmin = () => {
                     }
                     value={state.admin_phone}
                     name="admin_phone"
-                    onChange={onInputChange}
+                    onChange={(v) => {
+                      if (v.target.value.length <= 10) {
+                        onInputChange(v);
+                      }
+                    }}
                     id="admin_phone"
                   />
                   {errors.admin_phone
@@ -528,7 +532,7 @@ const ManageAdmin = () => {
                         ? "form-control border border-danger"
                         : "form-control"
                     }
-                    disabled={showmodel === "add" ? "false" : "true"}
+                    disabled={showmodel === "add" ? false : true}
                     value={state.admin_email}
                     name="admin_email"
                     onChange={onInputChange}

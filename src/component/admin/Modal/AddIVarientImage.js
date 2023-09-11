@@ -22,7 +22,7 @@ export default function AddIVarientImage(props) {
   const [imagename, setImagename] = useState("");
   const [apicall, setApiCall] = useState(false);
   let encoded;
-  console.log("-------------" + props.vendor_id);
+
   const initialFormState = {
     product_id: props.id,
     product_verient_id: props.varId,
@@ -167,7 +167,7 @@ export default function AddIVarientImage(props) {
       setApiCall(true);
     }
   };
-  console.log("add veriant image------------" + JSON.stringify(state));
+
   return (
     <>
       <Modal
@@ -238,13 +238,19 @@ export default function AddIVarientImage(props) {
                           );
                         })}
 
-                        <div className="imgprivew_box position-relative overflow-hidden">
-                          <img
+                        <div
+                          className="imgprivew_box position-relative overflow-hidden"
+                          style={{
+                            width: "120px",
+                            height: "120px",
+                          }}
+                        >
+                          {/* <img
                             src={defaultImage}
                             // key={i}
                             alt="apna_organic"
                             height={120}
-                          />
+                          /> */}
                           <Form.Control
                             multiple
                             type="file"

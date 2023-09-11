@@ -111,12 +111,7 @@ const UserAdd = () => {
 
   const validators = {
     search: [
-      (value) =>
-        value === null || value === ""
-          ? "Please Fill...."
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? "Cannot use special character "
-          : null,
+      (value) => (value === null || value === "" ? "Please Fill...." : null),
     ],
   };
 

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Col, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import unitJson from "../json/unitJson";
+
 import "sweetalert/dist/sweetalert.css";
 import {
   AddProductVerient,
@@ -19,8 +19,8 @@ export default function AddProductVarientModal(props) {
     product_id: props.product_id ? props.product_id : product_id,
     vendor_id: props.vendor_id,
     verient_name: "",
-    quantity: "",
-    unit: "",
+    quantity: "1",
+    unit: "PCS",
     product_stock_quantity: "",
     price: "",
     mrp: "",
@@ -114,6 +114,7 @@ export default function AddProductVarientModal(props) {
   /*Render method to get product Varient data*/
   useEffect(() => {
     GetProductData();
+    // eslint-disable-next-line
   }, [props]);
 
   /*Discount and Gst calculation */
@@ -130,6 +131,7 @@ export default function AddProductVarientModal(props) {
       sgst: `${sgst}`,
       cgst: `${cgst}`,
     });
+    // eslint-disable-next-line
   }, [state.mrp, state.discount, state.gst]);
 
   /*Function to add product varient */
@@ -215,21 +217,6 @@ export default function AddProductVarientModal(props) {
                   : null}
               </Form.Group>
             </div>
-
-            {/* <div className="col-md-6">
-                            <Form.Group className="mb-3">
-                                <Form.Label className="" column sm="12">
-                                    SEO Tag
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={state.seo_tag}
-                                    name="seo_tag"
-                                    onChange={onInputChange}
-                                    id="seo_tag"
-                                />
-                            </Form.Group>
-                        </div> */}
 
             <div className="col-md-6">
               <Form.Group className="mb-3">
@@ -362,48 +349,6 @@ export default function AddProductVarientModal(props) {
                       );
                     })
                   : null}
-              </Form.Group>
-            </div>
-            <div className="col-md-6">
-              <Form.Group className="mb-3">
-                <Form.Label className="" column sm="12">
-                  Product Unit quantity
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  value={state.quantity}
-                  name="quantity"
-                  onChange={onInputChange}
-                  id="quantity"
-                />
-              </Form.Group>
-            </div>
-            <div className="col-md-6">
-              <Form.Group className="mb-3">
-                <Form.Label className="" column sm="12">
-                  Unit
-                </Form.Label>
-                <Col sm="12">
-                  <InputGroup className="">
-                    <Form.Select
-                      aria-label="Default select example"
-                      className="nice-select w-100"
-                      sm="9"
-                      name="unit"
-                      onChange={onInputChange}
-                      value={state.unit}
-                    >
-                      <option value={""}>Select unit</option>
-                      {unitJson.unitjson.map((item) => {
-                        return (
-                          <>
-                            <option value={item}>{item}</option>
-                          </>
-                        );
-                      })}
-                    </Form.Select>
-                  </InputGroup>
-                </Col>
               </Form.Group>
             </div>
 

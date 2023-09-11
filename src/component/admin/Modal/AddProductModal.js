@@ -73,11 +73,6 @@ export default function AddProductModal(props) {
   const { state, setState, onInputChange, setErrors, errors, validate } =
     useValidation(initialFormState, validators);
 
-  console.log("state--" + JSON.stringify(state));
-  useEffect(() => {
-    // eslint-disable-next-line
-  }, []);
-
   // console.log(category);
   useEffect(() => {
     setState({
@@ -105,7 +100,6 @@ export default function AddProductModal(props) {
       setState(initialFormState);
     } else {
       newFuntion(response.results[0]);
-      console.log("product data-" + JSON.stringify(response.results[0]));
     }
   };
 
@@ -148,7 +142,6 @@ export default function AddProductModal(props) {
   const GetCateList = async () => {
     let response = await GetCategoryList();
     if (response.status === true) {
-      console.log("dddd--" + JSON.stringify(response.response));
       setCatData(response.response);
     } else {
       setCatData([]);

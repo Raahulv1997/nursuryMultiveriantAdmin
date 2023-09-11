@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AllproductData } from "../api/api";
 import Loader from "../common/loader";
-import ProductImage from "../../image/product_demo.png"
+import ProductImage from "../../image/product_demo.png";
+import ProductRating from "./productRating";
 
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
@@ -23,6 +24,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     productGEtByid();
+    // eslint-disable-next-line
   }, []);
 
   const productGEtByid = async () => {
@@ -44,12 +46,22 @@ const ProductDetails = () => {
     setProductData(response.results[0]);
     setLoading(false);
   };
-  let ratingbox = [1, 2, 3, 4, 5];
-   /*FUnction to get the image from tht muliple image with dpouble commas */
- const CoverImg = (img) => {
-  const result = img.replace(/,+/g, ',');
-  return result.split(",")[0];
-};
+
+  /*FUnction to get the image from tht muliple image with dpouble commas */
+  const CoverImg = (img) => {
+    if (
+      img === null ||
+      img === "null" ||
+      img === undefined ||
+      img === "undefined"
+    ) {
+      return ProductImage;
+    }
+
+    const result = img.replace(/,+/g, ",");
+
+    return result.split(",")[0];
+  };
   return (
     <div>
       <section className="inner-section">
@@ -59,17 +71,31 @@ const ProductDetails = () => {
             <div className="col-lg-6">
               <div className="details-gallery">
                 <div className="details-label-group">
-                  <label className="details-label new">new</label>
-
-                  <label className="details-label off">
-                    {productData.discount}%
-                  </label>
+                  {/* <label className="details-label new">new</label> */}
+                  {productData.discount === (undefined || null || 0) ? null : (
+                    <label className="details-label off">
+                      {productData.discount}% <small>OFF</small>
+                    </label>
+                  )}
                 </div>
                 <ul className="details-preview">
                   <li>
                     <img
+                      // src={
+                      //   productData.cover_image
+                      //     ? CoverImg(productData.cover_image)
+                      //     : ProductImage
+                      // }
                       src={
-                        productData.cover_image
+                        productData.cover_image !== null ||
+                        productData.cover_image !== "null" ||
+                        productData.cover_image !== undefined ||
+                        productData.cover_image !== "undefined"
+                          ? CoverImg(productData.all_images_url)
+                          : productData.all_images_url !== null ||
+                            productData.all_images_url !== "null" ||
+                            productData.all_images_url !== undefined ||
+                            productData.all_images_url !== "undefined"
                           ? CoverImg(productData.cover_image)
                           : ProductImage
                       }
@@ -81,10 +107,14 @@ const ProductDetails = () => {
             </div>
             <div className="col-lg-6">
               <div className="details-content">
-                <h3 className="details-name">{productData.name || <b>unavailable</b>}</h3>
+                <h3 className="details-name">
+                  {productData.name || <b>unavailable</b>}
+                </h3>
                 <div className="details-meta">
                   <p>
-                    <span>{productData.verient_name || <b>unavailable</b>}</span>
+                    <span>
+                      {productData.verient_name || <b>unavailable</b>}
+                    </span>
                   </p>
                   {/* <p>
                     BRAND:<span>{productData.brand || <b>unavailable</b>}</span>
@@ -92,18 +122,11 @@ const ProductDetails = () => {
                 </div>
 
                 <div className="details-rating">
-                  {ratingbox.map((rat, i) => {
-                    return productData.rating - rat >= 0 ? (
-                      <>
-                        <i className="active icofont-star" key={i}></i>
-                      </>
-                    ) : (
-                      <i className=" icofont-star" key={i}></i>
-                    );
-                  })}
-
-                  <Link to="#">({productData.rating} reviews )</Link>
+                  {productData.avgRatings > 0 ? (
+                    <ProductRating rating={productData.avgRatings} />
+                  ) : null}
                 </div>
+
                 <h3 className="details-price">
                   <del> ₹{Number(productData.mrp).toFixed(2)}</del>
                   <span>
@@ -117,7 +140,7 @@ const ProductDetails = () => {
                   <label className="details-list-title">Category:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.category}</Link>
+                      <Link>{productData.category_name}</Link>
                     </li>
                   </ul>
                 </div>
@@ -126,7 +149,11 @@ const ProductDetails = () => {
                   <label className="details-list-title">Stock Quantity:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.product_stock_quantity || <b>unavailable</b>}</Link>
+                      <p>
+                        {productData.product_stock_quantity || (
+                          <b>unavailable</b>
+                        )}
+                      </p>
                     </li>
                   </ul>
                 </div>
@@ -134,7 +161,7 @@ const ProductDetails = () => {
                   <label className="details-list-title"> Quantity:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.quantity || <b>unavailable</b>}</Link>
+                      <p>{productData.quantity || <b>unavailable</b>}</p>
                     </li>
                   </ul>
                 </div>
@@ -142,7 +169,7 @@ const ProductDetails = () => {
                   <label className="details-list-title">Unit:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>{productData.unit || <b>unavailable</b>}</Link>
+                      <p>{productData.unit || <b>unavailable</b>}</p>
                     </li>
                   </ul>
                 </div>
@@ -150,13 +177,15 @@ const ProductDetails = () => {
                   <label className="details-list-title">Tax:</label>
                   <ul className="details-tag-list">
                     <li>
-                      <Link>GST: {productData.gst + "%" || <b>unavailable</b>} </Link>
+                      <p>GST: {productData.gst + "%" || <b>unavailable</b>} </p>
                     </li>
                     <li>
-                      <Link>SGST: {productData.sgst + "%" || <b>unavailable</b>} </Link>
+                      <p>
+                        SGST: {productData.sgst + "%" || <b>unavailable</b>}{" "}
+                      </p>
                     </li>
                     <li>
-                      <Link>CGST: {productData.cgst + "%"   } </Link>
+                      <p>CGST: {productData.cgst + "%"} </p>
                     </li>
                   </ul>
                 </div>
