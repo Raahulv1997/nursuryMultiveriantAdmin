@@ -56,7 +56,7 @@ export default function AddCategoryModal(props) {
   const OnAddCategoryClick = async () => {
     if (validate()) {
       let response = await AddCategory(state);
-      console.log("response---" + JSON.stringify(response));
+
       if (response.code === "ER_DUP_ENTRY") {
         setCategoryError("Duplicate");
       }
@@ -144,6 +144,10 @@ export default function AddCategoryModal(props) {
                 <Form.Label className="" column sm="12">
                   {state.parent_id === ("0" || 0)
                     ? "Category Name"
+                    : state.parent_id === ("1" || 1)
+                    ? "Update Parent Category "
+                    : state.parent_id === ("2" || 2)
+                    ? "Update Child category"
                     : "Sub Category Name"}{" "}
                   <small className="text-danger">*</small>
                 </Form.Label>

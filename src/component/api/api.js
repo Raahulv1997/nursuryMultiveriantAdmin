@@ -6,8 +6,8 @@ let vendor_token = localStorage.getItem("vendor_token");
 let driver_token = localStorage.getItem("driver_token");
 let admin_id = localStorage.getItem("admin_id");
 let UserType = localStorage.getItem("user_type");
-// let API_CALL = "http://indiakinursery.com:9999";
-let API_CALL = "http://192.168.29.108:9999";
+let API_CALL = "http://indiakinursery.com:9999";
+// let API_CALL = "http://192.168.29.108:9999";
 
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 let transactionUrl = "http://192.168.29.108:9999";
@@ -1355,7 +1355,7 @@ export const AddCategory = async (props) => {
   console.log(props);
   const formData = new FormData();
   formData.append("parent_id", props.parent_id);
-  formData.append("level", props.level === ("0" || 0) ? 1 : 2);
+  formData.append("level", props.parent_id === ("0" || 0) ? 0 : 1);
   formData.append("all_parent_id", props.parent_id);
   formData.append("category_name", props.category_name);
   formData.append("image", props.image);
@@ -1374,7 +1374,9 @@ export const AddCategory = async (props) => {
 export const UpdateCategory = async (props) => {
   const formData = new FormData();
   formData.append("parent_id", props.parent_id);
-  formData.append("level", props.level === ("0" || 0) ? 0 : 1);
+  // formData.append("level", props.parent_id === ("0" || 0) ? 0 : 1);
+  formData.append("level", props.level);
+
   formData.append("all_parent_id", props.parent_id);
   formData.append("category_name", props.category_name);
   formData.append("image", props.image);
