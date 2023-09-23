@@ -7,10 +7,10 @@ import { UpdateComplaintFromVendor } from "../../api/api";
 export default function UpdateComplaintModel(props) {
   const initialFormState = {
     id: props.id,
-    status: "",
-    resolve_description: "",
+    status: props.status,
+    resolve_description: props.ResolveDescription,
   };
-
+  let UserType = localStorage.getItem("user_type");
   /*Close function */
   function Close() {
     setState(initialFormState);
@@ -40,7 +40,7 @@ export default function UpdateComplaintModel(props) {
 
   /* Function to Add category */
   const OnUpdateComplaintClick = async () => {
-    if (validate()) {
+    if (UserType === "admin") {
       let response = await UpdateComplaintFromVendor(state);
       console.log("sss-" + JSON.stringify(response));
       if (response.response === "Succesfully Update Complaint") {
@@ -48,6 +48,17 @@ export default function UpdateComplaintModel(props) {
         // props.setApiCall(true);
         props.setupdateAlertMessage(true);
         setState(initialFormState);
+      }
+    } else {
+      if (validate()) {
+        let response = await UpdateComplaintFromVendor(state);
+        console.log("sss-" + JSON.stringify(response));
+        if (response.response === "Succesfully Update Complaint") {
+          props.close();
+          // props.setApiCall(true);
+          props.setupdateAlertMessage(true);
+          setState(initialFormState);
+        }
       }
     }
   };
@@ -97,7 +108,11 @@ export default function UpdateComplaintModel(props) {
                     })
                   : null}
               </Form.Group>
-              <Form.Group className="mb-3" controlId="validationCustom01">
+              <Form.Group
+                className="mb-3"
+                controlId="validationCustom01"
+                style={{ display: UserType === "admin" ? "none" : "block" }}
+              >
                 <Form.Label className="" column sm="12">
                   Resolved Description
                   {/* <span className="text-danger">*</span> */}

@@ -50,7 +50,6 @@ function Layout() {
   const adminLogged = localStorage.getItem("admin_token");
   const UserType = localStorage.getItem("user_type");
   const vendorLogged = localStorage.getItem("vendor_token");
-  console.log(" admin login------" + UserType);
 
   return (
     <>

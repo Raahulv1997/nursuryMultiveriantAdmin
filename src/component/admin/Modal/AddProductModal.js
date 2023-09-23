@@ -418,7 +418,7 @@ export default function AddProductModal(props) {
             <div className="col-md-12">
               <Form.Group className="mb-3" controlId="validationCustom01">
                 <Form.Label className="" column sm="12">
-                  Description
+                  Description <small className="text-danger">*</small>
                   {/* <span className="text-danger">*</span> */}
                 </Form.Label>
                 <Col sm="12">

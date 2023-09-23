@@ -192,7 +192,7 @@ export default function AddProductVarientModal(props) {
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="" column sm="12">
-                  Verient Name <small className="text-danger">*</small>
+                  Variant Name <small className="text-danger">*</small>
                 </Form.Label>
                 <Form.Control
                   className={
@@ -458,7 +458,7 @@ export default function AddProductVarientModal(props) {
             <div className="col-md-12">
               <Form.Group className="mb-3" controlId="validationCustom01">
                 <Form.Label className="" column sm="12">
-                  Verient Description
+                  Variant Description
                   {/* <span className="text-danger">*</span> */}
                 </Form.Label>
                 <Col sm="12">
@@ -485,7 +485,7 @@ export default function AddProductVarientModal(props) {
                   className="addcategoryicon w-100"
                   type={"submit"}
                 >
-                  {props.productVarientId ? "Update Verient" : "Add varient"}
+                  {props.productVarientId ? "Update Variant" : "Add Variant"}
                 </Button>
               </div>
             </div>

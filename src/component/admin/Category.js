@@ -96,10 +96,15 @@ export default function Category() {
       name: "Category Type ",
       selector: (row) => (
         <span>
-          {row.category_type
-            ? row.category_type.charAt(0).toUpperCase() +
-              row.category_type.slice(1)
-            : "unavailable"}{" "}
+          {
+            // eslint-disable-next-line
+            row.level == 1
+              ? "Parent"
+              : // eslint-disable-next-line
+              row.level == 2
+              ? "child"
+              : "Not available"
+          }
         </span>
       ),
       sortable: true,

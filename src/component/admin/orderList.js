@@ -273,6 +273,9 @@ const OrderList = () => {
     if (response.response === "order accepted successfull") {
       setStatusAlert(true);
     }
+    if (response.response === "status updated successfully") {
+      setStatusAlert(true);
+    }
   };
 
   const onStatusChange = async (order_id) => {

@@ -70,20 +70,26 @@ export default function AddIVarientImage(props) {
 
   /*Function to get the image list */
   const onImgView = async () => {
-    const response = await GetProductImages(props.id, props.varId);
-    if (response.error === "please fill all inputs") {
-      setnewImageUrls([]);
-    } else {
-      setnewImageUrls(response);
+    console.log("props.id-" + props.id);
+    console.log("props.varId-" + props.varIdn);
+
+    if (props.id !== "" && props.varIdn !== false) {
+      const response = await GetProductImages(props.id, props.varId);
+      if (response.error === "please fill all inputs") {
+        setnewImageUrls([]);
+      } else {
+        setnewImageUrls(response);
+      }
+      setApiCall(false);
     }
   };
 
   /*Render method to get the image list */
   useEffect(() => {
     onImgView();
-    if (apicall === true) {
-      setApiCall(false);
-    }
+    // if (apicall === true) {
+    //   setApiCall(false);
+    // }
   }, [props.show, apicall]);
 
   /*Function to convert file to base64 */
@@ -243,6 +249,7 @@ export default function AddIVarientImage(props) {
                           style={{
                             width: "120px",
                             height: "120px",
+                            backgroundColor: "grey",
                           }}
                         >
                           {/* <img
@@ -321,7 +328,10 @@ export default function AddIVarientImage(props) {
               variant="outline-danger"
               className="addcategoryicon"
               // type="submit"
-              onClick={props.close}
+              onClick={() => {
+                props.close();
+                setnewImageUrls([]);
+              }}
             >
               Close
             </Button>

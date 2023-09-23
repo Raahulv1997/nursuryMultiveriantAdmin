@@ -132,7 +132,7 @@ export default function VarientListModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            Product Varient
+            Product Variant
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -285,7 +285,7 @@ export default function VarientListModal(props) {
                     className="btn-info mx-2"
                     onClick={() => AddVarient()}
                   >
-                    Add More Varient
+                    Add More Variant
                   </Button>
                 </div>
               </>
@@ -293,7 +293,7 @@ export default function VarientListModal(props) {
               <div className="d-flex justify-content-center">
                 {" "}
                 <Button className="btn-info mx-2" onClick={() => AddVarient()}>
-                  Add Varient
+                  Add Variant
                 </Button>
               </div>
             )}

@@ -10,7 +10,7 @@ let API_CALL = "http://indiakinursery.com:9999";
 // let API_CALL = "http://192.168.29.108:9999";
 
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
-let transactionUrl = "http://192.168.29.108:9999";
+let transactionUrl = "http://indiakinursery.com:9999";
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 // let ApnaOrganicAdminToken =
 // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
@@ -423,17 +423,29 @@ export const OrderVendorChange = async (stautsValue, orderID) => {
     head = { headers: { admin_token: `${admin_token}` } };
   } else {
   }
+  if (UserType === "admin") {
+    const response = await axios.put(
+      `${API_CALL}/order_status_update`,
+      {
+        order_id: orderID,
+        status_order: stautsValue,
+      },
 
-  const response = await axios.put(
-    `${API_CALL}/order_verify_by_vendor`,
-    {
-      order_id: orderID,
-      order_verify: stautsValue,
-    },
+      head
+    );
+    return response.data;
+  } else {
+    const response = await axios.put(
+      `${API_CALL}/order_verify_by_vendor`,
+      {
+        order_id: orderID,
+        order_verify: stautsValue,
+      },
 
-    head
-  );
-  return response.data;
+      head
+    );
+    return response.data;
+  }
 };
 
 export const OrderStatusChange = async (orderID) => {
@@ -678,6 +690,11 @@ export const ProductCoverImageChange = async (id, product_img_id) => {
     },
     head
   );
+  return response.data;
+};
+
+export const AddFeatureProductFuntion = async (state) => {
+  let response = await axios.post(`${API_CALL}/add_fetured_product`, state);
   return response.data;
 };
 
@@ -970,7 +987,9 @@ export const AdminVendorStatusChange = async (status, id) => {
 };
 
 /*Function to update vendor profile with vendor and user */
-export const UpdateVendorfunction = async (props, file, id) => {
+export const UpdateVendorfunction = async (props, file, filename, id) => {
+  console.log(" id---" + id);
+
   const formData = new FormData();
   formData.append("vendor_id", id);
   formData.append("owner_name", props.owner_name);
@@ -1318,6 +1337,10 @@ export const UpdateProductVerient = async (props) => {
   delete data["benefits"];
   delete data["is_trending"];
   delete data["category_name"];
+  delete data["count_avgRatings"];
+  delete data["avgRatings"];
+  delete data["is_fetured"];
+
   const response = await axios.put(
     `${API_CALL}/update_Product_verient`,
     data,

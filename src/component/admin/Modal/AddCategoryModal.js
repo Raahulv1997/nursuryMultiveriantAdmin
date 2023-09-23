@@ -82,6 +82,7 @@ export default function AddCategoryModal(props) {
       }
     }
   };
+  console.log("state.parent_id---" + state.parent_id);
   return (
     <>
       <Modal
@@ -142,13 +143,10 @@ export default function AddCategoryModal(props) {
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="" column sm="12">
-                  {state.parent_id === ("0" || 0)
-                    ? "Category Name"
-                    : state.parent_id === ("1" || 1)
-                    ? "Update Parent Category "
-                    : state.parent_id === ("2" || 2)
-                    ? "Update Child category"
-                    : "Sub Category Name"}{" "}
+                  {
+                    // eslint-disable-next-line
+                    state.parent_id == 0 ? "Category Name" : "Sub Category Name"
+                  }{" "}
                   <small className="text-danger">*</small>
                 </Form.Label>
                 <Form.Control

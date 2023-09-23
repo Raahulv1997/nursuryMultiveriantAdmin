@@ -47,6 +47,8 @@ const Vendor = () => {
   const [AddVendorAlert, setAddVendorAlert] = useState(false);
   const [updateVendorAlert, setupdateVendorAlert] = useState(false);
   const [ShowDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [SubmitError, setSubmitError] = useState(false);
+
   const validators = {
     owner_name: [
       (value) =>
@@ -303,7 +305,10 @@ const Vendor = () => {
     e.preventDefault();
     if (validate()) {
       const response = await AddVendorfunction(state, file, filename);
-      // console.log("vendor add" + JSON.stringify(response));
+      console.log("vendor add" + JSON.stringify(response));
+      if (response.message === "mail already exist") {
+        setSubmitError("already");
+      }
       if (response.message === "add vendor successfully") {
         setAddVendorAlert(true);
       }
@@ -336,6 +341,7 @@ const Vendor = () => {
     if (e === "add") {
       setmodalshow(e);
     }
+    setSubmitError(false);
     // setProductData(pdata);
   };
 
@@ -570,7 +576,10 @@ const Vendor = () => {
                                   type="text"
                                   value={state.email}
                                   name="email"
-                                  onChange={onInputChange}
+                                  onChange={(e) => {
+                                    onInputChange(e);
+                                    setSubmitError(false);
+                                  }}
                                   id="email"
                                 />
                                 {errors.email
@@ -582,6 +591,12 @@ const Vendor = () => {
                                       );
                                     })
                                   : null}
+
+                                {SubmitError === "already" ? (
+                                  <small className="text-danger">
+                                    Email Already Exists
+                                  </small>
+                                ) : null}
                               </Form.Group>
                             </div>
 

@@ -4,9 +4,7 @@ import { AllproductData } from "../api/api";
 import Loader from "../common/loader";
 import ProductImage from "../../image/product_demo.png";
 import ProductRating from "./productRating";
-import { Carousel } from "react-responsive-carousel";
-import ProductImages from "./ProductImages";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 const ProductDetails = () => {
   const productId = localStorage.getItem("productID");
   // console.log("id-------------" + productId);
@@ -23,6 +21,11 @@ const ProductDetails = () => {
     vendor_id: "",
     product_stock_quantity: "",
   };
+
+  useEffect(() => {
+    productGEtByid();
+    // eslint-disable-next-line
+  }, []);
 
   const productGEtByid = async () => {
     setLoading(true);
@@ -44,40 +47,21 @@ const ProductDetails = () => {
     setLoading(false);
   };
 
-  const imageUrl = productData?.cover_image + "," + productData?.all_images_url;
+  /*FUnction to get the image from tht muliple image with dpouble commas */
+  const CoverImg = (img) => {
+    if (
+      img === null ||
+      img === "null" ||
+      img === undefined ||
+      img === "undefined"
+    ) {
+      return ProductImage;
+    }
 
-  const imageArray =
-    imageUrl && typeof imageUrl === "string" ? imageUrl.split(",") : [];
+    const result = img.replace(/,+/g, ",");
 
-  const uniqueImages = imageArray.filter((item, index) => {
-    // Remove empty strings and keep only the first occurrence of each image path
-    return item !== "null" && item !== "" && imageArray.indexOf(item) === index;
-  });
-
-  let filteredData = uniqueImages
-    .filter((item) => item !== "") // Remove empty strings
-    .map((item) => item.replace(/^'|'$/g, "")); // Remove surrounding single quotes
-  console.log("filteredData---" + filteredData.length);
-  useEffect(() => {
-    productGEtByid();
-    // eslint-disable-next-line
-  }, []);
-
-  // /*FUnction to get the image from tht muliple image with dpouble commas */
-  // const CoverImg = (img) => {
-  //   if (
-  //     img === null ||
-  //     img === "null" ||
-  //     img === undefined ||
-  //     img === "undefined"
-  //   ) {
-  //     return ProductImage;
-  //   }
-
-  //   const result = img.replace(/,+/g, ",");
-
-  //   return result.split(",")[0];
-  // };
+    return result.split(",")[0];
+  };
   return (
     <div>
       <section className="inner-section">
@@ -85,7 +69,7 @@ const ProductDetails = () => {
           {loading === true ? <Loader /> : null}
           <div className="row">
             <div className="col-lg-6">
-              <div className="details-gallery pt-5">
+              <div className="details-gallery">
                 <div className="details-label-group">
                   {/* <label className="details-label new">new</label> */}
                   {productData.discount === (undefined || null || 0) ? null : (
@@ -94,57 +78,31 @@ const ProductDetails = () => {
                     </label>
                   )}
                 </div>
+
                 <ul className="details-preview">
-                  <Carousel>
-                    {imageArray.length === 0 ? (
-                      <div>
-                        {/* <img
-src={data.cover_image}
-alt={data.seo_tag + data.description}
-/> */}
-                        <ProductImages
-                          src={productData.cover_image}
-                          className={"img-fluid"}
-                          alt={productData.seo_tag + productData.description}
-                        />
-                      </div>
-                    ) : filteredData.length === 0 ? (
-                      <div>
-                        <img
-                          src={ProductImage}
-                          className="img-fluid"
-                          alt={"product"}
-                        />
-                        {/* <ProductImage
-                        src={item}
-                        className={"img-fluid"}
-                        alt={
-                          productData.seo_tag + productData.description
-                        }
-                      /> */}
-                      </div>
-                    ) : (
-                      (filteredData || []).map((item, index) => {
-                        console.log("ime--" + JSON.stringify(item));
-                        return (
-                          <div key={index}>
-                            <img
-                              src={item}
-                              className="img-fluid"
-                              alt={item.seo_tag + item.description}
-                            />
-                            {/* <ProductImage
-                              src={item}
-                              className={"img-fluid"}
-                              alt={
-                                productData.seo_tag + productData.description
-                              }
-                            /> */}
-                          </div>
-                        );
-                      })
-                    )}
-                  </Carousel>
+                  <li>
+                    <img
+                      // src={
+                      //   productData.cover_image
+                      //     ? CoverImg(productData.cover_image)
+                      //     : ProductImage
+                      // }
+                      src={
+                        productData.cover_image !== null ||
+                        productData.cover_image !== "null" ||
+                        productData.cover_image !== undefined ||
+                        productData.cover_image !== "undefined"
+                          ? CoverImg(productData.all_images_url)
+                          : productData.all_images_url !== null ||
+                            productData.all_images_url !== "null" ||
+                            productData.all_images_url !== undefined ||
+                            productData.all_images_url !== "undefined"
+                          ? CoverImg(productData.cover_image)
+                          : ProductImage
+                      }
+                      alt="product"
+                    />
+                  </li>
                 </ul>
               </div>
             </div>
@@ -181,7 +139,7 @@ alt={data.seo_tag + data.description}
                 <p className="details-desc"> {productData.description}</p>
                 <div className="details-list-group">
                   <label className="details-list-title">Category:</label>
-                  <ul className="details-tag-list m-0">
+                  <ul className="details-tag-list">
                     <li>
                       <Link>{productData.category_name}</Link>
                     </li>
@@ -190,9 +148,9 @@ alt={data.seo_tag + data.description}
 
                 <div className="details-list-group">
                   <label className="details-list-title">Stock Quantity:</label>
-                  <ul className="details-tag-list m-0">
+                  <ul className="details-tag-list">
                     <li>
-                      <p className="m-0">
+                      <p>
                         {productData.product_stock_quantity || (
                           <b>unavailable</b>
                         )}
@@ -202,39 +160,33 @@ alt={data.seo_tag + data.description}
                 </div>
                 <div className="details-list-group">
                   <label className="details-list-title"> Quantity:</label>
-                  <ul className="details-tag-list m-0">
+                  <ul className="details-tag-list">
                     <li>
-                      <p className="m-0">
-                        {productData.quantity || <b>unavailable</b>}
-                      </p>
+                      <p>{productData.quantity || <b>unavailable</b>}</p>
                     </li>
                   </ul>
                 </div>
                 <div className="details-list-group">
                   <label className="details-list-title">Unit:</label>
-                  <ul className="details-tag-list m-0">
+                  <ul className="details-tag-list">
                     <li>
-                      <p className="m-0">
-                        {productData.unit || <b>unavailable</b>}
-                      </p>
+                      <p>{productData.unit || <b>unavailable</b>}</p>
                     </li>
                   </ul>
                 </div>
                 <div className="details-list-group">
                   <label className="details-list-title">Tax:</label>
-                  <ul className="details-tag-list m-0">
+                  <ul className="details-tag-list">
                     <li>
-                      <p className="m-0">
-                        GST: {productData.gst + "%" || <b>unavailable</b>}{" "}
-                      </p>
+                      <p>GST: {productData.gst + "%" || <b>unavailable</b>} </p>
                     </li>
                     <li>
-                      <p className="m-0">
+                      <p>
                         SGST: {productData.sgst + "%" || <b>unavailable</b>}{" "}
                       </p>
                     </li>
                     <li>
-                      <p className="m-0">CGST: {productData.cgst + "%"} </p>
+                      <p>CGST: {productData.cgst + "%"} </p>
                     </li>
                   </ul>
                 </div>

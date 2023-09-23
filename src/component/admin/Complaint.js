@@ -21,6 +21,9 @@ export default function Complaint() {
   const [loading, setLoading] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [complaintId, setComplaintID] = useState("");
+  const [complaintStatus, setComplaintStatus] = useState("");
+  const [ResolveDescription, setResolveDescription] = useState("");
+
   const [showUpdateComplaintModel, setShowUpdateComplaintModel] =
     useState(false);
   const [vendorData, setVendorData] = useState([]);
@@ -147,12 +150,13 @@ export default function Complaint() {
           aria-label="Complaint"
           size="sm"
           className="w-100"
+          disabled
           onChange={(e) => onVendorChange(e, row.id)}
           name="status_order"
           value={row.assigned_to}
         >
           {" "}
-          <option>All Vendor</option>
+          <option>No Vendor</option>
           {vendorData.map((item, i) => {
             return (
               <React.Fragment key={i}>
@@ -180,7 +184,7 @@ export default function Complaint() {
             ? "Pending"
             : row.status_ === "resolved"
             ? "Resolved"
-            : "No Status"}
+            : "Pending"}
         </span>
       ),
       sortable: true,
@@ -197,7 +201,12 @@ export default function Complaint() {
         <div className={"actioncolimn"}>
           <Button
             className="btn-warning mx-2"
-            onClick={EditComplaintModal.bind(this, row.id)}
+            onClick={EditComplaintModal.bind(
+              this,
+              row.id,
+              row.status_,
+              row.resolve_description
+            )}
           >
             {" "}
             <BiEdit />
@@ -214,8 +223,19 @@ export default function Complaint() {
     },
   ];
 
-  const EditComplaintModal = (id) => {
+  const EditComplaintModal = (id, status, resolve_description) => {
     setComplaintID(id);
+    setComplaintStatus(status);
+    console.log("ID--" + id);
+    console.log("Status--" + status);
+
+    console.log("ResolveDescription--" + resolve_description);
+    if (resolve_description === null) {
+      setResolveDescription("");
+    } else {
+      setResolveDescription(resolve_description);
+    }
+
     setShowUpdateComplaintModel(true);
   };
 
@@ -330,6 +350,8 @@ export default function Complaint() {
               close={() => setShowUpdateComplaintModel(false)}
               setApiCall={setApicall}
               id={complaintId}
+              status={complaintStatus}
+              ResolveDescription={ResolveDescription}
               setupdateAlertMessage={setupdateAlertMessage}
             />
           ) : null}

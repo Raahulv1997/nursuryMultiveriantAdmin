@@ -49,6 +49,7 @@ export default function Review() {
   const OnReset = () => {
     setErrors("");
     setApicall(true);
+    setState(initialFormState);
   };
   /*Function to get the review list */
   const GetReviewData = async (name, status) => {
@@ -56,7 +57,6 @@ export default function Review() {
     let response = await GetReviewList(name, status);
     setLoading(false);
     setRevData(response);
-    setState(initialFormState);
   };
 
   /*Render method to get the review list */

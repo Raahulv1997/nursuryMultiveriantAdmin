@@ -26,6 +26,7 @@ import VarientListModal from "./Modal/VarientListModal";
 import AddIVarientImage from "./Modal/AddIVarientImage";
 import ProductImage from "../../image/product_demo.png";
 import Select from "react-select";
+import AddFeatureProductModel from "./Modal/AddFeatureProductModel";
 const AddProduct = () => {
   const navigate = useNavigate();
   const [expandedRows, setExpandedRows] = useState([]);
@@ -52,7 +53,9 @@ const AddProduct = () => {
   const [Id, setId] = useState("");
   const [submitError, setSubmitError] = useState(false);
   const [priceError, setpriceError] = useState(false);
-
+  const [showFeatureProductModel, setShowFeatureProductModel] = useState(false);
+  const [FeatureProductId, setFeatureProductID] = useState("");
+  const [showFeatureProductAlert, setShowFeatureProductAlert] = useState(false);
   let userType = localStorage.getItem("user_type");
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -337,6 +340,24 @@ const AddProduct = () => {
       width: "100px",
       center: true,
     },
+    {
+      name: "Feature Product",
+      selector: (row) => (
+        <>
+          <span className={row.is_fetured !== null ? "badge bg-success" : null}>
+            {row.is_fetured !== null ? "In Feature" : null}
+          </span>
+          <br />
+          <span
+            className={row.is_fetured_on !== null ? "badge bg-danger" : null}
+          >
+            {row.is_fetured_on !== null ? "In Sale" : null}
+          </span>
+        </>
+      ),
+      sortable: true,
+      width: "120px",
+    },
 
     // {
     //   name: "Change Status",
@@ -364,7 +385,7 @@ const AddProduct = () => {
 
     {
       name: "Action",
-      width: "360px",
+      width: "500px",
       style: {
         paddingRight: "12px",
         paddingLeft: "0px",
@@ -383,6 +404,26 @@ const AddProduct = () => {
           >
             Add Images
           </Button> */}
+
+          {row.is_fetured !== null &&
+          row.is_fetured_on !== null ? null : row.is_fetured !== null ? (
+            <Button
+              size="sm"
+              className="btn-warning mx-2"
+              onClick={AddProductFeature.bind(this, row.id)}
+            >
+              Update in Feature
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              className="btn-danger mx-2"
+              onClick={AddProductFeature.bind(this, row.id)}
+            >
+              Add in Feature
+            </Button>
+          )}
+
           <Button
             size="sm"
             className="btn-info mx-2"
@@ -408,6 +449,11 @@ const AddProduct = () => {
       ),
     },
   ];
+
+  const AddProductFeature = (id) => {
+    setFeatureProductID(id);
+    setShowFeatureProductModel(true);
+  };
 
   const onProductClick = (id) => {
     // console.log("idddd--" + id);
@@ -651,6 +697,7 @@ const AddProduct = () => {
   const closeProductAlert = () => {
     // setErrors({});
     // setState(initialFormState);
+
     setProductAlert(false);
     setupdateProductAlert(false);
     setmodalshow(false);
@@ -660,6 +707,10 @@ const AddProduct = () => {
     setVarientModalListShow(true);
   };
 
+  const closeFeatureAlert = () => {
+    setShowFeatureProductAlert(false);
+    setApicall(true);
+  };
   const closeDeletrAlert = () => {
     setShowDeleteAlert(false);
   };
@@ -1057,7 +1108,10 @@ const AddProduct = () => {
       {varientModalShow ? (
         <AddProductVarientModal
           show={varientModalShow}
-          close={() => setVarientModalShow(false)}
+          close={() => {
+            setVarientModalShow(false);
+            setVarientModalListShow(true);
+          }}
           type={"add"}
           setProductAlert={setProductVarientAlert}
           setupdateProductAlert={setupdateProductVarientAlert}
@@ -1096,6 +1150,15 @@ const AddProduct = () => {
         des={productDescription}
         vendor_id={vendorID}
       />
+      {showFeatureProductModel ? (
+        <AddFeatureProductModel
+          show={showFeatureProductModel}
+          close={() => setShowFeatureProductModel(false)}
+          setApiCall={setApicall}
+          id={FeatureProductId}
+          setShowFeatureProductAlert={setShowFeatureProductAlert}
+        />
+      ) : null}
 
       <SweetAlert
         show={ProductAlert}
@@ -1109,7 +1172,7 @@ const AddProduct = () => {
       <SweetAlert
         show={ProductVarientAlert}
         title="Added Successfully"
-        text={"Varient Added"}
+        text={"Variant Added"}
         onConfirm={() => {
           setProductVarientAlert(false);
           setApicall(true);
@@ -1144,6 +1207,14 @@ const AddProduct = () => {
         onConfirm={deleteProductAlert}
         showCancelButton={true}
         onCancel={closeDeletrAlert}
+      />
+      <SweetAlert
+        show={showFeatureProductAlert}
+        title="Add Feature Product Successfully"
+        text={"Feature Product"}
+        onConfirm={closeFeatureAlert}
+        // showCancelButton={}
+        // onCancel={}
       />
     </div>
   );

@@ -267,7 +267,7 @@ const TransactionList = () => {
 
   // get all Admin list funtion-------------
   const getAllAdminList = async () => {
-    // setLoading(true);
+    setLoading(true);
     const response = await GetALLTransactionListByAdmin();
     setTransactionList(response.response);
     setLoading(false);

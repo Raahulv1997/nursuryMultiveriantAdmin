@@ -42,6 +42,7 @@ const ManageAdmin = () => {
   const [AdminList, setAdminList] = useState([]);
   const [showmodel, setShowmodel] = useState(false);
   const [searchErr, setSearchErr] = useState(false);
+  const [SubmitEmailError, setSubmitEmailError] = useState(false);
 
   // search state data---------
   const [searchdata, setsearchData] = useState({
@@ -245,6 +246,10 @@ const ManageAdmin = () => {
     e.preventDefault();
     if (validate()) {
       const response = await addAdminFunction(state);
+      console.log("resss---" + JSON.stringify(response));
+      if (response.response === "email already exist") {
+        setSubmitEmailError("already");
+      }
       if (response.affectedRows === 1) {
         setAdminAlert(true);
       }
@@ -258,6 +263,7 @@ const ManageAdmin = () => {
   const handleShow = (e) => {
     if (e === "add") {
       setShowmodel(e);
+      setSubmitEmailError(false);
     }
   };
 
@@ -535,7 +541,10 @@ const ManageAdmin = () => {
                     disabled={showmodel === "add" ? false : true}
                     value={state.admin_email}
                     name="admin_email"
-                    onChange={onInputChange}
+                    onChange={(e) => {
+                      onInputChange(e);
+                      setSubmitEmailError(false);
+                    }}
                     id="admin_email"
                   />
                   {errors.admin_email
@@ -547,6 +556,9 @@ const ManageAdmin = () => {
                         );
                       })
                     : null}
+                  {SubmitEmailError === "already" ? (
+                    <small className="text-danger">Email already Exist</small>
+                  ) : null}
                 </Form.Group>
               </div>
 
