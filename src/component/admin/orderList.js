@@ -116,13 +116,13 @@ const OrderList = () => {
         <span
           className={
             row.status_order === "approved"
-              ? "badge bg-warning"
+              ? "badge bg-primary"
               : row.status_order === "pending"
               ? "badge bg-secondary"
               : row.status_order === "accepted_by_vendor"
               ? "badge bg-primary"
               : row.status_order === "Pickuped"
-              ? "badge bg-success"
+              ? "badge bg-warning"
               : row.status_order === "ready_to_pickup"
               ? "badge bg-primary"
               : row.status_order === "Delivered"
@@ -158,6 +158,8 @@ const OrderList = () => {
             ? "Rejected by customer"
             : row.status_order === "pending"
             ? "pending"
+            : row.status_order === "approved"
+            ? "Accepted by Admin"
             : "return"}
         </span>
       ),
@@ -184,7 +186,12 @@ const OrderList = () => {
                 <option value="rejected">Rejected </option>
               </Form.Select>
             );
-          } else if (row.status_order !== "Pickuped") {
+          } else if (
+            row.status_order === "approved" ||
+            row.status_order === "accepted_by_vendor" ||
+            row.status_order === "ready_to_pickup" ||
+            row.status_order === "ready_to_packing"
+          ) {
             return (
               <Form.Select
                 aria-label="Search by delivery"

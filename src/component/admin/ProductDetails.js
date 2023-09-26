@@ -238,7 +238,7 @@ alt={data.seo_tag + data.description}
                     </li>
                   </ul>
                 </div>
-                <div className="details-list-group">
+                {/* <div className="details-list-group">
                   <label className="details-list-title">Share:</label>
                   <ul className="details-share-list">
                     <li>
@@ -270,7 +270,7 @@ alt={data.seo_tag + data.description}
                       ></Link>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

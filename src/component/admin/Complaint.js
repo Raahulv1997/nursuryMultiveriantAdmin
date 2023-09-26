@@ -143,6 +143,30 @@ export default function Complaint() {
       center: true,
     },
     {
+      name: "Resolve Info",
+      selector: (row) => {
+        return (
+          <span>
+            <b>Resolve Date:</b>{" "}
+            {moment(row.resolve_date).format("DD-MM-YYYY") || (
+              <b>unavailable</b>
+            )}
+            <br />
+            <b>Resolve Des.:</b> {row.resolve_description || <b>unavailable</b>}
+          </span>
+        );
+      },
+      sortable: true,
+      width: "250px",
+      style: {
+        paddingLeft: "5px",
+        paddingTop: "15px",
+        paddingBottom: "15px",
+        paddingRight: "px",
+        marginRight: "0px",
+      },
+    },
+    {
       name: "Assign to vendor",
       width: "150px",
       selector: (row) => (

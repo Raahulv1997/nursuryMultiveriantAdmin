@@ -589,6 +589,9 @@
   color: #000;
   font-size: 15px;
 }
+.rdt_TableRow .cDBaVv {
+  justify-content: end;
+}
 @media (max-width: 767px) {
   .blog-slider .blog-card {
     margin: 0px 10px 25px;

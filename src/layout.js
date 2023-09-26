@@ -45,6 +45,7 @@ import TransactionList from "./component/admin/TransactionList";
 import Category from "./component/admin/Category";
 import Review from "./component/admin/Review";
 import Complaint from "./component/admin/Complaint";
+import VendorWorkingArea from "./component/admin/VendorWorkingArea";
 
 function Layout() {
   const adminLogged = localStorage.getItem("admin_token");
@@ -106,6 +107,7 @@ function Layout() {
             <Route path="/userList" element={<UserAdd />} />
             <Route path="/reviews" element={<Review />} />
             <Route path="/complain" element={<Complaint />} />
+            <Route path="/workingarea" element={<VendorWorkingArea />} />
             <Route path="/productDetails" element={<ProductDetails />} />
             <Route path="/transactionList" element={<TransactionList />} />
             <Route path="/manageAdmin" element={<ManageAdmin />} />

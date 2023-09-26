@@ -329,6 +329,79 @@ const Sidebar = (props) => {
               </li>
             </>
           ) : null}
+
+          {UserType === "vendor" ? (
+            <>
+              <li
+                className={
+                  props.style.message === "workingArea"
+                    ? "banner-category-item active"
+                    : "banner-category-item "
+                }
+              >
+                <Link to="/workingarea">
+                  <BsShop />
+                  <span>Manage Working Area</span>
+                </Link>
+                {/* <div className="banner-category-dropdown">
+              <h5>dairy items</h5>
+              <div className="banner-sub-category">
+                <ul>
+                  <li>
+                    <Link to="#">Eggs</Link>
+                  </li>
+                  <li>
+                    <Link to="#">milk</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Cheese</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Butter</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Shore</Link>
+                  </li>
+                </ul>
+              </div>
+            </div> */}
+              </li>
+              <li
+                className={
+                  props.style.message === "manageAdmin"
+                    ? "banner-category-item active"
+                    : "banner-category-item "
+                }
+              >
+                <Link to="/manageAdmin">
+                  <RiAdminLine />
+                  <span>ManageAdmin</span>
+                </Link>
+                {/* <div className="banner-category-dropdown">
+              <h5>dairy items</h5>
+              <div className="banner-sub-category">
+                <ul>
+                  <li>
+                    <Link to="#">Eggs</Link>
+                  </li>
+                  <li>
+                    <Link to="#">milk</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Cheese</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Butter</Link>
+                  </li>
+                  <li>
+                    <Link to="#">Shore</Link>
+                  </li>
+                </ul>
+              </div>
+            </div> */}
+              </li>
+            </>
+          ) : null}
           <li
             className={
               props.style.message === "category"

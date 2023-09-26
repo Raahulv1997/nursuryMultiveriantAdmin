@@ -3,13 +3,14 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import useValidation from "../../common/useValidation";
 import { Button } from "react-bootstrap";
-import { AddFeatureProductFuntion } from "../../api/api";
-export default function AddFeatureProductModel(props) {
+import { UpdateFeatureProductFuntion } from "../../api/api";
+export default function UpdateFeatureProductModel(props) {
+  console.log(props.updateFeatureJSON);
   const initialFormState = {
-    product_id: props.id,
-    fetured_type: "",
-    start_date: "",
-    end_date: "",
+    id: props.updateFeatureJSON.id,
+
+    start_date: props.updateFeatureJSON.start_date,
+    end_date: props.updateFeatureJSON.end_date,
   };
 
   /*Close function */
@@ -22,10 +23,6 @@ export default function AddFeatureProductModel(props) {
 
   /* Validation function */
   const validators = {
-    fetured_type: [
-      (value) =>
-        value === null || value === "" ? "fetured type is required" : null,
-    ],
     start_date: [
       (value) =>
         value === null || value === "" ? "Start Date  is required" : null,
@@ -41,17 +38,16 @@ export default function AddFeatureProductModel(props) {
     useValidation(initialFormState, validators);
 
   /* Function to Add category */
-  const onAddFeatureSubmit = async () => {
+  const onUpdateFeatureSubmit = async () => {
     if (validate()) {
       console.log("state---" + JSON.stringify(state));
 
-      let response = await AddFeatureProductFuntion(state);
+      let response = await UpdateFeatureProductFuntion(state);
       console.log("sss-" + JSON.stringify(response));
-      if (response.results.affectedRows === 1) {
+      if (response.message === "successfully updated") {
         props.close();
         // props.setApiCall(true);
-        props.setShowFeatureProductAlert(true);
-        setState(initialFormState);
+        props.setShowUpdateFeatureProductAlert(true);
       }
     }
   };
@@ -67,41 +63,10 @@ export default function AddFeatureProductModel(props) {
         <Form className="p-2 addproduct_form">
           <Modal.Header closeButton>
             <Modal.Title id="example-modal-sizes-title-lg">
-              Add Feature product
+              Update Feature product
             </Modal.Title>
           </Modal.Header>
           <div className="row">
-            <div className="col-12">
-              <Form.Group className="mb-3">
-                <Form.Label className="" column sm="12">
-                  Feature Type<small className="text-danger">*</small>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Complaint"
-                  size="sm"
-                  className="w-100"
-                  onChange={onInputChange}
-                  name="fetured_type"
-                  value={state.fetured_type}
-                >
-                  <option>Select type</option>
-
-                  <option value="featured_offer"> Featured Offer</option>
-
-                  <option value="special_offer">Special Offer </option>
-                </Form.Select>
-
-                {errors.fetured_type
-                  ? (errors.fetured_type || []).map((error, i) => {
-                      return (
-                        <small className="text-danger" key={i}>
-                          {error}
-                        </small>
-                      );
-                    })
-                  : null}
-              </Form.Group>
-            </div>
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="" column sm="12">
@@ -165,9 +130,9 @@ export default function AddFeatureProductModel(props) {
                     variant="outline-success"
                     className="addcategoryicon w-100"
                     type={"button"}
-                    onClick={onAddFeatureSubmit}
+                    onClick={onUpdateFeatureSubmit}
                   >
-                    Add Feature
+                    Update Feature
                   </Button>
                 </div>
               </div>

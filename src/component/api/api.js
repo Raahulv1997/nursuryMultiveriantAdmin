@@ -10,7 +10,7 @@ let API_CALL = "http://indiakinursery.com:9999";
 // let API_CALL = "http://192.168.29.108:9999";
 
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
-let transactionUrl = "http://indiakinursery.com:9999";
+
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 // let ApnaOrganicAdminToken =
 // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MjYyNTIwfQ.9V53dJT7qqOHESsf4dr5vUoYUl_gh9VnQALf9dMpWmA";
@@ -391,7 +391,7 @@ export const allOrder = async (searchdata) => {
     URL,
     {
       search: "",
-      order_id: searchdata,
+      order_id: [searchdata],
       vendor_id: "",
       category: "",
       brand: "",
@@ -428,13 +428,13 @@ export const OrderVendorChange = async (stautsValue, orderID) => {
       `${API_CALL}/order_status_update`,
       {
         order_id: orderID,
-        status_order: stautsValue,
+        status_order: stautsValue === "accepted" ? "approved" : stautsValue,
       },
 
       head
     );
     return response.data;
-  } else {
+  } else if (UserType === "vendor") {
     const response = await axios.put(
       `${API_CALL}/order_verify_by_vendor`,
       {
@@ -445,6 +445,7 @@ export const OrderVendorChange = async (stautsValue, orderID) => {
       head
     );
     return response.data;
+  } else {
   }
 };
 
@@ -695,6 +696,11 @@ export const ProductCoverImageChange = async (id, product_img_id) => {
 
 export const AddFeatureProductFuntion = async (state) => {
   let response = await axios.post(`${API_CALL}/add_fetured_product`, state);
+  return response.data;
+};
+
+export const UpdateFeatureProductFuntion = async (state) => {
+  let response = await axios.put(`${API_CALL}/update_fetured_product`, state);
   return response.data;
 };
 
@@ -1030,7 +1036,95 @@ export const UpdateVendorfunction = async (props, file, filename, id) => {
   );
   return response.data;
 };
+export const AddWorkingArea = async (pincode, areaname) => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
 
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+
+  const response = await axios.post(
+    `${API_CALL}/vendor_service_area_list`,
+    {
+      pin: pincode,
+      area_name: areaname,
+    },
+    head
+  );
+  return response.data;
+};
+
+export const AddpicodeVendor = async (state) => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+
+  const response = await axios.post(
+    `${API_CALL}/vendor_select_area`,
+    state,
+    head
+  );
+  return response.data;
+};
+
+export const VendorDetailsFuntion = async () => {
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+
+  const response = await axios.get(
+    `${API_CALL}/vendor_details`,
+
+    head
+  );
+  return response.data;
+};
 export const AdminVendorDelete = async (id) => {
   const response = await axios.post(`${API_CALL}/admin_change_vendor_status`, {
     vendor_id: id,
@@ -1297,7 +1391,7 @@ export const orderAssignByAdmin = async (
 };
 
 export const GetALLTransactionListByAdmin = async () => {
-  const response = await axios.get(`${transactionUrl}/transaction_list`);
+  const response = await axios.get(`${API_CALL}/transaction_list`);
   return response.data;
 };
 
@@ -1307,7 +1401,7 @@ export const CreateTransaction = async (
   Grand_Total,
   paymentMetod
 ) => {
-  const response = await axios.post(`${transactionUrl}/payment`, {
+  const response = await axios.post(`${API_CALL}/payment`, {
     user_id: user_id,
     order_id: order_id,
     amount: Grand_Total,

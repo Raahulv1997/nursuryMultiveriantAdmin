@@ -27,6 +27,7 @@ import AddIVarientImage from "./Modal/AddIVarientImage";
 import ProductImage from "../../image/product_demo.png";
 import Select from "react-select";
 import AddFeatureProductModel from "./Modal/AddFeatureProductModel";
+import UpdateFeatureProductModel from "./Modal/UpdateFeatureProductModel";
 const AddProduct = () => {
   const navigate = useNavigate();
   const [expandedRows, setExpandedRows] = useState([]);
@@ -54,8 +55,14 @@ const AddProduct = () => {
   const [submitError, setSubmitError] = useState(false);
   const [priceError, setpriceError] = useState(false);
   const [showFeatureProductModel, setShowFeatureProductModel] = useState(false);
+  const [showUpdateFeatureProductModel, setShowUpdateFeatureProductModel] =
+    useState(false);
+  const [updateFeatureJSON, setupdateFeatureJSON] = useState();
   const [FeatureProductId, setFeatureProductID] = useState("");
   const [showFeatureProductAlert, setShowFeatureProductAlert] = useState(false);
+  const [showUpdateFeatureProductAlert, setShowUpdateFeatureProductAlert] =
+    useState(false);
+
   let userType = localStorage.getItem("user_type");
   //intial search state data---------
   const [searchdata, setsearchData] = useState({
@@ -410,7 +417,7 @@ const AddProduct = () => {
             <Button
               size="sm"
               className="btn-warning mx-2"
-              onClick={AddProductFeature.bind(this, row.id)}
+              onClick={UpdateProductFeature.bind(this, row.id, row.is_fetured)}
             >
               Update in Feature
             </Button>
@@ -453,6 +460,30 @@ const AddProduct = () => {
   const AddProductFeature = (id) => {
     setFeatureProductID(id);
     setShowFeatureProductModel(true);
+  };
+
+  const UpdateProductFeature = (id, data) => {
+    // Define a function to reformat date strings
+    function reformatDates(jsonString) {
+      // Match and reformat date strings
+      return jsonString
+        .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ')
+        .replace(/("start_date":\s*)(\d{4}-\d{2}-\d{2})/g, '"start_date": "$2"')
+        .replace(/("end_date":\s*)(\d{4}-\d{2}-\d{2})/g, '"end_date": "$2"');
+    }
+
+    // Apply the date reformatting function
+    const correctedJsonString = reformatDates(data);
+
+    // Parse the corrected JSON string into an object
+    const objlll = JSON.parse(correctedJsonString);
+
+    // const obj = JSON.parse(data);
+
+    // console.log(obj);
+    setupdateFeatureJSON(objlll);
+
+    setShowUpdateFeatureProductModel(true);
   };
 
   const onProductClick = (id) => {
@@ -708,6 +739,7 @@ const AddProduct = () => {
   };
 
   const closeFeatureAlert = () => {
+    setShowUpdateFeatureProductAlert(false);
     setShowFeatureProductAlert(false);
     setApicall(true);
   };
@@ -1160,6 +1192,16 @@ const AddProduct = () => {
         />
       ) : null}
 
+      {showUpdateFeatureProductModel ? (
+        <UpdateFeatureProductModel
+          show={showUpdateFeatureProductModel}
+          close={() => setShowUpdateFeatureProductModel(false)}
+          setApiCall={setApicall}
+          updateFeatureJSON={updateFeatureJSON}
+          setShowUpdateFeatureProductAlert={setShowUpdateFeatureProductAlert}
+        />
+      ) : null}
+
       <SweetAlert
         show={ProductAlert}
         title="Added Successfully"
@@ -1211,6 +1253,15 @@ const AddProduct = () => {
       <SweetAlert
         show={showFeatureProductAlert}
         title="Add Feature Product Successfully"
+        text={"Feature Product"}
+        onConfirm={closeFeatureAlert}
+        // showCancelButton={}
+        // onCancel={}
+      />
+
+      <SweetAlert
+        show={showUpdateFeatureProductAlert}
+        title="Update Feature Product Successfully"
         text={"Feature Product"}
         onConfirm={closeFeatureAlert}
         // showCancelButton={}
