@@ -145,12 +145,7 @@ const SellerSignUp = () => {
               <div className="user-form-remind">
                 <p>
                   Already Have An Account?
-                  <Link to={"/sellerlogin"}>login here</Link>
-                </p>
-              </div>
-              <div className="user-form-footer">
-                <p>
-                  Greeny | &COPY; Copyright by <Link to="#">Mironcoder</Link>
+                  <Link to={"/"}>login here</Link>
                 </p>
               </div>
             </div>

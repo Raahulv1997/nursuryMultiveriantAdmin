@@ -46,27 +46,41 @@ export default function AddProductModal(props) {
           ? "Cannot use special character "
           : null,
     ],
-    // category: [
-    //   (value) =>
-    //     value === null ||
-    //     value === "" ||
-    //     value === undefined ||
-    //     value === "undefined"
-    //       ? "Category is required"
-    //       : /[^A-Za-z 0-9]/g.test(value)
-    //       ? "Cannot use special character "
-    //       : null,
-    // ],
-    vendor_id: [
-      (value) => (value === null || value === "" ? "Price is required" : null),
+    category: [
+      (value) =>
+        value === null ||
+        value === "" ||
+        value === undefined ||
+        value === "undefined"
+          ? "Category is required"
+          : // : /[^A-Za-z 0-9]/g.test(value)
+            // ? "Cannot use special character "
+            null,
     ],
+    care_and_Instructions: [
+      (value) =>
+        value === null || value === ""
+          ? "Care and Instructions is required"
+          : /[^A-Za-z 0-9]/g.test(value)
+          ? 'Cannot use special character like " , @, $, # '
+          : null,
+    ],
+    benefits: [
+      (value) =>
+        value === null || value === ""
+          ? "Benefits is required"
+          : /[^A-Za-z 0-9]/g.test(value)
+          ? 'Cannot use special character like  " , @, $, #'
+          : null,
+    ],
+
     description: [
       (value) =>
         value === null || value === ""
-          ? "product stock quantity is required"
-          : // : /[^A-Za-z 0-9]/g.test(value)
-            //     ? "Cannot use special character "
-            null,
+          ? "Product Description  is required"
+          : /[^A-Za-z 0-9]/g.test(value)
+          ? 'Cannot use special character like " , @, $, # '
+          : null,
     ],
   };
   /*Validation imported from the validation custom hook */
@@ -279,30 +293,57 @@ export default function AddProductModal(props) {
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="" column sm="12">
-                  Care and Instructions
+                  Care and Instructions<small className="text-danger">*</small>
                 </Form.Label>
                 <Form.Control
-                  className="form-control"
+                  className={
+                    errors.care_and_Instructions
+                      ? "form-control border border-danger"
+                      : "form-control"
+                  }
                   type="text"
                   value={state.care_and_Instructions}
                   name="care_and_Instructions"
                   onChange={onInputChange}
                   id="care_and_Instructions"
                 />
+                {errors.care_and_Instructions
+                  ? (errors.care_and_Instructions || []).map((error, i) => {
+                      return (
+                        <small className="text-danger" key={i}>
+                          {error}
+                        </small>
+                      );
+                    })
+                  : null}
               </Form.Group>
             </div>
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="" column sm="12">
-                  Benefits
+                  Benefits<small className="text-danger">*</small>
                 </Form.Label>
                 <Form.Control
+                  className={
+                    errors.benefits
+                      ? "form-control border border-danger"
+                      : "form-control"
+                  }
                   type="text"
                   name={"benefits"}
                   onChange={onInputChange}
                   value={state.benefits}
                   id="benefits"
                 />
+                {errors.benefits
+                  ? (errors.benefits || []).map((error, i) => {
+                      return (
+                        <small className="text-danger" key={i}>
+                          {error}
+                        </small>
+                      );
+                    })
+                  : null}
               </Form.Group>
             </div>
 
@@ -342,19 +383,18 @@ export default function AddProductModal(props) {
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="" column sm="12">
-                  Category
+                  Category<small className="text-danger">*</small>
                 </Form.Label>
                 <Col sm="12">
                   <InputGroup className="">
                     <Form.Select
                       aria-label="Default select example"
                       sm="9"
-                      // className={
-                      //   cateErr
-                      //     ? "form-control border border-danger nice-select w-100"
-                      //     : "form-control"
-                      // }
-                      className="form-control"
+                      className={
+                        errors.category
+                          ? "form-control border border-danger"
+                          : "form-control"
+                      }
                       name="category"
                       onChange={(e) => {
                         setCategory({
@@ -377,13 +417,17 @@ export default function AddProductModal(props) {
                         );
                       })}
                     </Form.Select>
-                    {/* {cateErr === "" ? (
-                      <small className="text-danger">
-                        Category is required
-                      </small>
-                    ) : null} */}
                   </InputGroup>
                 </Col>
+                {errors.category
+                  ? (errors.category || []).map((error, i) => {
+                      return (
+                        <small className="text-danger" key={i}>
+                          {error}
+                        </small>
+                      );
+                    })
+                  : null}
               </Form.Group>
             </div>
             <div className="col-md-6">

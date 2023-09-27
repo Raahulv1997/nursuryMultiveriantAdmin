@@ -592,6 +592,11 @@
 .rdt_TableRow .cDBaVv {
   justify-content: end;
 }
+.modal-content .loader_page {
+  position: absolute;
+  height: 100%;
+}
+
 @media (max-width: 767px) {
   .blog-slider .blog-card {
     margin: 0px 10px 25px;

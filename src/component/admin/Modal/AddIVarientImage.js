@@ -12,6 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import useValidation from "../../common/useValidation";
 import SweetAlert from "sweetalert-react";
 import "sweetalert/dist/sweetalert.css";
+import Loader from "../../common/loader";
 
 export default function AddIVarientImage(props) {
   const [newImageUrls, setnewImageUrls] = useState([]);
@@ -21,6 +22,7 @@ export default function AddIVarientImage(props) {
   const [imageId, setImageId] = useState(false);
   const [imagename, setImagename] = useState("");
   const [apicall, setApiCall] = useState(false);
+  const [loading, setLoading] = useState(false);
   let encoded;
 
   const initialFormState = {
@@ -74,7 +76,9 @@ export default function AddIVarientImage(props) {
     console.log("props.varId-" + props.varIdn);
 
     if (props.id !== "" && props.varIdn !== false) {
+      setLoading(true);
       const response = await GetProductImages(props.id, props.varId);
+      setLoading(false);
       if (response.error === "please fill all inputs") {
         setnewImageUrls([]);
       } else {
@@ -149,7 +153,9 @@ export default function AddIVarientImage(props) {
   const OnSetVarientImageClick = async (e) => {
     // e.preventDefault();
     if (validate()) {
+      setLoading(true);
       let response = await AddProductImage(state);
+      setLoading(false);
       if (response.response === "successfully add images") {
         setApiCall(true);
         setState(initialFormState);
@@ -182,6 +188,7 @@ export default function AddIVarientImage(props) {
         onHide={props.close}
         aria-labelledby="example-modal-sizes-title-lg"
       >
+        {loading ? <Loader /> : null}
         <Form>
           <Modal.Header>
             <Modal.Title>Add Images</Modal.Title>

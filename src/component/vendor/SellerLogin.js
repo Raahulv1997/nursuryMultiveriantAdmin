@@ -70,8 +70,8 @@ const SellerLogin = () => {
 
   const handleClose = () => {
     setShowmodel(false);
-    navigate("/sellerRegister");
-    window.location.reload()
+    navigate("/");
+    window.location.reload();
   };
   return (
     <div>
@@ -79,7 +79,7 @@ const SellerLogin = () => {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
-            <div className="user-form-logo">
+              <div className="user-form-logo">
                 <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
@@ -190,7 +190,7 @@ const SellerLogin = () => {
                   <Link to={"/sellerSignup"}>register here</Link>
                 </p>
                 <p>
-                 Admin login
+                  Admin login
                   <Link to={"/admin"}>Admin</Link>
                 </p>
               </div>

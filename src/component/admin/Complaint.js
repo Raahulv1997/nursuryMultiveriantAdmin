@@ -30,6 +30,14 @@ export default function Complaint() {
   const [statusAlert, setStatusAlert] = useState(false);
   const [updateAlertMessage, setupdateAlertMessage] = useState(false);
   const [CompData, setCompData] = useState([]);
+  let UserType = localStorage.getItem("user_type");
+
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+  let head =
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } };
   /*Initial state and validation to search Complaint by product and status */
   const initialFormState = {
     status: "",
@@ -57,7 +65,7 @@ export default function Complaint() {
   /*Function to get the Complaint list */
   const GetComplaintData = async (name, status) => {
     setLoading(true);
-    let response = await GetComplaintList(name, status);
+    let response = await GetComplaintList(name, status, head);
 
     setCompData(response.result);
     setLoading(false);

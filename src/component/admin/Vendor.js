@@ -615,7 +615,11 @@ const Vendor = () => {
                                   type="number"
                                   value={state.mobile}
                                   name="mobile"
-                                  onChange={onInputChange}
+                                  onChange={(v) => {
+                                    if (v.target.value.length <= 10) {
+                                      onInputChange(v);
+                                    }
+                                  }}
                                   id="mobile"
                                 />
                                 {errors.mobile

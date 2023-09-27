@@ -1536,16 +1536,14 @@ export const UpdateReviewStatus = async (status, id) => {
 };
 
 /*Api to get the Complaint list  */
-export const GetComplaintList = async (name, status) => {
+export const GetComplaintList = async (name, status, head) => {
   console.log(name, status);
   const response = await axios.post(
     `${API_CALL}/complain_search`,
     {
       status_: status,
     },
-    UserType === "admin"
-      ? { headers: { admin_token: `${admin_token}` } }
-      : { headers: { vendor_token: `${vendor_token}` } }
+    head
   );
   return response.data;
 };
