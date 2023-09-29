@@ -17,6 +17,7 @@ import Sidebar from "../common/sidebar";
 import {
   AddpicodeVendor,
   AddWorkingArea,
+  ALLWorkingArea,
   VendorDetailsFuntion,
 } from "../api/api";
 
@@ -34,7 +35,7 @@ const VendorWorkingArea = () => {
   const [VendorDetails, setVendorDetails] = useState([]);
   const [showmodel, setShowmodel] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [viewALLPicode, setViewAllPincode] = useState(false);
   const [pinError, setPinError] = useState(false);
   const [areaNameError, setAreaNameError] = useState(false);
 
@@ -136,14 +137,26 @@ const VendorWorkingArea = () => {
       setPinError("pinEmpty");
       setAreaNameError("areaEmpty");
     } else {
-      setLoading(true);
-      const response = await AddWorkingArea(
-        searchdata.pin,
-        searchdata.area_name
-      );
-      setLoading(false);
-      setapicall(false);
-      setAreaList(response.response);
+      if (viewALLPicode === true) {
+        setLoading(true);
+        const response = await ALLWorkingArea(
+          searchdata.pin,
+          searchdata.area_name
+        );
+
+        setLoading(false);
+        setapicall(false);
+        setAreaList(response.response);
+      } else {
+        setLoading(true);
+        const response = await AddWorkingArea(
+          searchdata.pin,
+          searchdata.area_name
+        );
+        setLoading(false);
+        setapicall(false);
+        setAreaList(response.response);
+      }
     }
   };
 
@@ -154,6 +167,7 @@ const VendorWorkingArea = () => {
       area_name: "",
     });
     // getAllAreaList();
+    setViewAllPincode(false);
     setapicall(true);
     setPinError(false);
     setAreaNameError(false);
@@ -175,6 +189,15 @@ const VendorWorkingArea = () => {
     setAreaList(response.response);
   };
 
+  const ViewAllAreaList = async () => {
+    setViewAllPincode(true);
+    setLoading(true);
+    const response = await ALLWorkingArea();
+
+    setLoading(false);
+    setapicall(false);
+    setAreaList(response.response);
+  };
   const getVendorDetails = async () => {
     setLoading(true);
     const response = await VendorDetailsFuntion();
@@ -263,7 +286,6 @@ const VendorWorkingArea = () => {
                           </span>
                         ) : null}
                       </div>
-
                       <div className="col-md-3 col-sm-6 aos_input mb-2">
                         <Form.Group className="mb-3">
                           <Form.Control
@@ -281,7 +303,6 @@ const VendorWorkingArea = () => {
                           </span>
                         ) : null}
                       </div>
-
                       <div className="col-md-2 col-sm-6 aos_input mb-2">
                         <div>
                           <Button
@@ -305,6 +326,19 @@ const VendorWorkingArea = () => {
                             onClick={OnReset}
                           >
                             Reset
+                          </Button>
+                        </div>
+                      </div>{" "}
+                      <div className="col-md-2 col-sm-6 aos_input mb-2">
+                        <div>
+                          <Button
+                            type=""
+                            name=""
+                            value=""
+                            className="button  btn-success main_button w-100"
+                            onClick={ViewAllAreaList}
+                          >
+                            View all pincode
                           </Button>
                         </div>
                       </div>

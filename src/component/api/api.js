@@ -1067,6 +1067,13 @@ export const AddWorkingArea = async (pincode, areaname) => {
   );
   return response.data;
 };
+export const ALLWorkingArea = async (pincode, areaname) => {
+  const response = await axios.post(`${API_CALL}/vendor_service_area_list`, {
+    pin: pincode,
+    area_name: areaname,
+  });
+  return response.data;
+};
 
 export const AddpicodeVendor = async (state) => {
   let head;

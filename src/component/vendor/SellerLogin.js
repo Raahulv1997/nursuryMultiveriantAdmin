@@ -34,6 +34,10 @@ const SellerLogin = () => {
 
       localStorage.setItem("vendor_token", response.token);
     }
+    if (response.response === "email formate no match") {
+      setSpinner(false);
+      setemailerror("formate Not Match");
+    }
     if (response.response === "please fill all inputs") {
       setSpinner(false);
       setemailerror("fillinput");
@@ -135,6 +139,12 @@ const SellerLogin = () => {
                         // value={sign_up_password}
                         onChange={(e) => onPasswordChange(e)}
                       />
+
+                      {emailerror === "formate Not Match" ? (
+                        <smail className="mt-1 ms-2 text-danger" type="invalid">
+                          Email Formate not Match
+                        </smail>
+                      ) : null}
                       {emailerror === "credetialnotmatch" ? (
                         <smail className="mt-1 ms-2 text-danger" type="invalid">
                           Credentials Not Match
