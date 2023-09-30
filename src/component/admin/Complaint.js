@@ -123,20 +123,22 @@ export default function Complaint() {
 
     {
       name: "Complain",
-      selector: (row) => {
-        return (
-          <span>
-            <b>Order No:</b> {row.order_id || <b>unavailable</b>}
-            <br />
-            <b>Subject:</b> {row.subject || <b>unavailable</b>}
-            <br />
-            <b>Description:</b> {row.description || <b>unavailable</b>}
-            <br />
-            <b>Releted to:</b> {row.for_complain || <b>unavailable</b>}
-            <br />
-          </span>
-        );
-      },
+      selector: (row) => (
+        <span>
+          {row.order_id === "undefined" ? null : (
+            <>
+              <b>Order No:</b> {row.order_id || <b>unavailable</b>}
+              <br />
+            </>
+          )}
+          <b>Subject:</b> {row.subject || <b>unavailable</b>}
+          <br />
+          <b>Description:</b> {row.description || <b>unavailable</b>}
+          <br />
+          <b>Releted to:</b> {row.for_complain || <b>unavailable</b>}
+          <br />
+        </span>
+      ),
       sortable: true,
       width: "270px",
       center: true,
@@ -182,7 +184,7 @@ export default function Complaint() {
           aria-label="Complaint"
           size="sm"
           className="w-100"
-          disabled
+          disabled={row.assigned_to !== null ? true : false}
           onChange={(e) => onVendorChange(e, row.id)}
           name="status_order"
           value={row.assigned_to}

@@ -136,10 +136,10 @@ const AdminLogin = () => {
                     <div className="form-button">
                       <button type="submit">login</button>
 
-                      <p>
+                      {/* <p>
                         Forgot your password?
                         <Link to={""}>reset here</Link>
-                      </p>
+                      </p> */}
                     </div>
                   </form>
                 </div>
