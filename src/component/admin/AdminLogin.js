@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { AdminLoginData } from "../api/api";
 import Logo from "../../logo192.png";
 import Loader from "../common/loader";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 const AdminLogin = () => {
   const navigate = useNavigate();
 
@@ -10,7 +13,7 @@ const AdminLogin = () => {
   const [passval, setpassval] = useState("");
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-
+  let [facebook, setFacebook] = useState(false);
   const onEmailChange = (e) => {
     setemailVal(e.target.value);
     setErrMsg(false);
@@ -45,6 +48,55 @@ const AdminLogin = () => {
     }
   };
 
+  const responseFacebook = async (response) => {
+    setFacebook(false);
+    // if(response.graphDomain === "facebook"){
+    //   let data = await SocialLogin(response.userID,response.email,response.name,response.picture.data.url,"Facebook");
+    //     localStorage.setItem("token", data.token);
+    //     localStorage.setItem("userType", "user");
+    //     localStorage.setItem("employee_id", data.employee_id);
+    //     localStorage.setItem("profile_photo", data.profile_photo);
+    //     toast.success("Logged In Successfully", {
+    //       position: toast.POSITION.TOP_RIGHT,
+    //       autoClose: 1000,
+    //     });
+    //     props.close();
+    //     navigate("/");
+    //     window.location.reload();
+    //   }
+  };
+  const GoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        let data = await axios(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
+        //  if(data.data.email_verified === true){
+        //   let res = await SocialLogin(data.data.sub,data.data.email,data.data.name,data.data.picture,"Google");
+        //   console.log(res,);
+        //   localStorage.setItem("token", res.token);
+        //   localStorage.setItem("userType", "user");
+        //   localStorage.setItem("employee_id", res.employee_id);
+        //   localStorage.setItem("profile_photo", res.profile_photo);
+        //   toast.success("Logged In Successfully", {
+        //     position: toast.POSITION.TOP_RIGHT,
+        //     autoClose: 1000,
+        //   });
+        //   props.close();
+        //   navigate("/");
+        //   window.location.reload();
+        // }
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
   return (
     <div>
       {loading === true ? <Loader /> : null}
@@ -66,9 +118,28 @@ const AdminLogin = () => {
                 <div className="user-form-group">
                   <ul className="user-form-social">
                     <li>
-                      <Link to="#" className="facebook">
-                        <i className="fab fa-facebook-f"></i>login with facebook
+                      <Link
+                        className="facebook"
+                        onClick={() => setFacebook(true)}
+                      >
+                        <i className="fab fa-facebook-f"></i>login with Facebook
                       </Link>
+                      {facebook ? (
+                        <FacebookLogin
+                          appId="276709614913655"
+                          autoLoad
+                          callback={responseFacebook}
+                          fields="name,email,picture"
+                          scope="public_profile,user_friends,email,user_actions.books"
+                          className="font-size-4 font-weight-semibold position-relative text-white bg-marino h-px-48 flex-all-center w-100 px-6 rounded-5 mb-4"
+                          render={(renderProps) => (
+                            <button
+                              onClick={renderProps.onClick}
+                              className="d-none"
+                            ></button>
+                          )}
+                        />
+                      ) : null}
                     </li>
                     <li>
                       <Link to="#" className="twitter">
@@ -76,7 +147,7 @@ const AdminLogin = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="google">
+                      <Link to="#" className="google" onClick={GoogleLogin}>
                         <i className="fab fa-google"></i>login with google
                       </Link>
                     </li>

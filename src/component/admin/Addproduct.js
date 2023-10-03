@@ -186,21 +186,29 @@ const AddProduct = () => {
       name: "Product Name",
       selector: "name",
       sortable: true,
-      width: "120px",
+      width: "200px",
       center: true,
       cell: (row) => {
         return (
           <span>
-            <b>Name:</b>{" "}
-            {row.name
-              ? row.name.charAt(0).toUpperCase() + row.name.slice(1)
-              : ""}
+            <span>
+              <b>Name:</b>{" "}
+              {row.name
+                ? row.name.charAt(0).toUpperCase() + row.name.slice(1)
+                : ""}
+            </span>
             <br />
-            <b>Category:</b>{" "}
-            {row.category_name
-              ? row.category_name.charAt(0).toUpperCase() +
-                row.category_name.slice(1)
-              : ""}
+            <span>
+              <b>Category:</b>{" "}
+              {row.category_name
+                ? row.category_name.charAt(0).toUpperCase() +
+                  row.category_name.slice(1)
+                : ""}
+            </span>
+            <br />
+            <span>
+              <b>Vendor Name:</b> {row.vendor_name}
+            </span>
             <br />
           </span>
         );

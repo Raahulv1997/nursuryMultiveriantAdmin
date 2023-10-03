@@ -61,26 +61,26 @@ export default function AddProductModal(props) {
       (value) =>
         value === null || value === ""
           ? "Care and Instructions is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? 'Cannot use special character like " , @, $, # '
-          : null,
+          : // : /[^A-Za-z 0-9]/g.test(value)
+            // ? 'Cannot use special character like " , @, $, # '
+            null,
     ],
     benefits: [
       (value) =>
         value === null || value === ""
           ? "Benefits is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? 'Cannot use special character like  " , @, $, #'
-          : null,
+          : // : /[^A-Za-z 0-9]/g.test(value)
+            // ? 'Cannot use special character like  " , @, $, #'
+            null,
     ],
 
     description: [
       (value) =>
         value === null || value === ""
           ? "Product Description  is required"
-          : /[^A-Za-z 0-9]/g.test(value)
-          ? 'Cannot use special character like " , @, $, # '
-          : null,
+          : // : /[^A-Za-z 0-9]/g.test(value)
+            // ? 'Cannot use special character like " , @, $, # '
+            null,
     ],
   };
   /*Validation imported from the validation custom hook */
