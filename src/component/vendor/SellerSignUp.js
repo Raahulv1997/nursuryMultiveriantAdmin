@@ -123,7 +123,7 @@ const SellerSignUp = () => {
                         value=""
                         id="check"
                       />
-                      <label className="form-check-label" for="check">
+                      <label className="form-check-label" htmlFor="check">
                         Accept all the <Link to="#">Terms & Conditions</Link>
                       </label>
                     </div>

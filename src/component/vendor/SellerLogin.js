@@ -168,7 +168,7 @@ const SellerLogin = () => {
                         value=""
                         id="check"
                       />
-                      <label className="form-check-label" for="check">
+                      <label className="form-check-label" htmlFor="check">
                         Remember Me
                       </label>
                     </div>
