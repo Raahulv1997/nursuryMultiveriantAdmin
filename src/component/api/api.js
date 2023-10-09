@@ -8,6 +8,7 @@ let admin_id = localStorage.getItem("admin_id");
 let UserType = localStorage.getItem("user_type");
 let API_CALL = "http://indiakinursery.com:9999";
 // let API_CALL = "http://192.168.29.108:9999";
+// console.log("lll")
 
 // let ApnaOrganiceURl = "http://192.168.29.109:8000";
 
