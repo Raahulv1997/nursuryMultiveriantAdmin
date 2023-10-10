@@ -284,51 +284,51 @@ export const filterProductData = async (
 };
 
 /*Api to add Product */
-export const AddProductData = async (props) => {
-  let head;
-  // let user_token = localStorage.getItem("user_token");
-  let admin_token = localStorage.getItem("admin_token");
-  let vendor_token = localStorage.getItem("vendor_token");
+export const AddProductData = async (props, head) => {
+  // let head;
+  // // let user_token = localStorage.getItem("user_token");
+  // let admin_token = localStorage.getItem("admin_token");
+  // let vendor_token = localStorage.getItem("vendor_token");
 
-  if (
-    vendor_token !== null &&
-    vendor_token !== undefined &&
-    vendor_token !== ""
-  ) {
-    head = { headers: { vendor_token: `${vendor_token}` } };
-  } else if (
-    admin_token !== null &&
-    admin_token !== undefined &&
-    admin_token !== ""
-  ) {
-    head = { headers: { admin_token: `${admin_token}` } };
-  } else {
-  }
+  // if (
+  //   vendor_token !== null &&
+  //   vendor_token !== undefined &&
+  //   vendor_token !== ""
+  // ) {
+  //   head = { headers: { vendor_token: `${vendor_token}` } };
+  // } else if (
+  //   admin_token !== null &&
+  //   admin_token !== undefined &&
+  //   admin_token !== ""
+  // ) {
+  //   head = { headers: { admin_token: `${admin_token}` } };
+  // } else {
+  // }
 
   const response = await axios.post(`${API_CALL}/addproduct`, props, head);
   return response.data;
 };
 
-export const UpdateProductData = async (props) => {
-  let head;
-  // let user_token = localStorage.getItem("user_token");
-  let admin_token = localStorage.getItem("admin_token");
-  let vendor_token = localStorage.getItem("vendor_token");
+export const UpdateProductData = async (props, head) => {
+  // let head;
+  // // let user_token = localStorage.getItem("user_token");
+  // let admin_token = localStorage.getItem("admin_token");
+  // let vendor_token = localStorage.getItem("vendor_token");
 
-  if (
-    vendor_token !== null &&
-    vendor_token !== undefined &&
-    vendor_token !== ""
-  ) {
-    head = { headers: { vendor_token: `${vendor_token}` } };
-  } else if (
-    admin_token !== null &&
-    admin_token !== undefined &&
-    admin_token !== ""
-  ) {
-    head = { headers: { admin_token: `${admin_token}` } };
-  } else {
-  }
+  // if (
+  //   vendor_token !== null &&
+  //   vendor_token !== undefined &&
+  //   vendor_token !== ""
+  // ) {
+  //   head = { headers: { vendor_token: `${vendor_token}` } };
+  // } else if (
+  //   admin_token !== null &&
+  //   admin_token !== undefined &&
+  //   admin_token !== ""
+  // ) {
+  //   head = { headers: { admin_token: `${admin_token}` } };
+  // } else {
+  // }
 
   const response = await axios.put(
     `${API_CALL}/update_product`,
@@ -1421,19 +1421,17 @@ export const CreateTransaction = async (
 };
 
 /*Api to add product varient  */
-export const AddProductVerient = async (props) => {
+export const AddProductVerient = async (props, head) => {
   const response = await axios.post(
     `${API_CALL}/add_product_verient`,
     props,
-    UserType === "admin"
-      ? { headers: { admin_token: `${admin_token}` } }
-      : { headers: { vendor_token: `${vendor_token}` } }
+    head
   );
   return response.data;
 };
 
 /*Api to Update product varient  */
-export const UpdateProductVerient = async (props) => {
+export const UpdateProductVerient = async (props, head) => {
   let data = props;
   delete data["care_and_Instructions"];
   delete data["benefits"];
@@ -1446,24 +1444,20 @@ export const UpdateProductVerient = async (props) => {
   const response = await axios.put(
     `${API_CALL}/update_Product_verient`,
     data,
-    UserType === "admin"
-      ? { headers: { admin_token: `${admin_token}` } }
-      : { headers: { vendor_token: `${vendor_token}` } }
+    head
   );
   return response.data;
 };
 
 /*Api to delete the product Varient */
-export const DeletProductVarient = async (del, id) => {
+export const DeletProductVarient = async (del, id, head) => {
   const response = await axios.put(
     `${API_CALL}/delete_restore_product_verient`,
     {
       is_deleted: del,
       product_verient_id: id,
     },
-    UserType === "admin"
-      ? { headers: { admin_token: `${admin_token}` } }
-      : { headers: { vendor_token: `${vendor_token}` } }
+    head
   );
   return response.data;
 };
@@ -1578,7 +1572,7 @@ export const AssginToVendor = async (vendor_id, id) => {
   return response.data;
 };
 
-export const UpdateComplaintFromVendor = async (props) => {
+export const UpdateComplaintFromVendor = async (props, head) => {
   const response = await axios.put(
     `${API_CALL}/complain_update`,
     {
@@ -1586,9 +1580,7 @@ export const UpdateComplaintFromVendor = async (props) => {
       status: props.status,
       resolve_description: props.resolve_description,
     },
-    UserType === "admin"
-      ? { headers: { admin_token: `${admin_token}` } }
-      : { headers: { vendor_token: `${vendor_token}` } }
+    head
   );
   return response.data;
 };

@@ -10,7 +10,14 @@ export default function UpdateComplaintModel(props) {
     status: props.status,
     resolve_description: props.ResolveDescription,
   };
+
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
   let UserType = localStorage.getItem("user_type");
+  let head =
+    UserType === "admin"
+      ? { headers: { admin_token: `${admin_token}` } }
+      : { headers: { vendor_token: `${vendor_token}` } };
   /*Close function */
   function Close() {
     setState(initialFormState);
@@ -41,7 +48,7 @@ export default function UpdateComplaintModel(props) {
   /* Function to Add category */
   const OnUpdateComplaintClick = async () => {
     if (UserType === "admin") {
-      let response = await UpdateComplaintFromVendor(state);
+      let response = await UpdateComplaintFromVendor(state, head);
       console.log("sss-" + JSON.stringify(response));
       if (response.response === "Succesfully Update Complaint") {
         props.close();
@@ -51,7 +58,7 @@ export default function UpdateComplaintModel(props) {
       }
     } else {
       if (validate()) {
-        let response = await UpdateComplaintFromVendor(state);
+        let response = await UpdateComplaintFromVendor(state, head);
         console.log("sss-" + JSON.stringify(response));
         if (response.response === "Succesfully Update Complaint") {
           props.close();

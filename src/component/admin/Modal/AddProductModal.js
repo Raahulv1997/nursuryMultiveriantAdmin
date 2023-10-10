@@ -190,10 +190,29 @@ export default function AddProductModal(props) {
   }, [props]);
 
   /*Function to add Product */
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
   const handleAddProduct = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const response = await AddProductData(state);
+      const response = await AddProductData(state, head);
 
       if (response.message.affectedRows === 1) {
         props.setProductAlert(true);
@@ -217,7 +236,7 @@ export default function AddProductModal(props) {
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const response = await UpdateProductData(state);
+      const response = await UpdateProductData(state, head);
       // console.log("data---" + JSON.stringify(response.response.affectedRows));
       if (response.response.affectedRows === 1) {
         props.setupdateProductAlert(true);

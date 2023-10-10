@@ -16,6 +16,9 @@ export default function VarientListModal(props) {
   const [deleteAlert, setDeleteAlter] = useState(false);
   const [apicall, setApiCall] = useState(false);
   const productIdFromLocalStorage = localStorage.getItem("produtc_id");
+
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
   let productId = props.product_id
     ? props.product_id
     : productIdFromLocalStorage;
@@ -88,8 +91,26 @@ export default function VarientListModal(props) {
     setDeleteAlter(true);
   };
   /*Function to delete Varient */
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    // eslint-disable-next-line
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
   const onDeleteVarient = async () => {
-    let response = await DeletProductVarient(1, varId);
+    let response = await DeletProductVarient(1, varId, head);
     if (response.response === "update successfully") {
       setApiCall(true);
       setDeleteAlter(false);

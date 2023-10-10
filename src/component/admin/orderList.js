@@ -21,6 +21,7 @@ const OrderList = () => {
   const [apicall, setApicall] = useState(false);
 
   const [statuslert, setStatusAlert] = useState(false);
+  const [statusErrorAlert, setStatusErrorAlert] = useState(false);
 
   const initialFormState = {
     search: "",
@@ -293,12 +294,19 @@ const OrderList = () => {
     if (response.response === "order status updated successfull") {
       setStatusAlert(true);
     }
+    if (
+      response.response ===
+      "Maybe driver not assigned or order for pickup not received"
+    ) {
+      setStatusErrorAlert(true);
+    }
   };
 
   /*Function o close the order stayus alert */
   const CloseStaytusAlert = () => {
     setApicall(true);
     setStatusAlert(false);
+    setStatusErrorAlert(false);
   };
   return (
     <div>
@@ -390,6 +398,13 @@ const OrderList = () => {
           <SweetAlert
             show={statuslert}
             title={"Status Updated Successfully"}
+            text={"status"}
+            onConfirm={CloseStaytusAlert}
+          />
+
+          <SweetAlert
+            show={statusErrorAlert}
+            title={"Maybe driver not assigned or order for pickup not received"}
             text={"status"}
             onConfirm={CloseStaytusAlert}
           />

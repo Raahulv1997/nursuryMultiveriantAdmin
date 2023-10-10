@@ -5,12 +5,16 @@ import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { VendorLoginFuntion } from "../api/api";
 import { Button } from "react-bootstrap";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 const SellerLogin = () => {
   const [emailVal, setemailVal] = useState("");
   const [passval, setpassval] = useState("");
   const [spinner, setSpinner] = useState(false);
   const [emailerror, setemailerror] = useState(false);
   const [showmodel, setShowmodel] = useState(false);
+  let [facebook, setFacebook] = useState(false);
   const navigate = useNavigate();
 
   const onEmailChange = (e) => {
@@ -77,6 +81,56 @@ const SellerLogin = () => {
     navigate("/");
     window.location.reload();
   };
+
+  const responseFacebook = async (response) => {
+    setFacebook(false);
+    // if(response.graphDomain === "facebook"){
+    //   let data = await SocialLogin(response.userID,response.email,response.name,response.picture.data.url,"Facebook");
+    //     localStorage.setItem("token", data.token);
+    //     localStorage.setItem("userType", "user");
+    //     localStorage.setItem("employee_id", data.employee_id);
+    //     localStorage.setItem("profile_photo", data.profile_photo);
+    //     toast.success("Logged In Successfully", {
+    //       position: toast.POSITION.TOP_RIGHT,
+    //       autoClose: 1000,
+    //     });
+    //     props.close();
+    //     navigate("/");
+    //     window.location.reload();
+    //   }
+  };
+  const GoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        let data = await axios(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
+        //  if(data.data.email_verified === true){
+        //   let res = await SocialLogin(data.data.sub,data.data.email,data.data.name,data.data.picture,"Google");
+        //   console.log(res,);
+        //   localStorage.setItem("token", res.token);
+        //   localStorage.setItem("userType", "user");
+        //   localStorage.setItem("employee_id", res.employee_id);
+        //   localStorage.setItem("profile_photo", res.profile_photo);
+        //   toast.success("Logged In Successfully", {
+        //     position: toast.POSITION.TOP_RIGHT,
+        //     autoClose: 1000,
+        //   });
+        //   props.close();
+        //   navigate("/");
+        //   window.location.reload();
+        // }
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
   return (
     <div>
       <section className="user-form-part">
@@ -96,25 +150,44 @@ const SellerLogin = () => {
                 <div className="user-form-group">
                   <ul className="user-form-social">
                     <li>
-                      <Link to="#" className="facebook">
-                        <i className="fab fa-facebook-f"></i>login with facebook
+                      <Link
+                        className="facebook"
+                        onClick={() => setFacebook(true)}
+                      >
+                        <i className="fab fa-facebook-f"></i>login with Facebook
                       </Link>
+                      {facebook ? (
+                        <FacebookLogin
+                          appId="276709614913655"
+                          autoLoad
+                          callback={responseFacebook}
+                          fields="name,email,picture"
+                          scope="public_profile,user_friends,email,user_actions.books"
+                          className="font-size-4 font-weight-semibold position-relative text-white bg-marino h-px-48 flex-all-center w-100 px-6 rounded-5 mb-4"
+                          render={(renderProps) => (
+                            <button
+                              onClick={renderProps.onClick}
+                              className="d-none"
+                            ></button>
+                          )}
+                        />
+                      ) : null}
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="#" className="twitter">
                         <i className="fab fa-twitter"></i>login with twitter
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
-                      <Link to="#" className="google">
+                      <Link to="#" className="google" onClick={GoogleLogin}>
                         <i className="fab fa-google"></i>login with google
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="#" className="instagram">
                         <i className="fab fa-instagram"></i>login with instagram
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                   <div className="user-form-divider">
                     <p>or</p>

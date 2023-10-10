@@ -286,8 +286,9 @@ const Vendor = () => {
   const submitHandler = async () => {
     if (searchdata.searchName === "" && searchdata.searchShopName === "") {
       setSearchErr(true);
+    } else {
+      setapicall(true);
     }
-    setapicall(true);
   };
 
   const OnReset = () => {

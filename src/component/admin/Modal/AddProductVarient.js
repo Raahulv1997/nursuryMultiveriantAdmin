@@ -14,6 +14,26 @@ import useValidation from "../../common/useValidation";
 export default function AddProductVarientModal(props) {
   let product_id = localStorage.getItem("produtc_id");
 
+  let head;
+  // let user_token = localStorage.getItem("user_token");
+  let admin_token = localStorage.getItem("admin_token");
+  let vendor_token = localStorage.getItem("vendor_token");
+
+  if (
+    vendor_token !== null &&
+    vendor_token !== undefined &&
+    vendor_token !== ""
+  ) {
+    head = { headers: { vendor_token: `${vendor_token}` } };
+  } else if (
+    admin_token !== null &&
+    admin_token !== undefined &&
+    admin_token !== ""
+  ) {
+    head = { headers: { admin_token: `${admin_token}` } };
+  } else {
+  }
+
   //product data json
   const initialFormState = {
     product_id: props.product_id ? props.product_id : product_id,
@@ -138,7 +158,7 @@ export default function AddProductVarientModal(props) {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const response = await AddProductVerient(state);
+      const response = await AddProductVerient(state, head);
       // console.log("data---" + JSON.stringify(response.message.affectedRows));
       if (response.message.affectedRows === 1) {
         props.setProductAlert(true);
@@ -158,7 +178,7 @@ export default function AddProductVarientModal(props) {
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const response = await UpdateProductVerient(state);
+      const response = await UpdateProductVerient(state, head);
       // console.log("data---" + JSON.stringify(response.response.affectedRows));
       if (response.response.affectedRows === 1) {
         props.setupdateProductAlert(true);

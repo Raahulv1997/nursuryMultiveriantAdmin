@@ -1163,7 +1163,10 @@ const AddProduct = () => {
       {varientModalListShow ? (
         <VarientListModal
           show={varientModalListShow}
-          close={() => setVarientModalListShow(false)}
+          close={() => {
+            setVarientModalListShow(false);
+            setApicall(true);
+          }}
           setVarientModalShow={setVarientModalShow}
           product_id={productID}
           setProductID={setProductID}
