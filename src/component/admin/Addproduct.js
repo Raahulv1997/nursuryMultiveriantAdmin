@@ -719,7 +719,7 @@ const AddProduct = () => {
     if (e === "add") {
       setmodalshow(true);
       setmodalshowType(e);
-      setProductID("");
+      // setProductID("");
     }
     // setProductData(pdata);
   };
@@ -769,11 +769,12 @@ const AddProduct = () => {
 
   /*Function to open add varient modal to add product varient */
   const AddVarientModal = (id, vendor_id) => {
+    console.log("productID open list model------" + id);
     setProductID(id);
     setVarientModalListShow(true);
     setVendorID(vendor_id);
   };
-
+  console.log("productID------" + productID);
   return (
     <div>
       <div className="row admin_row">

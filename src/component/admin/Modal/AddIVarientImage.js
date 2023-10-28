@@ -24,7 +24,7 @@ export default function AddIVarientImage(props) {
   const [apicall, setApiCall] = useState(false);
   const [loading, setLoading] = useState(false);
   let encoded;
-
+  console.log("productID by props---" + props.id);
   const initialFormState = {
     product_id: props.id,
     product_verient_id: props.varId,

@@ -131,7 +131,6 @@ export default function VarientListModal(props) {
   };
 
   const CoverImgForProduct = (img) => {
-    console.log(" image- product---" + img);
     if (
       img === null ||
       img === "null" ||
@@ -226,76 +225,77 @@ export default function VarientListModal(props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {proVarientData.results.map((i)=>i.id)} */}
                     {(proVarientData || []).map((item, index) =>
                       item.verient_is_deleted === 1 ? null : (
-                        <tr key={item.id}>
-                          <td>{index + 1}</td>
-                          <td>
-                            {" "}
-                            <img
-                              src={
-                                item.cover_image !== null ||
-                                item.cover_image !== "null" ||
-                                item.cover_image !== undefined ||
-                                item.cover_image !== "undefined"
-                                  ? CoverImg(item.all_images_url)
-                                  : item.all_images_url !== null ||
-                                    item.all_images_url !== "null" ||
-                                    item.all_images_url !== undefined ||
-                                    item.all_images_url !== "undefined"
-                                  ? CoverImg(item.cover_image)
-                                  : productImg
-                              }
-                              // src={
-                              //   item.cover_image === null ||
-                              //   item.cover_image === undefined ||
-                              //   item.cover_image === "undefined"
-                              //     ? productImg
-                              //     : CoverImg(item.cover_image)
-                              // }
-                              width={"auto"}
-                              height={"100px"}
-                              alt={"varient imageff"}
-                            />
-                          </td>
-                          <td>{item.verient_name}</td>
-                          <td>{item.category}</td>
-                          <td>{item.mrp}</td>
-                          <td>{item.price}</td>
-                          <td>{item.discount}</td>
-                          <td>{item.gst}</td>
-                          <td>
-                            <Button
-                              className="btn-warning mx-2"
-                              onClick={() =>
-                                AddImage(
-                                  item.id,
-                                  item.product_verient_id,
-                                  item.description
-                                )
-                              }
-                            >
-                              Add Images
-                            </Button>
-                            <Button
-                              onClick={() =>
-                                EditVarient(item.id, item.product_verient_id)
-                              }
-                            >
-                              <BiEdit />
-                            </Button>
-                            <Button
-                              type="button"
-                              className="btn btn-danger"
-                              onClick={() =>
-                                handleAlert(item.product_verient_id)
-                              }
-                            >
-                              <BsTrash />
-                            </Button>
-                          </td>
-                        </tr>
+                        <React.Fragment key={index}>
+                          <tr key={item.id}>
+                            <td>{index + 1}</td>
+                            <td>
+                              {" "}
+                              <img
+                                src={
+                                  item.cover_image !== null ||
+                                  item.cover_image !== "null" ||
+                                  item.cover_image !== undefined ||
+                                  item.cover_image !== "undefined"
+                                    ? CoverImg(item.all_images_url)
+                                    : item.all_images_url !== null ||
+                                      item.all_images_url !== "null" ||
+                                      item.all_images_url !== undefined ||
+                                      item.all_images_url !== "undefined"
+                                    ? CoverImg(item.cover_image)
+                                    : productImg
+                                }
+                                // src={
+                                //   item.cover_image === null ||
+                                //   item.cover_image === undefined ||
+                                //   item.cover_image === "undefined"
+                                //     ? productImg
+                                //     : CoverImg(item.cover_image)
+                                // }
+                                width={"auto"}
+                                height={"100px"}
+                                alt={"varient imageff"}
+                              />
+                            </td>
+                            <td>{item.verient_name}</td>
+                            <td>{item.category}</td>
+                            <td>{item.mrp}</td>
+                            <td>{item.price}</td>
+                            <td>{item.discount}</td>
+                            <td>{item.gst}</td>
+                            <td>
+                              <Button
+                                className="btn-warning mx-2"
+                                onClick={() =>
+                                  AddImage(
+                                    item.id,
+                                    item.product_verient_id,
+                                    item.description
+                                  )
+                                }
+                              >
+                                Add Images
+                              </Button>
+                              <Button
+                                onClick={() =>
+                                  EditVarient(item.id, item.product_verient_id)
+                                }
+                              >
+                                <BiEdit />
+                              </Button>
+                              <Button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={() =>
+                                  handleAlert(item.product_verient_id)
+                                }
+                              >
+                                <BsTrash />
+                              </Button>
+                            </td>
+                          </tr>
+                        </React.Fragment>
                       )
                     )}
                   </tbody>
